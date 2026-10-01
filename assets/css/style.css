@@ -830,3 +830,16 @@ body {
     opacity: 0.58;
   }
 }
+
+.hero-yellow-title {
+  display: inline-block;
+  color: #ffe600;
+  text-shadow: 
+    -2px -2px 0 #000,
+     2px -2px 0 #000,
+    -2px  2px 0 #000,
+     2px  2px 0 #000,
+     0px  3px 8px rgba(0, 0, 0, 0.95),
+     0px  6px 20px rgba(0, 0, 0, 0.9),
+     0px  0px 25px rgba(255, 230, 0, 0.4);
+}

@@ -204,6 +204,42 @@ const Store = {
       });
     }
 
+    // Discreet Admin Shortcuts for Store Owner
+    if (window.location.hash.toLowerCase() === '#admin') {
+      window.location.href = 'admin.html';
+    }
+    window.addEventListener('hashchange', () => {
+      if (window.location.hash.toLowerCase() === '#admin') {
+        window.location.href = 'admin.html';
+      }
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if ((e.ctrlKey && e.shiftKey && (e.key === 'A' || e.key === 'a')) ||
+          (e.altKey && (e.key === 'a' || e.key === 'A'))) {
+        e.preventDefault();
+        window.location.href = 'admin.html';
+      }
+    });
+
+    const brandLogo = document.getElementById('header-brand-logo');
+    if (brandLogo) {
+      let logoClicks = 0;
+      let logoClickTimer = null;
+      brandLogo.addEventListener('click', (e) => {
+        logoClicks++;
+        clearTimeout(logoClickTimer);
+        if (logoClicks >= 3) {
+          e.preventDefault();
+          window.location.href = 'admin.html';
+        } else {
+          logoClickTimer = setTimeout(() => {
+            logoClicks = 0;
+          }, 2000);
+        }
+      });
+    }
+
     // Dark choice toggle filter
     const darkToggle = document.getElementById('dark-choice-toggle');
     if (darkToggle) {
