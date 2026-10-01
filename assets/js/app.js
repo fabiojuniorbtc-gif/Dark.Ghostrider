@@ -153,6 +153,32 @@ const Store = {
     });
   },
 
+  filterDarkBikePartsOnly() {
+    this.activeCategory = 'mt07';
+    this.onlyDarkChoice = true;
+    this.searchQuery = '';
+    const searchInput = document.getElementById('search-input');
+    if (searchInput) searchInput.value = '';
+
+    // Update active category pill
+    document.querySelectorAll('.category-pill').forEach(pill => {
+      pill.classList.toggle('active', pill.dataset.category === 'mt07');
+    });
+
+    // Update Dark Choice toggle checkbox
+    const darkToggle = document.getElementById('dark-choice-toggle');
+    if (darkToggle) darkToggle.checked = true;
+
+    // Render products
+    this.renderProducts();
+
+    // Scroll smoothly to catalog
+    const cat = document.getElementById('catalogo');
+    if (cat) {
+      cat.scrollIntoView({ behavior: 'smooth' });
+    }
+  },
+
   setupEventListeners() {
     // Currency buttons
     document.querySelectorAll('.currency-btn').forEach(btn => {
