@@ -554,10 +554,10 @@ const PRODUCTS = [
     "id": "kashvelo-gear-base-layer",
     "name": "Luvas de Proteção em Couro & Carbono Real - Kashvelo Gear Portugal",
     "category": "protection",
-    "priceEUR": 59.9,
-    "compareAtEUR": 89.9,
-    "priceBRL": 379.0,
-    "compareAtBRL": 549.0,
+    "priceEUR": 49.9,
+    "compareAtEUR": 79.9,
+    "priceBRL": 319.0,
+    "compareAtBRL": 499.0,
     "badge": "PARCERIA OFICIAL KASHVELO",
     "isDarkChoice": true,
     "rating": 5.0,
@@ -597,10 +597,10 @@ const PRODUCTS = [
     "supplierUrl": "https://kashvelogearpt.etsy.com?coupon=GR10GR",
     "isExternalPartner": true,
     "costDetails": {
-      "productCostEUR": 35.0,
+      "productCostEUR": 28.0,
       "shippingCostEUR": 4.9,
-      "totalCostEUR": 39.9,
-      "netProfitEUR": 20.0
+      "totalCostEUR": 32.9,
+      "netProfitEUR": 17.0
     },
     "gallery": [
       "assets/images/kashvelo.jpg",
