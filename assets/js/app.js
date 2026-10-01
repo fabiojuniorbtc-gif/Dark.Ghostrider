@@ -260,16 +260,30 @@ const Store = {
 
     // Update main modal image
     const modalImg = document.getElementById('modal-product-img');
-    if (modalImg && p.variantImages && p.variantImages[colorName]) {
-      const targetSrc = p.variantImages[colorName];
-      this.selectedVariantImage = targetSrc;
+    if (modalImg && p.variantImages) {
+      let targetSrc = p.variantImages[colorName];
+      if (!targetSrc) {
+        const cleanTarget = colorName.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().trim();
+        const foundKey = Object.keys(p.variantImages).find(k => {
+          const cleanK = k.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().trim();
+          return cleanK === cleanTarget;
+        });
+        if (foundKey) targetSrc = p.variantImages[foundKey];
+      }
+      if (targetSrc) {
+        this.selectedVariantImage = targetSrc;
 
-      // Smooth fade transition
-      modalImg.style.opacity = '0.3';
-      setTimeout(() => {
-        modalImg.src = targetSrc;
-        modalImg.style.opacity = '1';
-      }, 150);
+        // Smooth fade transition
+        modalImg.style.opacity = '0.3';
+        setTimeout(() => {
+          modalImg.src = targetSrc;
+          modalImg.style.opacity = '1';
+        }, 120);
+
+        // Also update the card image in the grid
+        const cardImg = document.getElementById(`card-img-${p.id}`);
+        if (cardImg) cardImg.src = targetSrc;
+      }
     }
   },
 
@@ -277,7 +291,16 @@ const Store = {
     const p = PRODUCTS.find(x => x.id === productId);
     if (!p) return;
     this.selectedProduct = p;
-    this.selectedVariantImage = p.image;
+
+    // Default to the first variant's clean photo if available
+    let initialImage = p.image;
+    if (p.options && p.options.length > 0 && p.options[0].values && p.options[0].values.length > 0) {
+      const firstVal = p.options[0].values[0];
+      if (p.variantImages && p.variantImages[firstVal]) {
+        initialImage = p.variantImages[firstVal];
+      }
+    }
+    this.selectedVariantImage = initialImage;
 
     const modal = document.getElementById('product-modal');
     const container = document.getElementById('modal-product-content');
@@ -288,7 +311,7 @@ const Store = {
     container.innerHTML = `
       <div class="grid md:grid-cols-2 gap-6 p-6">
         <div class="aspect-square bg-black rounded-lg overflow-hidden border border-[#242533] flex items-center justify-center relative group">
-          <img id="modal-product-img" src="${p.image}" alt="${p.name}" class="w-full h-full object-cover transition-opacity duration-300">
+          <img id="modal-product-img" src="${initialImage}" alt="${p.name}" class="w-full h-full object-cover transition-opacity duration-300">
           <span class="absolute bottom-3 left-3 bg-black/70 backdrop-blur text-[10px] text-gray-300 px-2 py-1 rounded font-sub">
             A imagem altera conforme a cor selecionada
           </span>

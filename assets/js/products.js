@@ -1,7 +1,7 @@
 const PRODUCTS = [
   {
-    "id": "retrovisor-stealth-e9",
-    "name": "Retrovisores Stealth Wing / Bar-End Elevado E9 Alumínio CNC - MT-07",
+    "id": "retrovisãor-stealth-e9",
+    "name": "Retrovisãores Stealth Wing / Bar-End Elevado E9 Alumínio CNC - MT-07",
     "category": "mt07",
     "priceEUR": 39.9,
     "compareAtEUR": 65.0,
@@ -12,7 +12,7 @@ const PRODUCTS = [
     "rating": 5.0,
     "reviewsCount": 284,
     "image": "assets/images/products/1005007453126466.jpg",
-    "description": "Os retrovisores que todos me perguntam diariamente no Instagram @dark.ghostrider! Acabamento em liga de alumínio CNC anodizado preto fosco, espelho com lente anti-reflexo azulada e certificação E9. Design aerodinâmico stealth agressivo que transforma o visual do guidão da MT-07.",
+    "description": "Os retrovisãores que todos me perguntam diariamente no Instagram @dark.ghostrider! Acabamento em liga de alumínio CNC anodizado preto fosco, espelho com lente anti-reflexo azulada e certificação E9. Design aerodinâmico stealth agressivo que transforma o visual do guidão da MT-07.",
     "options": [
       {
         "name": "Acabamento",
@@ -33,7 +33,7 @@ const PRODUCTS = [
   },
   {
     "id": "lanterna-led-fume-mt07",
-    "name": "Lanterna Traseira LED Fumê com Piscas Integrados E-Mark - MT-07",
+    "name": "Lanterna Traseira LED Fumêê com Piscas Integrados E-Mark - MT-07",
     "category": "mt07",
     "priceEUR": 58.9,
     "compareAtEUR": 89.9,
@@ -50,8 +50,8 @@ const PRODUCTS = [
         "name": "Lente",
         "type": "select",
         "values": [
-          "Fumê Escuro (Dark Smoke)",
-          "Fumê Claro"
+          "Fumêê Escuro (Dark Smoke)",
+          "Fumêê Claro"
         ]
       }
     ],
@@ -212,7 +212,7 @@ const PRODUCTS = [
     "rating": 4.8,
     "reviewsCount": 54,
     "image": "assets/images/products/1005003330284049.jpg",
-    "description": "Defletores e protetores de carenagem laterais projetados para proteger o tanque e as asas da MT-07 contra riscos, detritos e abrasão.",
+    "description": "Defletores e protetores de carenagem laterais projáetados para proteger o tanque e as asas da MT-07 contra riscos, detritos e abrasão.",
     "options": [
       {
         "name": "Acabamento",
@@ -244,7 +244,7 @@ const PRODUCTS = [
     "rating": 5.0,
     "reviewsCount": 210,
     "image": "assets/images/products/1005012117814913.jpg",
-    "description": "Ao instalar retrovisores de extremidade de guidão, estes parafusos em alumínio usinado T6 CNC com logotipo MT gravado selam as roscas originais no guidão, prevenindo corrosão e dando acabamento estético impecável.",
+    "description": "Ao instalar retrovisãores de extremidade de guidão, estes parafusos em alumínio usinado T6 CNC com logotipo MT gravado selam as roscas originais no guidão, prevenindo corrosão e dando acabamento estético impecável.",
     "options": [
       {
         "name": "Cor Anodizada",
@@ -285,7 +285,7 @@ const PRODUCTS = [
     "isDarkChoice": true,
     "rating": 4.9,
     "reviewsCount": 115,
-    "image": "assets/images/products/1005005266250775.jpg",
+    "image": "assets/images/products/variants/tampa_preto_profundo.jpg",
     "description": "Usinagem de alta precisão em liga de alumínio 6061-T6 com acabamento anodizado durável e logotipo MT. Substitui a capa de plástico de fábrica por uma peça resistente e bonita.",
     "options": [
       {
@@ -311,13 +311,13 @@ const PRODUCTS = [
       "Preto Profundo": "assets/images/products/variants/tampa_preto_profundo.jpg",
       "Vermelho Carmesim": "assets/images/products/variants/tampa_vermelho_carmesim.jpg",
       "Azul Escuro": "assets/images/products/variants/tampa_azul_escuro.jpg",
-      "Cinza Titânio": "assets/images/products/variants/tampa_cinza_titânio.jpg",
+      "Cinza Titânio": "assets/images/products/variants/tampa_cinza_titanio.jpg",
       "Ouro": "assets/images/products/variants/tampa_ouro.jpg"
     }
   },
   {
-    "id": "slider-eixo-traseiro-ajustador",
-    "name": "Ajustador de Corrente CNC & Slider de Eixo Traseiro com Apoio para Cavalete",
+    "id": "slider-eixo-traseiro-ajáustador",
+    "name": "Ajáustador de Corrente CNC & Slider de Eixo Traseiro com Apoio para Cavalete",
     "category": "mt07",
     "priceEUR": 38.9,
     "compareAtEUR": 59.0,
@@ -328,7 +328,7 @@ const PRODUCTS = [
     "rating": 4.9,
     "reviewsCount": 78,
     "image": "assets/images/products/1005006655446344.jpg",
-    "description": "Facilita o ajuste milimétrico da tensão da corrente da transmissão, protege o braço oscilante em quedas e oferece carretéis para levantar a moto em cavalete de pista traseiro.",
+    "description": "Facilita o ajáuste milimétrico da tensão da corrente da transmissão, protege o braço oscilante em quedas e oferece carretéis para levantar a moto em cavalete de pista traseiro.",
     "options": [
       {
         "name": "Cor",
@@ -348,9 +348,9 @@ const PRODUCTS = [
       "netProfitEUR": 17.4
     },
     "variantImages": {
-      "Preto Anodizado": "assets/images/products/variants/ajustador_preto_anodizado.jpg",
-      "Vermelho Carmesim": "assets/images/products/variants/ajustador_vermelho_carmesim.jpg",
-      "Azul": "assets/images/products/variants/ajustador_azul.jpg"
+      "Preto Anodizado": "assets/images/products/variants/ajáustador_preto_anodizado.jpg",
+      "Vermelho Carmesim": "assets/images/products/variants/ajáustador_vermelho_carmesim.jpg",
+      "Azul": "assets/images/products/variants/ajáustador_azul.jpg"
     }
   },
   {
@@ -464,8 +464,8 @@ const PRODUCTS = [
     }
   },
   {
-    "id": "conjunto-armadura-tatica",
-    "name": "Conjunto Armadura Tática Motociclista Off-Road (Jaqueta + Calça Protetora)",
+    "id": "conjáunto-armadura-tatica",
+    "name": "Conjáunto Armadura Tática Motociclista Off-Road (Jaqueta + Calça Protetora)",
     "category": "wear",
     "priceEUR": 119.9,
     "compareAtEUR": 189.0,
@@ -476,7 +476,7 @@ const PRODUCTS = [
     "rating": 4.9,
     "reviewsCount": 92,
     "image": "assets/images/products/1005010804786174.jpg",
-    "description": "Proteção blindada contra impactos. Placas injetadas de absorção no peito, espinha dorsal articulada, ombreiras, cotoveleiras e joelheiras com cinta lombar elástica regulável.",
+    "description": "Proteção blindada contra impactos. Placas injáetadas de absorção no peito, espinha dorsal articulada, ombreiras, cotoveleiras e jáoelheiras com cinta lombar elástica regulável.",
     "options": [
       {
         "name": "Tamanho",
@@ -513,7 +513,7 @@ const PRODUCTS = [
     "rating": 5.0,
     "reviewsCount": 164,
     "image": "assets/images/kashvelo.jpg",
-    "description": "Luvas oficiais de pilotagem em couro bovino legítimo perfurado de alta densidade desenvolvidas pela marca portuguesa Kashvelo Gear. Equipadas com escudo rígido de nós dos dedos em fibra de carbono real, reforço anatômico na palma anti-abrasão com painel antiderrapante, couro perfurado para respirabilidade térmica e costuras duplas reforçadas. Cupom de 10% de desconto GR10GR já aplicado!",
+    "description": "Luvas oficiais de pilotagem em couro bovino legítimo perfurado de alta densidade desenvolvidas pela marca portuguesa Kashvelo Gear. Equipadas com escudo rígido de nós dos dedos em fibra de carbono real, reforço anatômico na palma anti-abrasão com painel antiderrapante, couro perfurado para respirabilidade térmica e costuras duplas reforçadas. Cupom de 10% de desconto GR10GR jáá aplicado!",
     "options": [
       {
         "name": "Tamanho",
@@ -560,7 +560,7 @@ const PRODUCTS = [
     "rating": 4.9,
     "reviewsCount": 312,
     "image": "assets/images/products/1005007705130004.jpg",
-    "description": "Trava maciça forjada em liga de alumínio fundido anti-serra e anti-broca. Alarme sonoro de 110 decibéis acionado por sensor de movimento inteligente. Acompanha cabo lembrete elástico e chaves de segurança.",
+    "description": "Trava maciça forjáada em liga de alumínio fundido anti-serra e anti-broca. Alarme sonoro de 110 decibéis acionado por sensor de movimento inteligente. Acompanha cabo lembrete elástico e chaves de segurança.",
     "options": [
       {
         "name": "Cor",
@@ -637,7 +637,7 @@ const PRODUCTS = [
         "name": "Kit",
         "type": "select",
         "values": [
-          "Base de Queixo + Adesivo 3M VHB + Braço de Ajuste"
+          "Base de Queixo + Adesivo 3M VHB + Braço de Ajáuste"
         ]
       }
     ],
@@ -650,7 +650,7 @@ const PRODUCTS = [
     }
   },
   {
-    "id": "adaptador-magnetico-dji-action",
+    "id": "adaptador-magnetico-djái-action",
     "name": "Adaptador Magnético de Engate Rápido DJI Action 5 Pro / 4 / 3 & Osmo",
     "category": "tech",
     "priceEUR": 21.9,
