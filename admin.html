@@ -23,19 +23,97 @@
         </div>
       </div>
 
-      <div class="flex items-center gap-4">
+      <div class="flex items-center gap-3">
         <a href="index.html" class="text-xs font-sub font-bold text-gray-400 hover:text-white transition-colors bg-[#171822] border border-[#272838] px-3.5 py-1.5 rounded flex items-center gap-1.5">
           <span>🏪</span> Ver Loja
         </a>
         <a href="rastreio.html" class="text-xs font-sub font-bold text-cyan-400 hover:text-cyan-300 transition-colors bg-[#0b1c24] border border-cyan-800/40 px-3.5 py-1.5 rounded flex items-center gap-1.5">
-          <span>📦</span> Portal de Rastreio
+          <span>📦</span> Rastreio
         </a>
+        <button id="admin-logout-btn" onclick="adminLogout()" style="display:none;" class="text-xs font-sub font-bold text-red-400 hover:text-red-300 transition-colors bg-[#240b0e] hover:bg-[#380e14] border border-red-800/50 px-3.5 py-1.5 rounded flex items-center gap-1.5 shadow-sm">
+          <span>🔒</span> Sair (Logout)
+        </button>
       </div>
     </div>
   </header>
 
-  <!-- Main Content -->
-  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
+  <!-- ==========================================
+       LOGIN SCREEN GATE (ACESSO RESTRITO)
+       ========================================== -->
+  <div id="admin-login-view" class="min-h-[80vh] flex items-center justify-center px-4 py-12">
+    <div class="max-w-md w-full bg-gradient-to-b from-[#13141d] to-[#0c0d12] border border-[#e61426]/40 rounded-2xl p-8 shadow-2xl relative overflow-hidden">
+      
+      <!-- Ambient Glow -->
+      <div class="absolute -top-20 -right-20 w-48 h-48 bg-red-600/15 rounded-full blur-3xl pointer-events-none"></div>
+      <div class="absolute -bottom-20 -left-20 w-48 h-48 bg-red-600/10 rounded-full blur-3xl pointer-events-none"></div>
+
+      <div class="relative z-10 text-center mb-8">
+        <div class="w-16 h-16 mx-auto mb-4 rounded-xl overflow-hidden border-2 border-[#e61426] p-1 bg-black shadow-xl shadow-red-900/30">
+          <img src="assets/images/logo.jpg" alt="Dark Ghostrider Logo" class="w-full h-full object-cover rounded-lg">
+        </div>
+        <span class="inline-block px-3 py-1 bg-red-950/60 border border-red-500/40 rounded-full text-[11px] font-sub font-bold uppercase tracking-widest text-[#ff4d5a] mb-2">
+          🔒 Acesso Restrito ao Piloto
+        </span>
+        <h2 class="font-heading font-black text-2xl text-white tracking-wide">
+          PAINEL DARK GHOSTRIDER
+        </h2>
+        <p class="text-xs text-gray-400 font-body mt-1">
+          Área restrita para gestão de encomendas, pedidos e lucros.
+        </p>
+      </div>
+
+      <!-- Login Form -->
+      <form id="admin-login-form" onsubmit="adminLogin(event)" class="space-y-5 relative z-10">
+        <div id="login-error-msg" class="hidden p-3 bg-red-950/80 border border-red-600/60 rounded-lg text-xs font-sub font-semibold text-red-200 text-center"></div>
+
+        <div>
+          <label class="block text-xs font-sub font-bold text-gray-300 uppercase tracking-wider mb-1.5">
+            Utilizador / Username
+          </label>
+          <div class="relative">
+            <span class="absolute left-3 top-3 text-gray-500 text-sm">👤</span>
+            <input type="text" id="login-username" required placeholder="Digite seu usuário (ex: dark)" class="w-full bg-[#0b0c10] border border-[#272838] focus:border-[#e61426] text-white rounded-lg pl-9 pr-4 py-2.5 text-sm outline-none font-body transition-colors">
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-xs font-sub font-bold text-gray-300 uppercase tracking-wider mb-1.5">
+            Palavra-passe / Senha
+          </label>
+          <div class="relative">
+            <span class="absolute left-3 top-3 text-gray-500 text-sm">🔑</span>
+            <input type="password" id="login-password" required placeholder="••••••••" class="w-full bg-[#0b0c10] border border-[#272838] focus:border-[#e61426] text-white rounded-lg pl-9 pr-10 py-2.5 text-sm outline-none font-body transition-colors">
+            <button type="button" onclick="togglePassVisibility()" class="absolute right-3 top-2.5 text-gray-500 hover:text-gray-300 text-sm">
+              <span id="pass-eye-icon">👁️</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="flex items-center justify-between text-xs font-sub text-gray-400 pt-1">
+          <label class="flex items-center gap-2 cursor-pointer hover:text-gray-300">
+            <input type="checkbox" id="login-remember" class="accent-[#e61426] w-4 h-4 rounded">
+            <span>Lembrar neste navegador</span>
+          </label>
+        </div>
+
+        <button type="submit" class="w-full py-3 bg-[#e61426] hover:bg-[#ff2a3c] text-white font-sub font-bold uppercase tracking-wider text-sm rounded-lg shadow-lg shadow-red-900/40 transition-all flex items-center justify-center gap-2">
+          <span>Entrar no Painel</span>
+          <span>➜</span>
+        </button>
+
+        <div class="pt-4 border-t border-[#1f202b] text-center">
+          <a href="index.html" class="text-xs font-sub text-gray-500 hover:text-gray-300 transition-colors">
+            ← Voltar para a loja pública
+          </a>
+        </div>
+      </form>
+
+    </div>
+  </div>
+
+  <!-- Main Content (Protected) -->
+  <main id="admin-dashboard-view" style="display:none;" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
     
     <!-- Title & Quick Settings -->
     <div class="flex flex-col md:flex-row md:items-center justify-between mb-8 pb-6 border-b border-[#1f202b] gap-4">
@@ -48,13 +126,24 @@
         </p>
       </div>
 
-      <!-- WhatsApp Setting -->
-      <div class="flex items-center gap-2 bg-[#12131b] border border-[#26283b] p-2 rounded-lg text-xs font-sub">
-        <span class="text-gray-400 font-bold">WhatsApp do Dark:</span>
-        <input type="text" id="admin-whatsapp-input" value="351968885713" class="bg-[#0b0c10] text-emerald-400 font-mono px-2 py-1 rounded border border-[#242533] outline-none text-xs w-36">
-        <button onclick="saveAdminWhatsapp()" class="bg-emerald-600 hover:bg-emerald-500 text-white px-2.5 py-1 rounded font-bold uppercase transition-colors">
-          Salvar
-        </button>
+      <div class="flex flex-wrap items-center gap-3">
+        <!-- Password Change -->
+        <div class="flex items-center gap-2 bg-[#12131b] border border-[#26283b] p-2 rounded-lg text-xs font-sub">
+          <span class="text-gray-400 font-bold">Nova Senha:</span>
+          <input type="password" id="admin-new-password" placeholder="Nova senha..." class="bg-[#0b0c10] text-white font-mono px-2 py-1 rounded border border-[#242533] outline-none text-xs w-28">
+          <button onclick="changeAdminPassword()" class="bg-[#1f202b] hover:bg-[#2b2d3d] border border-[#34364a] text-gray-200 px-2.5 py-1 rounded font-bold uppercase transition-colors">
+            Alterar
+          </button>
+        </div>
+
+        <!-- WhatsApp Setting -->
+        <div class="flex items-center gap-2 bg-[#12131b] border border-[#26283b] p-2 rounded-lg text-xs font-sub">
+          <span class="text-gray-400 font-bold">WhatsApp:</span>
+          <input type="text" id="admin-whatsapp-input" value="351968885713" class="bg-[#0b0c10] text-emerald-400 font-mono px-2 py-1 rounded border border-[#242533] outline-none text-xs w-32">
+          <button onclick="saveAdminWhatsapp()" class="bg-emerald-600 hover:bg-emerald-500 text-white px-2.5 py-1 rounded font-bold uppercase transition-colors">
+            Salvar
+          </button>
+        </div>
       </div>
     </div>
 
@@ -100,6 +189,94 @@
 
   <script src="assets/js/products.js"></script>
   <script>
+
+    // ==========================================
+    // ADMIN AUTHENTICATION SECURITY
+    // ==========================================
+    const DEFAULT_USER = 'dark';
+    const DEFAULT_PASS = 'darkrider2026';
+
+    function getAdminCredentials() {
+      const saved = localStorage.getItem('dark_admin_creds');
+      if (saved) {
+        try { return JSON.parse(saved); } catch (e) {}
+      }
+      return { user: DEFAULT_USER, pass: DEFAULT_PASS };
+    }
+
+    function checkAdminAuth() {
+      const isAuth = localStorage.getItem('dark_admin_logged_in') === 'true' || sessionStorage.getItem('dark_admin_logged_in') === 'true';
+      const loginView = document.getElementById('admin-login-view');
+      const dashView = document.getElementById('admin-dashboard-view');
+      const logoutBtn = document.getElementById('admin-logout-btn');
+
+      if (isAuth) {
+        if (loginView) loginView.style.display = 'none';
+        if (dashView) dashView.style.display = 'block';
+        if (logoutBtn) logoutBtn.style.display = 'flex';
+        renderAdminDashboard();
+      } else {
+        if (loginView) loginView.style.display = 'flex';
+        if (dashView) dashView.style.display = 'none';
+        if (logoutBtn) logoutBtn.style.display = 'none';
+      }
+    }
+
+    function adminLogin(e) {
+      e.preventDefault();
+      const uInput = document.getElementById('login-username').value.trim().toLowerCase();
+      const pInput = document.getElementById('login-password').value.trim();
+      const remember = document.getElementById('login-remember').checked;
+      const errorBox = document.getElementById('login-error-msg');
+
+      const creds = getAdminCredentials();
+      const validUsers = [creds.user.toLowerCase(), 'admin', 'darkghostrider'];
+
+      if (validUsers.includes(uInput) && pInput === creds.pass) {
+        if (remember) {
+          localStorage.setItem('dark_admin_logged_in', 'true');
+        } else {
+          sessionStorage.setItem('dark_admin_logged_in', 'true');
+        }
+        errorBox.classList.add('hidden');
+        checkAdminAuth();
+      } else {
+        errorBox.textContent = '❌ Utilizador ou senha incorretos. Acesso restrito ao Dark Ghostrider.';
+        errorBox.classList.remove('hidden');
+      }
+    }
+
+    function adminLogout() {
+      localStorage.removeItem('dark_admin_logged_in');
+      sessionStorage.removeItem('dark_admin_logged_in');
+      checkAdminAuth();
+    }
+
+    function togglePassVisibility() {
+      const input = document.getElementById('login-password');
+      const icon = document.getElementById('pass-eye-icon');
+      if (input.type === 'password') {
+        input.type = 'text';
+        icon.textContent = '🙈';
+      } else {
+        input.type = 'password';
+        icon.textContent = '👁️';
+      }
+    }
+
+    function changeAdminPassword() {
+      const newP = document.getElementById('admin-new-password').value.trim();
+      if (!newP || newP.length < 4) {
+        alert('Por favor escolha uma nova senha com pelo menos 4 caracteres.');
+        return;
+      }
+      const creds = getAdminCredentials();
+      creds.pass = newP;
+      localStorage.setItem('dark_admin_creds', JSON.stringify(creds));
+      alert(`Palavra-passe alterada com sucesso! A nova senha é: ${newP}`);
+      document.getElementById('admin-new-password').value = '';
+    }
+
     let currentFilter = 'all';
 
     function getOrders() {
@@ -386,7 +563,7 @@
       if (savedPhone) {
         document.getElementById('admin-whatsapp-input').value = savedPhone;
       }
-      renderAdminDashboard();
+      checkAdminAuth();
     });
   </script>
 </body>
