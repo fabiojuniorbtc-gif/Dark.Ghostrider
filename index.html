@@ -1,0 +1,827 @@
+<!DOCTYPE html>
+<html lang="pt-PT" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DARK GHOSTRIDER | Loja Oficial Yamaha MT-07 & Acessórios Dark Rider</title>
+  <meta name="description" content="Acessórios, peças e vestuário testados e aprovados pelo @dark.ghostrider na Yamaha MT-07. Envios para Portugal e Brasil.">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              red: '#e61426',
+              redHover: '#ff2a3c',
+              dark: '#08080a',
+              card: '#15161e',
+              border: '#242533'
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Custom Dark Rider CSS -->
+  <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="icon" type="image/jpeg" href="assets/images/logo.jpg">
+</head>
+<body class="bg-[#08080a] text-gray-100 antialiased selection:bg-[#e61426] selection:text-white">
+
+  <!-- ==========================================
+       INTRO SCREEN: FULLSCREEN CINEMATIC REVEAL
+       ========================================== -->
+  <div id="intro-screen">
+    <!-- Fullscreen Background: The MT-07 Beast -->
+    <div class="intro-backdrop">
+      <img src="assets/images/hero-mt07.jpg" alt="Yamaha MT-07 Dark Ghostrider" class="intro-backdrop-img">
+      <div class="intro-vignette"></div>
+    </div>
+
+    <!-- Canvas Smoke Layer over entire viewport -->
+    <canvas id="smoke-canvas"></canvas>
+    
+    <!-- Top Bar with Badge & Skip -->
+    <div class="intro-topbar">
+      <div class="intro-badge">
+        <span>⚡</span> DARK RIDER GARAGE
+      </div>
+
+      <button id="btn-skip" class="btn-skip-intro">
+        Pular Intro ✕
+      </button>
+    </div>
+
+    <!-- Center Cinematic Title -->
+    <div class="intro-center">
+      <h1 class="intro-title">
+        DARK <span>GHOSTRIDER</span>
+      </h1>
+      <p class="intro-subtitle">
+        THE BEAST REVEAL • YAMAHA MT-07 SPEC
+      </p>
+    </div>
+
+    <!-- Bottom Action Area -->
+    <div class="intro-bottom">
+      <a href="#catalogo" id="btn-enter" class="btn-enter-garage">
+        <span>ENTRAR NA GARAGEM</span>
+        <span>➜</span>
+      </a>
+      <p class="intro-hint">
+        Pressione Enter ou toque para acelerar
+      </p>
+    </div>
+  </div>
+
+  <!-- ==========================================
+       ANNOUNCEMENT BAR
+       ========================================== -->
+  <div class="bg-gradient-to-r from-[#160608] via-[#24080b] to-[#160608] border-b border-[#e61426]/30 text-xs py-2 px-4 text-center text-gray-300 font-sub tracking-wider flex items-center justify-center gap-3">
+    <span class="inline-block w-2 h-2 rounded-full bg-[#e61426] animate-ping"></span>
+    <span>🇵🇹 <strong>PORTUGAL:</strong> Envios rápidos & Pagamento via <strong>MB WAY</strong> e <strong>Multibanco</strong></span>
+    <span class="hidden md:inline text-gray-600">|</span>
+    <span class="hidden md:inline">🇧🇷 <strong>BRASIL:</strong> Envio internacional disponível com rastreio em tempo real</span>
+  </div>
+
+  <!-- ==========================================
+       HEADER & NAVIGATION
+       ========================================== -->
+  <header class="sticky top-0 z-50 bg-[#0a0b10]/90 backdrop-blur-md border-b border-[#1f202b]">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+      
+      <!-- Brand Logo -->
+      <a href="index.html" class="flex items-center gap-3 group">
+        <div class="w-12 h-12 rounded-lg overflow-hidden border border-[#e61426]/50 p-0.5 bg-black group-hover:border-[#e61426] transition-colors shadow-lg shadow-red-900/20">
+          <img src="assets/images/logo.jpg" alt="Dark Ghostrider Logo" class="w-full h-full object-cover">
+        </div>
+        <div>
+          <span class="font-heading font-black text-xl text-white tracking-widest block leading-none">
+            DARK<span class="text-[#e61426]">.</span>
+          </span>
+          <span class="font-sub font-semibold text-xs text-gray-400 tracking-wider block">
+            GHOSTRIDER STORE
+          </span>
+        </div>
+      </a>
+
+      <!-- Desktop Nav Links -->
+      <nav class="hidden md:flex items-center gap-8 font-sub text-sm font-semibold tracking-wider uppercase text-gray-300">
+        <a href="#destaque-retrovisor" class="text-amber-400 hover:text-amber-300 transition-colors flex items-center gap-1">
+          <span>★</span> Retrovisores
+        </a>
+        <a href="#garagem-raiox" class="hover:text-[#e61426] transition-colors">Raio-X MT-07</a>
+        <a href="#catalogo" class="hover:text-[#e61426] transition-colors">Catálogo (19)</a>
+        <a href="#duvidas" class="hover:text-[#e61426] transition-colors">Dúvidas / FAQ</a>
+        <a href="rastreio.html" class="text-cyan-400 hover:text-cyan-300 transition-colors flex items-center gap-1">
+          <span>📦</span> Rastrear Pedido
+        </a>
+        <a href="admin.html" class="text-xs text-gray-500 hover:text-gray-300 transition-colors">
+          [Admin]
+        </a>
+      </nav>
+
+      <!-- Right Controls: Currency Switcher & Cart -->
+      <div class="flex items-center gap-4">
+        
+        <!-- Instagram Link -->
+        <a href="https://instagram.com/dark.ghostrider" target="_blank" rel="noopener noreferrer" class="hidden sm:flex items-center gap-1.5 text-xs font-sub font-bold text-gray-400 hover:text-white transition-colors bg-[#15161f] border border-[#242533] px-3 py-1.5 rounded-full">
+          <span>📸</span> @dark.ghostrider
+        </a>
+
+        <!-- Currency Selector -->
+        <div class="flex bg-[#12131a] border border-[#242533] rounded-lg p-0.5 text-xs font-sub font-bold">
+          <button class="currency-btn px-2.5 py-1 rounded transition-colors active bg-[#e61426] text-white" data-currency="EUR">
+            🇵🇹 EUR (€)
+          </button>
+          <button class="currency-btn px-2.5 py-1 rounded transition-colors text-gray-400 hover:text-white" data-currency="BRL">
+            🇧🇷 BRL (R$)
+          </button>
+        </div>
+
+        <!-- Cart Button -->
+        <button id="cart-toggle-btn" class="relative p-2.5 bg-[#171822] hover:bg-[#202230] border border-[#26283b] rounded-lg text-white transition-colors flex items-center justify-center">
+          <span class="text-lg">🛒</span>
+          <span id="cart-count-badge" class="absolute -top-2 -right-2 bg-[#e61426] text-white font-heading text-xs font-bold w-5 h-5 rounded-full flex items-center justify-center shadow-lg shadow-red-600/50 hidden">
+            0
+          </span>
+        </button>
+
+      </div>
+    </div>
+  </header>
+
+  <!-- ==========================================
+       HERO BANNER
+       ========================================== -->
+  <section class="relative overflow-hidden pt-12 pb-20 border-b border-[#1f202b]">
+    <div class="absolute inset-0 z-0 opacity-30 mix-blend-screen pointer-events-none">
+      <img src="assets/images/hero-mt07.jpg" alt="Background Texture" class="w-full h-full object-cover filter blur-sm">
+    </div>
+    
+    <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid lg:grid-cols-12 gap-12 items-center">
+        
+        <div class="lg:col-span-7">
+          <div class="inline-flex items-center gap-2 px-3 py-1 bg-red-950/50 border border-red-800/40 rounded-full text-xs font-sub font-bold tracking-widest text-[#ff4d5a] uppercase mb-4">
+            <span>🏍️</span> O SETUP OFICIAL DA MÁQUINA
+          </div>
+          
+          <h1 class="font-heading font-black text-4xl sm:text-5xl lg:text-6xl text-white tracking-wider leading-tight mb-6">
+            ESTILO DARK RIDER<br>
+            <span class="text-transparent bg-clip-text bg-gradient-to-r from-[#ff2a3c] via-[#e61426] to-[#ff6600]">
+              YAMAHA MT-07
+            </span>
+          </h1>
+
+          <p class="text-gray-300 font-body text-base sm:text-lg leading-relaxed mb-8 max-w-2xl">
+            Tudo o que utilizo na minha moto e nos vídeos do <strong>@dark.ghostrider</strong> reunido em um só lugar. Peças de performance, estética stealth, retrovisores aerodinâmicos, balaclavas e proteção de alto nível testadas no asfalto.
+          </p>
+
+          <div class="flex flex-wrap items-center gap-4">
+            <a href="#catalogo" class="px-7 py-3.5 bg-[#e61426] hover:bg-[#ff2a3c] text-white font-heading font-bold text-sm tracking-wider uppercase rounded shadow-lg shadow-red-900/50 transition-all flex items-center gap-2">
+              <span>EXPLORAR CATÁLOGO</span>
+              <span>➜</span>
+            </a>
+            <a href="https://wa.me/351968885713" target="_blank" rel="noopener noreferrer" class="px-7 py-3.5 bg-[#17261d] hover:bg-[#203629] text-[#25d366] border border-[#25d366]/40 hover:border-[#25d366] font-sub font-bold text-sm tracking-wider uppercase rounded transition-all flex items-center gap-2">
+              <span>💬 Falar no WhatsApp</span>
+            </a>
+          </div>
+
+          <!-- Trust Badges -->
+          <div class="grid grid-cols-3 gap-4 mt-10 pt-8 border-t border-[#1f202b]">
+            <div>
+              <span class="font-heading font-black text-xl text-white block">100%</span>
+              <span class="text-xs text-gray-400 font-sub">Testado na minha moto</span>
+            </div>
+            <div>
+              <span class="font-heading font-black text-xl text-emerald-400 block">MB WAY</span>
+              <span class="text-xs text-gray-400 font-sub">Multibanco & Cartão</span>
+            </div>
+            <div>
+              <span class="font-heading font-black text-xl text-cyan-400 block">CTT / Cainiao</span>
+              <span class="text-xs text-gray-400 font-sub">Rastreamento ao vivo</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="lg:col-span-5">
+          <div class="relative group">
+            <div class="absolute -inset-1 bg-gradient-to-r from-red-600 to-amber-600 rounded-2xl blur opacity-25 group-hover:opacity-50 transition duration-1000"></div>
+            <div class="relative bg-[#0d0e14] border border-[#242533] rounded-2xl overflow-hidden p-2">
+              <img src="assets/images/hero-mt07.jpg" alt="Yamaha MT-07 Dark Ghostrider" class="w-full h-auto rounded-xl object-cover">
+              <div class="p-4 bg-[#11121a] rounded-b-xl flex items-center justify-between">
+                <div>
+                  <h4 class="font-sub font-bold text-white text-base">Yamaha MT-07 Stealth Black</h4>
+                  <p class="text-xs text-gray-400">Setup com peças e acessórios exclusivos</p>
+                </div>
+                <span class="text-xs font-sub font-bold text-[#ff4d5a] bg-red-950/60 border border-red-800/40 px-3 py-1 rounded-full">
+                  DARK EDITION
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================
+       SUPER DESTAQUE: RETROVISORES STEALTH E9
+       ========================================== -->
+  <section id="destaque-retrovisor" class="py-16 bg-[#0c0d12] border-b border-[#1f202b]">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="bg-gradient-to-br from-[#181924] via-[#12131b] to-[#0c0d12] border border-[#e61426]/40 rounded-2xl p-6 sm:p-10 shadow-2xl relative overflow-hidden">
+        
+        <div class="absolute -right-20 -bottom-20 w-80 h-80 bg-red-600/10 rounded-full blur-3xl pointer-events-none"></div>
+
+        <div class="grid lg:grid-cols-12 gap-8 items-center">
+          
+          <div class="lg:col-span-6 order-2 lg:order-1">
+            <div class="inline-flex items-center gap-2 px-3 py-1 bg-amber-500/10 border border-amber-500/40 rounded-full text-xs font-sub font-bold tracking-widest text-amber-400 uppercase mb-4">
+              <span>★</span> O ITEM MAIS PERGUNTADO NO INSTAGRAM
+            </div>
+
+            <h2 class="font-heading font-black text-3xl sm:text-4xl text-white tracking-wide mb-4 leading-tight">
+              RETROVISORES STEALTH WING E9<br>
+              <span class="text-[#ff4d5a]">ALUMÍNIO CNC ELEVADO</span>
+            </h2>
+
+            <p class="text-gray-300 font-body text-sm sm:text-base leading-relaxed mb-6">
+              O design que transformou o visual da minha MT-07! Acabamento usinado em alumínio aeronáutico, lente anti-reflexo com tom azulado e homologação europeia E9. Ajuste aerodinâmico tipo asa com visibilidade cristalina.
+            </p>
+
+            <ul class="space-y-2 mb-8 font-sub text-sm text-gray-300">
+              <li class="flex items-center gap-2">
+                <span class="text-[#e61426] font-bold">✓</span> Homologado na Europa (Certificação E9)
+              </li>
+              <li class="flex items-center gap-2">
+                <span class="text-[#e61426] font-bold">✓</span> Alumínio maciço usinado CNC anodizado preto fosco
+              </li>
+              <li class="flex items-center gap-2">
+                <span class="text-[#e61426] font-bold">✓</span> Compatível com guidões universais e MT-07 / MT-09
+              </li>
+            </ul>
+
+            <div class="flex flex-wrap items-center gap-4">
+              <button onclick="Store.showProductModal('retrovisor-stealth-e9')" class="px-6 py-3 bg-[#e61426] hover:bg-[#ff2a3c] text-white font-sub font-bold uppercase tracking-wider text-sm rounded shadow-lg shadow-red-900/40 transition-all">
+                Ver Opções & Comprar
+              </button>
+              <button onclick="Store.buyDirectWhatsapp('retrovisor-stealth-e9')" class="px-6 py-3 bg-[#17261d] hover:bg-[#203629] text-[#25d366] border border-[#25d366]/40 rounded font-sub font-bold uppercase tracking-wider text-sm transition-all flex items-center gap-2">
+                <span>💬 Pedir via WhatsApp</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="lg:col-span-6 order-1 lg:order-2 flex justify-center">
+            <div class="relative max-w-md w-full">
+              <img src="assets/images/products/1005007453126466.jpg" alt="Retrovisores Stealth MT-07" class="w-full rounded-xl shadow-2xl border border-[#26283b] object-cover">
+              <span class="absolute top-4 right-4 bg-[#e61426] text-white text-xs font-sub font-bold uppercase px-3 py-1 rounded shadow-lg">
+                DESTAQUE DO DIRECT
+              </span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================
+       INTERACTIVE MT-07 BLUEPRINT / RADAR HOTSPOTS
+       ========================================== -->
+  <section id="garagem-raiox" class="py-16 bg-[#09090d] border-b border-[#1f202b]">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="text-center max-w-3xl mx-auto mb-12">
+        <span class="text-xs font-sub font-bold text-[#ff4d5a] uppercase tracking-widest block mb-2">
+          EXPLORADOR INTERATIVO
+        </span>
+        <h2 class="font-heading font-black text-3xl sm:text-4xl text-white tracking-wider mb-3">
+          RAIO-X DO SETUP MT-07
+        </h2>
+        <p class="text-sm text-gray-400 font-body">
+          Passe o cursor ou toque nos pontos vermelhos pulsantes para inspecionar cada peça instalada na minha máquina.
+        </p>
+      </div>
+
+      <div class="relative max-w-4xl mx-auto bg-[#0f1017] border border-[#242533] rounded-2xl overflow-hidden p-4 shadow-2xl">
+        <img src="assets/images/hero-mt07.jpg" alt="Blueprint Yamaha MT-07" class="w-full h-auto rounded-xl object-cover opacity-90">
+
+        <!-- Hotspot 1: Retrovisores e Guidão -->
+        <div class="hotspot-pin" style="top: 28%; left: 63%;" onclick="Store.showProductModal('retrovisor-stealth-e9')">
+          <div class="hotspot-pin-inner"></div>
+          <div class="hotspot-popup">
+            <p class="font-sub font-bold text-white text-xs mb-1">Guiador & Cockpit</p>
+            <p class="text-[11px] text-[#ff4d5a] font-bold">Retrovisores Stealth Wing E9</p>
+            <p class="text-[10px] text-gray-400 mt-1">Clique para abrir especificações</p>
+          </div>
+        </div>
+
+        <!-- Hotspot 2: Lanterna Traseira e Rabeta -->
+        <div class="hotspot-pin" style="top: 42%; left: 32%;" onclick="Store.showProductModal('lanterna-led-fume-mt07')">
+          <div class="hotspot-pin-inner"></div>
+          <div class="hotspot-popup">
+            <p class="font-sub font-bold text-white text-xs mb-1">Iluminação Traseira</p>
+            <p class="text-[11px] text-[#ff4d5a] font-bold">Lanterna LED Fumê E-Mark</p>
+            <p class="text-[10px] text-gray-400 mt-1">Piscas sequenciais embutidos</p>
+          </div>
+        </div>
+
+        <!-- Hotspot 3: Escape R77 Carbono -->
+        <div class="hotspot-pin" style="top: 67%; left: 42%;" onclick="Store.showProductModal('escape-completo-r77-carbono')">
+          <div class="hotspot-pin-inner"></div>
+          <div class="hotspot-popup">
+            <p class="font-sub font-bold text-white text-xs mb-1">Performance & Som</p>
+            <p class="text-[11px] text-[#ff4d5a] font-bold">Escape R77 Full Carbono</p>
+            <p class="text-[10px] text-gray-400 mt-1">Ronco encorpado CP2</p>
+          </div>
+        </div>
+
+        <!-- Hotspot 4: Sliders Crash Pad de Quadro -->
+        <div class="hotspot-pin" style="top: 56%; left: 52%;" onclick="Store.showProductModal('sliders-protecao-quadro')">
+          <div class="hotspot-pin-inner"></div>
+          <div class="hotspot-popup">
+            <p class="font-sub font-bold text-white text-xs mb-1">Proteção de Motor</p>
+            <p class="text-[11px] text-[#ff4d5a] font-bold">Sliders Crash Pad Anti-Queda</p>
+            <p class="text-[10px] text-gray-400 mt-1">Nylon e alumínio aeronáutico</p>
+          </div>
+        </div>
+
+        <!-- Hotspot 5: Roda Traseira & Ajustador -->
+        <div class="hotspot-pin" style="top: 64%; left: 34%;" onclick="Store.showProductModal('slider-eixo-traseiro-ajustador')">
+          <div class="hotspot-pin-inner"></div>
+          <div class="hotspot-popup">
+            <p class="font-sub font-bold text-white text-xs mb-1">Eixo & Transmissão</p>
+            <p class="text-[11px] text-[#ff4d5a] font-bold">Ajustador CNC & Slider</p>
+            <p class="text-[10px] text-gray-400 mt-1">Suporte para cavalete de pista</p>
+          </div>
+        </div>
+
+        <!-- Hotspot 6: Capacete / POV -->
+        <div class="hotspot-pin" style="top: 18%; left: 59%;" onclick="Store.showProductModal('suporte-queixo-gopro-capacete')">
+          <div class="hotspot-pin-inner"></div>
+          <div class="hotspot-popup">
+            <p class="font-sub font-bold text-white text-xs mb-1">Gravação POV</p>
+            <p class="text-[11px] text-[#ff4d5a] font-bold">Suporte Queixo GoPro Hero</p>
+            <p class="text-[10px] text-gray-400 mt-1">Ângulo dos vídeos do Instagram</p>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ==========================================
+       CATALOG SECTION & FILTERS
+       ========================================== -->
+  <section id="catalogo" class="py-16">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <!-- Section Title -->
+      <div class="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-4">
+        <div>
+          <span class="text-xs font-sub font-bold text-[#ff4d5a] uppercase tracking-widest block mb-1">
+            CATÁLOGO OFICIAL
+          </span>
+          <h2 class="font-heading font-black text-3xl sm:text-4xl text-white tracking-wider">
+            EQUIPAMENTOS & PEÇAS DARK
+          </h2>
+        </div>
+
+        <!-- Search Bar -->
+        <div class="w-full md:w-72 relative">
+          <input type="text" id="search-input" placeholder="Buscar por peça, acessório..." class="w-full bg-[#12131c] text-white text-sm border border-[#242533] focus:border-[#e61426] rounded-lg pl-9 pr-4 py-2.5 outline-none font-body">
+          <span class="absolute left-3 top-2.5 text-gray-500 text-sm">🔍</span>
+        </div>
+      </div>
+
+      <!-- Filters & Categories Bar -->
+      <div class="flex flex-wrap items-center justify-between gap-4 mb-8 pb-4 border-b border-[#1f202b]">
+        
+        <!-- Category Pills -->
+        <div class="flex flex-wrap gap-2">
+          <button class="category-pill active px-4 py-2 rounded-lg text-xs font-sub font-bold uppercase tracking-wider bg-[#e61426] text-white transition-all" data-category="all">
+            Todos (19)
+          </button>
+          <button class="category-pill px-4 py-2 rounded-lg text-xs font-sub font-bold uppercase tracking-wider bg-[#13141d] hover:bg-[#1c1d29] text-gray-300 transition-all border border-[#242533]" data-category="mt07" id="setup-mt07">
+            🏍️ Setup MT-07
+          </button>
+          <button class="category-pill px-4 py-2 rounded-lg text-xs font-sub font-bold uppercase tracking-wider bg-[#13141d] hover:bg-[#1c1d29] text-gray-300 transition-all border border-[#242533]" data-category="wear" id="vestuario">
+            🥷 Visual Rider & Vestuário
+          </button>
+          <button class="category-pill px-4 py-2 rounded-lg text-xs font-sub font-bold uppercase tracking-wider bg-[#13141d] hover:bg-[#1c1d29] text-gray-300 transition-all border border-[#242533]" data-category="protection" id="seguranca">
+            🛡️ Proteção & Alarme
+          </button>
+          <button class="category-pill px-4 py-2 rounded-lg text-xs font-sub font-bold uppercase tracking-wider bg-[#13141d] hover:bg-[#1c1d29] text-gray-300 transition-all border border-[#242533]" data-category="tech">
+            ⚡ Tech & Câmeras
+          </button>
+        </div>
+
+        <!-- Dark Choice Checkbox -->
+        <label class="flex items-center gap-2 cursor-pointer bg-[#151620] border border-[#272838] px-3.5 py-1.5 rounded-lg text-xs font-sub font-bold text-gray-300 hover:text-white transition-colors">
+          <input type="checkbox" id="dark-choice-toggle" class="accent-[#e61426] w-4 h-4">
+          <span>Ver apenas o que Dark usa na moto</span>
+        </label>
+
+      </div>
+
+      <!-- Products Grid (Rendered via app.js) -->
+      <div id="products-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        <!-- Injected dynamically -->
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ==========================================
+       PILOT REVIEWS / PROVA SOCIAL
+       ========================================== -->
+  <section class="py-16 bg-[#0a0b10] border-t border-[#1f202b]">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="text-center max-w-2xl mx-auto mb-12">
+        <span class="text-xs font-sub font-bold text-[#ff4d5a] uppercase tracking-widest block mb-2">
+          FEEDBACK DOS MOTOCICLISTAS
+        </span>
+        <h2 class="font-heading font-black text-3xl sm:text-4xl text-white tracking-wider">
+          OPINIÕES DE QUEM JÁ MONTOU
+        </h2>
+      </div>
+
+      <div class="grid md:grid-cols-3 gap-6">
+        
+        <div class="bg-[#12131b] border border-[#242533] p-6 rounded-xl relative">
+          <div class="flex text-amber-400 mb-3">★★★★★</div>
+          <p class="text-xs text-gray-300 font-body leading-relaxed mb-4">
+            "Comprei os retrovisores Stealth Wing E9 por recomendação do Dark no Instagram. A qualidade do alumínio CNC é surreal e não vibra nada na autoestrada. Pagamento super fácil por MB WAY e chegou em 6 dias no Porto!"
+          </p>
+          <div class="flex items-center gap-3">
+            <div class="w-9 h-9 rounded-full bg-red-950 border border-red-800 flex items-center justify-center font-sub font-bold text-xs text-white">
+              RF
+            </div>
+            <div>
+              <h4 class="font-sub font-bold text-white text-xs">Ricardo F.</h4>
+              <p class="text-[11px] text-gray-500">Yamaha MT-07 2022 • Porto 🇵🇹</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-[#12131b] border border-[#242533] p-6 rounded-xl relative">
+          <div class="flex text-amber-400 mb-3">★★★★★</div>
+          <p class="text-xs text-gray-300 font-body leading-relaxed mb-4">
+            "A lanterna fumê com os piscas sequenciais deu outra vida à traseira da minha MT. Instalação plug-and-play sem cortar fio nenhum. O suporte do WhatsApp foi nota 10, tirou todas as dúvidas antes de comprar."
+          </p>
+          <div class="flex items-center gap-3">
+            <div class="w-9 h-9 rounded-full bg-cyan-950 border border-cyan-800 flex items-center justify-center font-sub font-bold text-xs text-white">
+              MS
+            </div>
+            <div>
+              <h4 class="font-sub font-bold text-white text-xs">Marco S.</h4>
+              <p class="text-[11px] text-gray-500">Yamaha MT-07 • Lisboa 🇵🇹</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-[#12131b] border border-[#242533] p-6 rounded-xl relative">
+          <div class="flex text-amber-400 mb-3">★★★★★</div>
+          <p class="text-xs text-gray-300 font-body leading-relaxed mb-4">
+            "Sou do Brasil, comprei a balaclava Musion e a trava de disco com alarme. Paguei via PIX e o rastreamento em tempo real funcionou certinho até a entrega dos Correios. Top demais!"
+          </p>
+          <div class="flex items-center gap-3">
+            <div class="w-9 h-9 rounded-full bg-emerald-950 border border-emerald-800 flex items-center justify-center font-sub font-bold text-xs text-white">
+              GA
+            </div>
+            <div>
+              <h4 class="font-sub font-bold text-white text-xs">Gabriel A.</h4>
+              <p class="text-[11px] text-gray-500">Piloto Street • São Paulo 🇧🇷</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ==========================================
+       FAQ SECTION
+       ========================================== -->
+  <section id="duvidas" class="py-16 bg-[#08080c] border-t border-[#1f202b]">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6">
+      
+      <div class="text-center mb-12">
+        <span class="text-xs font-sub font-bold text-[#ff4d5a] uppercase tracking-widest block mb-2">
+          PERGUNTAS FREQUENTES
+        </span>
+        <h2 class="font-heading font-black text-3xl sm:text-4xl text-white tracking-wider">
+          DÚVIDAS & LOGÍSTICA
+        </h2>
+      </div>
+
+      <div class="space-y-4 font-body text-sm">
+        
+        <div class="bg-[#12131b] border border-[#242533] p-5 rounded-xl">
+          <h4 class="font-sub font-bold text-white text-base mb-2">Quanto tempo demora a entrega em Portugal?</h4>
+          <p class="text-xs text-gray-300 leading-relaxed">
+            As encomendas para Portugal chegam habitualmente entre <strong>5 a 9 dias úteis</strong>. Após o envio, você recebe um código de rastreio oficial dos CTT e Cainiao para acompanhar cada etapa em tempo real.
+          </p>
+        </div>
+
+        <div class="bg-[#12131b] border border-[#242533] p-5 rounded-xl">
+          <h4 class="font-sub font-bold text-white text-base mb-2">Como funcionam os pagamentos por MB WAY e Multibanco?</h4>
+          <p class="text-xs text-gray-300 leading-relaxed">
+            Ao selecionar <strong>MB WAY</strong> no checkout, você insere o seu telemóvel e recebe um pedido imediato na sua aplicação MB WAY para autorizar em segundos. Se preferir <strong>Multibanco</strong>, geramos a Entidade e Referência oficiais. Também pode pedir diretamente pelo WhatsApp!
+          </p>
+        </div>
+
+        <div class="bg-[#12131b] border border-[#242533] p-5 rounded-xl">
+          <h4 class="font-sub font-bold text-white text-base mb-2">As peças servem apenas na MT-07 ou também em outras motos?</h4>
+          <p class="text-xs text-gray-300 leading-relaxed">
+            Os itens de guidão (retrovisores Stealth E9, parafusos), vestuário (balaclavas, armaduras), segurança (trava com alarme, capa) e suportes de câmera GoPro/DJI são <strong>universais</strong> e servem em MT-09, MT-03, Z900, CB650R e praticamente qualquer moto naked ou esportiva. As peças de chassi, escapamento e rabeta são específicas para a MT-07.
+          </p>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ==========================================
+       FOOTER
+       ========================================== -->
+  <footer class="bg-[#050608] border-t border-[#1a1b24] py-12 text-sm text-gray-400">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
+        <div class="md:col-span-2">
+          <div class="flex items-center gap-3 mb-4">
+            <img src="assets/images/logo.jpg" alt="Logo" class="w-10 h-10 rounded border border-[#e61426]/40 object-cover">
+            <span class="font-heading font-black text-xl text-white tracking-widest">
+              DARK <span class="text-[#e61426]">GHOSTRIDER</span>
+            </span>
+          </div>
+          <p class="text-gray-400 font-body text-xs sm:text-sm max-w-sm mb-4 leading-relaxed">
+            A estética dark rider e o setup definitivo da Yamaha MT-07. Peças selecionadas, homologadas e testadas pelo piloto.
+          </p>
+          <div class="flex items-center gap-3">
+            <a href="https://instagram.com/dark.ghostrider" target="_blank" rel="noopener noreferrer" class="p-2 bg-[#12131a] hover:bg-[#1c1d29] border border-[#242533] rounded text-white transition-colors text-xs font-sub font-bold flex items-center gap-1.5">
+              <span>📸 Instagram:</span> @dark.ghostrider
+            </a>
+          </div>
+        </div>
+
+        <div>
+          <h4 class="font-sub font-bold text-white uppercase tracking-wider mb-3">Links Rápidos</h4>
+          <ul class="space-y-2 text-xs font-sub">
+            <li><a href="#catalogo" class="hover:text-white transition-colors">Todos os Acessórios</a></li>
+            <li><a href="#destaque-retrovisor" class="hover:text-white transition-colors">Retrovisores E9 Stealth</a></li>
+            <li><a href="#garagem-raiox" class="hover:text-white transition-colors">Raio-X da MT-07</a></li>
+            <li><a href="rastreio.html" class="text-cyan-400 hover:text-cyan-300 transition-colors">Rastreamento de Encomendas</a></li>
+            <li><a href="admin.html" class="text-gray-500 hover:text-gray-300 transition-colors">Painel de Pedidos (Admin)</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="font-sub font-bold text-white uppercase tracking-wider mb-3">Pagamentos Aceites</h4>
+          <div class="space-y-2 text-xs text-gray-400 font-body">
+            <p>🇵🇹 <strong>Portugal:</strong> MB WAY, Referência Multibanco, Cartões e Apple Pay.</p>
+            <p>🇧🇷 <strong>Brasil:</strong> PIX Instantâneo e Cartões de Crédito.</p>
+            <p>💬 <strong>WhatsApp:</strong> Pedido direto com o Dark Ghostrider.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="pt-8 border-t border-[#14151e] flex flex-col sm:flex-row items-center justify-between text-xs text-gray-600 gap-4">
+        <p>© 2026 Dark Ghostrider Store. Todos os direitos reservados.</p>
+        <p>Desenvolvido para entusiastas de duas rodas & estética Dark Rider.</p>
+      </div>
+
+    </div>
+  </footer>
+
+  <!-- ==========================================
+       FLOATING WHATSAPP BUTTON
+       ========================================== -->
+  <a href="https://wa.me/351968885713?text=Ol%C3%A1%20Dark%20Ghostrider!%20Estou%20no%20site%20e%20gostaria%20de%20tirar%20uma%20d%C3%BAvida%20sobre%20as%20pe%C3%A7as%20da%20MT-07." target="_blank" rel="noopener noreferrer" class="floating-whatsapp" title="Falar no WhatsApp">
+    <span class="floating-whatsapp-tooltip">Dúvidas? Fale com o Dark no WhatsApp</span>
+    <span class="text-3xl">💬</span>
+  </a>
+
+  <!-- ==========================================
+       CART DRAWER
+       ========================================== -->
+  <div id="cart-backdrop"></div>
+  <div id="cart-drawer">
+    <div class="p-4 border-b border-[#242533] flex items-center justify-between bg-[#11121a]">
+      <div class="flex items-center gap-2">
+        <span class="text-xl">🛒</span>
+        <h3 class="font-sub font-bold text-lg text-white uppercase tracking-wider">A Tua Garagem / Carrinho</h3>
+      </div>
+      <button id="cart-close-btn" class="text-gray-400 hover:text-white text-lg p-1">
+        ✕
+      </button>
+    </div>
+
+    <!-- Items List -->
+    <div id="cart-items-container" class="flex-1 overflow-y-auto p-4 space-y-2">
+      <!-- Items populated by app.js -->
+    </div>
+
+    <!-- Footer with Subtotal & Actions -->
+    <div class="p-4 bg-[#11121a] border-t border-[#242533] space-y-3">
+      <div class="flex items-center justify-between text-base font-sub font-bold text-gray-300">
+        <span>SUBTOTAL:</span>
+        <span id="cart-subtotal" class="font-heading font-black text-xl text-white">0,00 €</span>
+      </div>
+
+      <button id="btn-checkout-cart" class="w-full py-3.5 bg-[#e61426] hover:bg-[#ff2a3c] text-white font-sub font-bold uppercase tracking-wider rounded shadow-lg shadow-red-900/50 transition-all flex items-center justify-center gap-2">
+        <span>FINALIZAR ENCOMENDA</span>
+        <span class="text-xs bg-red-950 px-2 py-0.5 rounded">MB WAY / Multibanco / Cartão</span>
+      </button>
+
+      <button id="btn-whatsapp-cart" class="w-full py-3 bg-[#17261d] hover:bg-[#203629] text-[#25d366] border border-[#25d366]/40 rounded font-sub font-bold uppercase tracking-wider text-xs transition-all flex items-center justify-center gap-2">
+        <span>💬 Enviar Encomenda pelo WhatsApp</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- ==========================================
+       PRODUCT DETAILS MODAL
+       ========================================== -->
+  <div id="product-modal" class="modal-overlay">
+    <div class="modal-content relative">
+      <button id="modal-close-btn" class="absolute top-4 right-4 z-20 text-gray-400 hover:text-white text-xl bg-[#151620] w-8 h-8 rounded-full flex items-center justify-center border border-[#262838]">
+        ✕
+      </button>
+      <div id="modal-product-content">
+        <!-- Injected dynamically -->
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================
+       CHECKOUT MODAL (PORTUGAL & BRASIL)
+       ========================================== -->
+  <div id="checkout-modal" class="modal-overlay">
+    <div class="modal-content relative p-6 sm:p-8">
+      
+      <button id="checkout-modal-close" class="absolute top-4 right-4 text-gray-400 hover:text-white text-xl bg-[#151620] w-8 h-8 rounded-full flex items-center justify-center border border-[#262838]">
+        ✕
+      </button>
+
+      <!-- Form Container -->
+      <div id="checkout-form-container">
+        <div class="mb-6">
+          <span class="text-xs font-sub font-bold text-[#ff4d5a] uppercase tracking-widest block">CHECKOUT SEGURO</span>
+          <h3 class="font-heading font-black text-2xl text-white">FINALIZAR ENCOMENDA</h3>
+          <p class="text-xs text-gray-400 mt-1">Preencha os dados para entrega e selecione a forma de pagamento.</p>
+        </div>
+
+        <form onsubmit="Store.processCheckout(event)" class="space-y-4 font-body text-sm">
+          
+          <div class="grid sm:grid-cols-2 gap-3">
+            <div>
+              <label class="block text-xs font-sub font-bold text-gray-400 uppercase mb-1">Nome Completo *</label>
+              <input type="text" id="chk-name" required placeholder="Ex: Diogo Silva" class="w-full bg-[#12131c] text-white border border-[#26283b] rounded p-2.5 outline-none focus:border-[#e61426]">
+            </div>
+            <div>
+              <label class="block text-xs font-sub font-bold text-gray-400 uppercase mb-1">Telemóvel / WhatsApp *</label>
+              <input type="tel" id="chk-phone" required placeholder="+351 912 345 678" class="w-full bg-[#12131c] text-white border border-[#26283b] rounded p-2.5 outline-none focus:border-[#e61426]">
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-xs font-sub font-bold text-gray-400 uppercase mb-1">Email para Rastreio *</label>
+            <input type="email" id="chk-email" required placeholder="seu.email@exemplo.com" class="w-full bg-[#12131c] text-white border border-[#26283b] rounded p-2.5 outline-none focus:border-[#e61426]">
+          </div>
+
+          <div>
+            <label class="block text-xs font-sub font-bold text-gray-400 uppercase mb-1">Morada de Entrega (Rua, Número, Andar) *</label>
+            <input type="text" id="chk-address" required placeholder="Ex: Av. da Liberdade, 120, 2º Dto" class="w-full bg-[#12131c] text-white border border-[#26283b] rounded p-2.5 outline-none focus:border-[#e61426]">
+          </div>
+
+          <div class="grid grid-cols-2 gap-3">
+            <div>
+              <label class="block text-xs font-sub font-bold text-gray-400 uppercase mb-1">Código Postal *</label>
+              <input type="text" id="chk-postal" required placeholder="1250-140" class="w-full bg-[#12131c] text-white border border-[#26283b] rounded p-2.5 outline-none focus:border-[#e61426]">
+            </div>
+            <div>
+              <label class="block text-xs font-sub font-bold text-gray-400 uppercase mb-1">Cidade / Distrito *</label>
+              <input type="text" id="chk-city" required placeholder="Lisboa" class="w-full bg-[#12131c] text-white border border-[#26283b] rounded p-2.5 outline-none focus:border-[#e61426]">
+            </div>
+          </div>
+
+          <!-- Payment Options Portugal -->
+          <div id="payment-methods-pt" class="pt-4 border-t border-[#242533]">
+            <label class="block text-xs font-sub font-bold text-gray-300 uppercase tracking-wider mb-2">
+              🇵🇹 Escolha o Método de Pagamento (Portugal):
+            </label>
+            
+            <div class="grid grid-cols-3 gap-2">
+              <label class="flex flex-col items-center justify-center p-3 bg-[#12131b] border border-[#26283b] rounded-lg cursor-pointer hover:border-[#e61426] transition-colors has-[:checked]:border-[#e61426] has-[:checked]:bg-red-950/20">
+                <input type="radio" name="pay-pt" value="mbway" checked class="accent-[#e61426] mb-1">
+                <span class="font-sub font-bold text-sm text-white">MB WAY</span>
+                <span class="text-[10px] text-gray-400">Notificação App</span>
+              </label>
+
+              <label class="flex flex-col items-center justify-center p-3 bg-[#12131b] border border-[#26283b] rounded-lg cursor-pointer hover:border-[#e61426] transition-colors has-[:checked]:border-[#e61426] has-[:checked]:bg-red-950/20">
+                <input type="radio" name="pay-pt" value="multibanco" class="accent-[#e61426] mb-1">
+                <span class="font-sub font-bold text-sm text-white">Multibanco</span>
+                <span class="text-[10px] text-gray-400">Entidade / Ref.</span>
+              </label>
+
+              <label class="flex flex-col items-center justify-center p-3 bg-[#12131b] border border-[#26283b] rounded-lg cursor-pointer hover:border-[#e61426] transition-colors has-[:checked]:border-[#e61426] has-[:checked]:bg-red-950/20">
+                <input type="radio" name="pay-pt" value="card" class="accent-[#e61426] mb-1">
+                <span class="font-sub font-bold text-sm text-white">Cartão</span>
+                <span class="text-[10px] text-gray-400">Visa / Master</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- Payment Options Brasil -->
+          <div id="payment-methods-br" class="pt-4 border-t border-[#242533] hidden">
+            <label class="block text-xs font-sub font-bold text-gray-300 uppercase tracking-wider mb-2">
+              🇧🇷 Método de Pagamento (Brasil):
+            </label>
+            <div class="grid grid-cols-2 gap-2">
+              <label class="flex flex-col items-center justify-center p-3 bg-[#12131b] border border-[#26283b] rounded-lg cursor-pointer hover:border-[#e61426] transition-colors has-[:checked]:border-[#e61426] has-[:checked]:bg-red-950/20">
+                <input type="radio" name="pay-br" value="pix" checked class="accent-[#e61426] mb-1">
+                <span class="font-sub font-bold text-sm text-emerald-400">PIX Instantâneo</span>
+                <span class="text-[10px] text-gray-400">QR Code / Copia & Cola</span>
+              </label>
+              <label class="flex flex-col items-center justify-center p-3 bg-[#12131b] border border-[#26283b] rounded-lg cursor-pointer hover:border-[#e61426] transition-colors has-[:checked]:border-[#e61426] has-[:checked]:bg-red-950/20">
+                <input type="radio" name="pay-br" value="card" class="accent-[#e61426] mb-1">
+                <span class="font-sub font-bold text-sm text-white">Cartão de Crédito</span>
+                <span class="text-[10px] text-gray-400">Até 12x</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- Total & Submit -->
+          <div class="pt-4 flex items-center justify-between">
+            <div>
+              <span class="text-xs text-gray-400 block font-sub">TOTAL DA ENCOMENDA:</span>
+              <span id="checkout-modal-total" class="font-heading font-black text-2xl text-white">0,00 €</span>
+            </div>
+            <button type="submit" class="px-8 py-3 bg-[#e61426] hover:bg-[#ff2a3c] text-white font-sub font-bold uppercase tracking-wider rounded shadow-lg shadow-red-900/40 transition-all">
+              Confirmar Encomenda
+            </button>
+          </div>
+
+        </form>
+      </div>
+
+      <!-- Success Container -->
+      <div id="checkout-success-container" class="hidden text-center py-6">
+        <div class="w-16 h-16 bg-emerald-500/20 text-emerald-400 rounded-full flex items-center justify-center text-3xl mx-auto mb-4 border border-emerald-500/30">
+          ✓
+        </div>
+        
+        <h3 class="font-heading font-black text-2xl text-white mb-2">ENCOMENDA REGISTRADA!</h3>
+        <p class="text-sm text-gray-300 mb-6">
+          Obrigado pela tua compra! O teu pedido já está registrado no nosso sistema.
+        </p>
+
+        <div class="bg-[#101118] border border-[#222331] rounded-xl p-4 max-w-md mx-auto mb-6 text-left font-sub space-y-2">
+          <div class="flex justify-between">
+            <span class="text-gray-400">ID da Encomenda:</span>
+            <span id="success-order-id" class="font-bold text-white">DG-PT-XXXXXX</span>
+          </div>
+          <div class="flex justify-between">
+            <span class="text-gray-400">Código de Rastreio Inicial:</span>
+            <span id="success-tracking-number" class="font-bold text-cyan-400">LP00000000PT</span>
+          </div>
+          <div class="flex justify-between">
+            <span class="text-gray-400">Operadora Logística:</span>
+            <span class="font-bold text-gray-300">CTT Expresso / Cainiao</span>
+          </div>
+        </div>
+
+        <div class="flex flex-col sm:flex-row gap-3 justify-center">
+          <a id="btn-view-tracking" href="rastreio.html" class="px-6 py-3 bg-cyan-600 hover:bg-cyan-500 text-white font-sub font-bold uppercase tracking-wider rounded transition-all text-xs flex items-center justify-center gap-1.5">
+            <span>📦 Acompanhar Rastreio em Tempo Real</span>
+          </a>
+          <a id="btn-notify-dark" href="#" target="_blank" class="px-6 py-3 bg-[#17261d] hover:bg-[#203629] text-[#25d366] border border-[#25d366]/40 font-sub font-bold uppercase tracking-wider rounded transition-all text-xs flex items-center justify-center gap-1.5">
+            <span>💬 Notificar Dark no WhatsApp</span>
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="assets/js/products.js"></script>
+  <script src="assets/js/smoke.js"></script>
+  <script src="assets/js/tracking.js"></script>
+  <script src="assets/js/app.js"></script>
+</body>
+</html>
