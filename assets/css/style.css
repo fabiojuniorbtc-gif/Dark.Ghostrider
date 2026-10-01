@@ -14,6 +14,9 @@
   --accent-red: #e61426;
   --accent-red-hover: #ff2a3c;
   --accent-red-glow: rgba(230, 20, 38, 0.4);
+  --accent-yellow: #ffe600;
+  --accent-yellow-hover: #fff24d;
+  --accent-yellow-glow: rgba(255, 230, 0, 0.45);
   --accent-orange: #ff5500;
   --accent-cyan: #00e5ff;
   --text-main: #f5f5f7;
@@ -151,9 +154,9 @@ body {
   align-items: center;
   gap: 0.5rem;
   padding: 0.4rem 1.1rem;
-  background: rgba(230, 20, 38, 0.18);
-  border: 1px solid rgba(230, 20, 38, 0.5);
-  color: #ff4d5a;
+  background: rgba(255, 230, 0, 0.15);
+  border: 1px solid rgba(255, 230, 0, 0.6);
+  color: #ffe600;
   border-radius: 999px;
   font-family: var(--font-sub);
   font-size: 0.85rem;
@@ -214,10 +217,10 @@ body {
 }
 
 .intro-title span {
-  color: var(--accent-red);
+  color: #ffe600;
   text-shadow: 
-    0 0 30px #e61426,
-    0 0 70px rgba(230, 20, 38, 0.85);
+    0 0 30px #ffe600,
+    0 0 70px rgba(255, 230, 0, 0.85);
 }
 
 .intro-subtitle {
@@ -248,8 +251,8 @@ body {
   justify-content: center;
   gap: 0.85rem;
   padding: 1.15rem 3.2rem;
-  background: linear-gradient(135deg, #e61426, #b00f1c);
-  color: #ffffff;
+  background: linear-gradient(135deg, #ffe600, #ffaa00);
+  color: #08080a;
   font-family: var(--font-heading);
   font-weight: 900;
   font-size: 1.1rem;
@@ -258,7 +261,7 @@ body {
   border: none;
   border-radius: 999px;
   cursor: pointer;
-  box-shadow: 0 0 35px rgba(230, 20, 38, 0.75), 0 4px 20px rgba(0, 0, 0, 0.6);
+  box-shadow: 0 0 35px rgba(255, 230, 0, 0.8), 0 4px 20px rgba(0, 0, 0, 0.6);
   transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   text-decoration: none;
   animation: pulse-button 2.5s infinite;
@@ -267,7 +270,7 @@ body {
 .btn-enter-garage:hover {
   transform: translateY(-3px) scale(1.04);
   box-shadow: 0 0 50px rgba(230, 20, 38, 1), 0 6px 25px rgba(0, 0, 0, 0.8);
-  background: linear-gradient(135deg, #ff2a3c, #cc1120);
+  background: linear-gradient(135deg, #fff24d, #ffbb00);
 }
 
 .intro-hint {

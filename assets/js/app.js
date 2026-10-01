@@ -345,8 +345,8 @@ const Store = {
                           <span class="w-2.5 h-2.5 rounded-full inline-block ${
                             val.toLowerCase().includes('vermelho') ? 'bg-red-600 shadow-[0_0_8px_#ff2a3c]' :
                             (val.toLowerCase().includes('azul') ? 'bg-blue-500 shadow-[0_0_8px_#258cf4]' :
-                            (val.toLowerCase().includes('amarel') or val.toLowerCase().includes('ouro') or val.toLowerCase().includes('dourad') ? 'bg-amber-400' :
-                            (val.toLowerCase().includes('tit') or val.toLowerCase().includes('prata') or val.toLowerCase().includes('cinza') ? 'bg-gray-400' : 'bg-neutral-800 border border-neutral-600')))
+                            (val.toLowerCase().includes('amarel') || val.toLowerCase().includes('ouro') || val.toLowerCase().includes('dourad') ? 'bg-amber-400' :
+                            (val.toLowerCase().includes('tit') || val.toLowerCase().includes('prata') || val.toLowerCase().includes('cinza') ? 'bg-gray-400' : 'bg-neutral-800 border border-neutral-600')))
                           }"></span>
                           <span>${val}</span>
                         </button>
@@ -640,4 +640,8 @@ const Store = {
 };
 
 window.Store = Store;
-document.addEventListener('DOMContentLoaded', () => Store.init());
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', () => Store.init());
+} else {
+  Store.init();
+}

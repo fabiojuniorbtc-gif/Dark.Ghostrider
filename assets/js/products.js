@@ -502,37 +502,49 @@ const PRODUCTS = [
   },
   {
     "id": "kashvelo-gear-base-layer",
-    "name": "Camisa Base Layer Protetora com Armadura CE Nível 2 - Kashvelo Gear Portugal",
+    "name": "Luvas de Proteção em Couro & Carbono Real - Kashvelo Gear Portugal",
     "category": "protection",
-    "priceEUR": 84.9,
-    "compareAtEUR": 119.0,
-    "priceBRL": 540.0,
-    "compareAtBRL": 720.0,
-    "badge": "CUPOM GR10GR APLICADO",
+    "priceEUR": 59.9,
+    "compareAtEUR": 89.9,
+    "priceBRL": 379.0,
+    "compareAtBRL": 549.0,
+    "badge": "PARCERIA OFICIAL KASHVELO",
     "isDarkChoice": true,
     "rating": 5.0,
-    "reviewsCount": 120,
+    "reviewsCount": 164,
     "image": "assets/images/kashvelo.jpg",
-    "description": "Equipamento de proteção premium homologado na Europa pela Kashvelo Gear Portugal. Malha elástica de alta ventilação com protetores viscoelásticos que endurecem com o impacto. Cupom de 10% GR10GR já aplicado na oferta especial da nossa loja.",
+    "description": "Luvas oficiais de pilotagem em couro bovino legítimo perfurado de alta densidade desenvolvidas pela marca portuguesa Kashvelo Gear. Equipadas com escudo rígido de nós dos dedos em fibra de carbono real, reforço anatômico na palma anti-abrasão com painel antiderrapante, couro perfurado para respirabilidade térmica e costuras duplas reforçadas. Cupom de 10% de desconto GR10GR já aplicado!",
     "options": [
       {
         "name": "Tamanho",
         "type": "select",
         "values": [
-          "M",
-          "L",
-          "XL",
+          "M (Médio)",
+          "L (Grande)",
+          "XL (Extra Grande)",
           "XXL"
+        ]
+      },
+      {
+        "name": "Vista",
+        "type": "select",
+        "values": [
+          "Dorso com Carbono Real",
+          "Palma com Malha Antiderrapante"
         ]
       }
     ],
+    "variantImages": {
+      "Dorso com Carbono Real": "assets/images/products/kashvelo-glove-top.jpg",
+      "Palma com Malha Antiderrapante": "assets/images/products/kashvelo-glove-palm.jpg"
+    },
     "supplierUrl": "https://kashvelogearpt.etsy.com?coupon=GR10GR",
     "isExternalPartner": true,
     "costDetails": {
-      "productCostEUR": 79.9,
-      "shippingCostEUR": 0.0,
-      "totalCostEUR": 79.9,
-      "netProfitEUR": 5.0
+      "productCostEUR": 35.0,
+      "shippingCostEUR": 4.9,
+      "totalCostEUR": 39.9,
+      "netProfitEUR": 20.0
     }
   },
   {

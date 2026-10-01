@@ -1,4 +1,4 @@
-﻿/**
+/**
  * DARK GHOSTRIDER - REALISTIC CANVAS SMOKE & AUDIO ENGINE
  */
 
@@ -54,7 +54,7 @@ class SmokeEngine {
       rotation: Math.random() * Math.PI * 2,
       rotSpeed: (Math.random() - 0.5) * 0.015,
       // Hue tint: subtle dark crimson red to dark charcoal
-      tint: Math.random() > 0.65 ? 'red' : 'charcoal'
+      tint: Math.random() > 0.7 ? 'yellow' : (Math.random() > 0.5 ? 'red' : 'charcoal')
     };
   }
 
@@ -84,7 +84,11 @@ class SmokeEngine {
 
       // Create radial gradient for soft puff
       const grad = this.ctx.createRadialGradient(0, 0, 0, 0, 0, p.radius);
-      if (p.tint === 'red') {
+      if (p.tint === 'yellow') {
+        grad.addColorStop(0, `rgba(255, 230, 0, ${p.alpha * 0.45})`);
+        grad.addColorStop(0.4, `rgba(220, 180, 0, ${p.alpha * 0.22})`);
+        grad.addColorStop(1, 'rgba(10, 10, 15, 0)');
+      } else if (p.tint === 'red') {
         grad.addColorStop(0, `rgba(230, 20, 38, ${p.alpha * 0.45})`);
         grad.addColorStop(0.4, `rgba(180, 15, 25, ${p.alpha * 0.25})`);
         grad.addColorStop(1, 'rgba(10, 10, 15, 0)');
@@ -191,7 +195,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const btnEnter = document.getElementById('btn-enter');
   const btnSkip = document.getElementById('btn-skip');
 
-  function closeIntro() {
+  function closeIntro(scrollToCatalog = false) {
     if (!introScreen) return;
     motoAudio.playRev();
     introScreen.classList.add('fade-out');
@@ -199,20 +203,24 @@ document.addEventListener('DOMContentLoaded', () => {
       if (smokeInstance) smokeInstance.stop();
       introScreen.style.display = 'none';
       document.body.style.overflow = 'auto';
-    }, 900);
+      if (scrollToCatalog) {
+        const cat = document.getElementById('catalogo');
+        if (cat) cat.scrollIntoView({ behavior: 'smooth' });
+      }
+    }, 700);
   }
 
   if (btnEnter) {
     btnEnter.addEventListener('click', (e) => {
       e.preventDefault();
-      closeIntro();
+      closeIntro(true);
     });
   }
 
   if (btnSkip) {
     btnSkip.addEventListener('click', (e) => {
       e.preventDefault();
-      closeIntro();
+      closeIntro(false);
     });
   }
 
