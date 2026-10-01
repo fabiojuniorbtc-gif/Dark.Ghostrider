@@ -164,15 +164,18 @@ const PRODUCTS = [
     "rating": 4.9,
     "reviewsCount": 89,
     "image": "assets/images/products/eliminador_rabeta_main.jpg",
-    "description": "Suporte de placa curto esportivo usinado em liga de alumínio CNC de alta resistência com recorte a laser do logotipo MT-07. Acompanha iluminação de placa em LED branco de alta potência, suportes para piscas e parafusos de fixação. Compatível com Yamaha MT-07 e FZ-07 (2013-2025).",
+    "description": "Suporte de placa curto esportivo usinado em liga de alumínio CNC de alta resistência com recorte estilizado e acabamento preto fosco anodizado. Compatível com Yamaha MT-07 e FZ-07 (2013 a 2025). Acompanha iluminação de placa em LED embutida com corpo em alumínio anodizado e parafusos Allen em aço inoxidável. Disponível na versão standard ou no kit completo com par de piscas LED sequenciais dinâmicos.",
     "options": [
       {
-        "name": "Cor Anodizada",
-        "type": "color",
+        "name": "Kit e Cor do LED",
+        "type": "select",
         "values": [
-          "Preto Stealth Mate",
-          "Vermelho Anodizado Racing",
-          "Azul Yamaha Metálico"
+          "Suporte + Luz LED Preto Stealth",
+          "Suporte + Luz LED Vermelho Racing",
+          "Suporte + Luz LED Azul Yamaha",
+          "Kit Completo c/ Piscas LED Sequenciais (Luz LED Preto)",
+          "Kit Completo c/ Piscas LED Sequenciais (Luz LED Vermelho)",
+          "Kit Completo c/ Piscas LED Sequenciais (Luz LED Azul)"
         ]
       }
     ],
@@ -184,14 +187,74 @@ const PRODUCTS = [
       "netProfitEUR": 27.75
     },
     "variantImages": {
-      "Preto Stealth Mate": "assets/images/products/variants/eliminador_rabeta_preto.jpg",
-      "Vermelho Anodizado Racing": "assets/images/products/variants/eliminador_rabeta_vermelho.jpg",
-      "Azul Yamaha Metálico": "assets/images/products/variants/eliminador_rabeta_azul.jpg"
+      "Suporte + Luz LED Preto Stealth": "assets/images/products/variants/eliminador_rabeta_preto_led.jpg",
+      "Suporte + Luz LED Vermelho Racing": "assets/images/products/variants/eliminador_rabeta_vermelho_led.jpg",
+      "Suporte + Luz LED Azul Yamaha": "assets/images/products/variants/eliminador_rabeta_azul_led.jpg",
+      "Kit Completo c/ Piscas LED Sequenciais (Luz LED Preto)": "assets/images/products/variants/eliminador_rabeta_piscas_preto.jpg",
+      "Kit Completo c/ Piscas LED Sequenciais (Luz LED Vermelho)": "assets/images/products/variants/eliminador_rabeta_piscas_vermelho.jpg",
+      "Kit Completo c/ Piscas LED Sequenciais (Luz LED Azul)": "assets/images/products/variants/eliminador_rabeta_piscas_azul.jpg"
+    },
+    "variantPrices": {
+      "Suporte + Luz LED Preto Stealth": {
+        "priceEUR": 39.9,
+        "compareAtEUR": 65.0,
+        "priceBRL": 249.0,
+        "compareAtBRL": 389.0,
+        "costEUR": 12.15,
+        "profitEUR": 27.75
+      },
+      "Suporte + Luz LED Vermelho Racing": {
+        "priceEUR": 39.9,
+        "compareAtEUR": 65.0,
+        "priceBRL": 249.0,
+        "compareAtBRL": 389.0,
+        "costEUR": 12.15,
+        "profitEUR": 27.75
+      },
+      "Suporte + Luz LED Azul Yamaha": {
+        "priceEUR": 39.9,
+        "compareAtEUR": 65.0,
+        "priceBRL": 249.0,
+        "compareAtBRL": 389.0,
+        "costEUR": 12.15,
+        "profitEUR": 27.75
+      },
+      "Kit Completo c/ Piscas LED Sequenciais (Luz LED Preto)": {
+        "priceEUR": 49.9,
+        "compareAtEUR": 79.0,
+        "priceBRL": 319.0,
+        "compareAtBRL": 490.0,
+        "costEUR": 15.80,
+        "profitEUR": 34.10
+      },
+      "Kit Completo c/ Piscas LED Sequenciais (Luz LED Vermelho)": {
+        "priceEUR": 49.9,
+        "compareAtEUR": 79.0,
+        "priceBRL": 319.0,
+        "compareAtBRL": 490.0,
+        "costEUR": 15.80,
+        "profitEUR": 34.10
+      },
+      "Kit Completo c/ Piscas LED Sequenciais (Luz LED Azul)": {
+        "priceEUR": 49.9,
+        "compareAtEUR": 79.0,
+        "priceBRL": 319.0,
+        "compareAtBRL": 490.0,
+        "costEUR": 15.80,
+        "profitEUR": 34.10
+      }
     },
     "gallery": [
-      "assets/images/products/variants/eliminador_rabeta_preto.jpg",
-      "assets/images/products/variants/eliminador_rabeta_vermelho.jpg",
-      "assets/images/products/variants/eliminador_rabeta_azul.jpg"
+      "assets/images/products/eliminador_rabeta_main.jpg",
+      "assets/images/products/variants/eliminador_rabeta_preto_led.jpg",
+      "assets/images/products/variants/eliminador_rabeta_vermelho_led.jpg",
+      "assets/images/products/variants/eliminador_rabeta_azul_led.jpg",
+      "assets/images/products/variants/eliminador_rabeta_piscas_preto.jpg",
+      "assets/images/products/variants/eliminador_rabeta_piscas_vermelho.jpg",
+      "assets/images/products/variants/eliminador_rabeta_piscas_azul.jpg",
+      "assets/images/products/variants/eliminador_rabeta_pisca_detalhe.jpg",
+      "assets/images/products/variants/eliminador_rabeta_diagrama.jpg",
+      "assets/images/products/variants/eliminador_rabeta_suporte_isolado.jpg"
     ]
   },
   {
