@@ -1,4 +1,4 @@
-﻿/* ==========================================================================
+/* ==========================================================================
    DARK GHOSTRIDER - AESTHETIC DARK RIDER STYLING
    ========================================================================== */
 
@@ -605,6 +605,16 @@ body {
   transform: translateX(-50%) translateY(0);
 }
 
+.hotspot-pin.popup-down .hotspot-popup {
+  bottom: auto;
+  top: calc(100% + 12px);
+  transform: translateX(-50%) translateY(-10px);
+}
+
+.hotspot-pin.popup-down:hover .hotspot-popup {
+  transform: translateX(-50%) translateY(0);
+}
+
 /* Active Variant Button in Modal */
 .active-variant {
   border-color: #e61426 !important;
@@ -612,3 +622,24 @@ body {
   color: #ffffff !important;
   box-shadow: 0 0 12px rgba(230, 20, 38, 0.4);
 }
+
+/* Lightbox Modal & Zoom Viewer */
+#lightbox-modal {
+  z-index: 10000;
+}
+
+#lightbox-viewport {
+  touch-action: none;
+  background: radial-gradient(circle, #141520 0%, #08090d 100%);
+}
+
+#lightbox-viewport.panning {
+  cursor: grabbing !important;
+}
+
+#lightbox-img {
+  will-change: transform;
+  transform-origin: center center;
+  transition: transform 0.12s ease-out;
+}
+

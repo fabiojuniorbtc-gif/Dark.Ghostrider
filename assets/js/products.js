@@ -1,7 +1,7 @@
 const PRODUCTS = [
   {
-    "id": "retrovisãor-stealth-e9",
-    "name": "Retrovisãores Stealth Wing / Bar-End Elevado E9 Alumínio CNC - MT-07",
+    "id": "retrovisor-stealth-e9",
+    "name": "Retrovisores Stealth Wing / Bar-End Elevado E9 Alumínio CNC - MT-07",
     "category": "mt07",
     "priceEUR": 39.9,
     "compareAtEUR": 65.0,
@@ -12,7 +12,7 @@ const PRODUCTS = [
     "rating": 5.0,
     "reviewsCount": 284,
     "image": "assets/images/products/1005007453126466.jpg",
-    "description": "Os retrovisãores que todos me perguntam diariamente no Instagram @dark.ghostrider! Acabamento em liga de alumínio CNC anodizado preto fosco, espelho com lente anti-reflexo azulada e certificação E9. Design aerodinâmico stealth agressivo que transforma o visual do guidão da MT-07.",
+    "description": "Os retrovisores que todos me perguntam diariamente no Instagram @dark.ghostrider! Acabamento em liga de alumínio CNC anodizado preto fosco, espelho com lente anti-reflexo azulada e certificação E9. Design aerodinâmico stealth agressivo que transforma o visual do guidão da MT-07.",
     "options": [
       {
         "name": "Acabamento",
@@ -33,7 +33,7 @@ const PRODUCTS = [
   },
   {
     "id": "lanterna-led-fume-mt07",
-    "name": "Lanterna Traseira LED Fumêê com Piscas Integrados E-Mark - MT-07",
+    "name": "Lanterna Traseira LED Fumê com Piscas Integrados E-Mark - MT-07",
     "category": "mt07",
     "priceEUR": 58.9,
     "compareAtEUR": 89.9,
@@ -43,15 +43,16 @@ const PRODUCTS = [
     "isDarkChoice": true,
     "rating": 4.9,
     "reviewsCount": 142,
-    "image": "assets/images/products/1005004579738109.jpg",
-    "description": "Luz de freio, posição e piscas dinâmicos sequenciais embutidos em uma lente fumê escura ultra-agressiva. Plug and play sem necessidade de cortar fios originais da moto. Homologação E-Mark europeia.",
+    "image": "assets/images/products/lanterna_led_fume_main.jpg",
+    "description": "Luz de freio, posição e piscas dinâmicos sequenciais embutidos em uma lente aerodinâmica de alta densidade. Plug and play sem necessidade de cortar fios originais da moto. Homologação E-Mark europeia gravada na lente.",
     "options": [
       {
         "name": "Lente",
         "type": "select",
         "values": [
-          "Fumêê Escuro (Dark Smoke)",
-          "Fumêê Claro"
+          "Fumê Escuro (Dark Smoke)",
+          "Fumê Claro (Clear Smoke)",
+          "Fumê Vermelho (Red Smoke)"
         ]
       }
     ],
@@ -61,39 +62,86 @@ const PRODUCTS = [
       "shippingCostEUR": 8.5,
       "totalCostEUR": 39.4,
       "netProfitEUR": 19.5
-    }
+    },
+    "variantImages": {
+      "Fumê Escuro (Dark Smoke)": "assets/images/products/variants/lanterna_fume_escuro.jpg",
+      "Fumê Claro (Clear Smoke)": "assets/images/products/variants/lanterna_fume_claro.jpg",
+      "Fumê Vermelho (Red Smoke)": "assets/images/products/variants/lanterna_fume_vermelho.jpg"
+    },
+    "gallery": [
+      "assets/images/products/variants/lanterna_fume_escuro.jpg",
+      "assets/images/products/variants/lanterna_fume_claro.jpg",
+      "assets/images/products/variants/lanterna_fume_vermelho.jpg"
+    ]
   },
   {
     "id": "escape-completo-r77-carbono",
-    "name": "Sistema de Escape Esportivo Completo R77 Fibra de Carbono 51mm - MT-07",
+    "name": "Sistema de Escape Esportivo Completo R77 MT-07 (2014-2023)",
     "category": "mt07",
-    "priceEUR": 179.9,
-    "compareAtEUR": 299.0,
-    "priceBRL": 1150.0,
-    "compareAtBRL": 1690.0,
+    "priceEUR": 219.9,
+    "compareAtEUR": 299.9,
+    "priceBRL": 1390.0,
+    "compareAtBRL": 1890.0,
     "badge": "RONCO AGRESSIVO CP2",
     "isDarkChoice": true,
     "rating": 5.0,
     "reviewsCount": 97,
-    "image": "assets/images/products/1005007839956372.jpg",
-    "description": "Linha de escape completa com ponteira em fibra de carbono real e coletor em aço inox. Proporciona o som característico encorpado do motor crossplane CP2, além de redução de peso substancial.",
+    "image": "assets/images/products/escape_r77_main.jpg",
+    "description": "Linha de escape completa com coletor duplo em aço inox curvado sob medida para o motor CP2 da MT-07 e ponteira esportiva estilo R77 51mm. Proporciona o ronco encorpado e grave característico do bicilíndrico crossplane, redução de peso expressiva e ganho de fluxo aerodinâmico.",
     "options": [
       {
-        "name": "Estilo",
+        "name": "Acabamento & Ponteira",
         "type": "select",
         "values": [
-          "Full Carbono Real",
-          "Aço Inox com Biqueira de Carbono"
+          "Aço Inox + Ponteira Imitação de Carbono (Opção Mais Acessível)",
+          "Aço Inox + Ponteira em Fibra de Carbono Real",
+          "Full Fibra de Carbono Real R77 (Topo de Gama)"
         ]
       }
     ],
     "supplierUrl": "https://pt.aliexpress.com/item/1005007839956372.html",
     "costDetails": {
-      "productCostEUR": 68.0,
-      "shippingCostEUR": 35.0,
-      "totalCostEUR": 103.0,
-      "netProfitEUR": 76.9
-    }
+      "productCostEUR": 147.74,
+      "shippingCostEUR": 0.0,
+      "totalCostEUR": 147.74,
+      "netProfitEUR": 72.16
+    },
+    "variantImages": {
+      "Aço Inox + Ponteira Imitação de Carbono (Opção Mais Acessível)": "assets/images/products/variants/escape_r77_imitation_carbon.jpg",
+      "Aço Inox + Ponteira em Fibra de Carbono Real": "assets/images/products/variants/escape_r77_silver_carbon_tip.jpg",
+      "Full Fibra de Carbono Real R77 (Topo de Gama)": "assets/images/products/variants/escape_r77_full_carbon.jpg"
+    },
+    "variantPrices": {
+      "Aço Inox + Ponteira Imitação de Carbono (Opção Mais Acessível)": {
+        "priceEUR": 219.9,
+        "compareAtEUR": 299.9,
+        "priceBRL": 1390.0,
+        "compareAtBRL": 1890.0,
+        "costEUR": 147.74,
+        "profitEUR": 72.16
+      },
+      "Aço Inox + Ponteira em Fibra de Carbono Real": {
+        "priceEUR": 259.9,
+        "compareAtEUR": 349.9,
+        "priceBRL": 1640.0,
+        "compareAtBRL": 2190.0,
+        "costEUR": 166.35,
+        "profitEUR": 93.55
+      },
+      "Full Fibra de Carbono Real R77 (Topo de Gama)": {
+        "priceEUR": 299.9,
+        "compareAtEUR": 399.9,
+        "priceBRL": 1890.0,
+        "compareAtBRL": 2490.0,
+        "costEUR": 192.28,
+        "profitEUR": 107.62
+      }
+    },
+    "gallery": [
+      "assets/images/products/variants/escape_r77_silver_carbon_tip.jpg",
+      "assets/images/products/variants/escape_r77_full_carbon.jpg",
+      "assets/images/products/variants/escape_r77_imitation_carbon.jpg"
+    ]
   },
   {
     "id": "eliminador-rabeta-led",
@@ -128,58 +176,68 @@ const PRODUCTS = [
   },
   {
     "id": "sliders-protecao-quadro",
-    "name": "Sliders de Quadro Anti-Queda Crash Pad Protetor de Motor - MT-07",
+    "name": "Sliders de Quadro Anti-Queda COOLPAD CNC Alumínio + POM - MT-07",
     "category": "mt07",
-    "priceEUR": 44.9,
-    "compareAtEUR": 69.0,
-    "priceBRL": 279.0,
-    "compareAtBRL": 399.0,
+    "priceEUR": 54.9,
+    "compareAtEUR": 85.0,
+    "priceBRL": 349.0,
+    "compareAtBRL": 529.0,
     "badge": "PROTEÇÃO CRÍTICA",
     "isDarkChoice": true,
     "rating": 4.9,
     "reviewsCount": 176,
-    "image": "assets/images/products/1005008108407550.jpg",
-    "description": "Protetores de quadro em nylon de alta densidade usinados em base de alumínio aeronáutico. Essencial para proteger as tampas do motor, chassi e carenagens em caso de quedas ou tombos.",
+    "image": "assets/images/products/sliders_coolpad_main.jpg",
+    "description": "Sliders de alta resistência para proteção do quadro e motor da Yamaha MT-07 (2014-2023). Fabricados em usinagem CNC de liga de alumínio reforçado com ponteira de impacto em POM (poliacetal anti-abrasão). Acompanha parafusos de fixação em aço de alta dureza.",
     "options": [
       {
         "name": "Cor",
-        "type": "color",
+        "type": "select",
         "values": [
           "Preto Stealth",
-          "Vermelho Dark",
+          "Vermelho Anodizado",
           "Azul Yamaha",
-          "Titânio"
+          "Dourado Ouro",
+          "Titânio Metálico"
         ]
       }
     ],
-    "supplierUrl": "https://www.aliexpress.com/item/1005008108407550.html",
+    "supplierUrl": "https://pt.aliexpress.com/item/1005007293732920.html",
     "costDetails": {
-      "productCostEUR": 15.0,
-      "shippingCostEUR": 9.5,
-      "totalCostEUR": 24.5,
-      "netProfitEUR": 20.4
+      "productCostEUR": 26.11,
+      "shippingCostEUR": 0.0,
+      "totalCostEUR": 26.11,
+      "netProfitEUR": 28.79
     },
     "variantImages": {
-      "Preto Stealth": "assets/images/products/variants/sliders_preto_stealth.jpg",
-      "Vermelho Dark": "assets/images/products/variants/sliders_vermelho_dark.jpg",
-      "Azul Yamaha": "assets/images/products/variants/sliders_azul_yamaha.jpg",
-      "Titânio": "assets/images/products/variants/sliders_titânio.jpg"
-    }
+      "Preto Stealth": "assets/images/products/variants/sliders_coolpad_preto.jpg",
+      "Vermelho Anodizado": "assets/images/products/variants/sliders_coolpad_vermelho.jpg",
+      "Azul Yamaha": "assets/images/products/variants/sliders_coolpad_azul.jpg",
+      "Dourado Ouro": "assets/images/products/variants/sliders_coolpad_dourado.jpg",
+      "Titânio Metálico": "assets/images/products/variants/sliders_coolpad_titanio.jpg"
+    },
+    "gallery": [
+      "assets/images/products/sliders_coolpad_main.jpg",
+      "assets/images/products/variants/sliders_coolpad_preto.jpg",
+      "assets/images/products/variants/sliders_coolpad_vermelho.jpg",
+      "assets/images/products/variants/sliders_coolpad_azul.jpg",
+      "assets/images/products/variants/sliders_coolpad_titanio.jpg",
+      "assets/images/products/variants/sliders_coolpad_dourado.jpg"
+    ]
   },
   {
     "id": "kit-carenagem-assento-traseiro",
     "name": "Kit de Carenagem Monoposto & Painéis Laterais Esportivos - MT-07",
     "category": "mt07",
-    "priceEUR": 59.9,
-    "compareAtEUR": 89.0,
-    "priceBRL": 379.0,
-    "compareAtBRL": 499.0,
+    "priceEUR": 89.9,
+    "compareAtEUR": 129.9,
+    "priceBRL": 569.0,
+    "compareAtBRL": 799.0,
     "badge": "SETUP MT-07 DARK",
     "isDarkChoice": true,
     "rating": 4.8,
     "reviewsCount": 63,
-    "image": "assets/images/products/1005010121711262.jpg",
-    "description": "Cobre a área do passageiro criando um design aerodinâmico esportivo de competição monoposto. Fabricado em ABS automotivo resistente a vibrações com encaixe perfeito nos suportes originais da MT-07.",
+    "image": "assets/images/products/carenagem_monoposto_main.jpg",
+    "description": "Cobre a área do passageiro criando um design aerodinâmico esportivo de competição monoposto. Fabricado em ABS automotivo virgem resistente a vibrações com encaixe perfeito nos suportes originais da MT-07 (2018-2020).",
     "options": [
       {
         "name": "Acabamento",
@@ -187,17 +245,30 @@ const PRODUCTS = [
         "values": [
           "Preto Brilhante",
           "Preto Fosco Mate",
-          "Padrão Fibra de Carbono"
+          "Padrão Fibra de Carbono",
+          "Vermelho Brilhante"
         ]
       }
     ],
-    "supplierUrl": "https://pt.aliexpress.com/item/1005010121711262.html",
+    "supplierUrl": "https://pt.aliexpress.com/item/1005008064506260.html",
     "costDetails": {
-      "productCostEUR": 25.0,
-      "shippingCostEUR": 15.0,
-      "totalCostEUR": 40.0,
-      "netProfitEUR": 19.9
-    }
+      "productCostEUR": 49.03,
+      "shippingCostEUR": 2.92,
+      "totalCostEUR": 51.95,
+      "netProfitEUR": 37.95
+    },
+    "variantImages": {
+      "Preto Brilhante": "assets/images/products/variants/carenagem_preto_brilhante.jpg",
+      "Preto Fosco Mate": "assets/images/products/variants/carenagem_preto_fosco.jpg",
+      "Padrão Fibra de Carbono": "assets/images/products/variants/carenagem_padrao_carbono.jpg",
+      "Vermelho Brilhante": "assets/images/products/variants/carenagem_vermelho_brilhante.jpg"
+    },
+    "gallery": [
+      "assets/images/products/variants/carenagem_preto_brilhante.jpg",
+      "assets/images/products/variants/carenagem_preto_fosco.jpg",
+      "assets/images/products/variants/carenagem_padrao_carbono.jpg",
+      "assets/images/products/variants/carenagem_vermelho_brilhante.jpg"
+    ]
   },
   {
     "id": "protetor-lateral-tanque",
@@ -539,21 +610,22 @@ const PRODUCTS = [
     "id": "kashvelo-gear-base-layer",
     "name": "Luvas de Proteção em Couro & Carbono Real - Kashvelo Gear Portugal",
     "category": "protection",
-    "priceEUR": 49.9,
-    "compareAtEUR": 79.9,
-    "priceBRL": 319.0,
-    "compareAtBRL": 499.0,
+    "priceEUR": 85.9,
+    "compareAtEUR": 85.9,
+    "priceBRL": 549.0,
+    "compareAtBRL": 549.0,
     "badge": "PARCERIA OFICIAL KASHVELO",
     "isDarkChoice": true,
     "rating": 5.0,
     "reviewsCount": 164,
     "image": "assets/images/kashvelo.jpg",
-    "description": "Luvas oficiais de pilotagem em couro bovino legítimo perfurado de alta densidade desenvolvidas pela marca portuguesa Kashvelo Gear. Equipadas com escudo rígido de nós dos dedos em fibra de carbono real, reforço anatômico na palma anti-abrasão com painel antiderrapante, couro perfurado para respirabilidade térmica e costuras duplas reforçadas. Cupom de 10% de desconto GR10GR já aplicado!",
+    "description": "Luvas de pilotagem em couro bovino legítimo perfurado de alta densidade desenvolvidas pela marca portuguesa Kashvelo Gear. Equipadas com escudo rígido de nós dos dedos em fibra de carbono real, reforço anatômico na palma anti-abrasão com painel antiderrapante, couro perfurado para respirabilidade térmica e costuras duplas reforçadas.",
     "options": [
       {
         "name": "Tamanho",
         "type": "select",
         "values": [
+          "S",
           "M (Médio)",
           "L (Grande)",
           "XL (Extra Grande)",
@@ -585,7 +657,7 @@ const PRODUCTS = [
       "productCostEUR": 28.0,
       "shippingCostEUR": 4.9,
       "totalCostEUR": 32.9,
-      "netProfitEUR": 17.0
+      "netProfitEUR": 53.0
     },
     "gallery": [
       "assets/images/kashvelo.jpg",
@@ -698,7 +770,7 @@ const PRODUCTS = [
     }
   },
   {
-    "id": "adaptador-magnetico-djái-action",
+    "id": "adaptador-magnetico-dji-action",
     "name": "Adaptador Magnético de Engate Rápido DJI Action 5 Pro / 4 / 3 & Osmo",
     "category": "tech",
     "priceEUR": 21.9,

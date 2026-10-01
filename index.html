@@ -311,11 +311,11 @@
         </p>
       </div>
 
-      <div class="relative max-w-4xl mx-auto bg-[#0f1017] border border-[#242533] rounded-2xl overflow-hidden p-4 shadow-2xl">
+      <div class="relative max-w-4xl mx-auto bg-[#0f1017] border border-[#242533] rounded-2xl p-4 shadow-2xl">
         <img src="assets/images/hero-mt07.jpg" alt="Blueprint Yamaha MT-07" class="w-full h-auto rounded-xl object-cover opacity-90">
 
         <!-- Hotspot 1: Retrovisores e Guidão -->
-        <div class="hotspot-pin" style="top: 28%; left: 63%;" onclick="Store.showProductModal('retrovisor-stealth-e9')">
+        <div class="hotspot-pin" style="top: 35%; left: 58%;" onclick="Store.showProductModal('retrovisor-stealth-e9')">
           <div class="hotspot-pin-inner"></div>
           <div class="hotspot-popup">
             <p class="font-sub font-bold text-white text-xs mb-1">Guiador & Cockpit</p>
@@ -325,7 +325,7 @@
         </div>
 
         <!-- Hotspot 2: Lanterna Traseira e Rabeta -->
-        <div class="hotspot-pin" style="top: 42%; left: 32%;" onclick="Store.showProductModal('lanterna-led-fume-mt07')">
+        <div class="hotspot-pin" style="top: 45%; left: 28%;" onclick="Store.showProductModal('lanterna-led-fume-mt07')">
           <div class="hotspot-pin-inner"></div>
           <div class="hotspot-popup">
             <p class="font-sub font-bold text-white text-xs mb-1">Iluminação Traseira</p>
@@ -335,7 +335,7 @@
         </div>
 
         <!-- Hotspot 3: Escape R77 Carbono -->
-        <div class="hotspot-pin" style="top: 67%; left: 42%;" onclick="Store.showProductModal('escape-completo-r77-carbono')">
+        <div class="hotspot-pin" style="top: 78%; left: 44%;" onclick="Store.showProductModal('escape-completo-r77-carbono')">
           <div class="hotspot-pin-inner"></div>
           <div class="hotspot-popup">
             <p class="font-sub font-bold text-white text-xs mb-1">Performance & Som</p>
@@ -345,19 +345,17 @@
         </div>
 
         <!-- Hotspot 4: Sliders Crash Pad de Quadro -->
-        <div class="hotspot-pin" style="top: 56%; left: 52%;" onclick="Store.showProductModal('sliders-protecao-quadro')">
+        <div class="hotspot-pin" style="top: 60%; left: 54%;" onclick="Store.showProductModal('sliders-protecao-quadro')">
           <div class="hotspot-pin-inner"></div>
           <div class="hotspot-popup">
             <p class="font-sub font-bold text-white text-xs mb-1">Proteção de Motor</p>
             <p class="text-[11px] text-[#ff4d5a] font-bold">Sliders Crash Pad Anti-Queda</p>
-            <p class="text-[10px] text-gray-400 mt-1">Nylon e alumínio aeronáutico</p>
+            <p class="text-[10px] text-gray-400 mt-1">COOLPAD CNC & POM aeronáutico</p>
           </div>
         </div>
 
-
-
-        <!-- Hotspot 6: Capacete / POV -->
-        <div class="hotspot-pin" style="top: 18%; left: 59%;" onclick="Store.showProductModal('suporte-queixo-gopro-capacete')">
+        <!-- Hotspot 6: Capacete / POV (popup downwards to stay in frame) -->
+        <div class="hotspot-pin popup-down" style="top: 20%; left: 39%;" onclick="Store.showProductModal('suporte-queixo-gopro-capacete')">
           <div class="hotspot-pin-inner"></div>
           <div class="hotspot-popup">
             <p class="font-sub font-bold text-white text-xs mb-1">Gravação POV</p>
@@ -367,7 +365,7 @@
         </div>
 
         <!-- Hotspot 7: Adesivos de Tanque e Carenagem MT -->
-        <div class="hotspot-pin" style="top: 45%; left: 49%;" onclick="Store.showProductModal('adesivos-rodas-tanque-mt')">
+        <div class="hotspot-pin" style="top: 48%; left: 53%;" onclick="Store.showProductModal('adesivos-rodas-tanque-mt')">
           <div class="hotspot-pin-inner"></div>
           <div class="hotspot-popup">
             <p class="font-sub font-bold text-white text-xs mb-1">Estilo & Personalização</p>
@@ -847,6 +845,41 @@
         </div>
       </div>
 
+    </div>
+  </div>
+
+  <!-- ==========================================
+       LIGHTBOX / IMAGE ZOOM MODAL
+       ========================================== -->
+  <div id="lightbox-modal" class="modal-overlay" onclick="if(event.target === this) Store.closeLightbox()">
+    <div class="relative w-full max-w-4xl max-h-[92vh] flex flex-col items-center justify-center p-2 sm:p-4">
+      
+      <!-- Top Floating Controls -->
+      <div class="absolute top-2 right-2 sm:top-4 sm:right-4 z-30 flex items-center gap-1.5 bg-[#0c0d14]/90 backdrop-blur border border-[#26283b] p-1.5 rounded-xl shadow-2xl">
+        <button type="button" onclick="Store.zoomLightbox(-0.25)" class="w-9 h-9 rounded-lg bg-[#161722] hover:bg-[#252638] text-white flex items-center justify-center font-bold text-lg transition-colors" title="Diminuir Zoom (-)">
+          −
+        </button>
+        <button type="button" onclick="Store.resetLightboxZoom()" class="px-2.5 h-9 rounded-lg bg-[#161722] hover:bg-[#252638] text-gray-300 hover:text-white text-xs font-sub font-bold transition-colors" title="Ajustar 100%">
+          100%
+        </button>
+        <button type="button" onclick="Store.zoomLightbox(0.25)" class="w-9 h-9 rounded-lg bg-[#161722] hover:bg-[#252638] text-white flex items-center justify-center font-bold text-lg transition-colors" title="Aumentar Zoom (+)">
+          +
+        </button>
+        <button type="button" onclick="Store.closeLightbox()" class="w-9 h-9 rounded-lg bg-[#e61426] hover:bg-[#ff2a3c] text-white flex items-center justify-center font-bold transition-colors ml-1" title="Fechar">
+          ✕
+        </button>
+      </div>
+
+      <!-- Viewport & Pan-Zoom Container -->
+      <div id="lightbox-viewport" class="w-full max-h-[80vh] overflow-hidden rounded-2xl bg-[#090a0f] border border-[#242533] flex items-center justify-center p-2 sm:p-6 cursor-grab active:cursor-grabbing select-none relative shadow-2xl">
+        <img id="lightbox-img" src="" alt="Zoom de Detalhes" class="max-w-full max-h-[72vh] object-contain select-none pointer-events-none transition-transform duration-100 ease-out">
+      </div>
+      
+      <div class="mt-3 text-xs text-gray-400 font-sub flex flex-wrap justify-center items-center gap-3">
+        <span class="flex items-center gap-1">🔍 <strong>Roda do rato / botões:</strong> Dar Zoom In / Zoom Out</span>
+        <span>•</span>
+        <span class="flex items-center gap-1">✋ <strong>Arrastar:</strong> Mover para inspecionar costuras, carbono e detalhes</span>
+      </div>
     </div>
   </div>
 

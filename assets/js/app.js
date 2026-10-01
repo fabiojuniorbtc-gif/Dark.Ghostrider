@@ -48,6 +48,111 @@ const Store = {
     return `${priceEUR.toFixed(2).replace('.', ',')} €`;
   },
 
+  // ==========================================
+  // LIGHTBOX & IMAGE ZOOM VIEWER
+  // ==========================================
+  lightboxZoomLevel: 1,
+  lightboxPanX: 0,
+  lightboxPanY: 0,
+  isPanning: false,
+  panStartX: 0,
+  panStartY: 0,
+
+  openLightbox(src) {
+    if (!src) return;
+    const modal = document.getElementById('lightbox-modal');
+    const img = document.getElementById('lightbox-img');
+    if (!modal || !img) return;
+
+    this.lightboxZoomLevel = 1;
+    this.lightboxPanX = 0;
+    this.lightboxPanY = 0;
+    img.src = src;
+    img.style.transform = 'scale(1) translate(0px, 0px)';
+    modal.classList.add('open');
+
+    this.setupLightboxGestures();
+  },
+
+  closeLightbox() {
+    const modal = document.getElementById('lightbox-modal');
+    if (modal) modal.classList.remove('open');
+    this.lightboxZoomLevel = 1;
+    this.lightboxPanX = 0;
+    this.lightboxPanY = 0;
+  },
+
+  zoomLightbox(delta) {
+    this.lightboxZoomLevel = Math.max(1, Math.min(4.5, this.lightboxZoomLevel + delta));
+    if (this.lightboxZoomLevel <= 1) {
+      this.lightboxZoomLevel = 1;
+      this.lightboxPanX = 0;
+      this.lightboxPanY = 0;
+    }
+    this.applyLightboxTransform();
+  },
+
+  resetLightboxZoom() {
+    this.lightboxZoomLevel = 1;
+    this.lightboxPanX = 0;
+    this.lightboxPanY = 0;
+    this.applyLightboxTransform();
+  },
+
+  applyLightboxTransform() {
+    const img = document.getElementById('lightbox-img');
+    if (img) {
+      img.style.transform = `scale(${this.lightboxZoomLevel}) translate(${this.lightboxPanX}px, ${this.lightboxPanY}px)`;
+    }
+  },
+
+  setupLightboxGestures() {
+    const viewport = document.getElementById('lightbox-viewport');
+    if (!viewport || viewport.dataset.gesturesReady) return;
+    viewport.dataset.gesturesReady = 'true';
+
+    // Wheel Zoom
+    viewport.addEventListener('wheel', (e) => {
+      e.preventDefault();
+      const delta = e.deltaY < 0 ? 0.25 : -0.25;
+      Store.zoomLightbox(delta);
+    }, { passive: false });
+
+    // Drag / Pan
+    viewport.addEventListener('mousedown', (e) => {
+      if (Store.lightboxZoomLevel <= 1) return;
+      Store.isPanning = true;
+      Store.panStartX = e.clientX - Store.lightboxPanX * Store.lightboxZoomLevel;
+      Store.panStartY = e.clientY - Store.lightboxPanY * Store.lightboxZoomLevel;
+      viewport.classList.add('panning');
+    });
+
+    window.addEventListener('mousemove', (e) => {
+      if (!Store.isPanning) return;
+      Store.lightboxPanX = (e.clientX - Store.panStartX) / Store.lightboxZoomLevel;
+      Store.panStartY = (e.clientY - Store.panStartY) / Store.lightboxZoomLevel;
+      Store.applyLightboxTransform();
+    });
+
+    window.addEventListener('mouseup', () => {
+      if (Store.isPanning) {
+        Store.isPanning = false;
+        viewport.classList.remove('panning');
+      }
+    });
+
+    // Keyboard support: Escape closes, + / - zooms
+    window.addEventListener('keydown', (e) => {
+      const modal = document.getElementById('lightbox-modal');
+      if (modal && modal.classList.contains('open')) {
+        if (e.key === 'Escape') Store.closeLightbox();
+        else if (e.key === '+' || e.key === '=') Store.zoomLightbox(0.25);
+        else if (e.key === '-' || e.key === '_') Store.zoomLightbox(-0.25);
+        else if (e.key === '0') Store.resetLightboxZoom();
+      }
+    });
+  },
+
   setupEventListeners() {
     // Currency buttons
     document.querySelectorAll('.currency-btn').forEach(btn => {
@@ -280,14 +385,44 @@ const Store = {
       btn.classList.toggle('active-variant', btn.dataset.color === colorName);
     });
 
+    // Handle dynamic variant prices (e.g. Escape R77)
+    if (p.variantPrices) {
+      let vPrice = p.variantPrices[colorName];
+      if (!vPrice) {
+        const cleanTarget = colorName.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase().trim();
+        const foundKey = Object.keys(p.variantPrices).find(k => {
+          const cleanK = k.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase().trim();
+          return cleanK === cleanTarget;
+        });
+        if (foundKey) vPrice = p.variantPrices[foundKey];
+      }
+
+      if (vPrice) {
+        this.selectedVariantPrice = vPrice;
+        const newPriceFmt = this.formatPrice(vPrice.priceEUR, vPrice.priceBRL);
+        const newCompFmt = this.formatPrice(vPrice.compareAtEUR, vPrice.compareAtBRL);
+
+        const priceEl = document.getElementById('modal-product-price');
+        if (priceEl) priceEl.textContent = newPriceFmt;
+
+        const compEl = document.getElementById('modal-product-compare');
+        if (compEl) compEl.textContent = newCompFmt;
+
+        const addBtn = document.getElementById('modal-btn-add-cart');
+        if (addBtn) addBtn.textContent = `Adicionar ao Carrinho (${newPriceFmt})`;
+      }
+    } else {
+      this.selectedVariantPrice = null;
+    }
+
     // Update main modal image
     const modalImg = document.getElementById('modal-product-img');
     if (modalImg && p.variantImages) {
       let targetSrc = p.variantImages[colorName];
       if (!targetSrc) {
-        const cleanTarget = colorName.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().trim();
+        const cleanTarget = colorName.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase().trim();
         const foundKey = Object.keys(p.variantImages).find(k => {
-          const cleanK = k.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().trim();
+          const cleanK = k.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase().trim();
           return cleanK === cleanTarget;
         });
         if (foundKey) targetSrc = p.variantImages[foundKey];
@@ -332,29 +467,44 @@ const Store = {
       if (p.variantImages && p.variantImages[firstVal]) {
         initialImage = p.variantImages[firstVal];
       }
+      if (p.variantPrices && p.variantPrices[firstVal]) {
+        this.selectedVariantPrice = p.variantPrices[firstVal];
+      } else {
+        this.selectedVariantPrice = null;
+      }
+    } else {
+      this.selectedVariantPrice = null;
     }
     this.selectedVariantImage = initialImage;
 
     const modal = document.getElementById('product-modal');
     const container = document.getElementById('modal-product-content');
 
-    const priceFormatted = this.formatPrice(p.priceEUR, p.priceBRL);
-    const compareFormatted = this.formatPrice(p.compareAtEUR, p.compareAtBRL);
+    const curPriceEUR = this.selectedVariantPrice ? this.selectedVariantPrice.priceEUR : p.priceEUR;
+    const curPriceBRL = this.selectedVariantPrice ? this.selectedVariantPrice.priceBRL : p.priceBRL;
+    const curCompEUR = this.selectedVariantPrice ? this.selectedVariantPrice.compareAtEUR : p.compareAtEUR;
+    const curCompBRL = this.selectedVariantPrice ? this.selectedVariantPrice.compareAtBRL : p.compareAtBRL;
+
+    const priceFormatted = this.formatPrice(curPriceEUR, curPriceBRL);
+    const compareFormatted = this.formatPrice(curCompEUR, curCompBRL);
 
     container.innerHTML = `
       <div class="grid md:grid-cols-2 gap-6 p-6">
         <div>
-          <div class="aspect-square bg-black rounded-lg overflow-hidden border border-[#242533] flex items-center justify-center relative group">
+          <div class="aspect-square bg-black rounded-lg overflow-hidden border border-[#242533] flex items-center justify-center relative group cursor-zoom-in" onclick="Store.openLightbox(document.getElementById('modal-product-img').src)">
             <img id="modal-product-img" src="${initialImage}" alt="${p.name}" class="w-full h-full object-cover transition-opacity duration-300">
-            <span class="absolute bottom-3 left-3 bg-black/70 backdrop-blur text-[10px] text-gray-300 px-2 py-1 rounded font-sub">
-              ${p.gallery && p.gallery.length > 1 ? 'Galeria de fotos disponível abaixo' : 'A imagem altera conforme a opção selecionada'}
+            <span class="absolute top-3 right-3 bg-black/80 backdrop-blur border border-white/20 text-[11px] text-white px-2.5 py-1 rounded font-sub font-bold flex items-center gap-1.5 shadow-lg group-hover:scale-105 transition-transform pointer-events-none">
+              🔍 Clique para Zoom
+            </span>
+            <span class="absolute bottom-3 left-3 bg-black/70 backdrop-blur text-[10px] text-gray-300 px-2 py-1 rounded font-sub pointer-events-none">
+              ${p.gallery && p.gallery.length > 1 ? 'Galeria disponível abaixo • Clique na foto para Zoom' : 'A imagem altera conforme a opção • Clique para Zoom'}
             </span>
           </div>
 
           ${p.gallery && p.gallery.length > 1 ? `
             <div class="flex gap-2 mt-3 overflow-x-auto pb-1">
               ${p.gallery.map((gImg, gIdx) => `
-                <button type="button" onclick="Store.switchModalImage('${gImg}')" class="gallery-thumb-btn w-16 h-16 rounded-lg overflow-hidden border ${gImg === initialImage ? 'border-[#e61426] ring-2 ring-[#e61426]/40' : 'border-[#242533] opacity-70 hover:opacity-100'} hover:border-[#e61426] transition-all flex-shrink-0 bg-black">
+                <button type="button" onclick="Store.switchModalImage('${gImg}')" class="gallery-thumb-btn w-16 h-16 rounded-lg overflow-hidden border ${gImg === initialImage ? 'border-[#e61426] ring-2 ring-[#e61426]/40' : 'border-[#242533] opacity-70 hover:opacity-100'} hover:border-[#e61426] transition-all flex-shrink-0 bg-black" title="Clique para selecionar e ver">
                   <img src="${gImg}" alt="Foto ${gIdx + 1}" class="w-full h-full object-cover pointer-events-none">
                 </button>
               `).join('')}
@@ -379,8 +529,8 @@ const Store = {
             </div>
 
             <div class="flex items-baseline gap-3 mb-4 p-3 bg-[#0a0b0f] rounded border border-[#1f202b]">
-              <span class="font-heading font-black text-2xl text-[#ff4d5a]">${priceFormatted}</span>
-              <span class="text-sm line-through text-gray-500">${compareFormatted}</span>
+              <span id="modal-product-price" class="font-heading font-black text-2xl text-[#ff4d5a]">${priceFormatted}</span>
+              <span id="modal-product-compare" class="text-sm line-through text-gray-500">${compareFormatted}</span>
               <span class="ml-auto text-xs text-emerald-400 font-sub font-bold bg-emerald-950/60 border border-emerald-500/30 px-2 py-0.5 rounded">
                 Envio com Frete Incluso
               </span>
@@ -440,7 +590,7 @@ const Store = {
           </div>
 
           <div class="space-y-2 pt-4 border-t border-[#242533]">
-            <button onclick="Store.addModalToCart()" class="w-full py-3 bg-[#e61426] hover:bg-[#ff2a3c] text-white font-sub font-bold uppercase tracking-wider rounded transition-all shadow-lg shadow-red-900/40">
+            <button id="modal-btn-add-cart" onclick="Store.addModalToCart()" class="w-full py-3 bg-[#e61426] hover:bg-[#ff2a3c] text-white font-sub font-bold uppercase tracking-wider rounded transition-all shadow-lg shadow-red-900/40">
               Adicionar ao Carrinho (${priceFormatted})
             </button>
             <button onclick="Store.buyDirectWhatsapp('${p.id}', true)" class="w-full py-3 bg-[#1c2e24] hover:bg-[#254634] text-[#25d366] border border-[#25d366]/40 rounded font-sub font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-2">
@@ -469,12 +619,15 @@ const Store = {
     }
 
     const itemImage = this.selectedVariantImage || p.image;
-    this.addToCart(p.id, selectedVariation, itemImage);
+    const customPriceEUR = this.selectedVariantPrice ? this.selectedVariantPrice.priceEUR : p.priceEUR;
+    const customPriceBRL = this.selectedVariantPrice ? this.selectedVariantPrice.priceBRL : p.priceBRL;
+
+    this.addToCart(p.id, selectedVariation, itemImage, customPriceEUR, customPriceBRL);
     document.getElementById('product-modal').classList.remove('open');
     this.openCart();
   },
 
-  addToCart(productId, variation = '', customImage = '') {
+  addToCart(productId, variation = '', customImage = '', customPriceEUR = null, customPriceBRL = null) {
     const p = PRODUCTS.find(x => x.id === productId);
     if (!p) return;
 
@@ -483,6 +636,8 @@ const Store = {
     }
 
     const itemImage = customImage || p.image;
+    const itemPriceEUR = customPriceEUR !== null ? customPriceEUR : p.priceEUR;
+    const itemPriceBRL = customPriceBRL !== null ? customPriceBRL : p.priceBRL;
 
     const existingIndex = this.cart.findIndex(i => i.id === productId && i.variation === variation);
     if (existingIndex > -1) {
@@ -492,8 +647,8 @@ const Store = {
         id: p.id,
         name: p.name,
         image: itemImage,
-        priceEUR: p.priceEUR,
-        priceBRL: p.priceBRL,
+        priceEUR: itemPriceEUR,
+        priceBRL: itemPriceBRL,
         variation: variation,
         quantity: 1,
         supplierUrl: p.supplierUrl
@@ -502,7 +657,6 @@ const Store = {
 
     this.saveCart();
   },
-
   removeFromCart(index) {
     this.cart.splice(index, 1);
     this.saveCart();
@@ -592,7 +746,9 @@ const Store = {
       variationText = ` (${vars.join(', ')})`;
     }
 
-    const priceText = this.formatPrice(p.priceEUR, p.priceBRL);
+    const curEUR = (fromModal && this.selectedVariantPrice) ? this.selectedVariantPrice.priceEUR : p.priceEUR;
+    const curBRL = (fromModal && this.selectedVariantPrice) ? this.selectedVariantPrice.priceBRL : p.priceBRL;
+    const priceText = this.formatPrice(curEUR, curBRL);
     const msg = `Olá Dark Ghostrider! 🏍️ Vi no site da sua MT-07 e quero encomendar o produto:\n\n*${p.name}*${variationText}\nPreço: *${priceText}* (com frete incluso)\n\nComo posso efetuar o pagamento (MB WAY / Transferência)?`;
 
     const encoded = encodeURIComponent(msg);
