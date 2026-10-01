@@ -232,17 +232,18 @@ const PRODUCTS = [
     "compareAtEUR": 129.9,
     "priceBRL": 569.0,
     "compareAtBRL": 799.0,
-    "badge": "SETUP MT-07 DARK",
+    "badge": "SETUP GHOST • CARBONO FORJADO",
     "isDarkChoice": true,
-    "rating": 4.8,
-    "reviewsCount": 63,
-    "image": "assets/images/products/carenagem_monoposto_main.jpg",
-    "description": "Cobre a área do passageiro criando um design aerodinâmico esportivo de competição monoposto. Fabricado em ABS automotivo virgem resistente a vibrações com encaixe perfeito nos suportes originais da MT-07 (2018-2020).",
+    "rating": 4.9,
+    "reviewsCount": 68,
+    "image": "assets/images/products/variants/carenagem_carbono_forjado.jpg",
+    "description": "Cobre a área do passageiro criando um design aerodinâmico esportivo de competição monoposto. Fabricado em ABS automotivo virgem resistente a vibrações com encaixe perfeito nos suportes originais da MT-07 (2018-2020). Inclui a cobiçada opção em Carbono Forjado (Forged Carbon) idêntica à utilizada na moto oficial do @dark.ghostrider.",
     "options": [
       {
         "name": "Acabamento",
         "type": "select",
         "values": [
+          "Carbono Forjado (Na Moto do Ghost ⭐)",
           "Preto Brilhante",
           "Preto Fosco Mate",
           "Padrão Fibra de Carbono",
@@ -258,12 +259,15 @@ const PRODUCTS = [
       "netProfitEUR": 37.95
     },
     "variantImages": {
+      "Carbono Forjado (Na Moto do Ghost ⭐)": "assets/images/products/variants/carenagem_carbono_forjado.jpg",
       "Preto Brilhante": "assets/images/products/variants/carenagem_preto_brilhante.jpg",
       "Preto Fosco Mate": "assets/images/products/variants/carenagem_preto_fosco.jpg",
       "Padrão Fibra de Carbono": "assets/images/products/variants/carenagem_padrao_carbono.jpg",
       "Vermelho Brilhante": "assets/images/products/variants/carenagem_vermelho_brilhante.jpg"
     },
     "gallery": [
+      "assets/images/products/variants/carenagem_carbono_forjado.jpg",
+      "assets/images/products/variants/carenagem_forjado_real_detail.jpg",
       "assets/images/products/variants/carenagem_preto_brilhante.jpg",
       "assets/images/products/variants/carenagem_preto_fosco.jpg",
       "assets/images/products/variants/carenagem_padrao_carbono.jpg",

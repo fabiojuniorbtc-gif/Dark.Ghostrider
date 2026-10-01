@@ -561,7 +561,8 @@ const Store = {
                       ${opt.values.map((val, vIdx) => {
                         const low = val.toLowerCase();
                         let dotClass = 'bg-neutral-800 border border-neutral-600';
-                        if (low.includes('carbon')) dotClass = 'bg-neutral-900 border border-neutral-500 shadow-[0_0_6px_rgba(255,255,255,0.2)]';
+                        if (low.includes('forjad') || low.includes('forged')) dotClass = 'bg-stone-900 border-2 border-[#ff2a3c] shadow-[0_0_8px_rgba(255,42,60,0.7)]';
+                        else if (low.includes('carbon')) dotClass = 'bg-neutral-900 border border-neutral-500 shadow-[0_0_6px_rgba(255,255,255,0.2)]';
                         else if (low.includes('preto') || low.includes('black')) dotClass = 'bg-black border border-neutral-600';
                         else if (low.includes('branco') || low.includes('white')) dotClass = 'bg-white border border-gray-300 shadow-[0_0_6px_#ffffff]';
                         else if (low.includes('amarel') || low.includes('yellow')) dotClass = 'bg-yellow-400 shadow-[0_0_6px_#facc15]';
@@ -575,10 +576,13 @@ const Store = {
                         else if (low.includes('rosa') || low.includes('pink')) dotClass = 'bg-pink-500 shadow-[0_0_6px_#ec4899]';
                         else if (low.includes('prata') || low.includes('cinza') || low.includes('silver') || low.includes('ash') || low.includes('tit')) dotClass = 'bg-gray-400';
 
+                        const isGhostSetup = val.toLowerCase().includes('ghost');
+
                         return `
-                          <button type="button" data-color="${val}" onclick="Store.onColorVariantSelect('${p.id}', '${val}', ${idx})" class="variant-pill-btn ${vIdx === 0 ? 'active-variant' : ''} px-2.5 py-1.5 rounded-lg border border-[#272838] bg-[#12131b] hover:border-[#e61426] text-xs font-sub font-bold text-gray-300 hover:text-white transition-all flex items-center gap-1.5">
+                          <button type="button" data-color="${val}" onclick="Store.onColorVariantSelect('${p.id}', '${val}', ${idx})" class="variant-pill-btn ${vIdx === 0 ? 'active-variant' : ''} px-2.5 py-1.5 rounded-lg border ${isGhostSetup ? 'border-[#ff2a3c]/60 bg-[#1e1316] text-white shadow-[0_0_10px_rgba(255,42,60,0.2)]' : 'border-[#272838] bg-[#12131b] text-gray-300'} hover:border-[#e61426] text-xs font-sub font-bold hover:text-white transition-all flex items-center gap-1.5">
                             <span class="w-2.5 h-2.5 rounded-full inline-block ${dotClass}"></span>
                             <span>${val}</span>
+                            ${isGhostSetup ? '<span class="text-[9px] bg-[#ff2a3c] text-white px-1.5 py-0.2 rounded font-black tracking-wide ml-1">MOTO DO GHOST</span>' : ''}
                           </button>
                         `;
                       }).join('')}
