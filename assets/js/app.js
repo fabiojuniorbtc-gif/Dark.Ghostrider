@@ -243,6 +243,28 @@ const Store = {
     }).join('');
   },
 
+  switchModalImage(src) {
+    const modalImg = document.getElementById('modal-product-img');
+    if (!modalImg) return;
+    this.selectedVariantImage = src;
+    modalImg.style.opacity = '0.3';
+    setTimeout(() => {
+      modalImg.src = src;
+      modalImg.style.opacity = '1';
+    }, 120);
+
+    // Update active border on gallery thumbnails
+    document.querySelectorAll('.gallery-thumb-btn').forEach(btn => {
+      const img = btn.querySelector('img');
+      const isMatch = img && (img.getAttribute('src') === src || img.src.includes(src));
+      btn.classList.toggle('border-[#e61426]', isMatch);
+      btn.classList.toggle('ring-2', isMatch);
+      btn.classList.toggle('ring-[#e61426]/40', isMatch);
+      btn.classList.toggle('opacity-70', !isMatch);
+      btn.classList.toggle('border-[#242533]', !isMatch);
+    });
+  },
+
   onColorVariantSelect(productId, colorName, optIndex = 0) {
     const p = PRODUCTS.find(x => x.id === productId);
     if (!p) return;
@@ -280,6 +302,17 @@ const Store = {
           modalImg.style.opacity = '1';
         }, 120);
 
+        // Also update active thumbnail if in gallery
+        document.querySelectorAll('.gallery-thumb-btn').forEach(btn => {
+          const img = btn.querySelector('img');
+          const isMatch = img && (img.getAttribute('src') === targetSrc || img.src.includes(targetSrc));
+          btn.classList.toggle('border-[#e61426]', isMatch);
+          btn.classList.toggle('ring-2', isMatch);
+          btn.classList.toggle('ring-[#e61426]/40', isMatch);
+          btn.classList.toggle('opacity-70', !isMatch);
+          btn.classList.toggle('border-[#242533]', !isMatch);
+        });
+
         // Also update the card image in the grid
         const cardImg = document.getElementById(`card-img-${p.id}`);
         if (cardImg) cardImg.src = targetSrc;
@@ -310,11 +343,23 @@ const Store = {
 
     container.innerHTML = `
       <div class="grid md:grid-cols-2 gap-6 p-6">
-        <div class="aspect-square bg-black rounded-lg overflow-hidden border border-[#242533] flex items-center justify-center relative group">
-          <img id="modal-product-img" src="${initialImage}" alt="${p.name}" class="w-full h-full object-cover transition-opacity duration-300">
-          <span class="absolute bottom-3 left-3 bg-black/70 backdrop-blur text-[10px] text-gray-300 px-2 py-1 rounded font-sub">
-            A imagem altera conforme a cor selecionada
-          </span>
+        <div>
+          <div class="aspect-square bg-black rounded-lg overflow-hidden border border-[#242533] flex items-center justify-center relative group">
+            <img id="modal-product-img" src="${initialImage}" alt="${p.name}" class="w-full h-full object-cover transition-opacity duration-300">
+            <span class="absolute bottom-3 left-3 bg-black/70 backdrop-blur text-[10px] text-gray-300 px-2 py-1 rounded font-sub">
+              ${p.gallery && p.gallery.length > 1 ? 'Galeria de fotos disponível abaixo' : 'A imagem altera conforme a opção selecionada'}
+            </span>
+          </div>
+
+          ${p.gallery && p.gallery.length > 1 ? `
+            <div class="flex gap-2 mt-3 overflow-x-auto pb-1">
+              ${p.gallery.map((gImg, gIdx) => `
+                <button type="button" onclick="Store.switchModalImage('${gImg}')" class="gallery-thumb-btn w-16 h-16 rounded-lg overflow-hidden border ${gImg === initialImage ? 'border-[#e61426] ring-2 ring-[#e61426]/40' : 'border-[#242533] opacity-70 hover:opacity-100'} hover:border-[#e61426] transition-all flex-shrink-0 bg-black">
+                  <img src="${gImg}" alt="Foto ${gIdx + 1}" class="w-full h-full object-cover pointer-events-none">
+                </button>
+              `).join('')}
+            </div>
+          ` : ''}
         </div>
 
         <div class="flex flex-col justify-between">

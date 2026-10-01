@@ -563,7 +563,7 @@ const PRODUCTS = [
     "rating": 5.0,
     "reviewsCount": 164,
     "image": "assets/images/kashvelo.jpg",
-    "description": "Luvas oficiais de pilotagem em couro bovino legítimo perfurado de alta densidade desenvolvidas pela marca portuguesa Kashvelo Gear. Equipadas com escudo rígido de nós dos dedos em fibra de carbono real, reforço anatômico na palma anti-abrasão com painel antiderrapante, couro perfurado para respirabilidade térmica e costuras duplas reforçadas. Cupom de 10% de desconto GR10GR jáá aplicado!",
+    "description": "Luvas oficiais de pilotagem em couro bovino legítimo perfurado de alta densidade desenvolvidas pela marca portuguesa Kashvelo Gear. Equipadas com escudo rígido de nós dos dedos em fibra de carbono real, reforço anatômico na palma anti-abrasão com painel antiderrapante, couro perfurado para respirabilidade térmica e costuras duplas reforçadas. Cupom de 10% de desconto GR10GR já aplicado!",
     "options": [
       {
         "name": "Tamanho",
@@ -576,17 +576,23 @@ const PRODUCTS = [
         ]
       },
       {
-        "name": "Vista",
+        "name": "Foto & Ângulo",
         "type": "select",
         "values": [
-          "Dorso com Carbono Real",
-          "Palma com Malha Antiderrapante"
+          "Estúdio - Par Oficial",
+          "Estúdio - Par Sobreposto (Carbono & KV)",
+          "Foto Real - Textura do Couro",
+          "Detalhe - Escudo Carbono Real",
+          "Detalhe - Palma Antiderrapante"
         ]
       }
     ],
     "variantImages": {
-      "Dorso com Carbono Real": "assets/images/products/kashvelo-glove-top.jpg",
-      "Palma com Malha Antiderrapante": "assets/images/products/kashvelo-glove-palm.jpg"
+      "Estúdio - Par Oficial": "assets/images/kashvelo.jpg",
+      "Estúdio - Par Sobreposto (Carbono & KV)": "assets/images/products/kashvelo_studio_pair.jpg",
+      "Foto Real - Textura do Couro": "assets/images/products/kashvelo_real_enhanced.jpg",
+      "Detalhe - Escudo Carbono Real": "assets/images/products/kashvelo-glove-top.jpg",
+      "Detalhe - Palma Antiderrapante": "assets/images/products/kashvelo-glove-palm.jpg"
     },
     "supplierUrl": "https://kashvelogearpt.etsy.com?coupon=GR10GR",
     "isExternalPartner": true,
@@ -595,7 +601,14 @@ const PRODUCTS = [
       "shippingCostEUR": 4.9,
       "totalCostEUR": 39.9,
       "netProfitEUR": 20.0
-    }
+    },
+    "gallery": [
+      "assets/images/kashvelo.jpg",
+      "assets/images/products/kashvelo_studio_pair.jpg",
+      "assets/images/products/kashvelo_real_enhanced.jpg",
+      "assets/images/products/kashvelo-glove-top.jpg",
+      "assets/images/products/kashvelo-glove-palm.jpg"
+    ]
   },
   {
     "id": "trava-disco-alarme-110db",
