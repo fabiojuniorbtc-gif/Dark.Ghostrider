@@ -194,8 +194,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const introScreen = document.getElementById('intro-screen');
   const btnEnter = document.getElementById('btn-enter');
   const btnSkip = document.getElementById('btn-skip');
+  const btnIntroBadge = document.getElementById('btn-intro-badge');
 
-  function closeIntro(scrollToCatalog = false) {
+  function closeIntro(target = null) {
     if (!introScreen) return;
     motoAudio.playRev();
     introScreen.classList.add('fade-out');
@@ -203,24 +204,54 @@ document.addEventListener('DOMContentLoaded', () => {
       if (smokeInstance) smokeInstance.stop();
       introScreen.style.display = 'none';
       document.body.style.overflow = 'auto';
-      if (scrollToCatalog) {
-        const cat = document.getElementById('catalogo');
-        if (cat) cat.scrollIntoView({ behavior: 'smooth' });
+      
+      let targetId = null;
+      if (target === true || target === 'catalogo') {
+        targetId = 'catalogo';
+      } else if (typeof target === 'string') {
+        targetId = target;
+      }
+
+      if (targetId) {
+        const el = document.getElementById(targetId);
+        if (el) {
+          el.scrollIntoView({ behavior: 'smooth' });
+          try {
+            history.pushState(null, null, '#' + targetId);
+          } catch (err) {}
+        }
       }
     }, 700);
+  }
+
+  // Direcionar diretamente para "Quem é o Dark?" ao clicar em DARK RIDER GARAGE
+  if (btnIntroBadge) {
+    btnIntroBadge.addEventListener('click', (e) => {
+      e.preventDefault();
+      closeIntro('quem-e-o-dark');
+    });
+  }
+
+  // Fallback para qualquer elemento com classe .intro-badge
+  const anyBadge = document.querySelector('.intro-badge');
+  if (anyBadge && anyBadge !== btnIntroBadge) {
+    anyBadge.addEventListener('click', (e) => {
+      e.preventDefault();
+      closeIntro('quem-e-o-dark');
+    });
   }
 
   if (btnEnter) {
     btnEnter.addEventListener('click', (e) => {
       e.preventDefault();
-      closeIntro(true);
+      closeIntro('catalogo');
     });
   }
 
   if (btnSkip) {
     btnSkip.addEventListener('click', (e) => {
       e.preventDefault();
-      closeIntro(false);
+      closeIntro(null);
     });
   }
 

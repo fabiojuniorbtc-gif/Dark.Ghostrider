@@ -1,3 +1,12 @@
+
+html {
+  scroll-behavior: smooth;
+}
+
+section[id] {
+  scroll-margin-top: 90px;
+}
+
 /* ==========================================================================
    DARK GHOSTRIDER - AESTHETIC DARK RIDER STYLING
    ========================================================================== */
@@ -166,6 +175,17 @@ body {
   box-shadow: 0 0 20px rgba(230, 20, 38, 0.35);
   animation: pulse-glow 2.5s infinite ease-in-out;
   backdrop-filter: blur(8px);
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.intro-badge:hover {
+  transform: translateY(-2px) scale(1.05);
+  background: rgba(255, 230, 0, 0.3);
+  border-color: #ffe600;
+  box-shadow: 0 0 30px rgba(255, 230, 0, 0.7), 0 0 15px rgba(230, 20, 38, 0.5);
+  color: #ffffff;
 }
 
 .btn-skip-intro {
