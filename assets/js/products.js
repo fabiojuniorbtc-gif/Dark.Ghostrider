@@ -11,7 +11,7 @@ const PRODUCTS = [
     "isDarkChoice": true,
     "rating": 5.0,
     "reviewsCount": 284,
-    "image": "assets/images/products/1005007453126466.jpg",
+    "image": "assets/images/products/retrovisores_stealth_main.jpg",
     "description": "Os retrovisores que todos me perguntam diariamente no Instagram @dark.ghostrider! Acabamento em liga de alumínio CNC anodizado preto fosco, espelho com lente anti-reflexo azulada e certificação E9. Design aerodinâmico stealth agressivo que transforma o visual do guidão da MT-07.",
     "options": [
       {
@@ -29,7 +29,15 @@ const PRODUCTS = [
       "shippingCostEUR": 7.5,
       "totalCostEUR": 19.9,
       "netProfitEUR": 20.0
-    }
+    },
+    "variantImages": {
+      "Preto Stealth Mate": "assets/images/products/variants/retrovisor_stealth_mate.jpg",
+      "Preto com Detalhe Usinado": "assets/images/products/variants/retrovisor_stealth_usinado.jpg"
+    },
+    "gallery": [
+      "assets/images/products/variants/retrovisor_stealth_mate.jpg",
+      "assets/images/products/variants/retrovisor_stealth_usinado.jpg"
+    ]
   },
   {
     "id": "lanterna-led-fume-mt07",
@@ -145,34 +153,46 @@ const PRODUCTS = [
   },
   {
     "id": "eliminador-rabeta-led",
-    "name": "Suporte de Placa Curto / Eliminador de Rabeta com Iluminação LED - MT-07",
+    "name": "Suporte de Placa Curto / Eliminador de Rabeta CNC com LED - MT-07",
     "category": "mt07",
-    "priceEUR": 44.9,
+    "priceEUR": 39.9,
     "compareAtEUR": 65.0,
-    "priceBRL": 279.0,
+    "priceBRL": 249.0,
     "compareAtBRL": 389.0,
     "badge": "SETUP MT-07 DARK",
     "isDarkChoice": true,
     "rating": 4.9,
     "reviewsCount": 89,
-    "image": "assets/images/products/1005012407087548.jpg",
-    "description": "Estrutura compacta cortada a laser em alumínio reforçado com pintura eletrostática preta. Acompanha luz de placa branca em LED de alta potência. Elimina o suporte original volumoso.",
+    "image": "assets/images/products/eliminador_rabeta_main.jpg",
+    "description": "Suporte de placa curto esportivo usinado em liga de alumínio CNC de alta resistência com recorte a laser do logotipo MT-07. Acompanha iluminação de placa em LED branco de alta potência, suportes para piscas e parafusos de fixação. Compatível com Yamaha MT-07 e FZ-07 (2013-2025).",
     "options": [
       {
-        "name": "Versão",
-        "type": "select",
+        "name": "Cor Anodizada",
+        "type": "color",
         "values": [
-          "Preto Fosco com Luz LED"
+          "Preto Stealth Mate",
+          "Vermelho Anodizado Racing",
+          "Azul Yamaha Metálico"
         ]
       }
     ],
-    "supplierUrl": "https://pt.aliexpress.com/item/1005012407087548.html",
+    "supplierUrl": "https://pt.aliexpress.com/item/1005009413202446.html",
     "costDetails": {
-      "productCostEUR": 21.18,
-      "shippingCostEUR": 6.8,
-      "totalCostEUR": 27.98,
-      "netProfitEUR": 16.92
-    }
+      "productCostEUR": 12.15,
+      "shippingCostEUR": 0.0,
+      "totalCostEUR": 12.15,
+      "netProfitEUR": 27.75
+    },
+    "variantImages": {
+      "Preto Stealth Mate": "assets/images/products/variants/eliminador_rabeta_preto.jpg",
+      "Vermelho Anodizado Racing": "assets/images/products/variants/eliminador_rabeta_vermelho.jpg",
+      "Azul Yamaha Metálico": "assets/images/products/variants/eliminador_rabeta_azul.jpg"
+    },
+    "gallery": [
+      "assets/images/products/variants/eliminador_rabeta_preto.jpg",
+      "assets/images/products/variants/eliminador_rabeta_vermelho.jpg",
+      "assets/images/products/variants/eliminador_rabeta_azul.jpg"
+    ]
   },
   {
     "id": "sliders-protecao-quadro",
@@ -286,8 +306,8 @@ const PRODUCTS = [
     "isDarkChoice": true,
     "rating": 4.8,
     "reviewsCount": 54,
-    "image": "assets/images/products/1005003330284049.jpg",
-    "description": "Defletores e protetores de carenagem laterais projáetados para proteger o tanque e as asas da MT-07 contra riscos, detritos e abrasão.",
+    "image": "assets/images/products/protetor_lateral_tanque_main.jpg",
+    "description": "Defletores e protetores de carenagem laterais projetados para proteger o tanque e as asas da MT-07 contra riscos, detritos e abrasão.",
     "options": [
       {
         "name": "Acabamento",
@@ -304,7 +324,15 @@ const PRODUCTS = [
       "shippingCostEUR": 8.5,
       "totalCostEUR": 32.09,
       "netProfitEUR": 17.81
-    }
+    },
+    "variantImages": {
+      "Preto Fosco Mate": "assets/images/products/variants/protetor_lateral_tanque_preto_fosco.jpg",
+      "Padrão Carbono": "assets/images/products/variants/protetor_lateral_tanque_carbono.jpg"
+    },
+    "gallery": [
+      "assets/images/products/variants/protetor_lateral_tanque_preto_fosco.jpg",
+      "assets/images/products/variants/protetor_lateral_tanque_carbono.jpg"
+    ]
   },
   {
     "id": "parafusos-vedacao-cnc",
@@ -318,8 +346,8 @@ const PRODUCTS = [
     "isDarkChoice": true,
     "rating": 5.0,
     "reviewsCount": 210,
-    "image": "assets/images/products/1005012117814913.jpg",
-    "description": "Ao instalar retrovisãores de extremidade de guidão, estes parafusos em alumínio usinado T6 CNC com logotipo MT gravado selam as roscas originais no guidão, prevenindo corrosão e dando acabamento estético impecável.",
+    "image": "assets/images/products/parafusos_vedacao_cnc_main.jpg",
+    "description": "Ao instalar retrovisores de extremidade de guidão, estes parafusos em alumínio usinado T6 CNC com logotipo MT gravado selam as roscas originais no guidão, prevenindo corrosão e dando acabamento estético impecável.",
     "options": [
       {
         "name": "Cor Anodizada",
@@ -344,9 +372,16 @@ const PRODUCTS = [
       "Preto Profundo": "assets/images/products/variants/parafusos_preto_profundo.jpg",
       "Vermelho Carmesim": "assets/images/products/variants/parafusos_vermelho_carmesim.jpg",
       "Azul Yamaha": "assets/images/products/variants/parafusos_azul_yamaha.jpg",
-      "Titânio Metálico": "assets/images/products/variants/parafusos_titânio_metálico.jpg",
+      "Titânio Metálico": "assets/images/products/variants/parafusos_titanio_metalico.jpg",
       "Dourado": "assets/images/products/variants/parafusos_dourado.jpg"
-    }
+    },
+    "gallery": [
+      "assets/images/products/variants/parafusos_preto_profundo.jpg",
+      "assets/images/products/variants/parafusos_vermelho_carmesim.jpg",
+      "assets/images/products/variants/parafusos_azul_yamaha.jpg",
+      "assets/images/products/variants/parafusos_titanio_metalico.jpg",
+      "assets/images/products/variants/parafusos_dourado.jpg"
+    ]
   },
   {
     "id": "tampa-cnc-fluido-freio",
@@ -559,7 +594,7 @@ const PRODUCTS = [
     "priceBRL": 569.0,
     "compareAtBRL": 890.0,
     "badge": "BLINDAGEM CE NÍVEL 2",
-    "isDarkChoice": false,
+    "isDarkChoice": true,
     "rating": 4.9,
     "reviewsCount": 92,
     "image": "assets/images/products/armadura_top_main_1.jpg",

@@ -244,8 +244,13 @@ const Store = {
 
   filterProducts() {
     return PRODUCTS.filter(p => {
-      if (this.activeCategory !== 'all' && p.category !== this.activeCategory) {
-        return false;
+      if (this.activeCategory !== 'all') {
+        const isWearCategory = this.activeCategory === 'wear';
+        let matchesCategory = p.category === this.activeCategory;
+        if (isWearCategory && ['jaqueta-armadura-tatica-moto', 'calca-armadura-tatica-moto', 'kashvelo-gear-base-layer', 'sliders-joelho-pista-komine'].includes(p.id)) {
+          matchesCategory = true;
+        }
+        if (!matchesCategory) return false;
       }
       if (this.onlyDarkChoice && !p.isDarkChoice) {
         return false;
@@ -286,7 +291,7 @@ const Store = {
             <div class="absolute top-3 left-3 flex flex-col gap-1 z-10">
               ${p.isDarkChoice ? `
                 <span class="badge-tag badge-dark-choice flex items-center gap-1">
-                  <span>⚡</span> TESTADO NA MT-07
+                  <span>⚡</span> ESTÁ NA MOTO DO DARK
                 </span>
               ` : ''}
               ${p.badge && !p.isDarkChoice ? `
@@ -515,7 +520,7 @@ const Store = {
         <div class="flex flex-col justify-between">
           <div>
             <div class="flex items-center gap-2 mb-2">
-              ${p.isDarkChoice ? '<span class="badge-tag badge-dark-choice">⚡ TESTADO NA MT-07</span>' : ''}
+              ${p.isDarkChoice ? '<span class="badge-tag badge-dark-choice">⚡ ESTÁ NA MOTO DO DARK</span>' : ''}
               <span class="badge-tag badge-top-seller">${p.badge || 'PRODUTO VERIFICADO'}</span>
             </div>
 
