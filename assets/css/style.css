@@ -807,9 +807,9 @@ body {
   min-width: 177.77vh; /* 16:9 aspect ratio */
   transform: translate(-50%, -50%);
   pointer-events: none;
-  opacity: 0.38;
-  filter: contrast(1.15) brightness(0.8);
-  transition: opacity 1s ease;
+  opacity: 0.72;
+  filter: contrast(1.08) brightness(0.96);
+  transition: opacity 0.8s ease;
 }
 
 .video-foreground iframe {
@@ -821,8 +821,12 @@ body {
   pointer-events: none;
 }
 
+.hero-text-shadow {
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.95), 0 4px 28px rgba(0, 0, 0, 0.85);
+}
+
 @media (max-width: 768px) {
   .video-foreground {
-    opacity: 0.28;
+    opacity: 0.58;
   }
 }
