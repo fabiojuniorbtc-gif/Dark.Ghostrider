@@ -362,18 +362,31 @@ const Store = {
                     </select>
 
                     <!-- Interactive Color / Option Pills with Real Preview -->
-                    <div class="flex flex-wrap gap-2 pt-1">
-                      ${opt.values.map((val, vIdx) => `
-                        <button type="button" data-color="${val}" onclick="Store.onColorVariantSelect('${p.id}', '${val}', ${idx})" class="variant-pill-btn ${vIdx === 0 ? 'active-variant' : ''} px-3 py-1.5 rounded-lg border border-[#272838] bg-[#12131b] hover:border-[#e61426] text-xs font-sub font-bold text-gray-300 hover:text-white transition-all flex items-center gap-1.5">
-                          <span class="w-2.5 h-2.5 rounded-full inline-block ${
-                            val.toLowerCase().includes('vermelho') ? 'bg-red-600 shadow-[0_0_8px_#ff2a3c]' :
-                            (val.toLowerCase().includes('azul') ? 'bg-blue-500 shadow-[0_0_8px_#258cf4]' :
-                            (val.toLowerCase().includes('amarel') || val.toLowerCase().includes('ouro') || val.toLowerCase().includes('dourad') ? 'bg-amber-400' :
-                            (val.toLowerCase().includes('tit') || val.toLowerCase().includes('prata') || val.toLowerCase().includes('cinza') ? 'bg-gray-400' : 'bg-neutral-800 border border-neutral-600')))
-                          }"></span>
-                          <span>${val}</span>
-                        </button>
-                      `).join('')}
+                    <div class="flex flex-wrap gap-1.5 pt-1 max-h-52 overflow-y-auto pr-1">
+                      ${opt.values.map((val, vIdx) => {
+                        const low = val.toLowerCase();
+                        let dotClass = 'bg-neutral-800 border border-neutral-600';
+                        if (low.includes('carbon')) dotClass = 'bg-neutral-900 border border-neutral-500 shadow-[0_0_6px_rgba(255,255,255,0.2)]';
+                        else if (low.includes('preto') || low.includes('black')) dotClass = 'bg-black border border-neutral-600';
+                        else if (low.includes('branco') || low.includes('white')) dotClass = 'bg-white border border-gray-300 shadow-[0_0_6px_#ffffff]';
+                        else if (low.includes('amarel') || low.includes('yellow')) dotClass = 'bg-yellow-400 shadow-[0_0_6px_#facc15]';
+                        else if (low.includes('laranja') || low.includes('orange')) dotClass = 'bg-orange-500 shadow-[0_0_6px_#f97316]';
+                        else if (low.includes('vermelh') || low.includes('red') || low.includes('rouge')) dotClass = 'bg-red-600 shadow-[0_0_6px_#ff2a3c]';
+                        else if (low.includes('tiffany')) dotClass = 'bg-teal-400 shadow-[0_0_6px_#2dd4bf]';
+                        else if (low.includes('azul') || low.includes('blue')) dotClass = 'bg-blue-500 shadow-[0_0_6px_#258cf4]';
+                        else if (low.includes('ouro') || low.includes('dourad') || low.includes('gold')) dotClass = 'bg-amber-400 shadow-[0_0_6px_#fbbf24]';
+                        else if (low.includes('verde') || low.includes('green')) dotClass = 'bg-emerald-500 shadow-[0_0_6px_#10b981]';
+                        else if (low.includes('roxo') || low.includes('purple')) dotClass = 'bg-purple-600 shadow-[0_0_6px_#9333ea]';
+                        else if (low.includes('rosa') || low.includes('pink')) dotClass = 'bg-pink-500 shadow-[0_0_6px_#ec4899]';
+                        else if (low.includes('prata') || low.includes('cinza') || low.includes('silver') || low.includes('ash') || low.includes('tit')) dotClass = 'bg-gray-400';
+
+                        return `
+                          <button type="button" data-color="${val}" onclick="Store.onColorVariantSelect('${p.id}', '${val}', ${idx})" class="variant-pill-btn ${vIdx === 0 ? 'active-variant' : ''} px-2.5 py-1.5 rounded-lg border border-[#272838] bg-[#12131b] hover:border-[#e61426] text-xs font-sub font-bold text-gray-300 hover:text-white transition-all flex items-center gap-1.5">
+                            <span class="w-2.5 h-2.5 rounded-full inline-block ${dotClass}"></span>
+                            <span>${val}</span>
+                          </button>
+                        `;
+                      }).join('')}
                     </div>
                   </div>
                 `).join('')}

@@ -316,8 +316,8 @@ const PRODUCTS = [
     }
   },
   {
-    "id": "slider-eixo-traseiro-ajáustador",
-    "name": "Ajáustador de Corrente CNC & Slider de Eixo Traseiro com Apoio para Cavalete",
+    "id": "slider-eixo-traseiro-ajustador",
+    "name": "Ajustador de Corrente CNC & Slider de Eixo Traseiro com Apoio para Cavalete",
     "category": "mt07",
     "priceEUR": 38.9,
     "compareAtEUR": 59.0,
@@ -328,7 +328,7 @@ const PRODUCTS = [
     "rating": 4.9,
     "reviewsCount": 78,
     "image": "assets/images/products/1005006655446344.jpg",
-    "description": "Facilita o ajáuste milimétrico da tensão da corrente da transmissão, protege o braço oscilante em quedas e oferece carretéis para levantar a moto em cavalete de pista traseiro.",
+    "description": "Facilita o ajuste milimétrico da tensão da corrente da transmissão, protege o braço oscilante em quedas e oferece carretéis para levantar a moto em cavalete de pista traseiro.",
     "options": [
       {
         "name": "Cor",
@@ -348,49 +348,99 @@ const PRODUCTS = [
       "netProfitEUR": 17.4
     },
     "variantImages": {
-      "Preto Anodizado": "assets/images/products/variants/ajáustador_preto_anodizado.jpg",
-      "Vermelho Carmesim": "assets/images/products/variants/ajáustador_vermelho_carmesim.jpg",
-      "Azul": "assets/images/products/variants/ajáustador_azul.jpg"
+      "Preto Anodizado": "assets/images/products/variants/ajustador_preto_anodizado.jpg",
+      "Vermelho Carmesim": "assets/images/products/variants/ajustador_vermelho_carmesim.jpg",
+      "Azul": "assets/images/products/variants/ajustador_azul.jpg"
     }
   },
   {
     "id": "adesivos-rodas-tanque-mt",
-    "name": "Kit Adesivos de Roda Refletivos & Tanque MT - À Prova D’Água",
+    "name": "Kit Adesivos de Tanque & Carenagem Esportiva MT - À Prova D’Água",
     "category": "mt07",
-    "priceEUR": 19.9,
-    "compareAtEUR": 32.0,
-    "priceBRL": 125.0,
-    "compareAtBRL": 195.0,
-    "badge": "REFLETIVO NOTURNO",
+    "priceEUR": 24.9,
+    "compareAtEUR": 39.0,
+    "priceBRL": 159.0,
+    "compareAtBRL": 249.0,
+    "badge": "29 CORES & ACABAMENTOS",
     "isDarkChoice": true,
-    "rating": 4.8,
-    "reviewsCount": 130,
-    "image": "assets/images/products/1005007387961966.jpg",
-    "description": "Frisos adesivos com tecnologia microprismática ultra-refletiva. Garantem destaque visual agressivo à noite e segurança adicional contra colisões laterais.",
+    "rating": 5.0,
+    "reviewsCount": 168,
+    "image": "assets/images/products/1005007445359033.jpg",
+    "description": "Kit oficial de decalques esportivos com logotipo MT vazado para tanque e carenagens laterais da MT-07 / FZ-07. Fabricado em vinil automotivo premium ultra-resistente, 100% à prova d'água, resistente a lavagens de alta pressão, raios UV e calor do motor. Disponível em 29 cores exclusivas com acabamento brilhante, fosco stealth, fibra de carbono e refletivo noturno.",
     "options": [
       {
-        "name": "Cor Refletiva",
+        "name": "Cor / Acabamento",
         "type": "color",
         "values": [
-          "Vermelho Neon",
-          "Azul Cyan",
-          "Branco Prata",
-          "Amarelo Flúor"
+          "Preto Brilhante (Gloss Black)",
+          "Preto Fosco (Matt Black)",
+          "Fibra de Carbono (Carbon Fiber)",
+          "Amarelo Limão MT (Lemon Yellow)",
+          "Amarelo Escuro (Dark Yellow)",
+          "Amarelo Camaleão Furta-cor",
+          "Branco Brilhante (Glossy White)",
+          "Branco Pérola Fosco",
+          "Branco Refletivo Noturno",
+          "Laranja Flamejante (Flaming Orange)",
+          "Laranja Suave (Tender Orange)",
+          "Vermelho Brilhante (Glossy Red)",
+          "Vermelho Fosco (Matt Red)",
+          "Vermelho Rubi (Rouge Red)",
+          "Vermelho Refletivo Noturno",
+          "Azul Brilhante (Glossy Blue)",
+          "Azul Celeste (Sky Blue)",
+          "Azul Metálico Blueberry",
+          "Azul Refletivo Noturno",
+          "Azul Tiffany (Glossy Tiffany)",
+          "Cinza Cimento Nardo (Cement Ash)",
+          "Cinza Prata (Silver Gray)",
+          "Prata GT Esportivo",
+          "Prata Metálico",
+          "Dourado Aurora (Aurora Gold)",
+          "Verde Brilhante (Glossy Green)",
+          "Roxo Brilhante (Bright Purple)",
+          "Rosa Escuro (Dark Pink)",
+          "Rosa Choque (Girly Pink)"
         ]
       }
     ],
-    "supplierUrl": "https://pt.aliexpress.com/item/1005007387961966.html",
+    "supplierUrl": "https://pt.aliexpress.com/item/1005007445359033.html",
     "costDetails": {
       "productCostEUR": 12.4,
-      "shippingCostEUR": 3.0,
-      "totalCostEUR": 15.4,
-      "netProfitEUR": 4.5
+      "shippingCostEUR": 0.0,
+      "totalCostEUR": 12.4,
+      "netProfitEUR": 12.5
     },
     "variantImages": {
-      "Vermelho Neon": "assets/images/products/variants/adesivos_vermelho_neon.jpg",
-      "Azul Cyan": "assets/images/products/variants/adesivos_azul_cyan.jpg",
-      "Branco Prata": "assets/images/products/variants/adesivos_branco_prata.jpg",
-      "Amarelo Flúor": "assets/images/products/variants/adesivos_amarelo_flúor.jpg"
+      "Preto Brilhante (Gloss Black)": "assets/images/products/variants/adesivos_tanque/adesivo_mt_gloss_black.jpg",
+      "Preto Fosco (Matt Black)": "assets/images/products/variants/adesivos_tanque/adesivo_mt_matt_black.jpg",
+      "Fibra de Carbono (Carbon Fiber)": "assets/images/products/variants/adesivos_tanque/adesivo_mt_carbon_fiber.jpg",
+      "Amarelo Limão MT (Lemon Yellow)": "assets/images/products/variants/adesivos_tanque/adesivo_mt_lemon_yellow.jpg",
+      "Amarelo Escuro (Dark Yellow)": "assets/images/products/variants/adesivos_tanque/adesivo_mt_dark_yellow.jpg",
+      "Amarelo Camaleão Furta-cor": "assets/images/products/variants/adesivos_tanque/adesivo_mt_magic_color_yellow.jpg",
+      "Branco Brilhante (Glossy White)": "assets/images/products/variants/adesivos_tanque/adesivo_mt_glossy_white.jpg",
+      "Branco Pérola Fosco": "assets/images/products/variants/adesivos_tanque/adesivo_mt_matt_pearl_white.jpg",
+      "Branco Refletivo Noturno": "assets/images/products/variants/adesivos_tanque/adesivo_mt_reflective_white.jpg",
+      "Laranja Flamejante (Flaming Orange)": "assets/images/products/variants/adesivos_tanque/adesivo_mt_flaming_orange.jpg",
+      "Laranja Suave (Tender Orange)": "assets/images/products/variants/adesivos_tanque/adesivo_mt_tender_orange.jpg",
+      "Vermelho Brilhante (Glossy Red)": "assets/images/products/variants/adesivos_tanque/adesivo_mt_glossy_red.jpg",
+      "Vermelho Fosco (Matt Red)": "assets/images/products/variants/adesivos_tanque/adesivo_mt_matt_red.jpg",
+      "Vermelho Rubi (Rouge Red)": "assets/images/products/variants/adesivos_tanque/adesivo_mt_rouge_red.jpg",
+      "Vermelho Refletivo Noturno": "assets/images/products/variants/adesivos_tanque/adesivo_mt_reflective_red.jpg",
+      "Azul Brilhante (Glossy Blue)": "assets/images/products/variants/adesivos_tanque/adesivo_mt_glossy_blue.jpg",
+      "Azul Celeste (Sky Blue)": "assets/images/products/variants/adesivos_tanque/adesivo_mt_sky_blue.jpg",
+      "Azul Metálico Blueberry": "assets/images/products/variants/adesivos_tanque/adesivo_mt_metallic_blueberry.jpg",
+      "Azul Refletivo Noturno": "assets/images/products/variants/adesivos_tanque/adesivo_mt_reflective_blue.jpg",
+      "Azul Tiffany (Glossy Tiffany)": "assets/images/products/variants/adesivos_tanque/adesivo_mt_glossy_tiffany.jpg",
+      "Cinza Cimento Nardo (Cement Ash)": "assets/images/products/variants/adesivos_tanque/adesivo_mt_cement_ash.jpg",
+      "Cinza Prata (Silver Gray)": "assets/images/products/variants/adesivos_tanque/adesivo_mt_silver_gray.jpg",
+      "Prata GT Esportivo": "assets/images/products/variants/adesivos_tanque/adesivo_mt_gt_silver.jpg",
+      "Prata Metálico": "assets/images/products/variants/adesivos_tanque/adesivo_mt_metallic_silver.jpg",
+      "Dourado Aurora (Aurora Gold)": "assets/images/products/variants/adesivos_tanque/adesivo_mt_aurora_gold.jpg",
+      "Verde Brilhante (Glossy Green)": "assets/images/products/variants/adesivos_tanque/adesivo_mt_glossy_green.jpg",
+      "Roxo Brilhante (Bright Purple)": "assets/images/products/variants/adesivos_tanque/adesivo_mt_bright_purple.jpg",
+      "Rosa Escuro (Dark Pink)": "assets/images/products/variants/adesivos_tanque/adesivo_mt_dark_pink.jpg",
+      "Rosa Choque (Girly Pink)": "assets/images/products/variants/adesivos_tanque/adesivo_mt_girly_pink.jpg"
     }
   },
   {
@@ -464,8 +514,8 @@ const PRODUCTS = [
     }
   },
   {
-    "id": "conjáunto-armadura-tatica",
-    "name": "Conjáunto Armadura Tática Motociclista Off-Road (Jaqueta + Calça Protetora)",
+    "id": "conjunto-armadura-tatica",
+    "name": "Conjunto Armadura Tática Motociclista Off-Road (Jaqueta + Calça Protetora)",
     "category": "wear",
     "priceEUR": 119.9,
     "compareAtEUR": 189.0,
