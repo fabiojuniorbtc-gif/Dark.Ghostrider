@@ -316,44 +316,6 @@ const PRODUCTS = [
     }
   },
   {
-    "id": "slider-eixo-traseiro-ajustador",
-    "name": "Ajustador de Corrente CNC & Slider de Eixo Traseiro com Apoio para Cavalete",
-    "category": "mt07",
-    "priceEUR": 38.9,
-    "compareAtEUR": 59.0,
-    "priceBRL": 249.0,
-    "compareAtBRL": 359.0,
-    "badge": "SETUP MT-07 DARK",
-    "isDarkChoice": true,
-    "rating": 4.9,
-    "reviewsCount": 78,
-    "image": "assets/images/products/1005006655446344.jpg",
-    "description": "Facilita o ajuste milimétrico da tensão da corrente da transmissão, protege o braço oscilante em quedas e oferece carretéis para levantar a moto em cavalete de pista traseiro.",
-    "options": [
-      {
-        "name": "Cor",
-        "type": "color",
-        "values": [
-          "Preto Anodizado",
-          "Vermelho Carmesim",
-          "Azul"
-        ]
-      }
-    ],
-    "supplierUrl": "https://pt.aliexpress.com/item/1005006655446344.html",
-    "costDetails": {
-      "productCostEUR": 14.0,
-      "shippingCostEUR": 7.5,
-      "totalCostEUR": 21.5,
-      "netProfitEUR": 17.4
-    },
-    "variantImages": {
-      "Preto Anodizado": "assets/images/products/variants/ajustador_preto_anodizado.jpg",
-      "Vermelho Carmesim": "assets/images/products/variants/ajustador_vermelho_carmesim.jpg",
-      "Azul": "assets/images/products/variants/ajustador_azul.jpg"
-    }
-  },
-  {
     "id": "adesivos-rodas-tanque-mt",
     "name": "Kit Adesivos de Tanque & Carenagem Esportiva MT - À Prova D’Água",
     "category": "mt07",
@@ -514,19 +476,19 @@ const PRODUCTS = [
     }
   },
   {
-    "id": "conjunto-armadura-tatica",
-    "name": "Conjunto Armadura Tática Motociclista Off-Road (Jaqueta + Calça Protetora)",
-    "category": "wear",
-    "priceEUR": 119.9,
-    "compareAtEUR": 189.0,
-    "priceBRL": 749.0,
-    "compareAtBRL": 1090.0,
-    "badge": "ARMADURA COMPLETA",
+    "id": "jaqueta-armadura-tatica-moto",
+    "name": "Jaqueta / Colete Armadura de Proteção Tática Moto - Homologação CE",
+    "category": "protection",
+    "priceEUR": 89.9,
+    "compareAtEUR": 139.0,
+    "priceBRL": 569.0,
+    "compareAtBRL": 890.0,
+    "badge": "BLINDAGEM CE NÍVEL 2",
     "isDarkChoice": false,
     "rating": 4.9,
     "reviewsCount": 92,
-    "image": "assets/images/products/1005010804786174.jpg",
-    "description": "Proteção blindada contra impactos. Placas injáetadas de absorção no peito, espinha dorsal articulada, ombreiras, cotoveleiras e jáoelheiras com cinta lombar elástica regulável.",
+    "image": "assets/images/products/armadura_top_main_1.jpg",
+    "description": "Armadura tática de tronco superior desenvolvida em polímeros de alto impacto PP e densa absorção térmica EVA com certificação CE. Proteção articulada dorsal completa para a espinha, escudo peitoral ventilado, ombreiras, cotoveleiras e cinta lombar ajustável com duplo velcro. Tecido em malha elástica de alta respirabilidade.",
     "options": [
       {
         "name": "Tamanho",
@@ -540,14 +502,37 @@ const PRODUCTS = [
           "3XL",
           "4XL"
         ]
+      },
+      {
+        "name": "Cor da Armadura",
+        "type": "color",
+        "values": [
+          "Preto Blackout (MC1022)",
+          "Vermelho Racing (MC1022)",
+          "Branco Stealth (MC1022)",
+          "Cinza Titanium (PG1)"
+        ]
       }
     ],
-    "supplierUrl": "https://pt.aliexpress.com/item/1005010804786174.html",
+    "supplierUrl": "https://pt.aliexpress.com/item/1005008479328141.html",
     "costDetails": {
-      "productCostEUR": 57.81,
-      "shippingCostEUR": 22.0,
-      "totalCostEUR": 79.81,
-      "netProfitEUR": 40.09
+      "productCostEUR": 44.94,
+      "shippingCostEUR": 0.0,
+      "totalCostEUR": 44.94,
+      "netProfitEUR": 44.96
+    },
+    "gallery": [
+      "assets/images/products/armadura_top_main_1.jpg",
+      "assets/images/products/armadura_top_main_2.jpg",
+      "assets/images/products/armadura_top_main_3.jpg",
+      "assets/images/products/armadura_top_main_4.jpg",
+      "assets/images/products/armadura_top_main_5.jpg"
+    ],
+    "variantImages": {
+      "Preto Blackout (MC1022)": "assets/images/products/variants/armor_mc1022_black_armor.jpg",
+      "Vermelho Racing (MC1022)": "assets/images/products/variants/armor_mc1022_red_armor.jpg",
+      "Branco Stealth (MC1022)": "assets/images/products/variants/armor_mc1022_white_armor.jpg",
+      "Cinza Titanium (PG1)": "assets/images/products/variants/armor_pg1_grey_armor.jpg"
     }
   },
   {
@@ -741,6 +726,165 @@ const PRODUCTS = [
       "shippingCostEUR": 4.8,
       "totalCostEUR": 10.8,
       "netProfitEUR": 11.1
+    }
+  },
+  {
+    "id": "calca-armadura-tatica-moto",
+    "name": "Calça de Proteção Tática Moto com Joelheiras & Proteção de Quadril",
+    "category": "protection",
+    "priceEUR": 84.9,
+    "compareAtEUR": 129.0,
+    "priceBRL": 539.0,
+    "compareAtBRL": 790.0,
+    "badge": "PROTEÇÃO ARTICULADA",
+    "isDarkChoice": true,
+    "rating": 4.9,
+    "reviewsCount": 86,
+    "image": "assets/images/products/variants/armor_mp1010_black_pants.jpg",
+    "description": "Calça de proteção tática articulada com joelheiras rígidas injetadas e placas protetoras de quadril e cóccix. Fabricada em malha técnica elástica respirável que pode ser usada confortavelmente por baixo de calças jeans ou calças de moto comuns. Máxima segurança contra impactos e abrasão.",
+    "options": [
+      {
+        "name": "Tamanho",
+        "type": "select",
+        "values": [
+          "M",
+          "L",
+          "XL",
+          "2XL",
+          "3XL"
+        ]
+      },
+      {
+        "name": "Cor / Modelo",
+        "type": "color",
+        "values": [
+          "Preto Tático (MP1010)",
+          "Preto Stealth (PG1)",
+          "Branco / Preto (MP1010)"
+        ]
+      }
+    ],
+    "supplierUrl": "https://pt.aliexpress.com/item/1005008479328141.html",
+    "costDetails": {
+      "productCostEUR": 44.94,
+      "shippingCostEUR": 0.0,
+      "totalCostEUR": 44.94,
+      "netProfitEUR": 39.96
+    },
+    "gallery": [
+      "assets/images/products/variants/armor_mp1010_black_pants.jpg",
+      "assets/images/products/variants/armor_pg1_black_pants.jpg",
+      "assets/images/products/variants/armor_mp1010_white_pants.jpg"
+    ],
+    "variantImages": {
+      "Preto Tático (MP1010)": "assets/images/products/variants/armor_mp1010_black_pants.jpg",
+      "Preto Stealth (PG1)": "assets/images/products/variants/armor_pg1_black_pants.jpg",
+      "Branco / Preto (MP1010)": "assets/images/products/variants/armor_mp1010_white_pants.jpg"
+    }
+  },
+  {
+    "id": "adesivos-tracao-tanque-mt",
+    "name": "Kit Protetores Adesivos de Tração & Carenagem MT - Aderência & Anti-Risco",
+    "category": "mt07",
+    "priceEUR": 26.9,
+    "compareAtEUR": 39.0,
+    "priceBRL": 169.0,
+    "compareAtBRL": 249.0,
+    "badge": "GRIP & PROTEÇÃO MT",
+    "isDarkChoice": true,
+    "rating": 4.9,
+    "reviewsCount": 114,
+    "image": "assets/images/products/adesivo_tracao_main_1.jpg",
+    "description": "Pads de borracha e resina técnica com padrão de aderência anatômica para as laterais do tanque e carenagens da MT-07 / FZ-07. Aumenta a aderência do joelho durante curvas esportivas, reduz o cansaço do piloto e protege a pintura original contra arranhões do fato ou joelheira. Adesivo 3M de fixação extrema.",
+    "supplierUrl": "https://pt.aliexpress.com/item/1005008913894746.html",
+    "costDetails": {
+      "productCostEUR": 12.58,
+      "shippingCostEUR": 0.0,
+      "totalCostEUR": 12.58,
+      "netProfitEUR": 14.32
+    },
+    "gallery": [
+      "assets/images/products/adesivo_tracao_main_1.jpg",
+      "assets/images/products/adesivo_tracao_main_2.jpg",
+      "assets/images/products/adesivo_tracao_main_3.jpg",
+      "assets/images/products/adesivo_tracao_main_4.jpg"
+    ],
+    "options": [
+      {
+        "name": "Design & Cor",
+        "type": "color",
+        "values": [
+          "Design 1 - MT Stealth Black",
+          "Design 2 - Dark Smoke",
+          "Design 3 - Yamaha Racing Blue",
+          "Design 4 - Cyan Fluo",
+          "Design 5 - Cyber Yellow",
+          "Design 6 - Crimson Red",
+          "Design 7 - Carbon Texture",
+          "Design 8 - Nardo Gray",
+          "Design 9 - Ghost White",
+          "Design 10 - Acid Lime"
+        ]
+      }
+    ],
+    "variantImages": {
+      "Design 1 - MT Stealth Black": "assets/images/products/variants/tracao_1.jpg",
+      "Design 2 - Dark Smoke": "assets/images/products/variants/tracao_2.jpg",
+      "Design 3 - Yamaha Racing Blue": "assets/images/products/variants/tracao_3.jpg",
+      "Design 4 - Cyan Fluo": "assets/images/products/variants/tracao_4.jpg",
+      "Design 5 - Cyber Yellow": "assets/images/products/variants/tracao_5.jpg",
+      "Design 6 - Crimson Red": "assets/images/products/variants/tracao_6.jpg",
+      "Design 7 - Carbon Texture": "assets/images/products/variants/tracao_7.jpg",
+      "Design 8 - Nardo Gray": "assets/images/products/variants/tracao_8.jpg",
+      "Design 9 - Ghost White": "assets/images/products/variants/tracao_9.jpg",
+      "Design 10 - Acid Lime": "assets/images/products/variants/tracao_10.jpg"
+    }
+  },
+  {
+    "id": "sliders-joelho-pista-komine",
+    "name": "Sliders de Joelho Esportivos para Pista & Curvas KOMINE - Alta Aderência",
+    "category": "protection",
+    "priceEUR": 46.9,
+    "compareAtEUR": 69.0,
+    "priceBRL": 299.0,
+    "compareAtBRL": 420.0,
+    "badge": "RACING TRACK TESTED",
+    "isDarkChoice": true,
+    "rating": 5.0,
+    "reviewsCount": 210,
+    "image": "assets/images/products/komine_slider_main_1.jpg",
+    "description": "Raspadores de joelho (Knee Sliders) de alta densidade desenvolvidos pela KOMINE para pilotagem esportiva e track-days. Fabricados em polímero resistente com baixo coeficiente de atrito para deslizar suavemente no asfalto em inclinações extremas. Base em velcro ultra-forte para fixação segura em calças e fatos de couro.",
+    "supplierUrl": "https://pt.aliexpress.com/item/1005005274318670.html",
+    "costDetails": {
+      "productCostEUR": 23.5,
+      "shippingCostEUR": 0.0,
+      "totalCostEUR": 23.5,
+      "netProfitEUR": 23.4
+    },
+    "gallery": [
+      "assets/images/products/komine_slider_main_1.jpg",
+      "assets/images/products/komine_slider_main_2.jpg",
+      "assets/images/products/komine_slider_main_3.jpg",
+      "assets/images/products/komine_slider_main_4.jpg",
+      "assets/images/products/komine_slider_main_5.jpg"
+    ],
+    "options": [
+      {
+        "name": "Modelo / Versão",
+        "type": "select",
+        "values": [
+          "KOMINE Logo Slider (Par)",
+          "KOMINE Word Slider (Par)",
+          "KOMINE Logo Slider + Pads",
+          "KOMINE Word Slider + Pads"
+        ]
+      }
+    ],
+    "variantImages": {
+      "KOMINE Logo Slider (Par)": "assets/images/products/variants/komine_kommine_logo_slider.jpg",
+      "KOMINE Word Slider (Par)": "assets/images/products/variants/komine_kommine_word_slider.jpg",
+      "KOMINE Logo Slider + Pads": "assets/images/products/variants/komine_kommine_logo_s_and_p.jpg",
+      "KOMINE Word Slider + Pads": "assets/images/products/variants/komine_kommine_word_s_and_p.jpg"
     }
   }
 ];
