@@ -336,6 +336,14 @@ class StoreHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
             self.wfile.write(json.dumps({'success': True, 'order': data}, ensure_ascii=False).encode('utf-8'))
             return
 
+        elif path == '/api/orders/clear':
+            save_orders([])
+            self.send_response(200)
+            self.send_header('Content-Type', 'application/json; charset=utf-8')
+            self.end_headers()
+            self.wfile.write(json.dumps({'success': True, 'message': 'Histórico de encomendas limpo com sucesso.'}, ensure_ascii=False).encode('utf-8'))
+            return
+
         elif path.startswith('/api/orders/') and path.endswith('/status'):
             # Path: /api/orders/<id>/status
             parts = path.split('/')

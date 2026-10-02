@@ -250,6 +250,9 @@
         <button onclick="loadOrdersFromServer()" class="px-3 py-1.5 bg-[#171822] hover:bg-[#242536] border border-[#2e3046] text-gray-300 hover:text-white rounded text-xs font-sub font-bold uppercase transition-colors flex items-center gap-1.5">
           <span>🔄</span> Atualizar
         </button>
+        <button onclick="clearAllOrders()" class="px-3 py-1.5 bg-[#261014] hover:bg-[#3d1319] border border-red-800/40 text-red-300 hover:text-red-200 rounded text-xs font-sub font-bold uppercase transition-colors flex items-center gap-1.5" title="Limpar todas as encomendas de teste">
+          <span>🧹</span> Limpar Testes
+        </button>
         <button onclick="createMockOrder()" class="px-3 py-1.5 bg-[#1f202b] hover:bg-[#2b2d3d] border border-[#34364a] text-gray-300 hover:text-white rounded text-xs font-sub font-bold uppercase transition-colors">
           + Criar Pedido Teste
         </button>
@@ -674,6 +677,19 @@ Obrigado por apoiar a marca @dark.ghostrider!`;
       }
 
       await loadOrdersFromServer();
+    }
+
+    async function clearAllOrders() {
+      if (!confirm('Tens a certeza que queres limpar todas as encomendas de teste? O painel ficará zerado (0€ faturamento / 0€ lucro) pronto para os clientes reais.')) {
+        return;
+      }
+      try {
+        await fetch('/api/orders/clear', { method: 'POST' });
+      } catch (e) {}
+      localStorage.removeItem('dark_ghostrider_orders');
+      cachedOrders = [];
+      renderAdminDashboard();
+      alert('Histórico de encomendas limpo com sucesso! O teu painel está zerado para o lançamento oficial.');
     }
 
     // ==========================================
