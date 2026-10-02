@@ -812,12 +812,14 @@ body {
   transition: opacity 0.8s ease;
 }
 
-.video-foreground iframe {
+.video-foreground iframe,
+.video-foreground video {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
+  object-fit: cover;
   pointer-events: none;
 }
 
@@ -842,4 +844,116 @@ body {
      0px  3px 8px rgba(0, 0, 0, 0.95),
      0px  6px 20px rgba(0, 0, 0, 0.9),
      0px  0px 25px rgba(255, 230, 0, 0.4);
+}
+
+/* ==========================================================================
+   EXPANDABLE LATERAL SIDEBAR MENU (MENU LATERAL EXPANSÍVEL)
+   ========================================================================== */
+.app-sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: min(88vw, 340px);
+  background: #090a10;
+  border-right: 1px solid #1f202b;
+  z-index: 1200;
+  transform: translateX(-100%);
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 15px 0 50px rgba(0, 0, 0, 0.9);
+}
+
+.app-sidebar.open {
+  transform: translateX(0);
+}
+
+.sidebar-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(5px);
+  z-index: 1190;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.sidebar-backdrop.open {
+  opacity: 1;
+  visibility: visible;
+}
+
+.sidebar-nav-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.7rem 0.85rem;
+  border-radius: 0.6rem;
+  color: #cbd5e1;
+  font-family: var(--font-sub, sans-serif);
+  font-size: 0.8125rem;
+  font-weight: 700;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  border: 1px solid transparent;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.sidebar-nav-item:hover,
+.sidebar-nav-item.active {
+  background: #141520;
+  color: #ffffff;
+  border-color: #27283c;
+  transform: translateX(4px);
+}
+
+.sidebar-nav-icon {
+  font-size: 1.05rem;
+  width: 1.35rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.sidebar-pill-badge {
+  font-size: 0.65rem;
+  font-weight: 800;
+  padding: 0.15rem 0.45rem;
+  border-radius: 0.35rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+/* Sizing Guide Box in Modal */
+.sizing-guide-box {
+  background: #0d0e15;
+  border: 1px solid #242535;
+  border-radius: 0.6rem;
+  padding: 0.75rem;
+  margin-top: 0.5rem;
+  font-size: 0.75rem;
+  color: #d1d5db;
+}
+
+.sizing-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  font-family: var(--font-sub, sans-serif);
+}
+
+.sizing-table th {
+  color: #ff4d5a;
+  font-weight: 800;
+  padding: 0.4rem 0.5rem;
+  border-bottom: 1px solid #222332;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+}
+
+.sizing-table td {
+  padding: 0.4rem 0.5rem;
+  border-bottom: 1px solid #161722;
+  color: #e2e8f0;
 }

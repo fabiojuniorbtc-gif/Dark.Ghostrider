@@ -447,9 +447,9 @@ const Store = {
       selectEl.value = colorName;
     }
 
-    // Update active state on color buttons
-    document.querySelectorAll('.variant-pill-btn').forEach(btn => {
-      btn.classList.toggle('active-variant', btn.dataset.color === colorName);
+    // Update active state scoped to this specific option index
+    document.querySelectorAll(`.variant-pill-btn[data-opt-idx="${optIndex}"]`).forEach(btn => {
+      btn.classList.toggle('active-variant', btn.dataset.val === colorName);
     });
 
     // Handle dynamic variant prices (e.g. Escape R77)
@@ -615,15 +615,24 @@ const Store = {
                       <label class="text-xs font-sub font-bold text-gray-400 uppercase tracking-wider">
                         ${opt.name}:
                       </label>
-                      <span class="text-[11px] text-[#ff4d5a] font-sub font-semibold">Clique para ver a foto</span>
+                      <div class="flex items-center gap-2">
+                        ${opt.name.toLowerCase().includes('tamanho') ? `
+                          <button type="button" onclick="Store.toggleSizingGuide('${p.id}')" class="text-[11px] text-amber-400 hover:text-amber-300 font-sub font-bold flex items-center gap-1 bg-[#1a1710] border border-amber-500/40 px-2 py-0.5 rounded transition-colors">
+                            <span>📏</span> Guia de Tamanhos
+                          </button>
+                        ` : ''}
+                        <span class="text-[11px] text-[#ff4d5a] font-sub font-semibold">Clique para escolher</span>
+                      </div>
                     </div>
+
+                    ${opt.name.toLowerCase().includes('tamanho') ? Store.renderSizingGuideHTML(p.id) : ''}
 
                     <!-- Dropdown selector -->
                     <select id="modal-option-${idx}" onchange="Store.onColorVariantSelect('${p.id}', this.value, ${idx})" class="w-full bg-[#12131a] text-white border border-[#272838] rounded p-2.5 text-sm focus:border-[#e61426] outline-none mb-2 font-sub">
                       ${opt.values.map(val => `<option value="${val}">${val}</option>`).join('')}
                     </select>
 
-                    <!-- Interactive Color / Option Pills with Real Preview -->
+                    <!-- Interactive Option / Sizing / Color Pills -->
                     <div class="flex flex-wrap gap-1.5 pt-1 max-h-52 overflow-y-auto pr-1">
                       ${opt.values.map((val, vIdx) => {
                         const low = val.toLowerCase();
@@ -646,7 +655,7 @@ const Store = {
                         const isGhostSetup = val.toLowerCase().includes('ghost');
 
                         return `
-                          <button type="button" data-color="${val}" onclick="Store.onColorVariantSelect('${p.id}', '${val}', ${idx})" class="variant-pill-btn ${vIdx === 0 ? 'active-variant' : ''} px-2.5 py-1.5 rounded-lg border ${isGhostSetup ? 'border-[#ff2a3c]/60 bg-[#1e1316] text-white shadow-[0_0_10px_rgba(255,42,60,0.2)]' : 'border-[#272838] bg-[#12131b] text-gray-300'} hover:border-[#e61426] text-xs font-sub font-bold hover:text-white transition-all flex items-center gap-1.5">
+                          <button type="button" data-opt-idx="${idx}" data-val="${val}" data-color="${val}" onclick="Store.onColorVariantSelect('${p.id}', '${val}', ${idx})" class="variant-pill-btn ${vIdx === 0 ? 'active-variant' : ''} px-2.5 py-1.5 rounded-lg border ${isGhostSetup ? 'border-[#ff2a3c]/60 bg-[#1e1316] text-white shadow-[0_0_10px_rgba(255,42,60,0.2)]' : 'border-[#272838] bg-[#12131b] text-gray-300'} hover:border-[#e61426] text-xs font-sub font-bold hover:text-white transition-all flex items-center gap-1.5">
                             <span class="w-2.5 h-2.5 rounded-full inline-block ${dotClass}"></span>
                             <span>${val}</span>
                             ${isGhostSetup ? '<span class="text-[9px] bg-[#ff2a3c] text-white px-1.5 py-0.2 rounded font-black tracking-wide ml-1">MOTO DO GHOST</span>' : ''}
@@ -944,7 +953,164 @@ const Store = {
         notifyBtn.href = `https://wa.me/${this.whatsappNumber}?text=${encodeURIComponent(msg)}`;
       }
     }
-  }
+  },
+
+  // ==========================================================================
+  // SIDEBAR & SIZING GUIDE CONTROLS
+  // ==========================================================================
+  toggleSidebar() {
+    const sidebar = document.getElementById('app-sidebar');
+    if (!sidebar) return;
+    if (sidebar.classList.contains('open')) {
+      this.closeSidebar();
+    } else {
+      this.openSidebar();
+    }
+  },
+
+  openSidebar() {
+    const sidebar = document.getElementById('app-sidebar');
+    const backdrop = document.getElementById('sidebar-backdrop');
+    if (sidebar) sidebar.classList.add('open');
+    if (backdrop) backdrop.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  },
+
+  closeSidebar() {
+    const sidebar = document.getElementById('app-sidebar');
+    const backdrop = document.getElementById('sidebar-backdrop');
+    if (sidebar) sidebar.classList.remove('open');
+    if (backdrop) backdrop.classList.remove('open');
+    document.body.style.overflow = '';
+  },
+
+  navigateToSection(sectionId) {
+    this.closeSidebar();
+    const el = document.getElementById(sectionId);
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  },
+
+  filterCategoryFromSidebar(cat) {
+    this.closeSidebar();
+    this.activeCategory = cat;
+    document.querySelectorAll('.category-pill').forEach(pill => {
+      pill.classList.toggle('active', pill.dataset.category === cat);
+    });
+    this.renderProducts();
+    const catEl = document.getElementById('catalogo');
+    if (catEl) {
+      catEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  },
+
+  filterDarkBikePartsFromSidebar() {
+    this.closeSidebar();
+    this.filterDarkBikePartsOnly();
+    const catEl = document.getElementById('catalogo');
+    if (catEl) {
+      catEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  },
+
+  toggleSizingGuide(productId) {
+    const box = document.getElementById(`sizing-guide-box-${productId}`);
+    if (box) {
+      box.classList.toggle('hidden');
+    }
+  },
+
+  renderSizingGuideHTML(productId) {
+    if (productId === 'jaqueta-armadura-tatica-moto') {
+      return `
+        <div id="sizing-guide-box-${productId}" class="sizing-guide-box hidden mb-3">
+          <div class="font-sub font-bold text-amber-400 mb-1.5 flex items-center gap-1.5 text-xs">
+            <span>📏</span> Tabela de Medidas Recomendada (Homologação CE)
+          </div>
+          <table class="sizing-table">
+            <thead>
+              <tr><th>Tam.</th><th>Altura</th><th>Peso</th><th>Tórax</th></tr>
+            </thead>
+            <tbody>
+              <tr><td class="font-bold text-[#ff4d5a]">S</td><td>160-165 cm</td><td>50-55 kg</td><td>86-90 cm</td></tr>
+              <tr><td class="font-bold text-[#ff4d5a]">M</td><td>165-170 cm</td><td>55-65 kg</td><td>91-95 cm</td></tr>
+              <tr><td class="font-bold text-[#ff4d5a]">L</td><td>170-175 cm</td><td>65-72 kg</td><td>96-100 cm</td></tr>
+              <tr><td class="font-bold text-[#ff4d5a]">XL</td><td>175-180 cm</td><td>72-80 kg</td><td>101-105 cm</td></tr>
+              <tr><td class="font-bold text-[#ff4d5a]">2XL</td><td>180-185 cm</td><td>80-90 kg</td><td>106-110 cm</td></tr>
+              <tr><td class="font-bold text-[#ff4d5a]">3XL</td><td>185-190 cm</td><td>90-100 kg</td><td>111-115 cm</td></tr>
+              <tr><td class="font-bold text-[#ff4d5a]">4XL</td><td>190+ cm</td><td>100+ kg</td><td>116+ cm</td></tr>
+            </tbody>
+          </table>
+          <p class="text-[10px] text-gray-400 mt-1 italic">* Em caso de dúvida entre dois tamanhos, escolha o maior para maior conforto sobre roupa normal.</p>
+        </div>
+      `;
+    } else if (productId === 'calca-armadura-tatica-moto') {
+      return `
+        <div id="sizing-guide-box-${productId}" class="sizing-guide-box hidden mb-3">
+          <div class="font-sub font-bold text-amber-400 mb-1.5 flex items-center gap-1.5 text-xs">
+            <span>📏</span> Tabela de Medidas da Calça Tática
+          </div>
+          <table class="sizing-table">
+            <thead>
+              <tr><th>Tam.</th><th>Cintura</th><th>Quadril</th><th>Comp.</th></tr>
+            </thead>
+            <tbody>
+              <tr><td class="font-bold text-[#ff4d5a]">S</td><td>76-80 cm</td><td>92-96 cm</td><td>100 cm</td></tr>
+              <tr><td class="font-bold text-[#ff4d5a]">M</td><td>81-85 cm</td><td>97-101 cm</td><td>102 cm</td></tr>
+              <tr><td class="font-bold text-[#ff4d5a]">L</td><td>86-90 cm</td><td>102-106 cm</td><td>104 cm</td></tr>
+              <tr><td class="font-bold text-[#ff4d5a]">XL</td><td>91-95 cm</td><td>107-111 cm</td><td>106 cm</td></tr>
+              <tr><td class="font-bold text-[#ff4d5a]">2XL</td><td>96-100 cm</td><td>112-116 cm</td><td>108 cm</td></tr>
+              <tr><td class="font-bold text-[#ff4d5a]">3XL</td><td>101-106 cm</td><td>117-122 cm</td><td>110 cm</td></tr>
+            </tbody>
+          </table>
+        </div>
+      `;
+    } else if (productId === 'kashvelo-gear-base-layer') {
+      return `
+        <div id="sizing-guide-box-${productId}" class="sizing-guide-box hidden mb-3">
+          <div class="font-sub font-bold text-amber-400 mb-1.5 flex items-center gap-1.5 text-xs">
+            <span>📏</span> Guia de Tamanho de Luvas KashVelo Portugal
+          </div>
+          <table class="sizing-table">
+            <thead>
+              <tr><th>Tam.</th><th>Largura Palma</th><th>Circunferência Mão</th></tr>
+            </thead>
+            <tbody>
+              <tr><td class="font-bold text-[#ff4d5a]">S</td><td>7.5 - 8.0 cm</td><td>18 - 19 cm</td></tr>
+              <tr><td class="font-bold text-[#ff4d5a]">M</td><td>8.0 - 8.5 cm</td><td>20 - 21 cm</td></tr>
+              <tr><td class="font-bold text-[#ff4d5a]">L</td><td>8.5 - 9.0 cm</td><td>22 - 23 cm</td></tr>
+              <tr><td class="font-bold text-[#ff4d5a]">XL</td><td>9.0 - 9.5 cm</td><td>24 - 25 cm</td></tr>
+              <tr><td class="font-bold text-[#ff4d5a]">XXL</td><td>9.5 - 10.0 cm</td><td>26 - 27 cm</td></tr>
+            </tbody>
+          </table>
+          <p class="text-[10px] text-gray-400 mt-1 italic">Dica: Meça a largura da palma da mão logo abaixo dos nós dos dedos (sem o polegar).</p>
+        </div>
+      `;
+    } else if (productId === 'capa-moto-universal-anti-uv') {
+      return `
+        <div id="sizing-guide-box-${productId}" class="sizing-guide-box hidden mb-3">
+          <div class="font-sub font-bold text-amber-400 mb-1.5 flex items-center gap-1.5 text-xs">
+            <span>📏</span> Tabela de Compatibilidade de Capa
+          </div>
+          <table class="sizing-table">
+            <thead>
+              <tr><th>Tam.</th><th>Medida</th><th>Motos Compatíveis</th></tr>
+            </thead>
+            <tbody>
+              <tr><td class="font-bold text-[#ff4d5a]">L</td><td>220x95x110 cm</td><td>Scooters & Motos 125cc a 250cc</td></tr>
+              <tr><td class="font-bold text-[#ff4d5a]">XL</td><td>245x105x125 cm</td><td>Yamaha MT-07 / Naked Média (Ideal!)</td></tr>
+              <tr><td class="font-bold text-[#ff4d5a]">XXL</td><td>265x105x125 cm</td><td>MT-07 c/ Bauleto / Big Trail</td></tr>
+              <tr><td class="font-bold text-[#ff4d5a]">3XL</td><td>295x110x140 cm</td><td>Custom & Carenadas Grandes</td></tr>
+              <tr><td class="font-bold text-[#ff4d5a]">4XL</td><td>310x115x145 cm</td><td>Maxi Trail com Malas Laterais</td></tr>
+            </tbody>
+          </table>
+        </div>
+      `;
+    }
+    return '';
+  },
+
 };
 
 window.Store = Store;

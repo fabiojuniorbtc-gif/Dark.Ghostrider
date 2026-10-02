@@ -667,13 +667,13 @@ const PRODUCTS = [
         "name": "Tamanho",
         "type": "select",
         "values": [
-          "S",
-          "M",
-          "L",
-          "XL",
-          "2XL",
-          "3XL",
-          "4XL"
+          "S (160-165 cm | 50-55 kg)",
+          "M (165-170 cm | 55-65 kg)",
+          "L (170-175 cm | 65-72 kg)",
+          "XL (175-180 cm | 72-80 kg)",
+          "2XL (180-185 cm | 80-90 kg)",
+          "3XL (185-190 cm | 90-100 kg)",
+          "4XL (190+ cm | 100+ kg)"
         ]
       },
       {
@@ -727,22 +727,11 @@ const PRODUCTS = [
         "name": "Tamanho",
         "type": "select",
         "values": [
-          "S",
-          "M (Médio)",
-          "L (Grande)",
-          "XL (Extra Grande)",
-          "XXL"
-        ]
-      },
-      {
-        "name": "Foto & Ângulo",
-        "type": "select",
-        "values": [
-          "Estúdio - Par Oficial",
-          "Estúdio - Par Sobreposto (Carbono & KV)",
-          "Foto Real - Textura do Couro",
-          "Detalhe - Escudo Carbono Real",
-          "Detalhe - Palma Antiderrapante"
+          "S (Palma 7.5 - 8.0 cm)",
+          "M (Palma 8.0 - 8.5 cm)",
+          "L (Palma 8.5 - 9.0 cm)",
+          "XL (Palma 9.0 - 9.5 cm)",
+          "XXL (Palma 9.5 - 10.0 cm)"
         ]
       }
     ],
@@ -824,11 +813,11 @@ const PRODUCTS = [
         "name": "Tamanho",
         "type": "select",
         "values": [
-          "L (125-250cc)",
-          "XL (Ideal para MT-07 Naked)",
-          "XXL (Naked com Bauleto)",
-          "3XL",
-          "4XL"
+          "L (Scooters / Motos 125cc a 250cc)",
+          "XL (Yamaha MT-07 / Naked Média - TAMANHO IDEAL)",
+          "XXL (MT-07 com Bauleto / Big Trail)",
+          "3XL (Motos Custom / Carenadas Grandes)",
+          "4XL (Maxi Trail com Malas Laterais)"
         ]
       }
     ],
@@ -921,11 +910,12 @@ const PRODUCTS = [
         "name": "Tamanho",
         "type": "select",
         "values": [
-          "M",
-          "L",
-          "XL",
-          "2XL",
-          "3XL"
+          "S (Cintura 76-80 cm | Altura 165-170 cm)",
+          "M (Cintura 81-85 cm | Altura 170-175 cm)",
+          "L (Cintura 86-90 cm | Altura 175-180 cm)",
+          "XL (Cintura 91-95 cm | Altura 180-185 cm)",
+          "2XL (Cintura 96-100 cm | Altura 185-190 cm)",
+          "3XL (Cintura 101-106 cm | Altura 190+ cm)"
         ]
       },
       {
