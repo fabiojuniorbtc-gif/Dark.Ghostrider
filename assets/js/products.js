@@ -3,10 +3,10 @@ const PRODUCTS = [
     "id": "retrovisor-stealth-e9",
     "name": "Retrovisores Stealth Wing / Bar-End Elevado E9 Alumínio CNC - MT-07",
     "category": "mt07",
-    "priceEUR": 39.9,
-    "compareAtEUR": 65.0,
-    "priceBRL": 249.0,
-    "compareAtBRL": 389.0,
+    "priceEUR": 59.9,
+    "compareAtEUR": 89.9,
+    "priceBRL": 389.0,
+    "compareAtBRL": 549.0,
     "badge": "O MAIS PEDIDO NO DIRECT",
     "isDarkChoice": true,
     "rating": 5.0,
@@ -15,27 +15,26 @@ const PRODUCTS = [
     "description": "Os retrovisores que todos me perguntam diariamente no Instagram @dark.ghostrider! Acabamento em liga de alumínio CNC anodizado preto fosco, espelho com lente anti-reflexo azulada e certificação E9. Design aerodinâmico stealth agressivo que transforma o visual do guidão da MT-07.",
     "options": [
       {
-        "name": "Acabamento",
+        "name": "Cor / Acabamento",
         "type": "select",
         "values": [
-          "Preto Stealth Mate",
-          "Preto com Detalhe Usinado"
+          "Preto Anodizado CNC (Setup MT-07)"
         ]
       }
     ],
     "supplierUrl": "https://pt.aliexpress.com/item/1005007453126466.html",
     "costDetails": {
-      "productCostEUR": 12.4,
-      "shippingCostEUR": 7.5,
-      "totalCostEUR": 19.9,
-      "netProfitEUR": 20.0
+      "productCostEUR": 39.07,
+      "shippingCostEUR": 0.0,
+      "totalCostEUR": 39.07,
+      "netProfitEUR": 20.83
     },
     "variantImages": {
-      "Preto Stealth Mate": "assets/images/products/variants/retrovisor_stealth_mate.jpg",
-      "Preto com Detalhe Usinado": "assets/images/products/variants/retrovisor_stealth_usinado.jpg"
+      "Preto Anodizado CNC (Setup MT-07)": "assets/images/products/retrovisores_stealth_main.jpg"
     },
     "gallery": [
-      "assets/images/products/variants/retrovisor_stealth_mate.jpg",
+      "assets/images/products/retrovisores_stealth_main.jpg",
+      "assets/images/products/variants/retrovisor_stealth_real_bike.jpg",
       "assets/images/products/variants/retrovisor_stealth_usinado.jpg"
     ]
   },
