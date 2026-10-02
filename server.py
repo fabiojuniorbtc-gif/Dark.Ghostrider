@@ -72,6 +72,15 @@ def send_telegram_message(token, chat_id, text, reply_markup=None):
         with urllib.request.urlopen(req, timeout=10) as resp:
             res_data = json.loads(resp.read().decode('utf-8'))
             return res_data.get('ok', False), res_data
+    except urllib.error.HTTPError as e:
+        try:
+            err_body = json.loads(e.read().decode('utf-8'))
+            desc = err_body.get('description', '')
+            if 'chat not found' in desc.lower():
+                return False, "Chat não encontrado! Você precisa abrir o seu bot no Telegram e clicar em 'COMEÇAR / START' para autorizá-lo a enviar mensagens para você."
+            return False, f"Telegram: {desc}"
+        except Exception:
+            return False, str(e)
     except Exception as e:
         return False, str(e)
 
