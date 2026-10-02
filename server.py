@@ -22,6 +22,7 @@ ORDERS_FILE = os.path.join(DATA_DIR, 'orders.json')
 CONFIG_FILE = os.path.join(DATA_DIR, 'config.json')
 
 os.makedirs(DATA_DIR, exist_ok=True)
+BASE_SITE_URL = os.environ.get('BASE_SITE_URL', 'https://www.darkghostrider.com').rstrip('/')
 data_lock = threading.Lock()
 
 def load_config():
@@ -131,7 +132,10 @@ def notify_order_telegram(order):
                 {'text': '📦 MARCAR COMO COMPRADO', 'callback_data': f"status_prep_{order.get('id')}"}
             ],
             [
-                {'text': '📊 ABRIR NO PAINEL DARK ADMIN', 'url': 'https://shorts-luke-cal-badge.trycloudflare.com/admin.html'}
+                {'text': '📊 ABRIR NO PAINEL DARK ADMIN', 'url': f'{BASE_SITE_URL}/admin.html'}
+            ],
+            [
+                {'text': '📦 VER RASTREIO DA ENCOMENDA', 'url': f'{BASE_SITE_URL}/rastreio.html?order={order.get("id")}'}
             ],
             [
                 {'text': '💬 FALAR C/ CLIENTE NO WHATSAPP', 'url': wa_customer_link}
@@ -424,10 +428,10 @@ A partir de agora, sempre que um cliente comprar na loja:
             markup = {
                 'inline_keyboard': [
                     [
-                        {'text': '📊 ABRIR PAINEL DARK ADMIN', 'url': 'https://shorts-luke-cal-badge.trycloudflare.com/admin.html'}
+                        {'text': '📊 ABRIR PAINEL DARK ADMIN', 'url': f'{BASE_SITE_URL}/admin.html'}
                     ],
                     [
-                        {'text': '🏪 VER LOJA PÚBLICA', 'url': 'https://shorts-luke-cal-badge.trycloudflare.com/index.html'}
+                        {'text': '🏪 VER LOJA (WWW.DARKGHOSTRIDER.COM)', 'url': f'{BASE_SITE_URL}'}
                     ],
                     [
                         {'text': '✅ TESTE DE BOTÃO (OK)', 'callback_data': 'test_button_ok'}
