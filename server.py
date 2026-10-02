@@ -131,6 +131,9 @@ def notify_order_telegram(order):
                 {'text': '📦 MARCAR COMO COMPRADO', 'callback_data': f"status_prep_{order.get('id')}"}
             ],
             [
+                {'text': '📊 ABRIR NO PAINEL DARK ADMIN', 'url': 'https://shorts-luke-cal-badge.trycloudflare.com/admin.html'}
+            ],
+            [
                 {'text': '💬 FALAR C/ CLIENTE NO WHATSAPP', 'url': wa_customer_link}
             ]
         ]
@@ -394,8 +397,15 @@ A partir de agora, sempre que um cliente comprar na loja:
 ━━━━━━━━━━━━━━━━━━━━━━━━━━"""
             markup = {
                 'inline_keyboard': [
-                    [{'text': '🚀 VER LOJA EM TEMPO REAL', 'url': 'https://shorts-luke-cal-badge.trycloudflare.com'}],
-                    [{'text': '✅ TESTE DE BOTÃO (OK)', 'callback_data': 'test_button_ok'}]
+                    [
+                        {'text': '📊 ABRIR PAINEL DARK ADMIN', 'url': 'https://shorts-luke-cal-badge.trycloudflare.com/admin.html'}
+                    ],
+                    [
+                        {'text': '🏪 VER LOJA PÚBLICA', 'url': 'https://shorts-luke-cal-badge.trycloudflare.com/index.html'}
+                    ],
+                    [
+                        {'text': '✅ TESTE DE BOTÃO (OK)', 'callback_data': 'test_button_ok'}
+                    ]
                 ]
             }
             ok, res = send_telegram_message(token, chat_id, test_text, markup)
