@@ -168,8 +168,25 @@ def telegram_polling_thread():
                             cb_data = cb.get('data', '')
                             user_chat_id = cb.get('message', {}).get('chat', {}).get('id')
                             
+                            # Handle test_button_ok
+                            if cb_data == 'test_button_ok':
+                                ans_url = f"https://api.telegram.org/bot{token}/answerCallbackQuery"
+                                ans_payload = {
+                                    'callback_query_id': cb_id,
+                                    'text': "🚀 TESTE 100% OPERACIONAL!\n\nO bot respondeu ao teu clique em tempo real! Quando receberes uma encomenda, o botão de marcar como comprado funcionará exatamente assim.",
+                                    'show_alert': True
+                                }
+                                try:
+                                    req_ans = urllib.request.Request(ans_url, data=json.dumps(ans_payload).encode('utf-8'), headers={'Content-Type': 'application/json'})
+                                    urllib.request.urlopen(req_ans, timeout=5)
+                                except Exception:
+                                    pass
+                                
+                                followup = "⚡ <b>CONFIRMAÇÃO DO TESTE:</b>\nO teu clique foi processado pelo servidor com sucesso! A conexão entre o Telegram e o painel Dark Ghostrider está 100% ativa."
+                                send_telegram_message(token, user_chat_id, followup)
+
                             # Handle status_prep_<orderId>
-                            if cb_data.startswith('status_prep_'):
+                            elif cb_data.startswith('status_prep_'):
                                 target_id = cb_data.replace('status_prep_', '').strip()
                                 orders = load_orders()
                                 updated = False
@@ -197,6 +214,15 @@ A página de rastreio do cliente já foi atualizada em tempo real!
 
 Quando o AliExpress disponibilizar o código de rastreio (ex: <code>LP...PT</code>), adicione no painel web ou responda aqui."""
                                     send_telegram_message(token, user_chat_id, followup)
+                            else:
+                                # Default catch-all answer to stop loading spinner
+                                try:
+                                    ans_url = f"https://api.telegram.org/bot{token}/answerCallbackQuery"
+                                    ans_payload = {'callback_query_id': cb_id, 'text': 'Ação recebida com sucesso!'}
+                                    req_ans = urllib.request.Request(ans_url, data=json.dumps(ans_payload).encode('utf-8'), headers={'Content-Type': 'application/json'})
+                                    urllib.request.urlopen(req_ans, timeout=5)
+                                except Exception:
+                                    pass
         except Exception:
             pass
         time.sleep(2)
