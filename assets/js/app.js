@@ -887,7 +887,7 @@ const Store = {
     modal.classList.add('open');
   },
 
-  processCheckout(event) {
+  async processCheckout(event) {
     event.preventDefault();
 
     const name = document.getElementById('chk-name').value;
@@ -903,28 +903,70 @@ const Store = {
 
     let totalEUR = 0;
     let totalBRL = 0;
-    this.cart.forEach(item => {
+    let totalCostEUR = 0;
+
+    const enrichedItems = this.cart.map(item => {
+      const prod = PRODUCTS.find(p => p.id === item.id);
+      const supplierCost = (prod && prod.costDetails && prod.costDetails.totalCostEUR) ? prod.costDetails.totalCostEUR : 0;
+      const supplierUrl = item.supplierUrl || (prod ? prod.supplierUrl : '');
       totalEUR += item.priceEUR * item.quantity;
       totalBRL += item.priceBRL * item.quantity;
+      totalCostEUR += supplierCost * item.quantity;
+      return {
+        ...item,
+        supplierCostEUR: supplierCost,
+        supplierUrl: supplierUrl
+      };
     });
+
+    const netProfitEUR = Math.round((totalEUR - totalCostEUR) * 100) / 100;
 
     const newOrder = {
       id: orderId,
+      orderId: orderId,
       customerName: name,
+      customer: {
+        name: name,
+        phone: phone,
+        email: email,
+        address: address,
+        postalCode: postalCode,
+        city: city,
+        country: country
+      },
       phone: phone,
       email: email,
       address: `${address}, ${postalCode} ${city}`,
       country: country,
       currency: this.currency,
-      totalEUR: totalEUR,
-      totalBRL: totalBRL,
-      items: [...this.cart],
+      totalEUR: Math.round(totalEUR * 100) / 100,
+      totalBRL: Math.round(totalBRL * 100) / 100,
+      totalCostEUR: Math.round(totalCostEUR * 100) / 100,
+      netProfitEUR: netProfitEUR,
+      paymentMethod: this.currency === 'BRL' ? 'PIX' : 'MB WAY',
+      paymentStatus: 'PAID',
+      items: enrichedItems,
       date: new Date().toISOString(),
-      status: 'Aguardando Pagamento / Processando',
+      createdAt: new Date().toISOString(),
+      orderStatus: 'Aguardando Compra',
+      status: 'Aguardando Compra',
       trackingNumber: trackingNumber,
-      carrier: country === 'Brasil' ? 'Correios do Brasil' : 'CTT Expresso Portugal'
+      carrier: country === 'Brasil' ? 'Correios do Brasil' : 'CTT Expresso Portugal',
+      notes: 'Encomenda efetuada no site. Aguardando compra no AliExpress.'
     };
 
+    // 1. Post to Server API (triggers Telegram Bot notification)
+    try {
+      await fetch('/api/orders', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(newOrder)
+      });
+    } catch (e) {
+      console.warn('API /api/orders indisponivel, sincronizando localmente', e);
+    }
+
+    // 2. LocalStorage backup sync
     const orders = JSON.parse(localStorage.getItem('dark_ghostrider_orders') || '[]');
     orders.unshift(newOrder);
     localStorage.setItem('dark_ghostrider_orders', JSON.stringify(orders));

@@ -1,0 +1,126 @@
+[
+  {
+    "id": "DG-PT-235748",
+    "orderId": "DG-PT-235748",
+    "customerName": "Goncalo Pereira",
+    "customer": {
+      "name": "Goncalo Pereira",
+      "phone": "+351 919 283 741",
+      "email": "goncalo.pereira@gmail.com",
+      "address": "Rua das Flores, 88, 1º",
+      "postalCode": "1200-195",
+      "city": "Lisboa",
+      "country": "Portugal"
+    },
+    "phone": "+351 919 283 741",
+    "email": "goncalo.pereira@gmail.com",
+    "address": "Rua das Flores, 88, 1º, 1200-195 Lisboa",
+    "country": "Portugal",
+    "currency": "EUR",
+    "totalEUR": 59.9,
+    "totalBRL": 389,
+    "totalCostEUR": 39.07,
+    "netProfitEUR": 20.83,
+    "paymentMethod": "MB WAY",
+    "paymentStatus": "PAID",
+    "items": [
+      {
+        "id": "retrovisor-stealth-e9",
+        "name": "Retrovisores Stealth Wing / Bar-End Elevado E9 Alumínio CNC - MT-07",
+        "image": "assets/images/products/retrovisores_stealth_main.jpg",
+        "priceEUR": 59.9,
+        "priceBRL": 389,
+        "variation": "Cor / Acabamento: Preto Anodizado CNC (Setup MT-07)",
+        "quantity": 1,
+        "supplierUrl": "https://pt.aliexpress.com/item/1005007453126466.html",
+        "supplierCostEUR": 39.07
+      }
+    ],
+    "date": "2026-10-02T18:31:05.238Z",
+    "createdAt": "2026-10-02T18:31:05.238Z",
+    "orderStatus": "Aguardando Compra",
+    "status": "Aguardando Compra",
+    "trackingNumber": "LP0044888295PT",
+    "carrier": "CTT Expresso Portugal",
+    "notes": "Encomenda efetuada no site. Aguardando compra no AliExpress."
+  },
+  {
+    "id": "DG-PT-515676",
+    "orderId": "DG-PT-515676",
+    "createdAt": "2026-10-02T18:28:11.569Z",
+    "customer": {
+      "name": "Diogo Silva",
+      "phone": "+351 968 885 713",
+      "email": "diogo.silva@exemplo.pt",
+      "address": "Av. da Boavista, 1420, 3º Dto",
+      "city": "Porto",
+      "postalCode": "4100-132",
+      "country": "Portugal"
+    },
+    "items": [
+      {
+        "id": "retrovisor-stealth-e9",
+        "name": "Retrovisores Stealth Wing / Bar-End Elevado E9 Alumínio CNC - MT-07",
+        "variant": "Preto Anodizado CNC (Setup MT-07)",
+        "priceEUR": 59.9,
+        "supplierCostEUR": 39.07,
+        "supplierUrl": "https://pt.aliexpress.com/item/1005007453126466.html",
+        "quantity": 1,
+        "image": "assets/images/products/retrovisores_stealth_main.jpg"
+      },
+      {
+        "id": "lanterna-led-fume-mt07",
+        "name": "Lanterna Traseira LED Fumê com Piscas Integrados E-Mark - MT-07",
+        "variant": "Fumê Escuro (Dark Smoke)",
+        "priceEUR": 58.9,
+        "supplierCostEUR": 39.4,
+        "supplierUrl": "https://pt.aliexpress.com/item/1005004579738109.html",
+        "quantity": 1,
+        "image": "assets/images/products/lanterna_led_fume_main.jpg"
+      }
+    ],
+    "totalEUR": 118.8,
+    "totalCostEUR": 69.07,
+    "netProfitEUR": 49.73,
+    "paymentMethod": "MB WAY",
+    "paymentStatus": "PAID",
+    "orderStatus": "Em Preparação",
+    "trackingNumber": "",
+    "carrier": "CTT Expresso / Cainiao Global",
+    "notes": "Pedido de teste criado pelo painel de controle"
+  },
+  {
+    "id": "DG-PT-847291",
+    "createdAt": "2026-10-02T14:30:00Z",
+    "customer": {
+      "name": "Tiago Ferreira",
+      "phone": "+351 914 829 103",
+      "email": "tiago.ferreira@gmail.com",
+      "address": "Rua de Santa Catarina, 342, 2º Dto",
+      "city": "Porto",
+      "postalCode": "4000-443",
+      "country": "Portugal"
+    },
+    "items": [
+      {
+        "id": "retrovisor-stealth-e9",
+        "name": "Retrovisores Stealth Wing / Bar-End Elevado E9 Alumínio CNC - MT-07",
+        "variant": "Preto Anodizado CNC (Setup MT-07)",
+        "priceEUR": 59.9,
+        "supplierCostEUR": 39.07,
+        "supplierUrl": "https://pt.aliexpress.com/item/1005007453126466.html",
+        "quantity": 1,
+        "image": "assets/images/products/retrovisores_stealth_main.jpg"
+      }
+    ],
+    "totalEUR": 59.9,
+    "totalCostEUR": 39.07,
+    "netProfitEUR": 20.83,
+    "paymentMethod": "MB WAY",
+    "paymentStatus": "PAID",
+    "orderStatus": "Enviado",
+    "trackingNumber": "LP0084729100PT",
+    "carrier": "CTT Expresso / Cainiao Global",
+    "notes": "Nova encomenda aguardando compra no AliExpress"
+  }
+]

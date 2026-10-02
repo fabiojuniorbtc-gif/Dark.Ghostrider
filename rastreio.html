@@ -71,29 +71,45 @@
 
   <script src="assets/js/tracking.js"></script>
   <script>
-    function handleTrackSearch(event) {
+    async function handleTrackSearch(event) {
       if (event) event.preventDefault();
       const code = document.getElementById('track-input').value.trim();
       if (!code) return;
-      renderTrackingResult(code);
+      await renderTrackingResult(code);
     }
 
-    function renderTrackingResult(code) {
-      const data = TrackingService.getOrder(code);
+    async function renderTrackingResult(code) {
       const container = document.getElementById('tracking-result-box');
       container.classList.remove('hidden');
+      container.innerHTML = `
+        <div class="bg-[#12131b] border border-[#26283b] rounded-2xl p-8 text-center animate-pulse">
+          <div class="text-3xl mb-2">🔍</div>
+          <p class="text-cyan-400 font-sub font-bold text-base">A consultar sistema de rastreamento global...</p>
+          <p class="text-xs text-gray-500 mt-1">Conectando aos servidores CTT Expresso & Cainiao</p>
+        </div>
+      `;
+
+      const data = await TrackingService.getOrderAsync(code);
 
       if (!data) {
         container.innerHTML = `
           <div class="bg-[#12131b] border border-red-900/40 rounded-2xl p-8 text-center">
             <p class="text-red-400 font-sub font-bold text-lg mb-1">Encomenda não encontrada</p>
-            <p class="text-xs text-gray-400">Verifique se digitou o código corretamente ou fale connosco pelo WhatsApp.</p>
+            <p class="text-xs text-gray-400">Verifique se digitou o código corretamente (ex: <code>DG-PT-XXXXXX</code> ou <code>LP...PT</code>) ou fale connosco pelo WhatsApp.</p>
           </div>
         `;
         return;
       }
 
-      const history = data.trackingHistory || TrackingService.generateTrackingHistory(data.id || code);
+      const history = data.trackingHistory || TrackingService.generateMilestoneSteps(data, code);
+      const progress = history.progressPercent || 35;
+
+      let badgeClasses = 'bg-cyan-950/60 border-cyan-500/30 text-cyan-400';
+      if (history.status.includes('Entregue')) {
+        badgeClasses = 'bg-emerald-950/60 border-emerald-500/30 text-emerald-400';
+      } else if (history.status.includes('Aguardando') || history.status.includes('Preparação')) {
+        badgeClasses = 'bg-amber-950/60 border-amber-500/30 text-amber-400';
+      }
 
       container.innerHTML = `
         <div class="bg-[#12131b] border border-[#26283b] rounded-2xl p-6 sm:p-8 shadow-2xl mb-8">
@@ -107,8 +123,8 @@
             </div>
 
             <div class="text-left sm:text-right">
-              <span class="inline-flex items-center gap-1.5 px-3 py-1 bg-emerald-950/60 border border-emerald-500/30 text-emerald-400 text-xs font-sub font-bold rounded-full uppercase mb-1">
-                <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span> ${history.status}
+              <span class="inline-flex items-center gap-1.5 px-3 py-1 border text-xs font-sub font-bold rounded-full uppercase mb-1 ${badgeClasses}">
+                <span class="w-2 h-2 rounded-full ${history.status.includes('Entregue') ? 'bg-emerald-400' : 'bg-cyan-400 animate-pulse'}"></span> ${history.status}
               </span>
               <p class="text-xs text-gray-400 font-sub">Previsão: <strong class="text-white">${history.estimatedDelivery}</strong></p>
             </div>
@@ -117,32 +133,32 @@
           <!-- Progress Bar Visual -->
           <div class="mb-8">
             <div class="flex justify-between text-xs font-sub font-bold text-gray-400 uppercase mb-2">
-              <span>Origem (Armazém)</span>
-              <span>Em Voo Internacional</span>
-              <span>Alfândega</span>
-              <span class="text-cyan-400">Entrega CTT</span>
+              <span class="${progress >= 15 ? 'text-white' : ''}">1. Registado</span>
+              <span class="${progress >= 40 ? 'text-amber-400' : ''}">2. No Fornecedor</span>
+              <span class="${progress >= 75 ? 'text-cyan-400' : ''}">3. Em Trânsito</span>
+              <span class="${progress >= 100 ? 'text-emerald-400' : ''}">4. Entregue</span>
             </div>
-            <div class="w-full bg-[#0b0c10] h-2.5 rounded-full overflow-hidden p-0.5 border border-[#242533]">
-              <div class="bg-gradient-to-r from-red-600 via-amber-500 to-cyan-400 h-full rounded-full transition-all duration-1000" style="width: 82%;"></div>
+            <div class="w-full bg-[#0b0c10] h-3 rounded-full overflow-hidden p-0.5 border border-[#242533]">
+              <div class="bg-gradient-to-r from-red-600 via-amber-500 to-cyan-400 h-full rounded-full transition-all duration-1000" style="width: ${progress}%;"></div>
             </div>
           </div>
 
           <!-- Timeline Steps -->
           <div class="space-y-6">
             <h3 class="text-xs font-sub font-bold text-gray-400 uppercase tracking-widest mb-4">
-              HISTÓRICO DE MOVIMENTAÇÃO:
+              HISTÓRICO DE MOVIMENTAÇÃO EM TEMPO REAL:
             </h3>
 
             <div class="relative border-l-2 border-[#242533] ml-3 pl-6 space-y-6">
               ${history.steps.map((s, idx) => `
                 <div class="relative">
                   <!-- Marker dot -->
-                  <div class="absolute -left-[31px] top-1 w-4 h-4 rounded-full border-2 ${s.active ? 'bg-cyan-500 border-white shadow-lg shadow-cyan-500/50 animate-ping' : 'bg-[#151620] border-gray-600'}"></div>
-                  <div class="absolute -left-[31px] top-1 w-4 h-4 rounded-full border-2 ${s.active ? 'bg-cyan-500 border-white' : 'bg-[#151620] border-gray-600'}"></div>
+                  <div class="absolute -left-[31px] top-1 w-4 h-4 rounded-full border-2 ${s.active ? 'bg-cyan-500 border-white shadow-lg shadow-cyan-500/50 animate-ping' : (s.completed ? 'bg-emerald-500 border-emerald-300' : 'bg-[#151620] border-gray-600')}"></div>
+                  <div class="absolute -left-[31px] top-1 w-4 h-4 rounded-full border-2 ${s.active ? 'bg-cyan-500 border-white' : (s.completed ? 'bg-emerald-500 border-emerald-300' : 'bg-[#151620] border-gray-600')}"></div>
 
                   <div>
                     <span class="text-xs font-mono text-gray-500 block mb-0.5">${s.date}</span>
-                    <h4 class="font-sub font-bold text-sm ${s.active ? 'text-cyan-400' : 'text-white'} leading-tight">
+                    <h4 class="font-sub font-bold text-sm ${s.active ? 'text-cyan-400' : (s.completed ? 'text-white' : 'text-gray-400')} leading-tight">
                       ${s.status}
                     </h4>
                     <p class="text-xs text-gray-400 font-body mt-0.5">${s.location}</p>
@@ -155,8 +171,8 @@
 
           <!-- Need Help -->
           <div class="mt-8 pt-6 border-t border-[#1f202b] flex flex-col sm:flex-row items-center justify-between gap-4 text-xs">
-            <span class="text-gray-400">Dúvidas sobre o tempo de entrega?</span>
-            <a href="https://wa.me/351968885713?text=Ol%C3%A1%20Dark!%20Gostaria%20de%20informa%C3%A7%C3%B5es%20sobre%20o%20rastreio%20${history.trackingNumber}" target="_blank" class="px-4 py-2 bg-[#17261d] hover:bg-[#203629] text-[#25d366] border border-[#25d366]/40 rounded font-sub font-bold uppercase transition-colors flex items-center gap-1.5">
+            <span class="text-gray-400">Dúvidas sobre o tempo de entrega ou rastreamento?</span>
+            <a href="https://wa.me/351968885713?text=Ol%C3%A1%20Dark!%20Gostaria%20de%20informa%C3%A7%C3%B5es%20sobre%20a%20encomenda%20${history.orderId || history.trackingNumber}" target="_blank" class="px-4 py-2 bg-[#17261d] hover:bg-[#203629] text-[#25d366] border border-[#25d366]/40 rounded font-sub font-bold uppercase transition-colors flex items-center gap-1.5">
               <span>💬 Falar com Suporte no WhatsApp</span>
             </a>
           </div>
@@ -166,12 +182,12 @@
     }
 
     // Check URL parameters (e.g. ?order=... or ?code=...)
-    document.addEventListener('DOMContentLoaded', () => {
+    document.addEventListener('DOMContentLoaded', async () => {
       const urlParams = new URLSearchParams(window.location.search);
       const orderParam = urlParams.get('order') || urlParams.get('code');
       if (orderParam) {
         document.getElementById('track-input').value = orderParam;
-        renderTrackingResult(orderParam);
+        await renderTrackingResult(orderParam);
       }
     });
   </script>
