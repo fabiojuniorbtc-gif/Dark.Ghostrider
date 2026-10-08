@@ -179,6 +179,32 @@ const Store = {
     }
   },
 
+  filterApparel() {
+    this.activeCategory = 'wear';
+    this.onlyDarkChoice = false;
+    this.searchQuery = '';
+    const searchInput = document.getElementById('search-input');
+    if (searchInput) searchInput.value = '';
+
+    // Update active category pill
+    document.querySelectorAll('.category-pill').forEach(pill => {
+      pill.classList.toggle('active', pill.dataset.category === 'wear');
+    });
+
+    // Reset Dark Choice toggle checkbox
+    const darkToggle = document.getElementById('dark-choice-toggle');
+    if (darkToggle) darkToggle.checked = false;
+
+    // Render products
+    this.renderProducts();
+
+    // Scroll smoothly to catalog
+    const cat = document.getElementById('catalogo');
+    if (cat) {
+      cat.scrollIntoView({ behavior: 'smooth' });
+    }
+  },
+
   setupEventListeners() {
     // Currency buttons
     document.querySelectorAll('.currency-btn').forEach(btn => {
@@ -1147,6 +1173,30 @@ const Store = {
               <tr><td class="font-bold text-[#ff4d5a]">4XL</td><td>310x115x145 cm</td><td>Maxi Trail com Malas Laterais</td></tr>
             </tbody>
           </table>
+        </div>
+      `;
+    } else if (productId.includes('hoodie-dark') || productId.includes('tshirt-')) {
+      return `
+        <div id="sizing-guide-box-${productId}" class="sizing-guide-box hidden mb-3">
+          <div class="font-sub font-bold text-amber-400 mb-1.5 flex items-center gap-1.5 text-xs">
+            <span>📏</span> Tabela de Medidas Oficial (Unissexo XS ao 4XL)
+          </div>
+          <table class="sizing-table">
+            <thead>
+              <tr><th>Tam.</th><th>Peito (Largura)</th><th>Comprimento</th><th>Recomendação</th></tr>
+            </thead>
+            <tbody>
+              <tr><td class="font-bold text-[#ff4d5a]">XS</td><td>48 cm</td><td>64 cm</td><td>150-160 cm • 45-55 kg</td></tr>
+              <tr><td class="font-bold text-[#ff4d5a]">S</td><td>51 cm</td><td>67 cm</td><td>160-168 cm • 55-65 kg</td></tr>
+              <tr><td class="font-bold text-[#ff4d5a]">M</td><td>54 cm</td><td>70 cm</td><td>168-176 cm • 65-75 kg</td></tr>
+              <tr><td class="font-bold text-[#ff4d5a]">L</td><td>57 cm</td><td>73 cm</td><td>175-182 cm • 75-85 kg</td></tr>
+              <tr><td class="font-bold text-[#ff4d5a]">XL</td><td>60 cm</td><td>76 cm</td><td>180-188 cm • 85-95 kg</td></tr>
+              <tr><td class="font-bold text-[#ff4d5a]">2XL</td><td>63 cm</td><td>78 cm</td><td>185-192 cm • 95-105 kg</td></tr>
+              <tr><td class="font-bold text-[#ff4d5a]">3XL</td><td>66 cm</td><td>80 cm</td><td>188-196 cm • 105-115 kg</td></tr>
+              <tr><td class="font-bold text-[#ff4d5a]">4XL</td><td>69 cm</td><td>82 cm</td><td>190+ cm • 115+ kg</td></tr>
+            </tbody>
+          </table>
+          <p class="text-[10px] text-gray-400 mt-1 italic">* Para hoodies usados com proteções de mota por baixo ou para estilo mais largo, escolha 1 tamanho acima.</p>
         </div>
       `;
     }

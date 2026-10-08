@@ -1,5 +1,176 @@
 const PRODUCTS = [
   {
+    "id": "hoodie-dark-ghostrider-oficial",
+    "name": "Sweatshirt com Capuz Oficial Dark Ghostrider - Drop 01",
+    "category": "wear",
+    "priceEUR": 59.9,
+    "compareAtEUR": 79.9,
+    "priceBRL": 389.0,
+    "compareAtBRL": 499.0,
+    "badge": "DROP 01 • 50/50 RING SPUN",
+    "isDarkChoice": true,
+    "rating": 5.0,
+    "reviewsCount": 48,
+    "image": "assets/images/apparel/hoodie_preto.jpg",
+    "description": "A sweatshirt oficial com capuz da Dark Ghostrider para quem vive o asfalto. Confeccionada em malha nobre 50% Algodão pré-encolhido Ring Spun e 50% Poliéster reciclado (280g/m²). Toque aveludado encorpado, corte gender-neutral estruturado, bolso canguru e capuz de dupla camada com cordão regulador. Conta com duas estampas DTF de máxima definição e durabilidade: emblema circular no peito (10x10cm) e a mega estampa Dark Rider com o capacete e visor vermelho néon nas costas (30x30cm).",
+    "options": [
+      {
+        "name": "Cor",
+        "type": "select",
+        "values": [
+          "Preto Stealth (All Black)",
+          "Amarelo Fluorescente (High-Vis Neon)"
+        ]
+      },
+      {
+        "name": "Tamanho",
+        "type": "select",
+        "values": [
+          "XS",
+          "S",
+          "M",
+          "L",
+          "XL",
+          "2XL",
+          "3XL",
+          "4XL"
+        ]
+      }
+    ],
+    "supplierUrl": "Produção Nacional Oficial (Lisboa / Margem Sul)",
+    "costDetails": {
+      "productCostEUR": 33.74,
+      "shippingCostEUR": 0.0,
+      "totalCostEUR": 33.74,
+      "netProfitEUR": 26.16
+    },
+    "variantImages": {
+      "Preto Stealth (All Black)": "assets/images/apparel/hoodie_preto.jpg",
+      "Amarelo Fluorescente (High-Vis Neon)": "assets/images/apparel/hoodie_amarelo.jpg"
+    },
+    "gallery": [
+      "assets/images/apparel/hoodie_preto.jpg",
+      "assets/images/apparel/hoodie_amarelo.jpg",
+      "assets/images/apparel/estampa_costas.jpg",
+      "assets/images/apparel/emblema_peito.jpg",
+      "assets/images/apparel/banner_colecao_vestuario.jpg"
+    ]
+  },
+  {
+    "id": "tshirt-oversized-dark-ghostrider",
+    "name": "T-Shirt Streetwear Oversized Boxy Dark Ghostrider (Estampa A3)",
+    "category": "wear",
+    "priceEUR": 39.9,
+    "compareAtEUR": 49.9,
+    "priceBRL": 249.0,
+    "compareAtBRL": 320.0,
+    "badge": "STREETWEAR OVERSIZED A3",
+    "isDarkChoice": true,
+    "rating": 5.0,
+    "reviewsCount": 36,
+    "image": "assets/images/apparel/tshirt_oversized_preto.jpg",
+    "description": "T-shirt com corte largo contemporâneo Oversized Boxy Fit, ombros caídos e gola canelada de alta densidade. Confeccionada em algodão pesado estruturado. Estampa DTF em grande formato A3 nas costas com acabamento fosco ultra-resistente a lavagens e emblema de peito de alta precisão. A peça definitiva para encontros de motos e estilo urbano marcante.",
+    "options": [
+      {
+        "name": "Cor",
+        "type": "select",
+        "values": [
+          "Preto Stealth (All Black)",
+          "Amarelo Fluorescente (High-Vis Neon)"
+        ]
+      },
+      {
+        "name": "Tamanho",
+        "type": "select",
+        "values": [
+          "XS",
+          "S",
+          "M",
+          "L",
+          "XL",
+          "2XL",
+          "3XL",
+          "4XL"
+        ]
+      }
+    ],
+    "supplierUrl": "Produção Nacional Oficial (Lisboa / Margem Sul)",
+    "costDetails": {
+      "productCostEUR": 23.86,
+      "shippingCostEUR": 0.0,
+      "totalCostEUR": 23.86,
+      "netProfitEUR": 16.04
+    },
+    "variantImages": {
+      "Preto Stealth (All Black)": "assets/images/apparel/tshirt_oversized_preto.jpg",
+      "Amarelo Fluorescente (High-Vis Neon)": "assets/images/apparel/tshirt_oversized_amarelo.jpg"
+    },
+    "gallery": [
+      "assets/images/apparel/tshirt_oversized_preto.jpg",
+      "assets/images/apparel/tshirt_oversized_amarelo.jpg",
+      "assets/images/apparel/estampa_costas.jpg",
+      "assets/images/apparel/emblema_peito.jpg",
+      "assets/images/apparel/banner_colecao_vestuario.jpg"
+    ]
+  },
+  {
+    "id": "tshirt-classic-bio190-dark-ghostrider",
+    "name": "T-Shirt Classic Rider Bio190 IC 100% Algodão Orgânico (Estampa A3)",
+    "category": "wear",
+    "priceEUR": 29.9,
+    "compareAtEUR": 39.9,
+    "priceBRL": 189.0,
+    "compareAtBRL": 249.0,
+    "badge": "100% ALGODÃO ORGÂNICO A3",
+    "isDarkChoice": true,
+    "rating": 4.9,
+    "reviewsCount": 52,
+    "image": "assets/images/apparel/tshirt_classic_preto.jpg",
+    "description": "A camisola essencial para pilotos. Confeccionada no conceituado modelo Kariban Bio190 IC (185-190 g/m²) em 100% algodão biológico certificado. Modelo sem etiqueta de marca no pescoço ('No Label'), corte clássico tubular confortável perfeito para vestir sob o blusão de mota. Conta com mega estampa A3 nas costas e emblema no peito com cores de alto contraste.",
+    "options": [
+      {
+        "name": "Cor",
+        "type": "select",
+        "values": [
+          "Preto Stealth (All Black)",
+          "Amarelo Fluorescente (High-Vis Neon)"
+        ]
+      },
+      {
+        "name": "Tamanho",
+        "type": "select",
+        "values": [
+          "XS",
+          "S",
+          "M",
+          "L",
+          "XL",
+          "2XL",
+          "3XL",
+          "4XL"
+        ]
+      }
+    ],
+    "supplierUrl": "Produção Nacional Oficial (Lisboa / Margem Sul)",
+    "costDetails": {
+      "productCostEUR": 18.94,
+      "shippingCostEUR": 0.0,
+      "totalCostEUR": 18.94,
+      "netProfitEUR": 10.96
+    },
+    "variantImages": {
+      "Preto Stealth (All Black)": "assets/images/apparel/tshirt_classic_preto.jpg",
+      "Amarelo Fluorescente (High-Vis Neon)": "assets/images/apparel/tshirt_classic_amarelo.jpg"
+    },
+    "gallery": [
+      "assets/images/apparel/tshirt_classic_preto.jpg",
+      "assets/images/apparel/tshirt_classic_amarelo.jpg",
+      "assets/images/apparel/estampa_costas.jpg",
+      "assets/images/apparel/emblema_peito.jpg",
+      "assets/images/apparel/banner_colecao_vestuario.jpg"
+    ]
+  },
+  {
     "id": "retrovisor-stealth-e9",
     "name": "Retrovisores Stealth Wing / Bar-End Elevado E9 Alumínio CNC - MT-07",
     "category": "mt07",

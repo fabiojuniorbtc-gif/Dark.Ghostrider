@@ -98,7 +98,13 @@ def notify_order_telegram(order):
     items_desc = "\n".join([f"  • <b>{it.get('name')}</b> ({it.get('variant', 'Unico')}) x{it.get('quantity', 1)} - <b>{it.get('priceEUR', 0):.2f} €</b>" for it in items])
     
     # Primary supplier link
-    supplier_url = items[0].get('supplierUrl', 'https://aliexpress.com') if items else 'https://aliexpress.com'
+    raw_supplier_url = items[0].get('supplierUrl', '') if items else ''
+    if raw_supplier_url and raw_supplier_url.startswith(('http://', 'https://')):
+        supplier_url = raw_supplier_url
+        supplier_btn_text = '🛒 COMPRAR NO FORNECEDOR'
+    else:
+        supplier_url = f"{BASE_SITE_URL}/admin.html"
+        supplier_btn_text = '👕 ENVIAR À ESTAMPARIA / VER NO PAINEL'
     
     phone_clean = cust.get('phone', '').replace(' ', '').replace('-', '').replace('+', '')
     wa_customer_msg = f"Ola {cust.get('name')}, confirmamos a tua encomenda {order.get('id')} na Dark Ghostrider Store! Ja estamos a preparar o envio."
@@ -126,7 +132,7 @@ def notify_order_telegram(order):
     reply_markup = {
         'inline_keyboard': [
             [
-                {'text': '🛒 COMPRAR NO ALIEXPRESS', 'url': supplier_url}
+                {'text': supplier_btn_text, 'url': supplier_url}
             ],
             [
                 {'text': '📦 MARCAR COMO COMPRADO', 'callback_data': f"status_prep_{order.get('id')}"}
