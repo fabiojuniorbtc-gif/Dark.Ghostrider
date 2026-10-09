@@ -189,15 +189,34 @@ let smokeInstance = null;
 const motoAudio = new MotoAudioSynth();
 
 document.addEventListener('DOMContentLoaded', () => {
-  smokeInstance = new SmokeEngine('smoke-canvas');
-
   const introScreen = document.getElementById('intro-screen');
+  
+  // Se o utilizador já viu a intro nesta sessão, se a URL tem ?nointro ou se veio de um link com hash, não mostra a intro
+  const shouldSkipIntro = 
+    window.location.search.includes('nointro') ||
+    (window.location.hash && window.location.hash !== '#' && window.location.hash !== '#hero-section') ||
+    sessionStorage.getItem('dark_intro_seen') === 'true';
+
+  if (introScreen && shouldSkipIntro) {
+    introScreen.style.display = 'none';
+    document.body.style.overflow = 'auto';
+    if (window.location.hash) {
+      setTimeout(() => {
+        const target = document.querySelector(window.location.hash);
+        if (target) target.scrollIntoView({ behavior: 'smooth' });
+      }, 100);
+    }
+  } else if (introScreen) {
+    smokeInstance = new SmokeEngine('smoke-canvas');
+  }
+
   const btnEnter = document.getElementById('btn-enter');
   const btnSkip = document.getElementById('btn-skip');
   const btnIntroBadge = document.getElementById('btn-intro-badge');
 
   function closeIntro(target = null) {
     if (!introScreen) return;
+    try { sessionStorage.setItem('dark_intro_seen', 'true'); } catch (e) {}
     motoAudio.playRev();
     introScreen.classList.add('fade-out');
     setTimeout(() => {
@@ -220,6 +239,30 @@ document.addEventListener('DOMContentLoaded', () => {
         }
       }
     }, 700);
+  }
+
+  // Clicar no logo DARK GHOSTRIDER STORE no cabeçalho vai SEMPRE direto para o início da página (Hero com vídeo), nunca para a intro
+  const headerBrandLogo = document.getElementById('header-brand-logo');
+  if (headerBrandLogo) {
+    headerBrandLogo.addEventListener('click', (e) => {
+      try { sessionStorage.setItem('dark_intro_seen', 'true'); } catch (err) {}
+      if (introScreen) {
+        introScreen.style.display = 'none';
+        if (smokeInstance) smokeInstance.stop();
+        document.body.style.overflow = 'auto';
+      }
+      const isHomePage = window.location.pathname.endsWith('index.html') || window.location.pathname === '/' || window.location.pathname.endsWith('/');
+      if (isHomePage) {
+        e.preventDefault();
+        const hero = document.getElementById('hero-section');
+        if (hero) {
+          hero.scrollIntoView({ behavior: 'smooth' });
+        } else {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+        try { history.pushState(null, null, '#hero-section'); } catch (err) {}
+      }
+    });
   }
 
   // Direcionar diretamente para "Quem é o Dark?" ao clicar em DARK RIDER GARAGE
