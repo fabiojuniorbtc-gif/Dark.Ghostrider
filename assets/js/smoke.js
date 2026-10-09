@@ -206,9 +206,7 @@ document.addEventListener('DOMContentLoaded', () => {
       document.body.style.overflow = 'auto';
       
       let targetId = null;
-      if (target === true || target === 'catalogo') {
-        targetId = 'catalogo';
-      } else if (typeof target === 'string') {
+      if (typeof target === 'string') {
         targetId = target;
       }
 
@@ -244,7 +242,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (btnEnter) {
     btnEnter.addEventListener('click', (e) => {
       e.preventDefault();
-      closeIntro('catalogo');
+      closeIntro(null);
     });
   }
 
@@ -259,7 +257,7 @@ document.addEventListener('DOMContentLoaded', () => {
   window.addEventListener('keydown', (e) => {
     if (introScreen && !introScreen.classList.contains('fade-out')) {
       if (e.key === 'Enter' || e.key === ' ' || e.key === 'Escape') {
-        closeIntro();
+        closeIntro(null);
       }
     }
   });

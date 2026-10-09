@@ -14,9 +14,41 @@ const Store = {
 
   init() {
     this.loadCart();
+
+    // Check URL parameters (e.g. ?category=wear or ?product=...)
+    try {
+      const urlParams = new URLSearchParams(window.location.search);
+      const catParam = urlParams.get('category');
+      if (catParam) {
+        this.activeCategory = catParam;
+      }
+      if (urlParams.get('dark') === 'true') {
+        this.onlyDarkChoice = true;
+      }
+    } catch (e) {}
+
     this.setupEventListeners();
+
+    if (this.activeCategory !== 'all') {
+      document.querySelectorAll('.category-pill').forEach(pill => {
+        pill.classList.toggle('active', pill.dataset.category === this.activeCategory);
+      });
+    }
+    if (this.onlyDarkChoice) {
+      const darkToggle = document.getElementById('dark-choice-toggle');
+      if (darkToggle) darkToggle.checked = true;
+    }
+
     this.renderProducts();
     this.updateCartUI();
+
+    try {
+      const urlParams = new URLSearchParams(window.location.search);
+      const prodParam = urlParams.get('product');
+      if (prodParam) {
+        setTimeout(() => this.showProductModal(prodParam), 250);
+      }
+    } catch (e) {}
   },
 
   loadCart() {
@@ -154,6 +186,11 @@ const Store = {
   },
 
   filterDarkBikePartsOnly() {
+    const grid = document.getElementById('products-grid');
+    if (!grid) {
+      window.location.href = 'catalogo.html?category=mt07&dark=true';
+      return;
+    }
     this.activeCategory = 'mt07';
     this.onlyDarkChoice = true;
     this.searchQuery = '';
@@ -180,6 +217,11 @@ const Store = {
   },
 
   filterApparel() {
+    const grid = document.getElementById('products-grid');
+    if (!grid) {
+      window.location.href = 'catalogo.html?category=wear';
+      return;
+    }
     this.activeCategory = 'wear';
     this.onlyDarkChoice = false;
     this.searchQuery = '';
@@ -1054,14 +1096,30 @@ const Store = {
 
   navigateToSection(sectionId) {
     this.closeSidebar();
+    if (sectionId === 'catalogo') {
+      if (window.location.pathname.endsWith('catalogo.html')) {
+        const el = document.getElementById('catalogo');
+        if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      } else {
+        window.location.href = 'catalogo.html';
+      }
+      return;
+    }
     const el = document.getElementById(sectionId);
     if (el) {
       el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    } else {
+      window.location.href = `index.html#${sectionId}`;
     }
   },
 
   filterCategoryFromSidebar(cat) {
     this.closeSidebar();
+    const grid = document.getElementById('products-grid');
+    if (!grid) {
+      window.location.href = `catalogo.html?category=${cat}`;
+      return;
+    }
     this.activeCategory = cat;
     document.querySelectorAll('.category-pill').forEach(pill => {
       pill.classList.toggle('active', pill.dataset.category === cat);
