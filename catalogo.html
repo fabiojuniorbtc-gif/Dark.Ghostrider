@@ -32,26 +32,30 @@
   <link rel="icon" type="image/jpeg" href="assets/images/logo.jpg">
 </head>
 <body class="bg-[#08080a] text-gray-100 antialiased selection:bg-[#e61426] selection:text-white">
-<!-- ==========================================
+  <!-- ==========================================
        ANNOUNCEMENT BAR
        ========================================== -->
-  <div class="bg-gradient-to-r from-[#160608] via-[#24080b] to-[#160608] border-b border-[#e61426]/30 text-xs py-2 px-4 text-center text-gray-300 font-sub tracking-wider flex items-center justify-center gap-3">
-    <span class="inline-block w-2 h-2 rounded-full bg-[#ffe600] animate-ping"></span>
-    <span>🇵🇹 <strong>PORTUGAL:</strong> Envios rápidos & Pagamento via <strong>MB WAY</strong> e <strong>Multibanco</strong></span>
+  <div class="bg-gradient-to-r from-[#140507] via-[#22070a] to-[#140507] border-b border-[#e61426]/30 py-2 px-4 text-center font-sub text-xs tracking-wider text-gray-300 flex items-center justify-center flex-wrap gap-x-6 gap-y-1">
+    <div class="flex items-center gap-2">
+      <span class="inline-block w-2 h-2 rounded-full bg-[#ffe600] animate-ping"></span>
+      <span>🇵🇹 <strong>PORTUGAL:</strong> Envios rápidos & Pagamento via <strong>MB WAY</strong> e <strong>Multibanco</strong></span>
+    </div>
     <span class="hidden md:inline text-gray-600">|</span>
-    <span class="hidden md:inline">🇧🇷 <strong>BRASIL:</strong> Envio internacional disponível com rastreio em tempo real</span>
+    <div class="flex items-center gap-2">
+      <span>🇧🇷 <strong>BRASIL:</strong> Envio internacional disponível com rastreio em tempo real</span>
+    </div>
   </div>
 
-  
-<!-- ==========================================
+  <!-- ==========================================
        HEADER & NAVIGATION
        ========================================== -->
-  <header class="sticky top-0 z-50 bg-[#0a0b10]/90 backdrop-blur-md border-b border-[#1f202b]">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+  <header class="sticky top-0 z-50 bg-[#0a0b10]/95 backdrop-blur-md border-b border-[#1f202b]">
+    <div class="w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between gap-4">
       
-      <div class="flex items-center gap-2 sm:gap-3">
+      <!-- Left: Menu Toggle + Brand Logo -->
+      <div class="flex items-center gap-2.5 sm:gap-3 flex-shrink-0">
         <!-- Expandable Lateral Sidebar Menu Toggle Button -->
-        <button id="sidebar-toggle-btn" onclick="Store.toggleSidebar()" class="flex items-center gap-2 p-2.5 bg-[#171822] hover:bg-[#202230] border border-[#26283b] hover:border-[#e61426] rounded-xl text-white transition-all cursor-pointer group shadow-md shadow-black/40" title="Abrir Menu Lateral Expansível">
+        <button id="sidebar-toggle-btn" onclick="Store.toggleSidebar()" class="flex items-center gap-2 px-3 py-2.5 bg-[#141520] hover:bg-[#1f2030] border border-[#26283b] hover:border-[#e61426] rounded-xl text-white transition-all cursor-pointer group shadow-md shadow-black/40" title="Abrir Menu Lateral">
           <svg class="w-5 h-5 text-gray-300 group-hover:text-[#ff4d5a] transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
           </svg>
@@ -59,62 +63,65 @@
         </button>
 
         <!-- Brand Logo -->
-        <a href="index.html" id="header-brand-logo" class="flex items-center gap-3.5 group">
-          <div class="w-14 h-14 sm:w-15 sm:h-15 rounded-xl overflow-hidden border-2 border-[#ff2a3c]/60 p-0.5 bg-[#090a10] group-hover:border-[#ff2a3c] transition-all shadow-xl shadow-red-950/40 group-hover:shadow-[0_0_15px_rgba(255,42,60,0.35)]">
+        <a href="index.html" id="header-brand-logo" class="flex items-center gap-3 group">
+          <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-xl overflow-hidden border-2 border-[#ff2a3c]/60 p-0.5 bg-[#090a10] group-hover:border-[#ff2a3c] transition-all shadow-xl shadow-red-950/40 group-hover:shadow-[0_0_15px_rgba(255,42,60,0.35)] flex-shrink-0">
             <img src="assets/images/logo.png" alt="Dark Ghostrider Logo" class="w-full h-full object-cover rounded-lg">
           </div>
           <div>
-            <span class="font-heading font-black text-2xl text-white tracking-widest block leading-none group-hover:text-gray-100 transition-colors">
+            <span class="font-heading font-black text-xl sm:text-2xl text-white tracking-widest block leading-none group-hover:text-gray-100 transition-colors">
               DARK<span class="text-[#ff2a3c]">.</span>
             </span>
-            <span class="font-sub font-bold text-[11px] text-gray-400 tracking-wider block mt-1 uppercase">
+            <span class="font-sub font-bold text-[10px] sm:text-[11px] text-gray-400 tracking-wider block mt-1 uppercase">
               GHOSTRIDER STORE
             </span>
           </div>
         </a>
       </div>
 
-      <!-- Desktop Nav Links -->
-      <nav class="hidden md:flex items-center gap-7 font-sub text-sm font-semibold tracking-wider uppercase text-gray-300">
-        <a href="index.html#drop-vestuario" class="text-[#ffe600] hover:text-[#fff033] transition-colors flex items-center gap-1.5 font-bold">
+      <!-- Center: Desktop Nav Links (Never wraps, responsive gaps & font sizes) -->
+      <nav class="hidden lg:flex items-center gap-1 xl:gap-2.5 font-sub text-xs xl:text-sm font-semibold tracking-wider uppercase text-gray-300">
+        <a href="index.html#drop-vestuario" class="text-[#ffe600] hover:text-[#fff033] hover:bg-[#ffe600]/10 px-2.5 xl:px-3 py-2 rounded-lg transition-all flex items-center gap-1.5 whitespace-nowrap font-bold">
           <span>👕</span> Vestuário <span class="bg-[#e61426] text-white text-[9px] px-1.5 py-0.5 rounded font-black tracking-normal">DROP 01</span>
         </a>
-        <a href="#destaque-retrovisor" class="text-amber-400 hover:text-amber-300 transition-colors flex items-center gap-1">
-          <span>★</span> Retrovisores
+        <a href="index.html#garagem-raiox" class="hover:text-[#ff4d5a] hover:bg-white/5 px-2.5 xl:px-3 py-2 rounded-lg transition-all whitespace-nowrap">
+          Raio-X MT-07
         </a>
-        <a href="index.html#garagem-raiox" class="hover:text-[#e61426] transition-colors">Raio-X MT-07</a>
-        <a href="index.html#quem-e-o-dark" class="hover:text-[#e61426] transition-colors flex items-center gap-1">
+        <a href="index.html#quem-e-o-dark" class="hover:text-[#ff4d5a] hover:bg-white/5 px-2.5 xl:px-3 py-2 rounded-lg transition-all flex items-center gap-1 whitespace-nowrap">
           <span>🏍️</span> Quem é o Dark?
         </a>
-        <a href="#catalogo" class="text-[#ff4d5a] font-bold border-b-2 border-[#ff4d5a] pb-1 transition-colors">Catálogo</a>
-        <a href="#duvidas" class="hover:text-[#e61426] transition-colors">FAQ</a>
-        <a href="rastreio.html" class="text-cyan-400 hover:text-cyan-300 transition-colors flex items-center gap-1">
+        <a href="#catalogo" class="bg-[#e61426]/15 text-[#ff4d5a] border border-[#e61426]/40 px-3 py-2 rounded-lg transition-all flex items-center gap-1.5 whitespace-nowrap font-bold shadow-sm shadow-red-950/30">
+          <span>🛒</span> Catálogo
+        </a>
+        <a href="#duvidas" class="hover:text-[#ff4d5a] hover:bg-white/5 px-2.5 xl:px-3 py-2 rounded-lg transition-all whitespace-nowrap">
+          FAQ
+        </a>
+        <a href="rastreio.html" class="text-cyan-400 hover:text-cyan-300 hover:bg-cyan-500/10 px-2.5 xl:px-3 py-2 rounded-lg transition-all flex items-center gap-1 whitespace-nowrap">
           <span>📦</span> Rastreio
         </a>
       </nav>
 
-      <!-- Right Controls: Currency Switcher & Cart -->
-      <div class="flex items-center gap-4">
+      <!-- Right Controls: Instagram + Currency Switcher + Cart -->
+      <div class="flex items-center gap-2.5 sm:gap-3 flex-shrink-0">
         
-        <!-- Instagram Link -->
-        <a href="https://instagram.com/dark.ghostrider" target="_blank" rel="noopener noreferrer" class="hidden sm:flex items-center gap-1.5 text-xs font-sub font-bold text-gray-400 hover:text-white transition-colors bg-[#15161f] border border-[#242533] px-3 py-1.5 rounded-full">
+        <!-- Instagram Link (hidden under xl to protect nav spacing) -->
+        <a href="https://instagram.com/dark.ghostrider" target="_blank" rel="noopener noreferrer" class="hidden xl:flex items-center gap-1.5 text-xs font-sub font-bold text-gray-400 hover:text-white transition-all bg-[#141520] hover:bg-[#1d1f2e] border border-[#242533] hover:border-pink-500/40 px-3 py-2 rounded-full whitespace-nowrap shadow-sm">
           <span>📸</span> @dark.ghostrider
         </a>
 
         <!-- Currency Selector -->
-        <div class="flex bg-[#12131a] border border-[#242533] rounded-lg p-0.5 text-xs font-sub font-bold">
-          <button class="currency-btn px-2.5 py-1 rounded transition-colors active bg-[#e61426] text-white" data-currency="EUR">
+        <div class="flex bg-[#12131a] border border-[#242533] rounded-xl p-1 text-xs font-sub font-bold whitespace-nowrap shadow-sm">
+          <button class="currency-btn px-2.5 py-1 rounded-lg transition-colors active bg-[#e61426] text-white shadow-sm" data-currency="EUR">
             🇵🇹 EUR (€)
           </button>
-          <button class="currency-btn px-2.5 py-1 rounded transition-colors text-gray-400 hover:text-white" data-currency="BRL">
+          <button class="currency-btn px-2.5 py-1 rounded-lg transition-colors text-gray-400 hover:text-white" data-currency="BRL">
             🇧🇷 BRL (R$)
           </button>
         </div>
 
         <!-- Cart Button -->
-        <button id="cart-toggle-btn" class="relative p-2.5 bg-[#171822] hover:bg-[#202230] border border-[#26283b] rounded-lg text-white transition-colors flex items-center justify-center">
+        <button id="cart-toggle-btn" class="relative p-2.5 bg-[#141520] hover:bg-[#1f2030] border border-[#26283b] hover:border-[#ff2a3c] rounded-xl text-white transition-all flex items-center justify-center cursor-pointer shadow-sm group" title="Ver Carrinho">
           <span class="text-lg">🛒</span>
-          <span id="cart-count-badge" class="absolute -top-2 -right-2 bg-[#e61426] text-white font-heading text-xs font-bold w-5 h-5 rounded-full flex items-center justify-center shadow-lg shadow-red-600/50 hidden">
+          <span id="cart-count-badge" class="absolute -top-1.5 -right-1.5 bg-[#e61426] text-white font-heading text-[10px] font-black w-5 h-5 rounded-full flex items-center justify-center shadow-lg shadow-red-600/50 hidden">
             0
           </span>
         </button>
