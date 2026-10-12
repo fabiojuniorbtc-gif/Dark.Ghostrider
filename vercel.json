@@ -1,9 +1,10 @@
 {
-  "version": 2,
   "cleanUrls": true,
-  "routes": [
-    { "src": "/admin", "dest": "/admin.html" },
-    { "src": "/rastreio", "dest": "/rastreio.html" },
-    { "src": "/(.*)", "dest": "/$1" }
+  "rewrites": [
+    { "source": "/admin", "destination": "/admin.html" },
+    { "source": "/rastreio", "destination": "/rastreio.html" },
+    { "source": "/vestuario", "destination": "/vestuario.html" },
+    { "source": "/raiox", "destination": "/raiox.html" },
+    { "source": "/catalogo", "destination": "/catalogo.html" }
   ]
 }
