@@ -217,34 +217,7 @@ const Store = {
   },
 
   filterApparel() {
-    const grid = document.getElementById('products-grid');
-    if (!grid) {
-      window.location.href = 'catalogo.html?category=wear';
-      return;
-    }
-    this.activeCategory = 'wear';
-    this.onlyDarkChoice = false;
-    this.searchQuery = '';
-    const searchInput = document.getElementById('search-input');
-    if (searchInput) searchInput.value = '';
-
-    // Update active category pill
-    document.querySelectorAll('.category-pill').forEach(pill => {
-      pill.classList.toggle('active', pill.dataset.category === 'wear');
-    });
-
-    // Reset Dark Choice toggle checkbox
-    const darkToggle = document.getElementById('dark-choice-toggle');
-    if (darkToggle) darkToggle.checked = false;
-
-    // Render products
-    this.renderProducts();
-
-    // Scroll smoothly to catalog
-    const cat = document.getElementById('catalogo');
-    if (cat) {
-      cat.scrollIntoView({ behavior: 'smooth' });
-    }
+    window.location.href = 'vestuario.html';
   },
 
   setupEventListeners() {
@@ -1096,6 +1069,14 @@ const Store = {
 
   navigateToSection(sectionId) {
     this.closeSidebar();
+    if (sectionId === 'vestuario' || sectionId === 'drop-vestuario') {
+      window.location.href = 'vestuario.html';
+      return;
+    }
+    if (sectionId === 'garagem-raiox' || sectionId === 'raiox') {
+      window.location.href = 'raiox.html';
+      return;
+    }
     if (sectionId === 'catalogo') {
       if (window.location.pathname.endsWith('catalogo.html')) {
         const el = document.getElementById('catalogo');
@@ -1115,6 +1096,10 @@ const Store = {
 
   filterCategoryFromSidebar(cat) {
     this.closeSidebar();
+    if (cat === 'wear') {
+      window.location.href = 'vestuario.html';
+      return;
+    }
     const grid = document.getElementById('products-grid');
     if (!grid) {
       window.location.href = `catalogo.html?category=${cat}`;

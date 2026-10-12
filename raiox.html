@@ -1,0 +1,851 @@
+<!DOCTYPE html>
+<html lang="pt-PT" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DARK GHOSTRIDER | Loja Oficial Yamaha MT-07 & Acessórios Dark Rider</title>
+  <meta name="description" content="Acessórios, peças e vestuário testados e aprovados pelo @dark.ghostrider na Yamaha MT-07. Envios para Portugal e Brasil.">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              red: '#e61426',
+              redHover: '#ff2a3c',
+              dark: '#08080a',
+              card: '#15161e',
+              border: '#242533'
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Custom Dark Rider CSS -->
+  <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="icon" type="image/jpeg" href="assets/images/logo.jpg">
+</head>
+<body class="bg-[#08080a] text-gray-100 antialiased selection:bg-[#e61426] selection:text-white">
+<!-- ==========================================
+       ANNOUNCEMENT BAR
+       ========================================== -->
+  <!-- ==========================================
+       ANNOUNCEMENT BAR
+       ========================================== -->
+  <div class="bg-gradient-to-r from-[#140507] via-[#22070a] to-[#140507] border-b border-[#e61426]/30 py-2 px-4 text-center font-sub text-xs tracking-wider text-gray-300 flex items-center justify-center flex-wrap gap-x-6 gap-y-1">
+    <div class="flex items-center gap-2">
+      <span class="inline-block w-2 h-2 rounded-full bg-[#ffe600] animate-ping"></span>
+      <span>🇵🇹 <strong>PORTUGAL:</strong> Envios rápidos & Pagamento via <strong>MB WAY</strong> e <strong>Multibanco</strong></span>
+    </div>
+    <span class="hidden md:inline text-gray-600">|</span>
+    <div class="flex items-center gap-2">
+      <span>🇧🇷 <strong>BRASIL:</strong> Envio internacional disponível com rastreio em tempo real</span>
+    </div>
+  </div>
+
+  
+  <!-- ==========================================
+       HEADER & NAVIGATION
+       ========================================== -->
+  <header class="sticky top-0 z-50 bg-[#0a0b10]/95 backdrop-blur-md border-b border-[#1f202b]">
+    <div class="w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between gap-4">
+      
+      <!-- Left: Menu Toggle + Brand Logo -->
+      <div class="flex items-center gap-2.5 sm:gap-3 flex-shrink-0">
+        <!-- Expandable Lateral Sidebar Menu Toggle Button -->
+        <button id="sidebar-toggle-btn" onclick="Store.toggleSidebar()" class="flex items-center gap-2 px-3 py-2.5 bg-[#141520] hover:bg-[#1f2030] border border-[#26283b] hover:border-[#e61426] rounded-xl text-white transition-all cursor-pointer group shadow-md shadow-black/40" title="Abrir Menu Lateral">
+          <svg class="w-5 h-5 text-gray-300 group-hover:text-[#ff4d5a] transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+          </svg>
+          <span class="hidden sm:inline font-heading text-xs font-bold tracking-wider text-gray-200 group-hover:text-white">MENU</span>
+        </button>
+
+        <!-- Brand Logo -->
+        <a href="index.html?nointro=true#hero-section" id="header-brand-logo" class="flex items-center gap-3 group">
+          <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-xl overflow-hidden border-2 border-[#ff2a3c]/60 p-0.5 bg-[#090a10] group-hover:border-[#ff2a3c] transition-all shadow-xl shadow-red-950/40 group-hover:shadow-[0_0_15px_rgba(255,42,60,0.35)] flex-shrink-0">
+            <img src="assets/images/logo.png" alt="Dark Ghostrider Logo" class="w-full h-full object-cover rounded-lg">
+          </div>
+          <div>
+            <span class="font-heading font-black text-xl sm:text-2xl text-white tracking-widest block leading-none group-hover:text-gray-100 transition-colors">
+              DARK<span class="text-[#ff2a3c]">.</span>
+            </span>
+            <span class="font-sub font-bold text-[10px] sm:text-[11px] text-gray-400 tracking-wider block mt-1 uppercase">
+              GHOSTRIDER STORE
+            </span>
+          </div>
+        </a>
+      </div>
+
+      <!-- Center: Desktop Nav Links (Never wraps, responsive gaps & font sizes) -->
+      <nav class="hidden lg:flex items-center gap-1 xl:gap-2.5 font-sub text-xs xl:text-sm font-semibold tracking-wider uppercase text-gray-300">
+        <a href="vestuario.html" class="text-[#ffe600] hover:text-[#fff033] hover:bg-[#ffe600]/10 px-2.5 xl:px-3 py-2 rounded-lg transition-all flex items-center gap-1.5 whitespace-nowrap font-bold">
+          <span>👕</span> Vestuário <span class="bg-[#e61426] text-white text-[9px] px-1.5 py-0.5 rounded font-black tracking-normal">DROP 01</span>
+        </a>
+        <a href="raiox.html" class="bg-[#e61426]/15 text-[#ff4d5a] border border-[#e61426]/40 px-3 py-2 rounded-lg transition-all whitespace-nowrap flex items-center gap-1.5 font-bold shadow-sm shadow-red-950/30">
+          Raio-X MT-07
+        </a>
+        <a href="index.html#quem-e-o-dark" class="hover:text-[#ff4d5a] hover:bg-white/5 px-2.5 xl:px-3 py-2 rounded-lg transition-all flex items-center gap-1 whitespace-nowrap">
+          <span>🏍️</span> Quem é o Dark?
+        </a>
+        <a href="catalogo.html" class="hover:text-[#ff4d5a] hover:bg-white/5 px-2.5 xl:px-3 py-2 rounded-lg transition-all flex items-center gap-1.5 whitespace-nowrap font-bold">
+          <span>🛒</span> Catálogo
+        </a>
+        <a href="index.html#duvidas" class="hover:text-[#ff4d5a] hover:bg-white/5 px-2.5 xl:px-3 py-2 rounded-lg transition-all whitespace-nowrap">
+          FAQ
+        </a>
+        <a href="rastreio.html" class="text-cyan-400 hover:text-cyan-300 hover:bg-cyan-500/10 px-2.5 xl:px-3 py-2 rounded-lg transition-all flex items-center gap-1 whitespace-nowrap">
+          <span>📦</span> Rastreio
+        </a>
+      </nav>
+
+      <!-- Right Controls: Instagram + Currency Switcher + Cart -->
+      <div class="flex items-center gap-2.5 sm:gap-3 flex-shrink-0">
+        
+        <!-- Instagram Link (hidden under xl to protect nav spacing) -->
+        <a href="https://instagram.com/dark.ghostrider" target="_blank" rel="noopener noreferrer" class="hidden xl:flex items-center gap-1.5 text-xs font-sub font-bold text-gray-400 hover:text-white transition-all bg-[#141520] hover:bg-[#1d1f2e] border border-[#242533] hover:border-pink-500/40 px-3 py-2 rounded-full whitespace-nowrap shadow-sm">
+          <span>📸</span> @dark.ghostrider
+        </a>
+
+        <!-- Currency Selector -->
+        <div class="flex bg-[#12131a] border border-[#242533] rounded-xl p-1 text-xs font-sub font-bold whitespace-nowrap shadow-sm">
+          <button class="currency-btn px-2.5 py-1 rounded-lg transition-colors active bg-[#e61426] text-white shadow-sm" data-currency="EUR">
+            🇵🇹 EUR (€)
+          </button>
+          <button class="currency-btn px-2.5 py-1 rounded-lg transition-colors text-gray-400 hover:text-white" data-currency="BRL">
+            🇧🇷 BRL (R$)
+          </button>
+        </div>
+
+        <!-- Cart Button -->
+        <button id="cart-toggle-btn" class="relative p-2.5 bg-[#141520] hover:bg-[#1f2030] border border-[#26283b] hover:border-[#ff2a3c] rounded-xl text-white transition-all flex items-center justify-center cursor-pointer shadow-sm group" title="Ver Carrinho">
+          <span class="text-lg">🛒</span>
+          <span id="cart-count-badge" class="absolute -top-1.5 -right-1.5 bg-[#e61426] text-white font-heading text-[10px] font-black w-5 h-5 rounded-full flex items-center justify-center shadow-lg shadow-red-600/50 hidden">
+            0
+          </span>
+        </button>
+
+      </div>
+    </div>
+  </header>
+
+  <!-- ==========================================
+       DEDICATED RAIO-X HERO
+       ========================================== -->
+  <section class="py-12 bg-gradient-to-b from-[#0e0f17] via-[#090a10] to-[#08080a] border-b border-[#1f202b]">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <!-- Breadcrumb -->
+      <nav class="flex items-center gap-2 text-xs font-sub text-gray-400 mb-6 uppercase tracking-wider">
+        <a href="index.html" class="hover:text-white transition-colors flex items-center gap-1">
+          <span>🏠</span> Início
+        </a>
+        <span class="text-gray-600">/</span>
+        <span class="text-[#ff4d5a] font-bold">Raio-X do Setup MT-07</span>
+      </nav>
+
+      <div class="flex flex-col md:flex-row md:items-end justify-between gap-6">
+        <div>
+          <div class="inline-flex items-center gap-2 px-3.5 py-1.5 bg-red-950/60 border border-red-500/40 rounded-full text-xs font-sub font-bold tracking-widest text-[#ff4d5a] uppercase mb-3 shadow-lg shadow-red-950/30">
+            <span>⚡</span> EXPLORADOR INTERATIVO • SETUP REAL DA MÁQUINA
+          </div>
+          <h1 class="font-heading font-black text-3xl sm:text-5xl text-white tracking-wider leading-tight">
+            RAIO-X DO SETUP DA MT-07 DO DARK
+          </h1>
+          <p class="text-sm sm:text-base text-gray-300 font-body max-w-2xl mt-3 leading-relaxed">
+            Inspecione interativamente cada componente montado na minha Yamaha MT-07: retrovisores stealth winglets, escape full carbono, piscas sequenciais, lanterna fumê e proteção de quadro.
+          </p>
+        </div>
+
+        <div class="flex flex-wrap items-center gap-3">
+          <a href="catalogo.html?category=mt07&dark=true" class="px-5 py-3 bg-[#e61426] hover:bg-[#ff2a3c] text-white rounded-xl text-xs font-sub font-bold uppercase tracking-wider transition-all flex items-center gap-2 shadow-lg shadow-red-950/40">
+            <span>🛒</span> Ver Todas as Peças no Catálogo
+            <span>➜</span>
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ==========================================
+       INTERACTIVE MT-07 BLUEPRINT / RADAR HOTSPOTS
+       ========================================== -->
+  <section id="garagem-raiox" class="py-16 bg-[#09090d] border-b border-[#1f202b]">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="text-center max-w-3xl mx-auto mb-12">
+        <span class="text-xs font-sub font-bold text-[#ff4d5a] uppercase tracking-widest block mb-2">
+          EXPLORADOR INTERATIVO
+        </span>
+        <h2 class="font-heading font-black text-3xl sm:text-4xl text-white tracking-wider mb-3">
+          RAIO-X DO SETUP da MT-07 do Dark
+        </h2>
+        <p class="text-sm text-gray-400 font-body">
+          Passe o cursor ou toque nos pontos vermelhos pulsantes para inspecionar cada peça instalada na minha máquina.
+        </p>
+      </div>
+
+      <div class="relative max-w-4xl mx-auto bg-[#0f1017] border border-[#242533] rounded-2xl p-4 shadow-2xl">
+        <img src="assets/images/hero-mt07.jpg" alt="Blueprint Yamaha MT-07" class="w-full h-auto rounded-xl object-cover opacity-90">
+
+        <!-- Hotspot 1: Retrovisores e Guidão -->
+        <div class="hotspot-pin" style="top: 35%; left: 58%;" onclick="Store.showProductModal('retrovisor-stealth-e9')">
+          <div class="hotspot-pin-inner"></div>
+          <div class="hotspot-popup">
+            <p class="font-sub font-bold text-white text-xs mb-1">Guiador & Cockpit</p>
+            <p class="text-[11px] text-[#ff4d5a] font-bold">Retrovisores Stealth Wing E9</p>
+            <p class="text-[10px] text-gray-400 mt-1">Clique para abrir especificações</p>
+          </div>
+        </div>
+
+        <!-- Hotspot 2: Lanterna Traseira e Rabeta -->
+        <div class="hotspot-pin" style="top: 45%; left: 28%;" onclick="Store.showProductModal('lanterna-led-fume-mt07')">
+          <div class="hotspot-pin-inner"></div>
+          <div class="hotspot-popup">
+            <p class="font-sub font-bold text-white text-xs mb-1">Iluminação Traseira</p>
+            <p class="text-[11px] text-[#ff4d5a] font-bold">Lanterna LED Fumê E-Mark</p>
+            <p class="text-[10px] text-gray-400 mt-1">Piscas sequenciais embutidos</p>
+          </div>
+        </div>
+
+        <!-- Hotspot 3: Escape R77 Carbono -->
+        <div class="hotspot-pin" style="top: 78%; left: 44%;" onclick="Store.showProductModal('escape-completo-r77-carbono')">
+          <div class="hotspot-pin-inner"></div>
+          <div class="hotspot-popup">
+            <p class="font-sub font-bold text-white text-xs mb-1">Performance & Som</p>
+            <p class="text-[11px] text-[#ff4d5a] font-bold">Escape R77 Full Carbono</p>
+            <p class="text-[10px] text-gray-400 mt-1">Ronco encorpado CP2</p>
+          </div>
+        </div>
+
+        <!-- Hotspot 4: Sliders Crash Pad de Quadro -->
+        <div class="hotspot-pin" style="top: 60%; left: 54%;" onclick="Store.showProductModal('sliders-protecao-quadro')">
+          <div class="hotspot-pin-inner"></div>
+          <div class="hotspot-popup">
+            <p class="font-sub font-bold text-white text-xs mb-1">Proteção de Motor</p>
+            <p class="text-[11px] text-[#ff4d5a] font-bold">Sliders Crash Pad Anti-Queda</p>
+            <p class="text-[10px] text-gray-400 mt-1">COOLPAD CNC & POM aeronáutico</p>
+          </div>
+        </div>
+
+        <!-- Hotspot 6: Capacete / POV (popup downwards to stay in frame) -->
+        <div class="hotspot-pin popup-down" style="top: 20%; left: 39%;" onclick="Store.showProductModal('suporte-queixo-gopro-capacete')">
+          <div class="hotspot-pin-inner"></div>
+          <div class="hotspot-popup">
+            <p class="font-sub font-bold text-white text-xs mb-1">Gravação POV</p>
+            <p class="text-[11px] text-[#ff4d5a] font-bold">Suporte Queixo GoPro Hero</p>
+            <p class="text-[10px] text-gray-400 mt-1">Ângulo dos vídeos do Instagram</p>
+          </div>
+        </div>
+
+        <!-- Hotspot 7: Adesivos de Tanque e Carenagem MT -->
+        <div class="hotspot-pin" style="top: 48%; left: 53%;" onclick="Store.showProductModal('adesivos-rodas-tanque-mt')">
+          <div class="hotspot-pin-inner"></div>
+          <div class="hotspot-popup">
+            <p class="font-sub font-bold text-white text-xs mb-1">Estilo & Personalização</p>
+            <p class="text-[11px] text-[#ff4d5a] font-bold">Kit Adesivos de Tanque MT</p>
+            <p class="text-[10px] text-gray-400 mt-1">29 cores & vinil automotivo</p>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ==========================================
+       PARCERIA OFICIAL KASHVELO GEAR PORTUGAL
+       ========================================== -->
+  <section id="kashvelo-gear" class="py-12 bg-gradient-to-r from-[#0d0e14] via-[#151622] to-[#0d0e14] border-b border-[#242533]">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="bg-[#10111a] border border-[#ffe600]/30 hover:border-[#ffe600]/60 transition-all rounded-2xl p-6 sm:p-8 flex flex-col md:flex-row items-center justify-between gap-6 shadow-xl">
+        <div class="flex items-center gap-5">
+          <div class="w-20 h-20 sm:w-24 sm:h-24 rounded-xl overflow-hidden bg-black p-2 border border-[#ffe600]/40 flex-shrink-0 flex items-center justify-center">
+            <img src="assets/images/kashvelo-logo.jpg" alt="KV KashVelo Gear Portugal" class="w-full h-full object-contain">
+          </div>
+          <div>
+            <div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 bg-[#ffe600]/10 border border-[#ffe600]/40 rounded-full text-[11px] font-sub font-bold text-[#ffe600] uppercase mb-1">
+              <span>🇵🇹</span> PARCERIA OFICIAL DARK RIDER
+            </div>
+            <h3 class="font-heading font-black text-xl sm:text-2xl text-white">
+              KASHVELO GEAR PORTUGAL
+            </h3>
+            <p class="text-xs sm:text-sm text-gray-300 font-body max-w-xl">
+              Luvas em couro bovino legítimo com protetor em fibra de carbono real. Proteção e pegada de pista com cupom exclusivo <strong>GR10GR</strong> (-10% OFF).
+            </p>
+          </div>
+        </div>
+        <button onclick="Store.showProductModal('kashvelo-gear-base-layer')" class="px-6 py-3 bg-[#ffe600] hover:bg-[#fff033] text-black font-heading font-bold text-xs uppercase tracking-wider rounded-lg shadow-lg shadow-yellow-500/20 transition-all flex items-center gap-2 whitespace-nowrap">
+          <span>Ver Luvas de Carbono</span>
+          <span>➜</span>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================
+       CATALOG SECTION & FILTERS
+       ========================================== -->
+  
+
+  <!-- ==========================================
+       FAQ SECTION
+       ========================================== -->
+  <section id="duvidas" class="py-16 bg-[#08080c] border-t border-[#1f202b]">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6">
+      
+      <div class="text-center mb-12">
+        <span class="text-xs font-sub font-bold text-[#ff4d5a] uppercase tracking-widest block mb-2">
+          PERGUNTAS FREQUENTES
+        </span>
+        <h2 class="font-heading font-black text-3xl sm:text-4xl text-white tracking-wider">
+          DÚVIDAS & LOGÍSTICA
+        </h2>
+      </div>
+
+      <div class="space-y-4 font-body text-sm">
+        
+        <div class="bg-[#12131b] border border-[#242533] p-5 rounded-xl">
+          <h4 class="font-sub font-bold text-white text-base mb-2">Quanto tempo demora a entrega em Portugal?</h4>
+          <p class="text-xs text-gray-300 leading-relaxed">
+            As encomendas para Portugal chegam habitualmente entre <strong>5 a 9 dias úteis</strong>. Após o envio, você recebe um código de rastreio oficial dos CTT e Cainiao para acompanhar cada etapa em tempo real.
+          </p>
+        </div>
+
+        <div class="bg-[#12131b] border border-[#242533] p-5 rounded-xl">
+          <h4 class="font-sub font-bold text-white text-base mb-2">Como funcionam os pagamentos por MB WAY e Multibanco?</h4>
+          <p class="text-xs text-gray-300 leading-relaxed">
+            Ao selecionar <strong>MB WAY</strong> no checkout, você insere o seu telemóvel e recebe um pedido imediato na sua aplicação MB WAY para autorizar em segundos. Se preferir <strong>Multibanco</strong>, geramos a Entidade e Referência oficiais. Também pode pedir diretamente pelo WhatsApp!
+          </p>
+        </div>
+
+        <div class="bg-[#12131b] border border-[#242533] p-5 rounded-xl">
+          <h4 class="font-sub font-bold text-white text-base mb-2">As peças servem apenas na MT-07 ou também em outras motos?</h4>
+          <p class="text-xs text-gray-300 leading-relaxed">
+            Os itens de guidão (retrovisores Stealth E9, parafusos), vestuário (balaclavas, armaduras), segurança (trava com alarme, capa) e suportes de câmera GoPro/DJI são <strong>universais</strong> e servem em MT-09, MT-03, Z900, CB650R e praticamente qualquer moto naked ou esportiva. As peças de chassi, escapamento e rabeta são específicas para a MT-07.
+          </p>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ==========================================
+       FOOTER
+       ========================================== -->
+  <footer class="bg-[#050608] border-t border-[#1a1b24] py-12 text-sm text-gray-400">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
+        <div class="md:col-span-2">
+          <div class="flex items-center gap-3 mb-4">
+            <img src="assets/images/logo.jpg" alt="Logo" class="w-10 h-10 rounded border border-[#e61426]/40 object-cover">
+            <span class="font-heading font-black text-xl text-white tracking-widest">
+              DARK <span class="text-[#e61426]">GHOSTRIDER</span>
+            </span>
+          </div>
+          <p class="text-gray-400 font-body text-xs sm:text-sm max-w-sm mb-4 leading-relaxed">
+            A estética dark rider e o setup definitivo da Yamaha MT-07. Peças selecionadas, homologadas e testadas pelo piloto.
+          </p>
+          <div class="flex items-center gap-3">
+            <a href="https://instagram.com/dark.ghostrider" target="_blank" rel="noopener noreferrer" class="p-2 bg-[#12131a] hover:bg-[#1c1d29] border border-[#242533] rounded text-white transition-colors text-xs font-sub font-bold flex items-center gap-1.5">
+              <span>📸 Instagram:</span> @dark.ghostrider
+            </a>
+          </div>
+        </div>
+
+        <div>
+          <h4 class="font-sub font-bold text-white uppercase tracking-wider mb-3">Links Rápidos</h4>
+          <ul class="space-y-2 text-xs font-sub">
+            <li><a href="#quem-e-o-dark" class="text-[#ff4d5a] hover:text-white transition-colors font-bold">★ Quem é o Dark?</a></li>
+            <li><a href="catalogo.html" class="hover:text-white transition-colors">Todos os Acessórios (Catálogo)</a></li>
+            <li><a href="catalogo.html" class="hover:text-white transition-colors">Retrovisores E9 Stealth</a></li>
+            <li><a href="#garagem-raiox" class="hover:text-white transition-colors">Raio-X da MT-07</a></li>
+            <li><a href="rastreio.html" class="text-cyan-400 hover:text-cyan-300 transition-colors">Rastreamento de Encomendas</a></li>
+            <li><a href="admin.html" class="text-gray-500 hover:text-gray-300 transition-colors flex items-center gap-1"><span>🔒</span> Painel de Pedidos (Admin)</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="font-sub font-bold text-white uppercase tracking-wider mb-3">Pagamentos Aceites</h4>
+          <div class="space-y-2 text-xs text-gray-400 font-body">
+            <p>🇵🇹 <strong>Portugal:</strong> MB WAY, Referência Multibanco, Cartões e Apple Pay.</p>
+            <p>🇧🇷 <strong>Brasil:</strong> PIX Instantâneo e Cartões de Crédito.</p>
+            <p>💬 <strong>WhatsApp:</strong> Pedido direto com o Dark Ghostrider.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="pt-8 border-t border-[#14151e] flex flex-col sm:flex-row items-center justify-between text-xs text-gray-600 gap-4">
+        <p>© 2026 Dark Ghostrider Store. Todos os direitos reservados.</p>
+        <p>Desenvolvido para entusiastas de duas rodas & estética Dark Rider.</p>
+            <a href="admin.html" class="text-gray-800 hover:text-gray-500 transition-colors p-1 ml-2 inline-flex items-center" title="Acesso Restrito do Piloto">
+              🔒
+            </a>
+      </div>
+
+    </div>
+  </footer>
+
+  <!-- ==========================================
+       FLOATING WHATSAPP BUTTON
+       ========================================== -->
+  <a href="https://wa.me/351968885713?text=Ol%C3%A1%20Dark%20Ghostrider!%20Estou%20no%20site%20e%20gostaria%20de%20tirar%20uma%20d%C3%BAvida%20sobre%20as%20pe%C3%A7as%20da%20MT-07." target="_blank" rel="noopener noreferrer" class="floating-whatsapp" title="Falar no WhatsApp">
+    <span class="floating-whatsapp-tooltip">Dúvidas? Fale com o Dark no WhatsApp</span>
+    <span class="text-3xl">💬</span>
+  </a>
+
+
+  <!-- ==========================================
+       CART DRAWER
+       ========================================== -->
+  <div id="cart-backdrop"></div>
+  <div id="cart-drawer">
+    <div class="p-4 border-b border-[#242533] flex items-center justify-between bg-[#11121a]">
+      <div class="flex items-center gap-2">
+        <span class="text-xl">🛒</span>
+        <h3 class="font-sub font-bold text-lg text-white uppercase tracking-wider">A Tua Garagem / Carrinho</h3>
+      </div>
+      <button id="cart-close-btn" class="text-gray-400 hover:text-white text-lg p-1">
+        ✕
+      </button>
+    </div>
+
+    <!-- Items List -->
+    <div id="cart-items-container" class="flex-1 overflow-y-auto p-4 space-y-2">
+      <!-- Items populated by app.js -->
+    </div>
+
+    <!-- Footer with Subtotal & Actions -->
+    <div class="p-4 bg-[#11121a] border-t border-[#242533] space-y-3">
+      <div class="flex items-center justify-between text-base font-sub font-bold text-gray-300">
+        <span>SUBTOTAL:</span>
+        <span id="cart-subtotal" class="font-heading font-black text-xl text-white">0,00 €</span>
+      </div>
+
+      <button id="btn-checkout-cart" class="w-full py-3.5 bg-[#e61426] hover:bg-[#ff2a3c] text-white font-sub font-bold uppercase tracking-wider rounded shadow-lg shadow-red-900/50 transition-all flex items-center justify-center gap-2">
+        <span>FINALIZAR ENCOMENDA</span>
+        <span class="text-xs bg-red-950 px-2 py-0.5 rounded">MB WAY / Multibanco / Cartão</span>
+      </button>
+
+      <button id="btn-whatsapp-cart" class="w-full py-3 bg-[#17261d] hover:bg-[#203629] text-[#25d366] border border-[#25d366]/40 rounded font-sub font-bold uppercase tracking-wider text-xs transition-all flex items-center justify-center gap-2">
+        <span>💬 Enviar Encomenda pelo WhatsApp</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- ==========================================
+       PRODUCT DETAILS MODAL
+       ========================================== -->
+  <div id="product-modal" class="modal-overlay">
+    <div class="modal-content relative">
+      <button id="modal-close-btn" class="absolute top-4 right-4 z-20 text-gray-400 hover:text-white text-xl bg-[#151620] w-8 h-8 rounded-full flex items-center justify-center border border-[#262838]">
+        ✕
+      </button>
+      <div id="modal-product-content">
+        <!-- Injected dynamically -->
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================
+       CHECKOUT MODAL (PORTUGAL & BRASIL)
+       ========================================== -->
+  <div id="checkout-modal" class="modal-overlay">
+    <div class="modal-content relative p-6 sm:p-8">
+      
+      <button id="checkout-modal-close" class="absolute top-4 right-4 text-gray-400 hover:text-white text-xl bg-[#151620] w-8 h-8 rounded-full flex items-center justify-center border border-[#262838]">
+        ✕
+      </button>
+
+      <!-- Form Container -->
+      <div id="checkout-form-container">
+        <div class="mb-6">
+          <span class="text-xs font-sub font-bold text-[#ff4d5a] uppercase tracking-widest block">CHECKOUT SEGURO</span>
+          <h3 class="font-heading font-black text-2xl text-white">FINALIZAR ENCOMENDA</h3>
+          <p class="text-xs text-gray-400 mt-1">Preencha os dados para entrega e selecione a forma de pagamento.</p>
+        </div>
+
+        <form onsubmit="Store.processCheckout(event)" class="space-y-4 font-body text-sm">
+          
+          <div class="grid sm:grid-cols-2 gap-3">
+            <div>
+              <label class="block text-xs font-sub font-bold text-gray-400 uppercase mb-1">Nome Completo *</label>
+              <input type="text" id="chk-name" required placeholder="Ex: Diogo Silva" class="w-full bg-[#12131c] text-white border border-[#26283b] rounded p-2.5 outline-none focus:border-[#e61426]">
+            </div>
+            <div>
+              <label class="block text-xs font-sub font-bold text-gray-400 uppercase mb-1">Telemóvel / WhatsApp *</label>
+              <input type="tel" id="chk-phone" required placeholder="+351 912 345 678" class="w-full bg-[#12131c] text-white border border-[#26283b] rounded p-2.5 outline-none focus:border-[#e61426]">
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-xs font-sub font-bold text-gray-400 uppercase mb-1">Email para Rastreio *</label>
+            <input type="email" id="chk-email" required placeholder="seu.email@exemplo.com" class="w-full bg-[#12131c] text-white border border-[#26283b] rounded p-2.5 outline-none focus:border-[#e61426]">
+          </div>
+
+          <div>
+            <label class="block text-xs font-sub font-bold text-gray-400 uppercase mb-1">Morada de Entrega (Rua, Número, Andar) *</label>
+            <input type="text" id="chk-address" required placeholder="Ex: Av. da Liberdade, 120, 2º Dto" class="w-full bg-[#12131c] text-white border border-[#26283b] rounded p-2.5 outline-none focus:border-[#e61426]">
+          </div>
+
+          <div class="grid grid-cols-2 gap-3">
+            <div>
+              <label class="block text-xs font-sub font-bold text-gray-400 uppercase mb-1">Código Postal *</label>
+              <input type="text" id="chk-postal" required placeholder="1250-140" class="w-full bg-[#12131c] text-white border border-[#26283b] rounded p-2.5 outline-none focus:border-[#e61426]">
+            </div>
+            <div>
+              <label class="block text-xs font-sub font-bold text-gray-400 uppercase mb-1">Cidade / Distrito *</label>
+              <input type="text" id="chk-city" required placeholder="Lisboa" class="w-full bg-[#12131c] text-white border border-[#26283b] rounded p-2.5 outline-none focus:border-[#e61426]">
+            </div>
+          </div>
+
+          <!-- Payment Options Portugal -->
+          <div id="payment-methods-pt" class="pt-4 border-t border-[#242533]">
+            <label class="block text-xs font-sub font-bold text-gray-300 uppercase tracking-wider mb-2">
+              🇵🇹 Escolha o Método de Pagamento (Portugal):
+            </label>
+            
+            <div class="grid grid-cols-3 gap-2">
+              <label class="flex flex-col items-center justify-center p-3 bg-[#12131b] border border-[#26283b] rounded-lg cursor-pointer hover:border-[#e61426] transition-colors has-[:checked]:border-[#e61426] has-[:checked]:bg-red-950/20">
+                <input type="radio" name="pay-pt" value="mbway" checked class="accent-[#e61426] mb-1">
+                <span class="font-sub font-bold text-sm text-white">MB WAY</span>
+                <span class="text-[10px] text-gray-400">Notificação App</span>
+              </label>
+
+              <label class="flex flex-col items-center justify-center p-3 bg-[#12131b] border border-[#26283b] rounded-lg cursor-pointer hover:border-[#e61426] transition-colors has-[:checked]:border-[#e61426] has-[:checked]:bg-red-950/20">
+                <input type="radio" name="pay-pt" value="multibanco" class="accent-[#e61426] mb-1">
+                <span class="font-sub font-bold text-sm text-white">Multibanco</span>
+                <span class="text-[10px] text-gray-400">Entidade / Ref.</span>
+              </label>
+
+              <label class="flex flex-col items-center justify-center p-3 bg-[#12131b] border border-[#26283b] rounded-lg cursor-pointer hover:border-[#e61426] transition-colors has-[:checked]:border-[#e61426] has-[:checked]:bg-red-950/20">
+                <input type="radio" name="pay-pt" value="card" class="accent-[#e61426] mb-1">
+                <span class="font-sub font-bold text-sm text-white">Cartão</span>
+                <span class="text-[10px] text-gray-400">Visa / Master</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- Payment Options Brasil -->
+          <div id="payment-methods-br" class="pt-4 border-t border-[#242533] hidden">
+            <label class="block text-xs font-sub font-bold text-gray-300 uppercase tracking-wider mb-2">
+              🇧🇷 Método de Pagamento (Brasil):
+            </label>
+            <div class="grid grid-cols-2 gap-2">
+              <label class="flex flex-col items-center justify-center p-3 bg-[#12131b] border border-[#26283b] rounded-lg cursor-pointer hover:border-[#e61426] transition-colors has-[:checked]:border-[#e61426] has-[:checked]:bg-red-950/20">
+                <input type="radio" name="pay-br" value="pix" checked class="accent-[#e61426] mb-1">
+                <span class="font-sub font-bold text-sm text-emerald-400">PIX Instantâneo</span>
+                <span class="text-[10px] text-gray-400">QR Code / Copia & Cola</span>
+              </label>
+              <label class="flex flex-col items-center justify-center p-3 bg-[#12131b] border border-[#26283b] rounded-lg cursor-pointer hover:border-[#e61426] transition-colors has-[:checked]:border-[#e61426] has-[:checked]:bg-red-950/20">
+                <input type="radio" name="pay-br" value="card" class="accent-[#e61426] mb-1">
+                <span class="font-sub font-bold text-sm text-white">Cartão de Crédito</span>
+                <span class="text-[10px] text-gray-400">Até 12x</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- Total & Submit -->
+          <div class="pt-4 flex items-center justify-between">
+            <div>
+              <span class="text-xs text-gray-400 block font-sub">TOTAL DA ENCOMENDA:</span>
+              <span id="checkout-modal-total" class="font-heading font-black text-2xl text-white">0,00 €</span>
+            </div>
+            <button type="submit" class="px-8 py-3 bg-[#e61426] hover:bg-[#ff2a3c] text-white font-sub font-bold uppercase tracking-wider rounded shadow-lg shadow-red-900/40 transition-all">
+              Confirmar Encomenda
+            </button>
+          </div>
+
+        </form>
+      </div>
+
+      <!-- Success Container -->
+      <div id="checkout-success-container" class="hidden text-center py-6">
+        <div class="w-16 h-16 bg-emerald-500/20 text-emerald-400 rounded-full flex items-center justify-center text-3xl mx-auto mb-4 border border-emerald-500/30">
+          ✓
+        </div>
+        
+        <h3 class="font-heading font-black text-2xl text-white mb-2">ENCOMENDA REGISTRADA!</h3>
+        <p class="text-sm text-gray-300 mb-6">
+          Obrigado pela tua compra! O teu pedido já está registrado no nosso sistema.
+        </p>
+
+        <div class="bg-[#101118] border border-[#222331] rounded-xl p-4 max-w-md mx-auto mb-6 text-left font-sub space-y-2">
+          <div class="flex justify-between">
+            <span class="text-gray-400">ID da Encomenda:</span>
+            <span id="success-order-id" class="font-bold text-white">DG-PT-XXXXXX</span>
+          </div>
+          <div class="flex justify-between">
+            <span class="text-gray-400">Código de Rastreio Inicial:</span>
+            <span id="success-tracking-number" class="font-bold text-cyan-400">LP00000000PT</span>
+          </div>
+          <div class="flex justify-between">
+            <span class="text-gray-400">Operadora Logística:</span>
+            <span class="font-bold text-gray-300">CTT Expresso / Cainiao</span>
+          </div>
+        </div>
+
+        <div class="flex flex-col sm:flex-row gap-3 justify-center">
+          <a id="btn-view-tracking" href="rastreio.html" class="px-6 py-3 bg-cyan-600 hover:bg-cyan-500 text-white font-sub font-bold uppercase tracking-wider rounded transition-all text-xs flex items-center justify-center gap-1.5">
+            <span>📦 Acompanhar Rastreio em Tempo Real</span>
+          </a>
+          <a id="btn-notify-dark" href="#" target="_blank" class="px-6 py-3 bg-[#17261d] hover:bg-[#203629] text-[#25d366] border border-[#25d366]/40 font-sub font-bold uppercase tracking-wider rounded transition-all text-xs flex items-center justify-center gap-1.5">
+            <span>💬 Notificar Dark no WhatsApp</span>
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ==========================================
+       LIGHTBOX / IMAGE ZOOM MODAL
+       ========================================== -->
+  <div id="lightbox-modal" class="modal-overlay" onclick="if(event.target === this) Store.closeLightbox()">
+    <div class="relative w-full max-w-4xl max-h-[92vh] flex flex-col items-center justify-center p-2 sm:p-4">
+      
+      <!-- Top Floating Controls -->
+      <div class="absolute top-2 right-2 sm:top-4 sm:right-4 z-30 flex items-center gap-1.5 bg-[#0c0d14]/90 backdrop-blur border border-[#26283b] p-1.5 rounded-xl shadow-2xl">
+        <button type="button" onclick="Store.zoomLightbox(-0.25)" class="w-9 h-9 rounded-lg bg-[#161722] hover:bg-[#252638] text-white flex items-center justify-center font-bold text-lg transition-colors" title="Diminuir Zoom (-)">
+          −
+        </button>
+        <button type="button" onclick="Store.resetLightboxZoom()" class="px-2.5 h-9 rounded-lg bg-[#161722] hover:bg-[#252638] text-gray-300 hover:text-white text-xs font-sub font-bold transition-colors" title="Ajustar 100%">
+          100%
+        </button>
+        <button type="button" onclick="Store.zoomLightbox(0.25)" class="w-9 h-9 rounded-lg bg-[#161722] hover:bg-[#252638] text-white flex items-center justify-center font-bold text-lg transition-colors" title="Aumentar Zoom (+)">
+          +
+        </button>
+        <button type="button" onclick="Store.closeLightbox()" class="w-9 h-9 rounded-lg bg-[#e61426] hover:bg-[#ff2a3c] text-white flex items-center justify-center font-bold transition-colors ml-1" title="Fechar">
+          ✕
+        </button>
+      </div>
+
+      <!-- Viewport & Pan-Zoom Container -->
+      <div id="lightbox-viewport" class="w-full max-h-[80vh] overflow-hidden rounded-2xl bg-[#090a0f] border border-[#242533] flex items-center justify-center p-2 sm:p-6 cursor-grab active:cursor-grabbing select-none relative shadow-2xl">
+        <img id="lightbox-img" src="" alt="Zoom de Detalhes" class="max-w-full max-h-[72vh] object-contain select-none pointer-events-none transition-transform duration-100 ease-out">
+      </div>
+      
+      <div class="mt-3 text-xs text-gray-400 font-sub flex flex-wrap justify-center items-center gap-3">
+        <span class="flex items-center gap-1">🔍 <strong>Roda do rato / botões:</strong> Dar Zoom In / Zoom Out</span>
+        <span>•</span>
+        <span class="flex items-center gap-1">✋ <strong>Arrastar:</strong> Mover para inspecionar costuras, carbono e detalhes</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="assets/js/products.js"></script>
+  <script src="assets/js/smoke.js"></script>
+  <script src="assets/js/tracking.js"></script>
+  <script src="assets/js/app.js"></script>
+  <!-- ==========================================
+       STICKY FLOATING SOCIAL MEDIA DOCK (LATERAL DIREITA)
+       Sempre visível enquanto a tela é rolada
+       ========================================== -->
+  <aside class="floating-social-dock" id="floating-social-bar" aria-label="Redes Sociais do Dark Ghostrider">
+    
+    <!-- Instagram -->
+    <a href="https://www.instagram.com/dark.ghostrider/" target="_blank" rel="noopener noreferrer" class="social-dock-btn btn-instagram" aria-label="Instagram @dark.ghostrider">
+      <span class="social-dock-tooltip">Instagram: @dark.ghostrider</span>
+      <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
+        <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+      </svg>
+    </a>
+
+    <!-- TikTok -->
+    <a href="https://www.tiktok.com/@dark.ghostrider" target="_blank" rel="noopener noreferrer" class="social-dock-btn btn-tiktok" aria-label="TikTok @dark.ghostrider">
+      <span class="social-dock-tooltip">TikTok: @dark.ghostrider</span>
+      <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
+        <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64c.298-.002.595.042.88.13V9.4a6.33 6.33 0 0 0-1-.08A6.34 6.34 0 0 0 3 15.66a6.34 6.34 0 0 0 10.82 4.47 6.27 6.27 0 0 0 1.87-4.46V8.75a8.16 8.16 0 0 0 4.77 1.52V6.82a4.88 4.88 0 0 1-.87-.13z"/>
+      </svg>
+    </a>
+
+    <!-- YouTube -->
+    <a href="https://www.youtube.com/@dark.ghostrider" target="_blank" rel="noopener noreferrer" class="social-dock-btn btn-youtube" aria-label="YouTube @dark.ghostrider">
+      <span class="social-dock-tooltip">YouTube: @dark.ghostrider</span>
+      <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
+        <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+      </svg>
+    </a>
+
+  </aside>
+
+  <!-- ==========================================
+       SIDEBAR BACKDROP & EXPANDABLE DRAWER
+       ========================================== -->
+  <div id="sidebar-backdrop" class="sidebar-backdrop" onclick="Store.closeSidebar()" aria-hidden="true"></div>
+
+  <aside id="app-sidebar" class="app-sidebar flex flex-col" aria-label="Menu Lateral de Navegação">
+    <!-- Sidebar Header -->
+    <div class="p-5 border-b border-[#1f202b] flex items-center justify-between bg-[#0e0f17]">
+      <div class="flex items-center gap-3">
+        <div class="w-12 h-12 rounded-xl overflow-hidden border-2 border-[#ff2a3c]/60 p-0.5 bg-black shadow-lg shadow-red-900/30 flex-shrink-0">
+          <img src="assets/images/logo.png" alt="Dark Ghostrider Logo" class="w-full h-full object-cover rounded-lg">
+        </div>
+        <div>
+          <span class="font-heading font-black text-lg text-white tracking-widest block leading-none">
+            DARK<span class="text-[#e61426]">.</span>
+          </span>
+          <span class="font-sub font-semibold text-[11px] text-gray-400 tracking-wider block">
+            GARAGE MENU
+          </span>
+        </div>
+      </div>
+      <button type="button" onclick="Store.closeSidebar()" class="w-9 h-9 rounded-lg bg-[#161724] hover:bg-[#e61426] text-gray-400 hover:text-white flex items-center justify-center font-bold transition-all text-sm" title="Fechar Menu">
+        ✕
+      </button>
+    </div>
+
+    <!-- Sidebar Scrollable Navigation Content -->
+    <div class="flex-1 overflow-y-auto px-4 py-5 space-y-6">
+      
+      <!-- Section: Navegação Rápida -->
+      <div>
+        <span class="px-2 text-[10px] font-sub font-bold text-gray-400 uppercase tracking-widest block mb-2">
+          Navegação Rápida
+        </span>
+        <div class="space-y-1">
+          <a href="vestuario.html" class="sidebar-nav-item text-[#ffe600]">
+            <span class="sidebar-nav-icon">👕</span>
+            <span class="flex-1 font-bold text-white">Vestuário Oficial (Drop 01)</span>
+            <span class="sidebar-pill-badge bg-[#ffe600] text-black font-black">NOVO</span>
+          </a>
+
+          <a href="#quem-e-o-dark" onclick="Store.navigateToSection('quem-e-o-dark')" class="sidebar-nav-item">
+            <span class="sidebar-nav-icon">🏍️</span>
+            <span class="flex-1">Quem é o Dark?</span>
+            <span class="sidebar-pill-badge bg-[#e61426]/20 text-[#ff4d5a] border border-[#e61426]/40">BIO</span>
+          </a>
+
+          <a href="catalogo.html" class="sidebar-nav-item">
+            <span class="sidebar-nav-icon text-amber-400">★</span>
+            <span class="flex-1">Retrovisores Stealth</span>
+            <span class="sidebar-pill-badge bg-amber-500/20 text-amber-300 border border-amber-500/40">HOT</span>
+          </a>
+
+          <a href="raiox.html" class="sidebar-nav-item">
+            <span class="sidebar-nav-icon">🔍</span>
+            <span class="flex-1">Raio-X Interativo MT-07</span>
+          </a>
+
+          <a href="catalogo.html" class="sidebar-nav-item">
+            <span class="sidebar-nav-icon">🛒</span>
+            <span class="flex-1">Catálogo de Produtos</span>
+            <span class="sidebar-pill-badge bg-neutral-800 text-gray-300">24 ITENS</span>
+          </a>
+
+          <a href="rastreio.html" class="sidebar-nav-item text-cyan-400">
+            <span class="sidebar-nav-icon">📦</span>
+            <span class="flex-1">Rastrear Minha Encomenda</span>
+            <span class="sidebar-pill-badge bg-cyan-900/40 text-cyan-300 border border-cyan-500/40">LIVE</span>
+          </a>
+
+          <a href="#duvidas" onclick="Store.navigateToSection('duvidas')" class="sidebar-nav-item">
+            <span class="sidebar-nav-icon">❓</span>
+            <span class="flex-1">Dúvidas Frequentes (FAQ)</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Section: Atalhos de Categorias & Moto do Dark -->
+      <div>
+        <span class="px-2 text-[10px] font-sub font-bold text-gray-400 uppercase tracking-widest block mb-2">
+          Filtros de Produtos
+        </span>
+        <div class="space-y-1">
+          <button type="button" onclick="Store.filterDarkBikePartsFromSidebar()" class="sidebar-nav-item w-full text-left bg-gradient-to-r from-[#200e12] to-transparent border-[#e61426]/50 text-white">
+            <span class="sidebar-nav-icon text-[#ff4d5a]">⚡</span>
+            <span class="flex-1 font-bold text-[#ff4d5a]">Peças na Moto do Dark</span>
+            <span class="sidebar-pill-badge bg-[#e61426] text-white">EXCLUSIVO</span>
+          </button>
+
+          <button type="button" onclick="Store.filterCategoryFromSidebar('all')" class="sidebar-nav-item w-full text-left">
+            <span class="sidebar-nav-icon">🏁</span>
+            <span class="flex-1">Todos os Artigos</span>
+          </button>
+
+          <button type="button" onclick="Store.filterCategoryFromSidebar('mt07')" class="sidebar-nav-item w-full text-left">
+            <span class="sidebar-nav-icon">⚙️</span>
+            <span class="flex-1">Peças & Estética MT-07</span>
+          </button>
+
+          <button type="button" onclick="Store.filterCategoryFromSidebar('wear')" class="sidebar-nav-item w-full text-left">
+            <span class="sidebar-nav-icon">👕</span>
+            <span class="flex-1 font-bold text-gray-200">Vestuário Oficial (Drop 01)</span>
+            <span class="sidebar-pill-badge bg-[#ffe600] text-black font-black">5 ITENS</span>
+          </button>
+
+          <button type="button" onclick="Store.filterCategoryFromSidebar('protecao')" class="sidebar-nav-item w-full text-left">
+            <span class="sidebar-nav-icon">🛡️</span>
+            <span class="flex-1">Proteção & Armaduras</span>
+          </button>
+
+          <button type="button" onclick="Store.filterCategoryFromSidebar('tech')" class="sidebar-nav-item w-full text-left">
+            <span class="sidebar-nav-icon">📹</span>
+            <span class="flex-1">Tech POV & Acessórios</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Section: Moeda & Suporte -->
+      <div>
+        <span class="px-2 text-[10px] font-sub font-bold text-gray-400 uppercase tracking-widest block mb-2">
+          Configuração de Moeda
+        </span>
+        <div class="grid grid-cols-2 gap-2 px-1">
+          <button type="button" onclick="Store.setCurrency('EUR'); Store.closeSidebar();" class="currency-btn py-2 px-3 rounded-lg border border-[#242533] bg-[#12131b] hover:bg-[#1a1b26] text-xs font-sub font-bold text-center text-white flex items-center justify-center gap-1.5 transition-colors">
+            <span>🇵🇹</span> EUR (€)
+          </button>
+          <button type="button" onclick="Store.setCurrency('BRL'); Store.closeSidebar();" class="currency-btn py-2 px-3 rounded-lg border border-[#242533] bg-[#12131b] hover:bg-[#1a1b26] text-xs font-sub font-bold text-center text-gray-400 hover:text-white flex items-center justify-center gap-1.5 transition-colors">
+            <span>🇧🇷</span> BRL (R$)
+          </button>
+        </div>
+      </div>
+
+      <!-- Secret Admin Trigger inside Sidebar -->
+      <div class="pt-2">
+        <button type="button" onclick="Store.closeSidebar(); Store.openAdminModal();" class="w-full text-left px-3 py-2 rounded-lg text-xs font-sub text-gray-400 hover:text-gray-300 hover:bg-[#12131a] border border-dashed border-[#232432] transition-colors flex items-center justify-between">
+          <span class="flex items-center gap-2"><span>🔒</span> Área do Piloto (Painel)</span>
+          <span class="text-[10px] text-gray-400">Ctrl + Shift + A</span>
+        </button>
+      </div>
+
+    </div>
+
+    <!-- Sidebar Footer with Social Links -->
+    <div class="p-4 border-t border-[#1f202b] bg-[#0c0d13]">
+      <div class="text-[11px] font-sub text-gray-400 mb-2.5 text-center">
+        Siga os vídeos e bastidores:
+      </div>
+      <div class="flex items-center justify-center gap-3">
+        <a href="https://www.instagram.com/dark.ghostrider/" target="_blank" rel="noopener noreferrer" class="w-9 h-9 rounded-lg bg-[#161724] hover:bg-gradient-to-tr hover:from-amber-500 hover:via-pink-500 hover:to-purple-600 text-gray-300 hover:text-white flex items-center justify-center transition-all" title="Instagram">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+            <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+          </svg>
+        </a>
+        <a href="https://www.tiktok.com/@dark.ghostrider" target="_blank" rel="noopener noreferrer" class="w-9 h-9 rounded-lg bg-[#161724] hover:bg-[#00f2fe] hover:text-black text-gray-300 flex items-center justify-center transition-all" title="TikTok">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+            <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64c.298-.002.595.042.88.13V9.4a6.33 6.33 0 0 0-1-.08A6.34 6.34 0 0 0 3 15.66a6.34 6.34 0 0 0 10.82 4.47 6.27 6.27 0 0 0 1.87-4.46V8.75a8.16 8.16 0 0 0 4.77 1.52V6.82a4.88 4.88 0 0 1-.87-.13z"/>
+          </svg>
+        </a>
+        <a href="https://www.youtube.com/@dark.ghostrider" target="_blank" rel="noopener noreferrer" class="w-9 h-9 rounded-lg bg-[#161724] hover:bg-[#ff0000] text-gray-300 hover:text-white flex items-center justify-center transition-all" title="YouTube">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+            <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+          </svg>
+        </a>
+      </div>
+    </div>
+  </aside>
+
+</body>
+</html>

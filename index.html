@@ -113,7 +113,7 @@
         </button>
 
         <!-- Brand Logo -->
-        <a href="#hero-section" id="header-brand-logo" class="flex items-center gap-3 group">
+        <a href="index.html?nointro=true#hero-section" id="header-brand-logo" class="flex items-center gap-3 group">
           <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-xl overflow-hidden border-2 border-[#ff2a3c]/60 p-0.5 bg-[#090a10] group-hover:border-[#ff2a3c] transition-all shadow-xl shadow-red-950/40 group-hover:shadow-[0_0_15px_rgba(255,42,60,0.35)] flex-shrink-0">
             <img src="assets/images/logo.png" alt="Dark Ghostrider Logo" class="w-full h-full object-cover rounded-lg">
           </div>
@@ -130,19 +130,19 @@
 
       <!-- Center: Desktop Nav Links (Never wraps, responsive gaps & font sizes) -->
       <nav class="hidden lg:flex items-center gap-1 xl:gap-2.5 font-sub text-xs xl:text-sm font-semibold tracking-wider uppercase text-gray-300">
-        <a href="#drop-vestuario" class="text-[#ffe600] hover:text-[#fff033] hover:bg-[#ffe600]/10 px-2.5 xl:px-3 py-2 rounded-lg transition-all flex items-center gap-1.5 whitespace-nowrap font-bold">
+        <a href="vestuario.html" class="text-[#ffe600] hover:text-[#fff033] hover:bg-[#ffe600]/10 px-2.5 xl:px-3 py-2 rounded-lg transition-all flex items-center gap-1.5 whitespace-nowrap font-bold">
           <span>👕</span> Vestuário <span class="bg-[#e61426] text-white text-[9px] px-1.5 py-0.5 rounded font-black tracking-normal">DROP 01</span>
         </a>
-        <a href="#garagem-raiox" class="hover:text-[#ff4d5a] hover:bg-white/5 px-2.5 xl:px-3 py-2 rounded-lg transition-all whitespace-nowrap">
+        <a href="raiox.html" class="hover:text-[#ff4d5a] hover:bg-white/5 px-2.5 xl:px-3 py-2 rounded-lg transition-all whitespace-nowrap">
           Raio-X MT-07
         </a>
-        <a href="#quem-e-o-dark" class="hover:text-[#ff4d5a] hover:bg-white/5 px-2.5 xl:px-3 py-2 rounded-lg transition-all flex items-center gap-1 whitespace-nowrap">
+        <a href="index.html#quem-e-o-dark" class="hover:text-[#ff4d5a] hover:bg-white/5 px-2.5 xl:px-3 py-2 rounded-lg transition-all flex items-center gap-1 whitespace-nowrap">
           <span>🏍️</span> Quem é o Dark?
         </a>
         <a href="catalogo.html" class="hover:text-[#ff4d5a] hover:bg-white/5 px-2.5 xl:px-3 py-2 rounded-lg transition-all flex items-center gap-1.5 whitespace-nowrap font-bold">
           <span>🛒</span> Catálogo
         </a>
-        <a href="#duvidas" class="hover:text-[#ff4d5a] hover:bg-white/5 px-2.5 xl:px-3 py-2 rounded-lg transition-all whitespace-nowrap">
+        <a href="index.html#duvidas" class="hover:text-[#ff4d5a] hover:bg-white/5 px-2.5 xl:px-3 py-2 rounded-lg transition-all whitespace-nowrap">
           FAQ
         </a>
         <a href="rastreio.html" class="text-cyan-400 hover:text-cyan-300 hover:bg-cyan-500/10 px-2.5 xl:px-3 py-2 rounded-lg transition-all flex items-center gap-1 whitespace-nowrap">
@@ -228,7 +228,7 @@
           </p>
 
           <div class="flex flex-wrap items-center gap-3 sm:gap-4">
-            <a href="#drop-vestuario" class="px-6 sm:px-7 py-3.5 bg-gradient-to-r from-[#ffe600] to-[#ffd000] hover:from-[#fff033] hover:to-[#ffe600] text-black font-heading font-black text-sm tracking-wider uppercase rounded-xl shadow-xl shadow-yellow-500/25 transition-all flex items-center gap-2 transform hover:-translate-y-0.5">
+            <a href="vestuario.html" class="px-6 sm:px-7 py-3.5 bg-gradient-to-r from-[#ffe600] to-[#ffd000] hover:from-[#fff033] hover:to-[#ffe600] text-black font-heading font-black text-sm tracking-wider uppercase rounded-xl shadow-xl shadow-yellow-500/25 transition-all flex items-center gap-2 transform hover:-translate-y-0.5">
               <span>👕 DROP VESTUÁRIO OFICIAL</span>
               <span class="bg-black text-[#ffe600] text-[10px] px-1.5 py-0.5 rounded font-bold">NOVO</span>
             </a>
@@ -338,10 +338,10 @@
                 Escolha o seu modelo abaixo e selecione a sua cor (Preto Stealth ou Amarelo Fluorescente de alta visibilidade) e tamanho.
               </p>
             </div>
-            <button onclick="Store.filterApparel()" class="px-6 py-3.5 bg-[#ffe600] hover:bg-[#fff033] text-black font-heading font-black text-xs uppercase tracking-wider rounded-xl shadow-xl shadow-yellow-500/30 transition-all flex items-center gap-2 whitespace-nowrap self-start sm:self-auto">
-              <span>VER TODA A COLEÇÃO NO CATÁLOGO</span>
+            <a href="vestuario.html" class="px-6 py-3.5 bg-[#ffe600] hover:bg-[#fff033] text-black font-heading font-black text-xs uppercase tracking-wider rounded-xl shadow-xl shadow-yellow-500/30 transition-all flex items-center gap-2 whitespace-nowrap self-start sm:self-auto">
+              <span>VER COLEÇÃO EXCLUSIVA DE VESTUÁRIO</span>
               <span>➜</span>
-            </button>
+            </a>
           </div>
         </div>
       </div>
@@ -490,92 +490,6 @@
             <button onclick="Store.showProductModal('tshirt-classic-bio190-dark-ghostrider')" class="px-4 py-2.5 bg-[#e61426] hover:bg-[#ff2a3c] text-white font-sub font-bold text-xs uppercase tracking-wider rounded-lg transition-all shadow-md">
               Comprar ➜
             </button>
-          </div>
-        </div>
-
-      </div>
-
-    </div>
-  </section>
-
-  <!-- ==========================================
-       INTERACTIVE MT-07 BLUEPRINT / RADAR HOTSPOTS
-       ========================================== -->
-  <section id="garagem-raiox" class="py-16 bg-[#09090d] border-b border-[#1f202b]">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      
-      <div class="text-center max-w-3xl mx-auto mb-12">
-        <span class="text-xs font-sub font-bold text-[#ff4d5a] uppercase tracking-widest block mb-2">
-          EXPLORADOR INTERATIVO
-        </span>
-        <h2 class="font-heading font-black text-3xl sm:text-4xl text-white tracking-wider mb-3">
-          RAIO-X DO SETUP da MT-07 do Dark
-        </h2>
-        <p class="text-sm text-gray-400 font-body">
-          Passe o cursor ou toque nos pontos vermelhos pulsantes para inspecionar cada peça instalada na minha máquina.
-        </p>
-      </div>
-
-      <div class="relative max-w-4xl mx-auto bg-[#0f1017] border border-[#242533] rounded-2xl p-4 shadow-2xl">
-        <img src="assets/images/hero-mt07.jpg" alt="Blueprint Yamaha MT-07" class="w-full h-auto rounded-xl object-cover opacity-90">
-
-        <!-- Hotspot 1: Retrovisores e Guidão -->
-        <div class="hotspot-pin" style="top: 35%; left: 58%;" onclick="Store.showProductModal('retrovisor-stealth-e9')">
-          <div class="hotspot-pin-inner"></div>
-          <div class="hotspot-popup">
-            <p class="font-sub font-bold text-white text-xs mb-1">Guiador & Cockpit</p>
-            <p class="text-[11px] text-[#ff4d5a] font-bold">Retrovisores Stealth Wing E9</p>
-            <p class="text-[10px] text-gray-400 mt-1">Clique para abrir especificações</p>
-          </div>
-        </div>
-
-        <!-- Hotspot 2: Lanterna Traseira e Rabeta -->
-        <div class="hotspot-pin" style="top: 45%; left: 28%;" onclick="Store.showProductModal('lanterna-led-fume-mt07')">
-          <div class="hotspot-pin-inner"></div>
-          <div class="hotspot-popup">
-            <p class="font-sub font-bold text-white text-xs mb-1">Iluminação Traseira</p>
-            <p class="text-[11px] text-[#ff4d5a] font-bold">Lanterna LED Fumê E-Mark</p>
-            <p class="text-[10px] text-gray-400 mt-1">Piscas sequenciais embutidos</p>
-          </div>
-        </div>
-
-        <!-- Hotspot 3: Escape R77 Carbono -->
-        <div class="hotspot-pin" style="top: 78%; left: 44%;" onclick="Store.showProductModal('escape-completo-r77-carbono')">
-          <div class="hotspot-pin-inner"></div>
-          <div class="hotspot-popup">
-            <p class="font-sub font-bold text-white text-xs mb-1">Performance & Som</p>
-            <p class="text-[11px] text-[#ff4d5a] font-bold">Escape R77 Full Carbono</p>
-            <p class="text-[10px] text-gray-400 mt-1">Ronco encorpado CP2</p>
-          </div>
-        </div>
-
-        <!-- Hotspot 4: Sliders Crash Pad de Quadro -->
-        <div class="hotspot-pin" style="top: 60%; left: 54%;" onclick="Store.showProductModal('sliders-protecao-quadro')">
-          <div class="hotspot-pin-inner"></div>
-          <div class="hotspot-popup">
-            <p class="font-sub font-bold text-white text-xs mb-1">Proteção de Motor</p>
-            <p class="text-[11px] text-[#ff4d5a] font-bold">Sliders Crash Pad Anti-Queda</p>
-            <p class="text-[10px] text-gray-400 mt-1">COOLPAD CNC & POM aeronáutico</p>
-          </div>
-        </div>
-
-        <!-- Hotspot 6: Capacete / POV (popup downwards to stay in frame) -->
-        <div class="hotspot-pin popup-down" style="top: 20%; left: 39%;" onclick="Store.showProductModal('suporte-queixo-gopro-capacete')">
-          <div class="hotspot-pin-inner"></div>
-          <div class="hotspot-popup">
-            <p class="font-sub font-bold text-white text-xs mb-1">Gravação POV</p>
-            <p class="text-[11px] text-[#ff4d5a] font-bold">Suporte Queixo GoPro Hero</p>
-            <p class="text-[10px] text-gray-400 mt-1">Ângulo dos vídeos do Instagram</p>
-          </div>
-        </div>
-
-        <!-- Hotspot 7: Adesivos de Tanque e Carenagem MT -->
-        <div class="hotspot-pin" style="top: 48%; left: 53%;" onclick="Store.showProductModal('adesivos-rodas-tanque-mt')">
-          <div class="hotspot-pin-inner"></div>
-          <div class="hotspot-popup">
-            <p class="font-sub font-bold text-white text-xs mb-1">Estilo & Personalização</p>
-            <p class="text-[11px] text-[#ff4d5a] font-bold">Kit Adesivos de Tanque MT</p>
-            <p class="text-[10px] text-gray-400 mt-1">29 cores & vinil automotivo</p>
           </div>
         </div>
 
@@ -1205,7 +1119,7 @@
           Navegação Rápida
         </span>
         <div class="space-y-1">
-          <a href="#drop-vestuario" onclick="Store.navigateToSection('drop-vestuario')" class="sidebar-nav-item text-[#ffe600]">
+          <a href="vestuario.html" class="sidebar-nav-item text-[#ffe600]">
             <span class="sidebar-nav-icon">👕</span>
             <span class="flex-1 font-bold text-white">Vestuário Oficial (Drop 01)</span>
             <span class="sidebar-pill-badge bg-[#ffe600] text-black font-black">NOVO</span>
@@ -1223,7 +1137,7 @@
             <span class="sidebar-pill-badge bg-amber-500/20 text-amber-300 border border-amber-500/40">HOT</span>
           </a>
 
-          <a href="#garagem-raiox" onclick="Store.navigateToSection('garagem-raiox')" class="sidebar-nav-item">
+          <a href="raiox.html" class="sidebar-nav-item">
             <span class="sidebar-nav-icon">🔍</span>
             <span class="flex-1">Raio-X Interativo MT-07</span>
           </a>
