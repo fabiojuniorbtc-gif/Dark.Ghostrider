@@ -345,6 +345,15 @@ const Store = {
     document.getElementById('cart-backdrop').classList.remove('open');
   },
 
+  toggleCart() {
+    const drawer = document.getElementById('cart-drawer');
+    if (drawer && drawer.classList.contains('open')) {
+      this.closeCart();
+    } else {
+      this.openCart();
+    }
+  },
+
   filterProducts() {
     return PRODUCTS.filter(p => {
       if (this.activeCategory !== 'all') {
@@ -404,11 +413,13 @@ const Store = {
               ` : ''}
             </div>
 
-            <button onclick="Store.showProductModal('${p.id}')" class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2 text-white font-sub font-semibold tracking-wider uppercase text-sm">
+            </div>
+
+            <a href="produto.html?id=${p.id}" class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2 text-white font-sub font-semibold tracking-wider uppercase text-sm">
               <span class="bg-[#e61426] px-4 py-2 rounded shadow-lg flex items-center gap-2">
-                🔍 Ver Especificações & Cores
+                🔍 Ver Produto & Cores
               </span>
-            </button>
+            </a>
           </div>
 
           <div class="p-5 flex flex-col flex-1 justify-between">
@@ -422,9 +433,11 @@ const Store = {
                 </div>
               </div>
 
-              <h3 class="font-sub font-bold text-lg text-white mb-2 leading-tight group-hover:text-[#ff4d5a] transition-colors cursor-pointer" onclick="Store.showProductModal('${p.id}')">
-                ${p.name}
-              </h3>
+              <a href="produto.html?id=${p.id}">
+                <h3 class="font-sub font-bold text-lg text-white mb-2 leading-tight hover:text-[#ffe600] transition-colors">
+                  ${p.name}
+                </h3>
+              </a>
 
               <p class="text-xs text-gray-400 line-clamp-2 mb-4 leading-relaxed font-body">
                 ${p.description}
@@ -445,9 +458,9 @@ const Store = {
                 <button onclick="Store.buyDirectWhatsapp('${p.id}')" class="flex items-center justify-center gap-1.5 py-2.5 px-3 bg-[#1c2e24] hover:bg-[#254634] text-[#25d366] border border-[#25d366]/40 hover:border-[#25d366] rounded text-xs font-sub font-bold uppercase tracking-wider transition-all">
                   <span>💬 WhatsApp</span>
                 </button>
-                <button onclick="Store.showProductModal('${p.id}')" class="flex items-center justify-center gap-1.5 py-2.5 px-3 bg-[#e61426] hover:bg-[#ff2a3c] text-white rounded text-xs font-sub font-bold uppercase tracking-wider shadow-lg hover:shadow-red-600/30 transition-all">
-                  <span>+ Escolher Cor</span>
-                </button>
+                <a href="produto.html?id=${p.id}" class="flex items-center justify-center gap-1.5 py-2.5 px-3 bg-[#e61426] hover:bg-[#ff2a3c] text-white rounded text-xs font-sub font-bold uppercase tracking-wider shadow-lg hover:shadow-red-600/30 transition-all text-center">
+                  <span>+ Ver Opções</span>
+                </a>
               </div>
             </div>
           </div>
@@ -564,8 +577,13 @@ const Store = {
   },
 
   showProductModal(productId) {
-    const p = PRODUCTS.find(x => x.id === productId);
-    if (!p) return;
+    if (!productId) return;
+    const currentParams = new URLSearchParams(window.location.search);
+    if ((window.location.pathname.endsWith('produto.html') || window.location.pathname.endsWith('/produto')) && currentParams.get('id') === productId) {
+      return;
+    }
+    window.location.href = `produto.html?id=${encodeURIComponent(productId)}`;
+    return;
     this.selectedProduct = p;
 
     // Default to the first variant's clean photo if available
@@ -748,9 +766,18 @@ const Store = {
     this.openCart();
   },
 
-  addToCart(productId, variation = '', customImage = '', customPriceEUR = null, customPriceBRL = null) {
-    const p = PRODUCTS.find(x => x.id === productId);
+  addToCart(productOrId, variation = '', customImage = '', customPriceEUR = null, customPriceBRL = null) {
+    let p = null;
+    if (typeof productOrId === 'object' && productOrId !== null) {
+      p = productOrId;
+    } else {
+      p = PRODUCTS.find(x => x.id === productOrId);
+    }
     if (!p) return;
+
+    if (typeof variation === 'object' && variation !== null) {
+      variation = Object.entries(variation).map(([k, v]) => `${k}: ${v}`).join(' | ');
+    }
 
     if (!variation && p.options && p.options.length) {
       variation = `${p.options[0].name}: ${p.options[0].values[0]}`;
@@ -760,7 +787,7 @@ const Store = {
     const itemPriceEUR = customPriceEUR !== null ? customPriceEUR : p.priceEUR;
     const itemPriceBRL = customPriceBRL !== null ? customPriceBRL : p.priceBRL;
 
-    const existingIndex = this.cart.findIndex(i => i.id === productId && i.variation === variation);
+    const existingIndex = this.cart.findIndex(i => i.id === p.id && i.variation === variation);
     if (existingIndex > -1) {
       this.cart[existingIndex].quantity += 1;
     } else {
@@ -772,7 +799,7 @@ const Store = {
         priceBRL: itemPriceBRL,
         variation: variation,
         quantity: 1,
-        supplierUrl: p.supplierUrl
+        supplierUrl: p.supplierUrl || ''
       });
     }
 

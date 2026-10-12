@@ -1,0 +1,1103 @@
+<!DOCTYPE html>
+<html lang="pt-PT" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title id="page-title">Produto Oficial | Dark Ghostrider Store</title>
+  <meta name="description" content="Página oficial do produto na Dark Ghostrider Store. Roupas e peças oficiais com qualidade comprovada.">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              red: '#e61426',
+              redHover: '#ff2a3c',
+              yellow: '#ffe600',
+              dark: '#08080a',
+              card: '#12131b',
+              border: '#242533'
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Custom Dark Rider CSS -->
+  <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="icon" type="image/jpeg" href="assets/images/logo.jpg">
+
+  <style>
+    .version-card.active {
+      border-color: #ffe600;
+      box-shadow: 0 0 15px rgba(255, 230, 0, 0.25);
+      background-color: rgba(255, 230, 0, 0.08);
+    }
+    .size-btn.active {
+      background-color: #ffe600;
+      color: #000;
+      border-color: #ffe600;
+      font-weight: 900;
+      box-shadow: 0 0 12px rgba(255, 230, 0, 0.3);
+    }
+    .thumb-btn.active {
+      border-color: #ffe600;
+      opacity: 1;
+    }
+  </style>
+</head>
+<body class="bg-[#08080a] text-gray-100 antialiased selection:bg-[#e61426] selection:text-white min-h-screen flex flex-col justify-between">
+
+  <!-- ==========================================
+       ANNOUNCEMENT BAR
+       ========================================== -->
+  <div class="bg-gradient-to-r from-[#140507] via-[#22070a] to-[#140507] border-b border-[#e61426]/30 py-2 px-4 text-center font-sub text-xs tracking-wider text-gray-300 flex items-center justify-center flex-wrap gap-x-6 gap-y-1">
+    <div class="flex items-center gap-2">
+      <span class="inline-block w-2 h-2 rounded-full bg-[#ffe600] animate-ping"></span>
+      <span>🇵🇹 <strong>PORTUGAL:</strong> Envios rápidos & Pagamento via <strong>MB WAY</strong> e <strong>Multibanco</strong></span>
+    </div>
+    <span class="hidden md:inline text-gray-600">|</span>
+    <div class="flex items-center gap-2">
+      <span>🇧🇷 <strong>BRASIL:</strong> Envio internacional disponível com rastreio em tempo real</span>
+    </div>
+  </div>
+
+  <!-- ==========================================
+       HEADER & NAVIGATION
+       ========================================== -->
+  <header class="sticky top-0 z-50 bg-[#0a0b10]/95 backdrop-blur-md border-b border-[#1f202b]">
+    <div class="w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between gap-4">
+      
+      <!-- Left: Menu Toggle + Brand Logo -->
+      <div class="flex items-center gap-2.5 sm:gap-3 flex-shrink-0">
+        <button id="sidebar-toggle-btn" onclick="Store.toggleSidebar()" class="flex items-center gap-2 px-3 py-2.5 bg-[#141520] hover:bg-[#1f2030] border border-[#26283b] hover:border-[#e61426] rounded-xl text-white transition-all cursor-pointer group shadow-md shadow-black/40" title="Abrir Menu Lateral">
+          <svg class="w-5 h-5 text-gray-300 group-hover:text-[#ff4d5a] transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+          </svg>
+          <span class="hidden sm:inline font-heading text-xs font-bold tracking-wider text-gray-200 group-hover:text-white">MENU</span>
+        </button>
+
+        <a href="index.html?nointro=true#hero-section" id="header-brand-logo" class="flex items-center gap-3 group">
+          <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-xl overflow-hidden border-2 border-[#ff2a3c]/60 p-0.5 bg-[#090a10] group-hover:border-[#ff2a3c] transition-all shadow-xl shadow-red-950/40 group-hover:shadow-[0_0_15px_rgba(255,42,60,0.35)] flex-shrink-0">
+            <img src="assets/images/logo.png" alt="Dark Ghostrider Logo" class="w-full h-full object-cover rounded-lg">
+          </div>
+          <div>
+            <span class="font-heading font-black text-xl sm:text-2xl text-white tracking-widest block leading-none group-hover:text-gray-100 transition-colors">
+              DARK<span class="text-[#ff2a3c]">.</span>
+            </span>
+            <span class="font-sub font-bold text-[10px] sm:text-[11px] text-gray-400 tracking-wider block mt-1 uppercase">
+              GHOSTRIDER STORE
+            </span>
+          </div>
+        </a>
+      </div>
+
+      <!-- Center: Desktop Nav Links -->
+      <nav class="hidden lg:flex items-center gap-1 xl:gap-2.5 font-sub text-xs xl:text-sm font-semibold tracking-wider uppercase text-gray-300">
+        <a href="vestuario.html" class="hover:text-[#ff4d5a] hover:bg-white/5 px-2.5 xl:px-3 py-2 rounded-lg transition-all flex items-center gap-1.5 whitespace-nowrap font-bold">
+          <span>👕</span> Vestuário <span class="bg-[#e61426] text-white text-[9px] px-1.5 py-0.5 rounded font-black tracking-normal">DROP 01</span>
+        </a>
+        <a href="raiox.html" class="hover:text-[#ff4d5a] hover:bg-white/5 px-2.5 xl:px-3 py-2 rounded-lg transition-all whitespace-nowrap">
+          Raio-X MT-07
+        </a>
+        <a href="index.html#quem-e-o-dark" class="hover:text-[#ff4d5a] hover:bg-white/5 px-2.5 xl:px-3 py-2 rounded-lg transition-all flex items-center gap-1 whitespace-nowrap">
+          <span>🏍️</span> Quem é o Dark?
+        </a>
+        <a href="catalogo.html" class="hover:text-[#ff4d5a] hover:bg-white/5 px-2.5 xl:px-3 py-2 rounded-lg transition-all flex items-center gap-1.5 whitespace-nowrap font-bold">
+          <span>🛒</span> Catálogo
+        </a>
+        <a href="rastreio.html" class="text-cyan-400 hover:text-cyan-300 hover:bg-cyan-500/10 px-2.5 xl:px-3 py-2 rounded-lg transition-all flex items-center gap-1 whitespace-nowrap">
+          <span>📦</span> Rastreio
+        </a>
+      </nav>
+
+      <!-- Right Controls -->
+      <div class="flex items-center gap-2.5 sm:gap-3 flex-shrink-0">
+        <a href="https://instagram.com/dark.ghostrider" target="_blank" rel="noopener noreferrer" class="hidden xl:flex items-center gap-1.5 text-xs font-sub font-bold text-gray-400 hover:text-white transition-all bg-[#141520] hover:bg-[#1d1f2e] border border-[#242533] hover:border-pink-500/40 px-3 py-2 rounded-full whitespace-nowrap shadow-sm">
+          <span>📸</span> @dark.ghostrider
+        </a>
+
+        <!-- Currency Selector -->
+        <div class="flex bg-[#12131a] border border-[#242533] rounded-xl p-1 text-xs font-sub font-bold whitespace-nowrap shadow-sm">
+          <button class="currency-btn px-2.5 py-1 rounded-lg transition-colors active bg-[#e61426] text-white shadow-sm" data-currency="EUR">
+            🇵🇹 EUR (€)
+          </button>
+          <button class="currency-btn px-2.5 py-1 rounded-lg transition-colors text-gray-400 hover:text-white" data-currency="BRL">
+            🇧🇷 BRL (R$)
+          </button>
+        </div>
+
+        <!-- Cart Button -->
+        <button id="cart-toggle-btn" onclick="Store.toggleCart()" class="relative flex items-center gap-2 px-3.5 py-2.5 bg-[#e61426] hover:bg-[#ff2a3c] text-white rounded-xl font-sub font-bold text-xs uppercase tracking-wider transition-all shadow-lg shadow-red-950/50 cursor-pointer">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path>
+          </svg>
+          <span class="hidden sm:inline">CESTO</span>
+          <span id="cart-count-badge" class="bg-black text-[#ffe600] font-black text-xs px-2 py-0.5 rounded-full border border-[#ffe600]/40">0</span>
+        </button>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- ==========================================
+       BREADCRUMB BAR (MOTOCARD STYLE)
+       ========================================== -->
+  <div class="bg-[#0c0d14] border-b border-[#1b1c28] py-2.5">
+    <div class="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 flex items-center flex-wrap gap-2 text-[11px] sm:text-xs font-sub text-gray-400">
+      <a href="index.html" class="hover:text-white transition-colors">LOJA OFICIAL</a>
+      <span>/</span>
+      <a id="breadcrumb-category-link" href="vestuario.html" class="hover:text-white transition-colors uppercase">VESTUÁRIO (DROP 01)</a>
+      <span>/</span>
+      <span id="breadcrumb-product-name" class="text-gray-200 font-bold truncate max-w-xs sm:max-w-md">PRODUTO</span>
+    </div>
+  </div>
+
+  <!-- ==========================================
+       MAIN PRODUCT SECTION (MOTOCARD LAYOUT)
+       ========================================== -->
+  <main class="flex-grow max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
+    
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 xl:gap-12 items-start">
+      
+      <!-- ==========================================
+           LEFT COLUMN: LARGE DUAL IMAGES & PACKS (7 COLS)
+           ========================================== -->
+      <div class="lg:col-span-7 flex flex-col gap-8">
+        
+        <!-- Large Dual Imagery Showcase (Side-by-Side on Desktop) -->
+        <div class="bg-[#0f1018] border border-[#242533] rounded-2xl p-4 sm:p-6 shadow-2xl relative">
+          
+          <!-- Badges top left on photo area -->
+          <div class="flex items-center gap-2 mb-4">
+            <span id="product-badge-choice" class="hidden px-2.5 py-1 bg-[#e61426] text-white text-[10px] font-sub font-black rounded uppercase tracking-wider shadow">
+              ⚡ ESTÁ NA MOTO DO DARK
+            </span>
+            <span id="product-badge-tag" class="px-2.5 py-1 bg-[#ffe600]/20 border border-[#ffe600]/50 text-[#ffe600] text-[10px] font-sub font-bold rounded uppercase tracking-wider">
+              DROP 01 • NACIONAL
+            </span>
+            <span class="ml-auto text-xs text-gray-400 font-sub flex items-center gap-1">
+              <span>🔍</span> Passe o rato para Zoom
+            </span>
+          </div>
+
+          <!-- Dual Main Images Grid (Motocard Style: Front & Back side-by-side) -->
+          <div id="dual-images-container" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            
+            <!-- Box 1: Front / Main View -->
+            <div class="relative aspect-[4/5] bg-black rounded-xl overflow-hidden border border-[#242533] group cursor-zoom-in shadow-inner" onclick="Store.openLightbox(document.getElementById('main-image-front').src)">
+              <img id="main-image-front" src="" alt="Frente do Produto" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
+              <span class="absolute bottom-3 left-3 bg-black/80 backdrop-blur border border-white/10 text-[10px] font-sub font-bold text-gray-200 px-2.5 py-1 rounded">
+                👁️ Vista Frontal
+              </span>
+              <span class="absolute top-3 right-3 bg-black/75 backdrop-blur text-white p-2 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity">
+                🔍
+              </span>
+            </div>
+
+            <!-- Box 2: Back / Second View -->
+            <div id="dual-image-back-wrapper" class="relative aspect-[4/5] bg-black rounded-xl overflow-hidden border border-[#242533] group cursor-zoom-in shadow-inner" onclick="Store.openLightbox(document.getElementById('main-image-back').src)">
+              <img id="main-image-back" src="" alt="Costas do Produto" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
+              <span class="absolute bottom-3 left-3 bg-black/80 backdrop-blur border border-white/10 text-[10px] font-sub font-bold text-gray-200 px-2.5 py-1 rounded">
+                👁️ Vista Costas / Detalhe
+              </span>
+              <span class="absolute top-3 right-3 bg-black/75 backdrop-blur text-white p-2 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity">
+                🔍
+              </span>
+            </div>
+
+          </div>
+
+          <!-- Thumbnails Strip below images -->
+          <div class="mt-4 pt-4 border-t border-[#1f202e]">
+            <span class="text-[11px] font-sub font-bold text-gray-400 uppercase tracking-wider block mb-2">
+              Galeria de Detalhes & Estampas:
+            </span>
+            <div id="gallery-thumbs-list" class="flex gap-2.5 overflow-x-auto pb-2 scrollbar-thin">
+              <!-- Dynamically populated -->
+            </div>
+          </div>
+
+        </div>
+
+        <!-- ==========================================
+             PACKS ECONÓMICOS (MOTOCARD BUNDLE SECTION)
+             ========================================== -->
+        <div id="packs-economicos-section" class="bg-[#10111a] border border-[#ffe600]/40 rounded-2xl p-5 sm:p-7 shadow-2xl relative overflow-hidden">
+          
+          <div class="flex items-center justify-between mb-5">
+            <div class="flex items-center gap-2.5">
+              <span class="w-7 h-7 rounded-lg bg-[#ffe600] text-black font-black flex items-center justify-center text-sm shadow">
+                🎁
+              </span>
+              <div>
+                <h3 class="font-heading font-black text-lg sm:text-xl text-white tracking-wide">
+                  Packs Económicos & Combos
+                </h3>
+                <span class="text-[11px] text-gray-400 font-sub">Poupe mais levando as peças combinadas com desconto extra</span>
+              </div>
+            </div>
+            <span class="px-2.5 py-1 bg-emerald-950/80 border border-emerald-500/50 text-emerald-400 font-sub font-black text-[11px] rounded uppercase">
+              Economize até 20%
+            </span>
+          </div>
+
+          <!-- Pack Cards Container -->
+          <div id="packs-container" class="space-y-4">
+            <!-- Dynamically populated -->
+          </div>
+
+        </div>
+
+        <!-- ==========================================
+             INFORMAÇÕES DO PRODUTO (ACCORDIONS MOTOCARD)
+             ========================================== -->
+        <div class="bg-[#0f1018] border border-[#242533] rounded-2xl overflow-hidden shadow-xl">
+          
+          <!-- Tab 1: Descrição e Conceito -->
+          <div class="border-b border-[#1f202b]">
+            <button onclick="toggleAccordion('tab-desc', 'tab-desc-icon')" class="w-full px-6 py-4 flex items-center justify-between text-left hover:bg-white/5 transition-colors">
+              <span class="font-heading font-bold text-sm text-white tracking-wider flex items-center gap-2">
+                <span>📋</span> DESCRIÇÃO DO PRODUTO & CONCEITO
+              </span>
+              <span id="tab-desc-icon" class="text-gray-400 transition-transform">▼</span>
+            </button>
+            <div id="tab-desc" class="px-6 pb-6 text-sm text-gray-300 font-body leading-relaxed space-y-3">
+              <p id="accordion-desc-text"></p>
+              <div class="p-3.5 bg-black/60 rounded-xl border border-white/5 text-xs text-gray-400 font-body">
+                💡 <em>Produzido e estampado em Portugal com insumos premium de altíssima durabilidade. Ideal tanto para o dia a dia quanto para encontros e passeios de moto.</em>
+              </div>
+            </div>
+          </div>
+
+          <!-- Tab 2: Ficha Técnica & Composição -->
+          <div class="border-b border-[#1f202b]">
+            <button onclick="toggleAccordion('tab-specs', 'tab-specs-icon')" class="w-full px-6 py-4 flex items-center justify-between text-left hover:bg-white/5 transition-colors">
+              <span class="font-heading font-bold text-sm text-white tracking-wider flex items-center gap-2">
+                <span>⚙️</span> FICHA TÉCNICA & MATERIAIS
+              </span>
+              <span id="tab-specs-icon" class="text-gray-400 transition-transform">▼</span>
+            </button>
+            <div id="tab-specs" class="px-6 pb-6 text-xs sm:text-sm text-gray-300 font-body space-y-2">
+              <ul class="space-y-2 font-sub text-xs">
+                <li class="flex justify-between py-1.5 border-b border-white/5">
+                  <span class="text-gray-400">Origem de Confecção:</span>
+                  <span class="text-white font-bold">Lisboa / Margem Sul, Portugal 🇵🇹</span>
+                </li>
+                <li class="flex justify-between py-1.5 border-b border-white/5">
+                  <span class="text-gray-400">Tecnologia de Estampa:</span>
+                  <span class="text-[#ffe600] font-bold">DTF (Direct to Film) Ultra Resolução</span>
+                </li>
+                <li class="flex justify-between py-1.5 border-b border-white/5">
+                  <span class="text-gray-400">Gramatura / Toque:</span>
+                  <span class="text-white font-bold">Alta Densidade (Encorpado e Resistente)</span>
+                </li>
+                <li class="flex justify-between py-1.5 border-b border-white/5">
+                  <span class="text-gray-400">Modelagem:</span>
+                  <span class="text-white font-bold">Gender-Neutral Regular & Oversized</span>
+                </li>
+                <li class="flex justify-between py-1.5">
+                  <span class="text-gray-400">Tamanhos Disponíveis:</span>
+                  <span class="text-white font-bold">XS ao 4XL</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Tab 3: Cuidados & Lavagem -->
+          <div class="border-b border-[#1f202b]">
+            <button onclick="toggleAccordion('tab-wash', 'tab-wash-icon')" class="w-full px-6 py-4 flex items-center justify-between text-left hover:bg-white/5 transition-colors">
+              <span class="font-heading font-bold text-sm text-white tracking-wider flex items-center gap-2">
+                <span>🧼</span> GUIA DE CUIDADOS & LAVAGEM
+              </span>
+              <span id="tab-wash-icon" class="text-gray-400 transition-transform">▼</span>
+            </button>
+            <div id="tab-wash" class="px-6 pb-6 text-xs text-gray-300 font-body space-y-2">
+              <p>Para garantir que a sua peça e a estampa permaneçam com aspecto novo durante anos:</p>
+              <ul class="list-disc list-inside space-y-1 text-gray-400 mt-2">
+                <li>Lavar sempre a peça <strong>do avesso</strong> em água fria ou até no máximo 30ºC.</li>
+                <li>Não utilizar lixívia ou produtos abrasivos.</li>
+                <li><strong>Nunca engomar o ferro diretamente sobre a estampa</strong> (passar pelo avesso).</li>
+                <li>Secar ao ar livre, evitando secadoras em alta temperatura.</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Tab 4: Envios e Devoluções -->
+          <div>
+            <button onclick="toggleAccordion('tab-shipping', 'tab-shipping-icon')" class="w-full px-6 py-4 flex items-center justify-between text-left hover:bg-white/5 transition-colors">
+              <span class="font-heading font-bold text-sm text-white tracking-wider flex items-center gap-2">
+                <span>🚚</span> ENVIOS & POLÍTICA DE TROCA DE TAMANHOS
+              </span>
+              <span id="tab-shipping-icon" class="text-gray-400 transition-transform">▼</span>
+            </button>
+            <div id="tab-shipping" class="px-6 pb-6 text-xs text-gray-300 font-body space-y-2">
+              <p><strong>Envios para Portugal:</strong> Envio expresso através de CTT Expresso com código de rastreamento enviado por SMS/Email.</p>
+              <p><strong>Troca de Tamanhos Garantida:</strong> Caso o tamanho escolhido não fique perfeitamente ajustado no seu corpo, disponibilizamos suporte direto para troca rápida sem complicações.</p>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- ==========================================
+           RIGHT COLUMN: MOTOCARD BUY BOX (5 COLS)
+           ========================================== -->
+      <div class="lg:col-span-5 flex flex-col gap-5 sticky top-24">
+        
+        <!-- Top Promo Countdown Banner (Motocard Style) -->
+        <div class="bg-gradient-to-r from-red-950/80 via-black to-red-950/80 border border-red-500/40 rounded-xl p-3 flex items-center justify-between shadow-lg">
+          <div class="flex items-center gap-2">
+            <span class="text-lg">🔥</span>
+            <div>
+              <span class="block font-heading font-black text-xs text-white uppercase tracking-wider">DROP 01 EXCLUSIVO</span>
+              <span class="block font-sub text-[10px] text-gray-300">Produção nacional limitada</span>
+            </div>
+          </div>
+          <span class="text-[11px] font-sub font-bold text-[#ffe600] bg-black/80 px-2.5 py-1 rounded border border-[#ffe600]/30">
+            ÚLTIMAS PEÇAS
+          </span>
+        </div>
+
+        <!-- Main Buy Box Card -->
+        <div class="bg-[#10111a] border border-[#242533] rounded-2xl p-6 sm:p-7 shadow-2xl flex flex-col gap-6">
+          
+          <!-- Category & Title -->
+          <div>
+            <span id="buybox-brand" class="text-xs font-sub font-bold text-gray-400 uppercase tracking-widest block mb-1">
+              DARK GHOSTRIDER • OFICIAL
+            </span>
+            <h1 id="buybox-product-name" class="font-heading font-black text-2xl sm:text-3xl text-white tracking-wide leading-snug">
+              Carregando Produto...
+            </h1>
+            
+            <!-- Rating -->
+            <div class="flex items-center gap-2 mt-2">
+              <div class="flex text-amber-400 text-sm">★★★★★</div>
+              <span id="buybox-rating-text" class="text-xs text-gray-400 font-sub font-semibold">5.0 (48 avaliações)</span>
+            </div>
+          </div>
+
+          <!-- Color / Versions Selector (Motocard Visual Thumbnails) -->
+          <div id="versions-container" class="space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-sub font-bold text-gray-300 uppercase tracking-wider">
+                Versões / Cores Disponíveis:
+              </span>
+              <span id="selected-version-label" class="text-xs font-sub font-bold text-[#ffe600]">
+                Preto Stealth
+              </span>
+            </div>
+            
+            <!-- Visual Cards List -->
+            <div id="version-cards-list" class="grid grid-cols-2 gap-2.5">
+              <!-- Dynamically populated -->
+            </div>
+          </div>
+
+          <!-- Sizes Selector with Guia de Tamanhos Modal Trigger (Motocard Style) -->
+          <div id="sizes-container" class="space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-sub font-bold text-gray-300 uppercase tracking-wider">
+                Tamanho:
+              </span>
+              <!-- Guia de Tamanhos Modal Trigger (NOT scrolling down) -->
+              <button type="button" onclick="openSizeGuideModal()" class="text-xs font-sub font-bold text-[#ffe600] hover:text-white transition-colors flex items-center gap-1.5 cursor-pointer group">
+                <span class="group-hover:rotate-12 transition-transform">📏</span>
+                <span class="underline decoration-dotted">Guia de tamanhos</span>
+              </button>
+            </div>
+
+            <!-- Sizes Grid -->
+            <div id="sizes-grid-list" class="grid grid-cols-4 sm:grid-cols-4 gap-2">
+              <!-- Dynamically populated XS to 4XL -->
+            </div>
+          </div>
+
+          <!-- Price Display -->
+          <div class="p-4 bg-[#090a10] border border-[#1f202b] rounded-xl">
+            <div class="flex items-baseline gap-3">
+              <span id="buybox-price" class="font-heading font-black text-3xl sm:text-4xl text-[#ffe600]">59,90 €</span>
+              <span id="buybox-compare-price" class="text-sm line-through text-gray-500">79,90 €</span>
+              <span id="buybox-discount-badge" class="ml-auto px-2.5 py-0.5 bg-[#e61426] text-white text-[11px] font-sub font-black rounded uppercase tracking-wider">
+                PROMO -25%
+              </span>
+            </div>
+            
+            <div class="mt-2 text-[11px] text-gray-400 font-sub flex items-center gap-2 flex-wrap">
+              <span>💳 Até 3x sem juros</span>
+              <span>•</span>
+              <span class="text-gray-300 font-semibold">MB WAY • Multibanco • Cartão • PayPal</span>
+            </div>
+          </div>
+
+          <!-- CTA Buttons -->
+          <div class="space-y-3">
+            <button id="add-to-cart-btn" onclick="handleAddToCart()" class="w-full py-4 bg-[#e61426] hover:bg-[#ff2a3c] text-white font-heading font-black text-sm uppercase tracking-wider rounded-xl shadow-xl shadow-red-950/60 transition-all flex items-center justify-center gap-2.5 group cursor-pointer">
+              <svg class="w-5 h-5 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
+              </svg>
+              <span>ADICIONAR AO CESTO</span>
+            </button>
+
+            <button onclick="handleQuickWhatsApp()" class="w-full py-3 bg-[#171824] hover:bg-[#202232] border border-[#26283b] hover:border-emerald-500/50 text-gray-200 hover:text-white font-sub font-bold text-xs uppercase tracking-wider rounded-xl transition-all flex items-center justify-center gap-2">
+              <span class="text-emerald-400">💬</span>
+              <span>Comprar Rápido pelo WhatsApp</span>
+            </button>
+          </div>
+
+          <!-- Motocard Trust & Stock Guarantee Box -->
+          <div class="border border-[#242533] rounded-xl p-4 bg-[#0d0e14] space-y-2.5 text-xs font-sub">
+            <div class="flex items-center gap-2 text-emerald-400 font-bold">
+              <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+              <span>Em stock ⚠️ Últimas unidades disponíveis</span>
+            </div>
+            <div class="flex items-center gap-2 text-gray-300">
+              <span class="text-emerald-400">✓</span>
+              <span>Envio com frete incluso para Portugal & Espanha</span>
+            </div>
+            <div class="flex items-center gap-2 text-gray-300">
+              <span>🚚</span>
+              <span>Entrega estimada em <strong>24h a 48h úteis</strong> via CTT Expresso</span>
+            </div>
+            <div class="flex items-center gap-2 text-gray-300">
+              <span>🔄</span>
+              <span>Troca de tamanho 100% garantida sem complicação</span>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- ==========================================
+       MODAL: GUIA DE TAMANHOS (POPUP WINDOW)
+       ========================================== -->
+  <div id="size-guide-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md hidden items-center justify-center p-4">
+    <div class="bg-[#10111a] border border-[#ffe600]/40 rounded-2xl max-w-3xl w-full max-h-[90vh] overflow-y-auto shadow-2xl p-6 sm:p-8 relative">
+      
+      <!-- Close Button -->
+      <button onclick="closeSizeGuideModal()" class="absolute top-5 right-5 text-gray-400 hover:text-white bg-[#1a1b26] p-2 rounded-lg border border-[#26283b] transition-colors cursor-pointer">
+        ✕
+      </button>
+
+      <!-- Modal Header -->
+      <div class="mb-6">
+        <span class="text-xs font-sub font-bold text-[#ffe600] uppercase tracking-widest block mb-1">
+          📏 GUIA OFICIAL DE MEDIDAS
+        </span>
+        <h3 class="font-heading font-black text-2xl sm:text-3xl text-white tracking-wide">
+          Tabela de Tamanhos (XS ao 4XL)
+        </h3>
+        <p class="text-xs sm:text-sm text-gray-400 font-body mt-1">
+          Compare as medidas em centímetros com uma peça sua estendida numa superfície plana para escolher o tamanho ideal.
+        </p>
+      </div>
+
+      <!-- Garment Selector Tabs inside Modal -->
+      <div class="flex gap-2 mb-4 overflow-x-auto pb-1 border-b border-[#242533]">
+        <button onclick="switchSizeGuideTab('hoodie')" id="size-tab-hoodie" class="px-4 py-2 rounded-lg font-sub font-bold text-xs bg-[#ffe600] text-black cursor-pointer">
+          Sweatshirt com Capuz
+        </button>
+        <button onclick="switchSizeGuideTab('oversized')" id="size-tab-oversized" class="px-4 py-2 rounded-lg font-sub font-bold text-xs bg-[#171824] text-gray-300 hover:text-white cursor-pointer">
+          T-Shirt Oversized Boxy
+        </button>
+        <button onclick="switchSizeGuideTab('classic')" id="size-tab-classic" class="px-4 py-2 rounded-lg font-sub font-bold text-xs bg-[#171824] text-gray-300 hover:text-white cursor-pointer">
+          T-Shirt Classic Bio190
+        </button>
+      </div>
+
+      <!-- Table Container -->
+      <div class="overflow-x-auto bg-[#090a10] border border-[#242533] rounded-xl p-3 sm:p-4 mb-6">
+        <table class="w-full text-left font-sub text-xs sm:text-sm">
+          <thead>
+            <tr class="border-b border-[#242533] text-gray-400 uppercase tracking-wider text-[11px]">
+              <th class="py-2.5 px-3">Tamanho</th>
+              <th class="py-2.5 px-3">Peito / Largura (A)</th>
+              <th class="py-2.5 px-3">Comprimento (B)</th>
+              <th class="py-2.5 px-3">Manga (C)</th>
+              <th class="py-2.5 px-3">Recomendação</th>
+            </tr>
+          </thead>
+          <tbody id="size-table-body" class="divide-y divide-[#1b1c28] text-gray-200">
+            <!-- Dynamically populated per tab -->
+          </tbody>
+        </table>
+      </div>
+
+      <!-- How to measure tips -->
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 p-4 bg-[#141520] border border-[#26283b] rounded-xl text-xs font-body text-gray-300">
+        <div>
+          <strong class="text-white block font-sub mb-0.5">📐 Peito (A):</strong>
+          <span>Medido de axila a axila com a peça esticada.</span>
+        </div>
+        <div>
+          <strong class="text-white block font-sub mb-0.5">📏 Comprimento (B):</strong>
+          <span>Do ponto mais alto do ombro até à bainha inferior.</span>
+        </div>
+        <div>
+          <strong class="text-white block font-sub mb-0.5">🧥 Manga (C):</strong>
+          <span>Da costura do ombro até ao punho.</span>
+        </div>
+      </div>
+
+      <div class="mt-6 flex justify-end">
+        <button onclick="closeSizeGuideModal()" class="px-6 py-2.5 bg-[#e61426] hover:bg-[#ff2a3c] text-white font-sub font-bold text-xs uppercase tracking-wider rounded-xl transition-all cursor-pointer">
+          Entendido, Fechar Guia
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ==========================================
+       LIGHTBOX ZOOM MODAL
+       ========================================== -->
+  <div id="lightbox-modal" class="fixed inset-0 z-50 bg-black/90 backdrop-blur-md hidden items-center justify-center p-4" onclick="Store.closeLightbox()">
+    <div class="relative max-w-5xl max-h-[90vh] flex items-center justify-center">
+      <img id="lightbox-img" src="" alt="Zoom" class="max-w-full max-h-[90vh] object-contain rounded-xl border border-white/10 shadow-2xl">
+      <button class="absolute -top-4 -right-4 bg-red-600 hover:bg-red-700 text-white rounded-full w-9 h-9 flex items-center justify-center font-black shadow-lg">✕</button>
+    </div>
+  </div>
+
+  <!-- Cart Slide-Over Drawer -->
+  <div id="cart-overlay" onclick="Store.toggleCart()" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 hidden transition-opacity duration-300"></div>
+  <aside id="cart-drawer" class="fixed top-0 right-0 h-full w-full sm:w-[440px] bg-[#0c0d12] border-l border-[#242533] z-50 transform translate-x-full transition-transform duration-300 flex flex-col shadow-2xl">
+    <div class="p-5 border-b border-[#242533] flex items-center justify-between bg-[#12131b]">
+      <div class="flex items-center gap-2">
+        <span class="text-xl">🛒</span>
+        <h3 class="font-heading font-black text-lg text-white tracking-wider">SEU CESTO</h3>
+      </div>
+      <button onclick="Store.toggleCart()" class="text-gray-400 hover:text-white p-1 text-lg cursor-pointer">✕</button>
+    </div>
+    <div id="cart-items" class="flex-grow overflow-y-auto p-5 space-y-4"></div>
+    <div class="p-5 border-t border-[#242533] bg-[#0e0f16] space-y-4">
+      <div class="flex justify-between font-heading font-black text-lg text-white">
+        <span>TOTAL:</span>
+        <span id="cart-total" class="text-[#ffe600]">0,00 €</span>
+      </div>
+      <button onclick="Store.checkout()" class="w-full py-4 bg-[#e61426] hover:bg-[#ff2a3c] text-white font-heading font-black text-sm uppercase tracking-wider rounded-xl shadow-lg transition-all flex items-center justify-center gap-2 cursor-pointer">
+        <span>FINALIZAR ENCOMENDA</span>
+        <span>➜</span>
+      </button>
+    </div>
+  </aside>
+
+  <!-- Sidebar Menu -->
+  <div id="sidebar-overlay" onclick="Store.toggleSidebar()" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 hidden transition-opacity duration-300"></div>
+  <aside id="sidebar-menu" class="fixed top-0 left-0 h-full w-72 bg-[#0c0d12] border-r border-[#242533] z-50 transform -translate-x-full transition-transform duration-300 flex flex-col p-6 shadow-2xl">
+    <div class="flex items-center justify-between pb-6 border-b border-[#242533]">
+      <span class="font-heading font-black text-white text-lg tracking-widest">MENU</span>
+      <button onclick="Store.toggleSidebar()" class="text-gray-400 hover:text-white text-lg cursor-pointer">✕</button>
+    </div>
+    <nav class="flex flex-col gap-3 mt-6 font-sub text-sm">
+      <a href="index.html" class="p-3 hover:bg-white/5 rounded-xl text-gray-300 hover:text-white font-bold">🏠 Início</a>
+      <a href="vestuario.html" class="p-3 hover:bg-white/5 rounded-xl text-[#ffe600] font-bold">👕 Vestuário Oficial Drop 01</a>
+      <a href="raiox.html" class="p-3 hover:bg-white/5 rounded-xl text-gray-300 hover:text-white font-bold">⚡ Raio-X MT-07</a>
+      <a href="catalogo.html" class="p-3 hover:bg-white/5 rounded-xl text-gray-300 hover:text-white font-bold">🛒 Catálogo de Peças</a>
+      <a href="rastreio.html" class="p-3 hover:bg-white/5 rounded-xl text-cyan-400 font-bold">📦 Rastreamento</a>
+    </nav>
+  </aside>
+
+  <!-- ==========================================
+       FOOTER
+       ========================================== -->
+  <footer class="bg-[#050608] border-t border-[#1a1b24] py-12 text-sm text-gray-400 mt-16">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+        <div class="md:col-span-2">
+          <div class="flex items-center gap-3 mb-4">
+            <img src="assets/images/logo.png" alt="Logo" class="w-10 h-10 rounded border border-[#e61426]/40 object-cover">
+            <span class="font-heading font-black text-xl text-white tracking-widest">
+              DARK <span class="text-[#e61426]">GHOSTRIDER</span>
+            </span>
+          </div>
+          <p class="text-gray-400 font-body text-xs sm:text-sm max-w-sm leading-relaxed">
+            A estética dark rider e o vestuário oficial de alta qualidade da Yamaha MT-07.
+          </p>
+        </div>
+        <div>
+          <h4 class="font-sub font-bold text-white uppercase tracking-wider mb-3">Links Rápidos</h4>
+          <ul class="space-y-2 text-xs font-sub">
+            <li><a href="vestuario.html" class="text-[#ffe600] hover:text-white transition-colors">Vestuário DROP 01</a></li>
+            <li><a href="raiox.html" class="hover:text-white transition-colors">Raio-X da MT-07</a></li>
+            <li><a href="catalogo.html" class="hover:text-white transition-colors">Catálogo de Peças</a></li>
+            <li><a href="rastreio.html" class="text-cyan-400 hover:text-cyan-300">Rastreamento</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="font-sub font-bold text-white uppercase tracking-wider mb-3">Pagamentos Aceites</h4>
+          <p class="text-xs text-gray-400 font-body">MB WAY • Multibanco • Cartão de Crédito/Débito • PayPal</p>
+        </div>
+      </div>
+      <div class="text-center pt-8 border-t border-[#141520] text-xs font-sub text-gray-500">
+        © 2026 Dark Ghostrider Store. Todos os direitos reservados.
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="assets/js/products.js"></script>
+  <script src="assets/js/app.js"></script>
+  
+  <script>
+    // Product Page State
+    let currentProduct = null;
+    let selectedColor = null;
+    let selectedSize = 'M';
+
+    // Size Tables Data
+    const SIZE_TABLES = {
+      hoodie: [
+        { size: 'XS', chest: '48 cm', length: '66 cm', sleeve: '61 cm', rec: 'Até 1,65m • 50-60kg' },
+        { size: 'S', chest: '51 cm', length: '69 cm', sleeve: '62 cm', rec: '1,65m - 1,72m • 60-70kg' },
+        { size: 'M (Mais Vendido)', chest: '54 cm', length: '72 cm', sleeve: '64 cm', rec: '1,72m - 1,78m • 70-80kg', highlight: true },
+        { size: 'L (Mais Vendido)', chest: '57 cm', length: '74 cm', sleeve: '65 cm', rec: '1,78m - 1,85m • 80-90kg', highlight: true },
+        { size: 'XL', chest: '60 cm', length: '76 cm', sleeve: '66 cm', rec: '1,82m - 1,90m • 90-100kg' },
+        { size: '2XL', chest: '63 cm', length: '78 cm', sleeve: '67 cm', rec: '1,85m+ • 100-112kg' },
+        { size: '3XL', chest: '66 cm', length: '80 cm', sleeve: '68 cm', rec: 'Big & Tall • 110-125kg' },
+        { size: '4XL', chest: '69 cm', length: '82 cm', sleeve: '69 cm', rec: 'Extra Amplo • 125kg+' }
+      ],
+      oversized: [
+        { size: 'XS', chest: '52 cm', length: '68 cm', sleeve: '22 cm', rec: 'Caimento Amplo • 55-65kg' },
+        { size: 'S', chest: '55 cm', length: '71 cm', sleeve: '23 cm', rec: 'Caimento Amplo • 65-75kg' },
+        { size: 'M (Mais Vendido)', chest: '58 cm', length: '74 cm', sleeve: '24 cm', rec: 'Boxy Fit • 75-85kg', highlight: true },
+        { size: 'L (Mais Vendido)', chest: '61 cm', length: '76 cm', sleeve: '25 cm', rec: 'Boxy Fit • 85-95kg', highlight: true },
+        { size: 'XL', chest: '64 cm', length: '78 cm', sleeve: '26 cm', rec: 'Streetwear Baggy • 95-105kg' },
+        { size: '2XL', chest: '67 cm', length: '80 cm', sleeve: '27 cm', rec: 'Extra Baggy • 105-115kg' },
+        { size: '3XL', chest: '70 cm', length: '82 cm', sleeve: '28 cm', rec: 'Big Street • 115-125kg' },
+        { size: '4XL', chest: '73 cm', length: '84 cm', sleeve: '29 cm', rec: 'Maxi Baggy • 125kg+' }
+      ],
+      classic: [
+        { size: 'XS', chest: '47 cm', length: '67 cm', sleeve: '19 cm', rec: 'Slim / Justo • 50-60kg' },
+        { size: 'S', chest: '50 cm', length: '69 cm', sleeve: '20 cm', rec: 'Regular • 60-70kg' },
+        { size: 'M (Mais Vendido)', chest: '53 cm', length: '72 cm', sleeve: '20 cm', rec: 'Regular Biker • 70-80kg', highlight: true },
+        { size: 'L (Mais Vendido)', chest: '56 cm', length: '74 cm', sleeve: '21 cm', rec: 'Regular Biker • 80-90kg', highlight: true },
+        { size: 'XL', chest: '59 cm', length: '76 cm', sleeve: '21 cm', rec: 'Confortável • 90-100kg' },
+        { size: '2XL', chest: '62 cm', length: '78 cm', sleeve: '22 cm', rec: 'Amplo • 100-112kg' },
+        { size: '3XL', chest: '65 cm', length: '80 cm', sleeve: '22 cm', rec: 'Big Regular • 110-125kg' },
+        { size: '4XL', chest: '68 cm', length: '82 cm', sleeve: '23 cm', rec: 'Extra Amplo • 125kg+' }
+      ]
+    };
+
+    function initProductPage() {
+      const params = new URLSearchParams(window.location.search);
+      const prodId = params.get('id') || 'hoodie-dark-ghostrider-oficial';
+      
+      currentProduct = PRODUCTS.find(p => p.id === prodId) || PRODUCTS[0];
+      if (!currentProduct) return;
+
+      // Update Page Meta
+      document.getElementById('page-title').textContent = `${currentProduct.name} | Dark Ghostrider`;
+      document.getElementById('breadcrumb-product-name').textContent = currentProduct.name;
+      
+      if (currentProduct.category === 'wear') {
+        document.getElementById('breadcrumb-category-link').href = 'vestuario.html';
+        document.getElementById('breadcrumb-category-link').textContent = 'VESTUÁRIO (DROP 01)';
+      } else {
+        document.getElementById('breadcrumb-category-link').href = 'catalogo.html';
+        document.getElementById('breadcrumb-category-link').textContent = 'CATÁLOGO DE ACESSÓRIOS';
+      }
+
+      // Title & Reviews
+      document.getElementById('buybox-product-name').textContent = currentProduct.name;
+      document.getElementById('buybox-rating-text').textContent = `${currentProduct.rating.toFixed(1)} / 5.0 (${currentProduct.reviewsCount} avaliações)`;
+      document.getElementById('accordion-desc-text').textContent = currentProduct.description;
+
+      // Badges
+      if (currentProduct.isDarkChoice) {
+        document.getElementById('product-badge-choice').classList.remove('hidden');
+      }
+      if (currentProduct.badge) {
+        document.getElementById('product-badge-tag').textContent = currentProduct.badge;
+      }
+
+      // Prices
+      renderPrices();
+
+      // Options: Cor / Versões
+      const colorOption = currentProduct.options ? currentProduct.options.find(o => o.name.toLowerCase().includes('cor')) : null;
+      if (colorOption && colorOption.values && colorOption.values.length > 0) {
+        selectedColor = colorOption.values[0];
+        renderVersions(colorOption.values);
+      } else {
+        document.getElementById('versions-container').style.display = 'none';
+      }
+
+      // Options: Tamanhos
+      const sizeOption = currentProduct.options ? currentProduct.options.find(o => o.name.toLowerCase().includes('tamanho')) : null;
+      if (sizeOption && sizeOption.values && sizeOption.values.length > 0) {
+        selectedSize = sizeOption.values.includes('M') ? 'M' : sizeOption.values[0];
+        renderSizes(sizeOption.values);
+      } else {
+        document.getElementById('sizes-container').style.display = 'none';
+      }
+
+      // Images & Gallery
+      updateDualImages();
+      renderGalleryThumbs();
+
+      // Packs Económicos
+      renderPacks();
+
+      // Init Size Table Body
+      switchSizeGuideTab(currentProduct.id.includes('oversized') ? 'oversized' : (currentProduct.id.includes('classic') ? 'classic' : 'hoodie'));
+    }
+
+    function renderPrices() {
+      const priceFormatted = Store.formatPrice(currentProduct.priceEUR, currentProduct.priceBRL);
+      const compFormatted = Store.formatPrice(currentProduct.compareAtEUR, currentProduct.compareAtBRL);
+      document.getElementById('buybox-price').textContent = priceFormatted;
+      document.getElementById('buybox-compare-price').textContent = compFormatted;
+    }
+
+    function renderVersions(colorValues) {
+      const container = document.getElementById('version-cards-list');
+      container.innerHTML = '';
+      
+      colorValues.forEach(cVal => {
+        let thumbImg = currentProduct.image;
+        if (currentProduct.variantImages && currentProduct.variantImages[cVal]) {
+          thumbImg = currentProduct.variantImages[cVal];
+        } else if (currentProduct.variantDualViews && currentProduct.variantDualViews[cVal]) {
+          thumbImg = currentProduct.variantDualViews[cVal].front;
+        }
+
+        const isYellow = cVal.toLowerCase().includes('amarel') || cVal.toLowerCase().includes('fluo');
+        const isActive = cVal === selectedColor;
+
+        const card = document.createElement('div');
+        card.className = `version-card p-2.5 rounded-xl border border-[#26283b] bg-[#0c0d12] hover:border-gray-500 cursor-pointer transition-all flex items-center gap-3 ${isActive ? 'active' : ''}`;
+        card.onclick = () => selectVersion(cVal);
+
+        card.innerHTML = `
+          <div class="w-12 h-12 rounded-lg overflow-hidden bg-black flex-shrink-0 border border-white/10">
+            <img src="${thumbImg}" alt="${cVal}" class="w-full h-full object-cover">
+          </div>
+          <div class="min-w-0">
+            <span class="block text-xs font-sub font-bold text-white truncate">${isYellow ? 'Amarelo Fluo' : 'Preto Stealth'}</span>
+            <span class="block text-[11px] font-sub text-[#ffe600]">${Store.formatPrice(currentProduct.priceEUR, currentProduct.priceBRL)}</span>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+
+      document.getElementById('selected-version-label').textContent = selectedColor;
+    }
+
+    function selectVersion(colorVal) {
+      selectedColor = colorVal;
+      document.getElementById('selected-version-label').textContent = selectedColor;
+      
+      // Update active card class
+      const cards = document.querySelectorAll('.version-card');
+      const colorOption = currentProduct.options.find(o => o.name.toLowerCase().includes('cor'));
+      if (colorOption) {
+        colorOption.values.forEach((cVal, idx) => {
+          if (cards[idx]) {
+            if (cVal === selectedColor) {
+              cards[idx].classList.add('active');
+            } else {
+              cards[idx].classList.remove('active');
+            }
+          }
+        });
+      }
+
+      updateDualImages();
+      renderGalleryThumbs();
+    }
+
+    function renderSizes(sizeValues) {
+      const container = document.getElementById('sizes-grid-list');
+      container.innerHTML = '';
+
+      sizeValues.forEach(sVal => {
+        const isActive = sVal === selectedSize;
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = `size-btn py-2 px-1 rounded-xl border border-[#272838] bg-[#090a10] hover:border-gray-400 text-xs font-sub transition-all flex flex-col items-center justify-center cursor-pointer ${isActive ? 'active' : 'text-gray-200'}`;
+        btn.onclick = () => selectSize(sVal);
+        btn.innerHTML = `
+          <span class="font-black text-xs">${sVal}</span>
+          <span class="text-[9px] text-gray-500 tracking-tighter">Em stock</span>
+        `;
+        container.appendChild(btn);
+      });
+    }
+
+    function selectSize(sVal) {
+      selectedSize = sVal;
+      const btns = document.querySelectorAll('.size-btn');
+      const sizeOption = currentProduct.options.find(o => o.name.toLowerCase().includes('tamanho'));
+      if (sizeOption) {
+        sizeOption.values.forEach((val, idx) => {
+          if (btns[idx]) {
+            if (val === selectedSize) {
+              btns[idx].classList.add('active');
+            } else {
+              btns[idx].classList.remove('active');
+            }
+          }
+        });
+      }
+    }
+
+    function updateDualImages() {
+      let frontImg = currentProduct.image;
+      let backImg = null;
+
+      if (currentProduct.variantDualViews && selectedColor && currentProduct.variantDualViews[selectedColor]) {
+        frontImg = currentProduct.variantDualViews[selectedColor].front;
+        backImg = currentProduct.variantDualViews[selectedColor].back;
+      } else if (currentProduct.dualView) {
+        frontImg = currentProduct.dualView.front;
+        backImg = currentProduct.dualView.back;
+      } else if (currentProduct.variantImages && selectedColor && currentProduct.variantImages[selectedColor]) {
+        frontImg = currentProduct.variantImages[selectedColor];
+        if (currentProduct.gallery && currentProduct.gallery.length > 1) {
+          backImg = currentProduct.gallery[1];
+        }
+      } else if (currentProduct.gallery && currentProduct.gallery.length > 1) {
+        frontImg = currentProduct.gallery[0];
+        backImg = currentProduct.gallery[1];
+      }
+
+      document.getElementById('main-image-front').src = frontImg;
+      
+      const backWrapper = document.getElementById('dual-image-back-wrapper');
+      if (backImg) {
+        backWrapper.style.display = 'block';
+        document.getElementById('main-image-back').src = backImg;
+        document.getElementById('dual-images-container').className = 'grid grid-cols-1 md:grid-cols-2 gap-4';
+      } else {
+        backWrapper.style.display = 'none';
+        document.getElementById('dual-images-container').className = 'grid grid-cols-1 gap-4';
+      }
+    }
+
+    function renderGalleryThumbs() {
+      const list = document.getElementById('gallery-thumbs-list');
+      list.innerHTML = '';
+
+      let thumbs = currentProduct.gallery || [currentProduct.image];
+      
+      if (selectedColor && selectedColor.toLowerCase().includes('amarel')) {
+        thumbs = thumbs.filter(t => !t.includes('preto')).concat(thumbs.filter(t => t.includes('preto')));
+      }
+
+      thumbs.forEach((tImg, idx) => {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = `thumb-btn w-16 h-16 rounded-xl overflow-hidden border border-[#242533] hover:border-[#ffe600] flex-shrink-0 bg-black cursor-pointer transition-all ${idx === 0 ? 'active' : 'opacity-70'}`;
+        btn.onclick = () => {
+          document.getElementById('main-image-front').src = tImg;
+          document.querySelectorAll('.thumb-btn').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+        };
+        btn.innerHTML = `<img src="${tImg}" alt="Thumb" class="w-full h-full object-cover">`;
+        list.appendChild(btn);
+      });
+    }
+
+    function renderPacks() {
+      const container = document.getElementById('packs-container');
+      const packs = currentProduct.packs || [];
+
+      if (!packs || packs.length === 0) {
+        container.innerHTML = `
+          <div class="bg-[#090a10] border border-[#242533] hover:border-[#ffe600]/60 rounded-xl p-4 transition-all">
+            <span class="block font-sub font-bold text-xs text-white mb-2">Pack Biker Recomendado (-15% EXTRA)</span>
+            <div class="flex items-center gap-3">
+              <div class="w-14 h-14 rounded-lg bg-black overflow-hidden border border-white/10 flex-shrink-0">
+                <img src="${currentProduct.image}" class="w-full h-full object-cover">
+              </div>
+              <span class="text-lg font-black text-[#ffe600]">+</span>
+              <div class="w-14 h-14 rounded-lg bg-black overflow-hidden border border-white/10 flex-shrink-0 p-1">
+                <img src="assets/images/kashvelo-logo.jpg" class="w-full h-full object-contain">
+              </div>
+              <div class="ml-auto text-right">
+                <span class="text-xs text-emerald-400 font-bold block">Poupe 15,00 €</span>
+                <button type="button" onclick="handleAddPackFallback()" class="mt-1 px-4 py-2 bg-[#ffe600] hover:bg-[#fff033] text-black font-sub font-black text-xs uppercase tracking-wider rounded-lg shadow transition-all cursor-pointer">
+                  ADICIONAR PACK
+                </button>
+              </div>
+            </div>
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = packs.map(pack => `
+        <div class="bg-[#090a10] border border-[#26283b] hover:border-[#ffe600]/80 rounded-xl p-4 transition-all group">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-3">
+            <div>
+              <h4 class="font-sub font-bold text-xs sm:text-sm text-white group-hover:text-[#ffe600] transition-colors leading-snug">
+                ${pack.title}
+              </h4>
+              <span class="text-[11px] font-sub font-bold text-emerald-400">
+                ✓ Economize ${pack.savingsEUR.toFixed(2)} € no conjunto
+              </span>
+            </div>
+            <div class="text-right sm:self-auto self-start">
+              <span class="text-base sm:text-lg font-heading font-black text-[#ffe600]">
+                ${pack.bundlePriceEUR.toFixed(2)} €
+              </span>
+              <span class="text-xs line-through text-gray-500 block">
+                ${pack.originalPriceEUR.toFixed(2)} €
+              </span>
+            </div>
+          </div>
+
+          <div class="flex items-center justify-between pt-3 border-t border-[#1b1c28]">
+            <div class="flex items-center gap-2 sm:gap-3">
+              ${pack.items.map((it, idx) => `
+                <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-lg bg-black overflow-hidden border border-white/10 p-0.5" title="${it.name}">
+                  <img src="${it.image}" class="w-full h-full object-cover rounded">
+                </div>
+                ${idx < pack.items.length - 1 ? '<span class="text-base sm:text-lg font-black text-gray-500">+</span>' : ''}
+              `).join('')}
+            </div>
+
+            <button type="button" onclick="handleAddPackToCart('${pack.id}')" class="px-4 py-2.5 bg-[#ffe600] hover:bg-[#fff033] text-black font-heading font-black text-xs uppercase tracking-wider rounded-xl shadow-lg shadow-yellow-500/20 transition-all flex items-center gap-1.5 cursor-pointer">
+              <span>ADICIONAR PACK</span>
+              <span>➜</span>
+            </button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function handleAddPackFallback() {
+      if (!currentProduct) return;
+      Store.cart.push({
+        id: currentProduct.id + '-pack',
+        name: `${currentProduct.name} + Luvas KV Carbono`,
+        priceEUR: Math.round((currentProduct.priceEUR + 44.90) * 100) / 100,
+        priceBRL: Math.round(((currentProduct.priceEUR + 44.90) * 6.5) * 100) / 100,
+        image: currentProduct.image,
+        variation: 'Pack Especial Biker (-15%)',
+        quantity: 1,
+        supplierUrl: ''
+      });
+      Store.saveCart();
+      Store.updateCartUI();
+      Store.openCart();
+    }
+
+    function handleAddPackToCart(packId) {
+      const pack = (currentProduct.packs || []).find(p => p.id === packId);
+      if (!pack) return;
+
+      const discountRatio = pack.bundlePriceEUR / pack.originalPriceEUR;
+
+      pack.items.forEach(it => {
+        const discountedEUR = Math.round(((it.priceEUR || 39.9) * discountRatio) * 100) / 100;
+        const discountedBRL = Math.round((discountedEUR * 6.5) * 100) / 100;
+        Store.cart.push({
+          id: it.id + '-pack',
+          name: `${it.name}`,
+          priceEUR: discountedEUR,
+          priceBRL: discountedBRL,
+          image: it.image,
+          variation: `Pack Especial: ${pack.title} (-${pack.discountPct}%)`,
+          quantity: 1,
+          supplierUrl: ''
+        });
+      });
+
+      Store.saveCart();
+      Store.updateCartUI();
+      Store.openCart();
+    }
+
+    function handleAddToCart() {
+      if (!currentProduct) return;
+      
+      const vars = [];
+      if (selectedColor) vars.push(`Cor: ${selectedColor}`);
+      if (selectedSize) vars.push(`Tamanho: ${selectedSize}`);
+      const variationStr = vars.join(' | ');
+
+      let itemImg = currentProduct.image;
+      if (selectedColor && currentProduct.variantImages && currentProduct.variantImages[selectedColor]) {
+        itemImg = currentProduct.variantImages[selectedColor];
+      }
+
+      Store.addToCart(currentProduct.id, variationStr, itemImg, currentProduct.priceEUR, currentProduct.priceBRL);
+      Store.openCart();
+    }
+
+    function handleQuickWhatsApp() {
+      if (!currentProduct) return;
+      const phone = "351968885713";
+      const msg = `Olá Dark Ghostrider! Gostaria de encomendar: *${currentProduct.name}* (${selectedColor || ''} - Tamanho ${selectedSize || ''}) no valor de ${document.getElementById('buybox-price').textContent}. Como posso efetuar o pagamento por MB WAY?`;
+      window.open(`https://wa.me/${phone}?text=${encodeURIComponent(msg)}`, '_blank');
+    }
+
+    // Modal Size Guide Controls
+    function openSizeGuideModal() {
+      const modal = document.getElementById('size-guide-modal');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    }
+
+    function closeSizeGuideModal() {
+      const modal = document.getElementById('size-guide-modal');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    }
+
+    function switchSizeGuideTab(tabKey) {
+      ['hoodie', 'oversized', 'classic'].forEach(k => {
+        const btn = document.getElementById(`size-tab-${k}`);
+        if (btn) {
+          if (k === tabKey) {
+            btn.className = "px-4 py-2 rounded-lg font-sub font-bold text-xs bg-[#ffe600] text-black cursor-pointer";
+          } else {
+            btn.className = "px-4 py-2 rounded-lg font-sub font-bold text-xs bg-[#171824] text-gray-300 hover:text-white cursor-pointer";
+          }
+        }
+      });
+
+      const list = SIZE_TABLES[tabKey] || SIZE_TABLES.hoodie;
+      const body = document.getElementById('size-table-body');
+      body.innerHTML = list.map(row => `
+        <tr class="hover:bg-white/5 transition-colors ${row.highlight ? 'bg-[#ffe600]/10 font-bold' : ''}">
+          <td class="py-2.5 px-3 font-black text-[#ffe600]">${row.size}</td>
+          <td class="py-2.5 px-3">${row.chest}</td>
+          <td class="py-2.5 px-3">${row.length}</td>
+          <td class="py-2.5 px-3">${row.sleeve}</td>
+          <td class="py-2.5 px-3 ${row.highlight ? 'text-white' : 'text-gray-400'}">${row.rec}</td>
+        </tr>
+      `).join('');
+    }
+
+    function toggleAccordion(contentId, iconId) {
+      const el = document.getElementById(contentId);
+      const icon = document.getElementById(iconId);
+      if (el.style.display === 'none') {
+        el.style.display = 'block';
+        icon.textContent = '▲';
+      } else {
+        el.style.display = 'none';
+        icon.textContent = '▼';
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      initProductPage();
+    });
+  </script>
+</body>
+</html>

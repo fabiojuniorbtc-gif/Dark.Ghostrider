@@ -5,6 +5,7 @@
     { "source": "/rastreio", "destination": "/rastreio.html" },
     { "source": "/vestuario", "destination": "/vestuario.html" },
     { "source": "/raiox", "destination": "/raiox.html" },
-    { "source": "/catalogo", "destination": "/catalogo.html" }
+    { "source": "/catalogo", "destination": "/catalogo.html" },
+    { "source": "/produto", "destination": "/produto.html" }
   ]
 }

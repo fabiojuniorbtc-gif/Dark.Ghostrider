@@ -48,9 +48,49 @@ const PRODUCTS = [
       "Preto Stealth (All Black)": "assets/images/apparel/hoodie_preto.jpg",
       "Amarelo Fluorescente (High-Vis Neon)": "assets/images/apparel/hoodie_amarelo.jpg"
     },
+    "dualView": {
+      "front": "assets/images/apparel/hoodie_preto_front.jpg",
+      "back": "assets/images/apparel/hoodie_preto_back.jpg"
+    },
+    "variantDualViews": {
+      "Preto Stealth (All Black)": {
+        "front": "assets/images/apparel/hoodie_preto_front.jpg",
+        "back": "assets/images/apparel/hoodie_preto_back.jpg"
+      },
+      "Amarelo Fluorescente (High-Vis Neon)": {
+        "front": "assets/images/apparel/hoodie_amarelo_front.jpg",
+        "back": "assets/images/apparel/hoodie_amarelo_back.jpg"
+      }
+    },
+    "packs": [
+      {
+        "id": "pack-hoodie-bio190",
+        "title": "Pack Streetwear Rider: Leve a Sweatshirt + T-Shirt Classic Bio190 com 20% EXTRA de desconto",
+        "savingsEUR": 18.00,
+        "bundlePriceEUR": 71.80,
+        "originalPriceEUR": 89.80,
+        "items": [
+          { "id": "hoodie-dark-ghostrider-oficial", "name": "Sweatshirt com Capuz Oficial", "image": "assets/images/apparel/hoodie_preto_front.jpg", "priceEUR": 59.90 },
+          { "id": "tshirt-classic-bio190-dark-ghostrider", "name": "T-Shirt Classic Bio190", "image": "assets/images/apparel/tshirt_classic_preto.jpg", "priceEUR": 29.90 }
+        ]
+      },
+      {
+        "id": "pack-hoodie-oversized",
+        "title": "Pack Double Dark: Leve a Sweatshirt + T-Shirt Oversized Boxy com 20% EXTRA",
+        "savingsEUR": 20.00,
+        "bundlePriceEUR": 79.80,
+        "originalPriceEUR": 99.80,
+        "items": [
+          { "id": "hoodie-dark-ghostrider-oficial", "name": "Sweatshirt com Capuz Oficial", "image": "assets/images/apparel/hoodie_preto_front.jpg", "priceEUR": 59.90 },
+          { "id": "tshirt-oversized-dark-ghostrider", "name": "T-Shirt Oversized Boxy", "image": "assets/images/apparel/tshirt_oversized_preto.jpg", "priceEUR": 39.90 }
+        ]
+      }
+    ],
     "gallery": [
-      "assets/images/apparel/hoodie_preto.jpg",
-      "assets/images/apparel/hoodie_amarelo.jpg",
+      "assets/images/apparel/hoodie_preto_front.jpg",
+      "assets/images/apparel/hoodie_preto_back.jpg",
+      "assets/images/apparel/hoodie_amarelo_front.jpg",
+      "assets/images/apparel/hoodie_amarelo_back.jpg",
       "assets/images/apparel/estampa_costas.jpg",
       "assets/images/apparel/emblema_peito.jpg",
       "assets/images/apparel/banner_colecao_vestuario.jpg"
@@ -105,6 +145,34 @@ const PRODUCTS = [
       "Preto Stealth (All Black)": "assets/images/apparel/tshirt_oversized_preto.jpg",
       "Amarelo Fluorescente (High-Vis Neon)": "assets/images/apparel/tshirt_oversized_amarelo.jpg"
     },
+    "dualView": {
+      "front": "assets/images/apparel/tshirt_oversized_preto.jpg",
+      "back": "assets/images/apparel/estampa_costas.jpg"
+    },
+    "packs": [
+      {
+        "id": "pack-oversized-hoodie",
+        "title": "Pack Streetwear Pro: Leve a T-Shirt Oversized + Sweatshirt com 20% EXTRA de desconto",
+        "savingsEUR": 20.00,
+        "bundlePriceEUR": 79.80,
+        "originalPriceEUR": 99.80,
+        "items": [
+          { "id": "tshirt-oversized-dark-ghostrider", "name": "T-Shirt Oversized Boxy", "image": "assets/images/apparel/tshirt_oversized_preto.jpg", "priceEUR": 39.90 },
+          { "id": "hoodie-dark-ghostrider-oficial", "name": "Sweatshirt com Capuz Oficial", "image": "assets/images/apparel/hoodie_preto_front.jpg", "priceEUR": 59.90 }
+        ]
+      },
+      {
+        "id": "pack-oversized-classic",
+        "title": "Pack Duplo T-Shirts: Leve a Oversized + Classic Bio190 (-15% EXTRA)",
+        "savingsEUR": 10.50,
+        "bundlePriceEUR": 59.30,
+        "originalPriceEUR": 69.80,
+        "items": [
+          { "id": "tshirt-oversized-dark-ghostrider", "name": "T-Shirt Oversized Boxy", "image": "assets/images/apparel/tshirt_oversized_preto.jpg", "priceEUR": 39.90 },
+          { "id": "tshirt-classic-bio190-dark-ghostrider", "name": "T-Shirt Classic Bio190", "image": "assets/images/apparel/tshirt_classic_preto.jpg", "priceEUR": 29.90 }
+        ]
+      }
+    ],
     "gallery": [
       "assets/images/apparel/tshirt_oversized_preto.jpg",
       "assets/images/apparel/tshirt_oversized_amarelo.jpg",
@@ -162,6 +230,23 @@ const PRODUCTS = [
       "Preto Stealth (All Black)": "assets/images/apparel/tshirt_classic_preto.jpg",
       "Amarelo Fluorescente (High-Vis Neon)": "assets/images/apparel/tshirt_classic_amarelo.jpg"
     },
+    "dualView": {
+      "front": "assets/images/apparel/tshirt_classic_preto.jpg",
+      "back": "assets/images/apparel/estampa_costas.jpg"
+    },
+    "packs": [
+      {
+        "id": "pack-classic-hoodie",
+        "title": "Pack Streetwear Rider: Leve a T-Shirt Classic Bio190 + Sweatshirt com Capuz com 20% EXTRA",
+        "savingsEUR": 18.00,
+        "bundlePriceEUR": 71.80,
+        "originalPriceEUR": 89.80,
+        "items": [
+          { "id": "tshirt-classic-bio190-dark-ghostrider", "name": "T-Shirt Classic Bio190", "image": "assets/images/apparel/tshirt_classic_preto.jpg", "priceEUR": 29.90 },
+          { "id": "hoodie-dark-ghostrider-oficial", "name": "Sweatshirt com Capuz Oficial", "image": "assets/images/apparel/hoodie_preto_front.jpg", "priceEUR": 59.90 }
+        ]
+      }
+    ],
     "gallery": [
       "assets/images/apparel/tshirt_classic_preto.jpg",
       "assets/images/apparel/tshirt_classic_amarelo.jpg",
