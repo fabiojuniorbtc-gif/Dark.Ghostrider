@@ -455,8 +455,8 @@ const Store = {
               </div>
 
               <div class="grid grid-cols-2 gap-2">
-                <button onclick="Store.buyDirectWhatsapp('${p.id}')" class="flex items-center justify-center gap-1.5 py-2.5 px-3 bg-[#1c2e24] hover:bg-[#254634] text-[#25d366] border border-[#25d366]/40 hover:border-[#25d366] rounded text-xs font-sub font-bold uppercase tracking-wider transition-all">
-                  <span>💬 WhatsApp</span>
+                <button onclick="Store.buyItemToCart('${p.id}')" class="flex items-center justify-center gap-1.5 py-2.5 px-3 bg-[#ffe600] hover:bg-[#fff033] text-black font-sub font-black text-xs uppercase tracking-wider rounded shadow-md hover:shadow-yellow-500/30 transition-all cursor-pointer">
+                  <span>🛒 Comprar</span>
                 </button>
                 <a href="produto.html?id=${p.id}" class="flex items-center justify-center gap-1.5 py-2.5 px-3 bg-[#e61426] hover:bg-[#ff2a3c] text-white rounded text-xs font-sub font-bold uppercase tracking-wider shadow-lg hover:shadow-red-600/30 transition-all text-center">
                   <span>+ Ver Opções</span>
@@ -878,6 +878,11 @@ const Store = {
     if (subtotalEl) {
       subtotalEl.textContent = this.formatPrice(subtotalEUR, subtotalBRL);
     }
+  },
+
+  buyItemToCart(productId) {
+    this.addToCart(productId);
+    this.openCart();
   },
 
   buyDirectWhatsapp(productId, fromModal = false) {

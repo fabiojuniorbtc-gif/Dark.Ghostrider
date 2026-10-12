@@ -20,6 +20,7 @@ DIRECTORY = os.path.dirname(os.path.abspath(__file__))
 DATA_DIR = os.path.join(DIRECTORY, 'data')
 ORDERS_FILE = os.path.join(DATA_DIR, 'orders.json')
 CONFIG_FILE = os.path.join(DATA_DIR, 'config.json')
+PRODUCTS_OVERRIDE_FILE = os.path.join(DATA_DIR, 'products_override.json')
 
 os.makedirs(DATA_DIR, exist_ok=True)
 BASE_SITE_URL = os.environ.get('BASE_SITE_URL', 'https://www.darkghostrider.com').rstrip('/')
@@ -54,6 +55,21 @@ def save_orders(orders):
     with data_lock:
         with open(ORDERS_FILE, 'w', encoding='utf-8') as f:
             json.dump(orders, f, indent=2, ensure_ascii=False)
+
+def load_products_override():
+    with data_lock:
+        if os.path.exists(PRODUCTS_OVERRIDE_FILE):
+            try:
+                with open(PRODUCTS_OVERRIDE_FILE, 'r', encoding='utf-8') as f:
+                    return json.load(f)
+            except Exception:
+                pass
+    return {}
+
+def save_products_override(data):
+    with data_lock:
+        with open(PRODUCTS_OVERRIDE_FILE, 'w', encoding='utf-8') as f:
+            json.dump(data, f, indent=2, ensure_ascii=False)
 
 def send_telegram_message(token, chat_id, text, reply_markup=None):
     if not token or not chat_id:
@@ -302,6 +318,14 @@ class StoreHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
             self.wfile.write(json.dumps(res, ensure_ascii=False).encode('utf-8'))
             return
 
+        elif path == '/api/products':
+            overrides = load_products_override()
+            self.send_response(200)
+            self.send_header('Content-Type', 'application/json; charset=utf-8')
+            self.end_headers()
+            self.wfile.write(json.dumps(overrides, ensure_ascii=False).encode('utf-8'))
+            return
+
         # Serve static files as default
         super().do_GET()
 
@@ -407,6 +431,43 @@ class StoreHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
                 self.send_header('Content-Type', 'application/json; charset=utf-8')
                 self.end_headers()
                 self.wfile.write(json.dumps({'error': 'Order not found'}, ensure_ascii=False).encode('utf-8'))
+            return
+
+        elif path.startswith('/api/orders/') and (path.endswith('/delete') or path.endswith('/cancel')):
+            # Path: /api/orders/<id>/delete
+            parts = path.split('/')
+            target_id = parts[3].upper() if len(parts) >= 4 else ''
+            orders = load_orders()
+            initial_count = len(orders)
+            orders = [o for o in orders if o.get('id', '').upper() != target_id and o.get('orderId', '').upper() != target_id]
+            if len(orders) < initial_count:
+                save_orders(orders)
+                self.send_response(200)
+                self.send_header('Content-Type', 'application/json; charset=utf-8')
+                self.end_headers()
+                self.wfile.write(json.dumps({'success': True, 'message': 'Encomenda removida com sucesso.'}, ensure_ascii=False).encode('utf-8'))
+            else:
+                self.send_response(404)
+                self.send_header('Content-Type', 'application/json; charset=utf-8')
+                self.end_headers()
+                self.wfile.write(json.dumps({'error': 'Order not found'}, ensure_ascii=False).encode('utf-8'))
+            return
+
+        elif path == '/api/products/update':
+            # Payload can be { overrides: { id: { ... } } } or a dict of { id: { ... } } or single product { id, ... }
+            current = load_products_override()
+            if 'overrides' in data and isinstance(data['overrides'], dict):
+                current.update(data['overrides'])
+            elif 'id' in data:
+                p_id = data['id']
+                current[p_id] = {k: v for k, v in data.items() if k != 'id'}
+            elif isinstance(data, dict):
+                current.update(data)
+            save_products_override(current)
+            self.send_response(200)
+            self.send_header('Content-Type', 'application/json; charset=utf-8')
+            self.end_headers()
+            self.wfile.write(json.dumps({'success': True, 'overrides': current}, ensure_ascii=False).encode('utf-8'))
             return
 
         elif path == '/api/config':

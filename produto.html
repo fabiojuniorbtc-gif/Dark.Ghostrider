@@ -186,9 +186,9 @@
             </span>
           </div>
 
-          <!-- Single Main Large Image Container -->
-          <div class="relative w-full aspect-square sm:aspect-[4/3] max-h-[640px] bg-black rounded-2xl overflow-hidden border border-[#242533] group cursor-zoom-in shadow-inner flex items-center justify-center" onclick="Store.openLightbox(document.getElementById('main-product-image').src)">
-            <img id="main-product-image" src="" alt="Foto do Produto" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
+          <!-- Single Main Large Image Container (Real Size, No Crop/Zoom) -->
+          <div class="relative w-full aspect-square sm:aspect-[4/3] max-h-[640px] bg-[#07080c] rounded-2xl overflow-hidden border border-[#242533] group cursor-zoom-in shadow-inner flex items-center justify-center p-2" onclick="Store.openLightbox(document.getElementById('main-product-image').src)">
+            <img id="main-product-image" src="" alt="Foto do Produto" class="w-full h-full object-contain transition-transform duration-300 group-hover:scale-102">
             
             <!-- View label -->
             <span id="main-image-label" class="absolute bottom-4 left-4 bg-black/85 backdrop-blur border border-white/10 text-xs font-sub font-bold text-gray-200 px-3 py-1.5 rounded-lg shadow-lg flex items-center gap-1.5 pointer-events-none">
@@ -327,14 +327,16 @@
           <!-- Tab 4: Envios e Devoluções -->
           <div>
             <button onclick="toggleAccordion('tab-shipping', 'tab-shipping-icon')" class="w-full px-6 py-4 flex items-center justify-between text-left hover:bg-white/5 transition-colors">
-              <span class="font-heading font-bold text-sm text-white tracking-wider flex items-center gap-2">
-                <span>🚚</span> ENVIOS & POLÍTICA DE TROCA DE TAMANHOS
+              <span id="tab-shipping-title" class="font-heading font-bold text-sm text-white tracking-wider flex items-center gap-2">
+                <span>🚚</span> ENVIOS & POLÍTICA DE ENTREGA
               </span>
               <span id="tab-shipping-icon" class="text-gray-400 transition-transform">▼</span>
             </button>
             <div id="tab-shipping" class="px-6 pb-6 text-xs text-gray-300 font-body space-y-2">
-              <p><strong>Envios para Portugal:</strong> Envio expresso através de CTT Expresso com código de rastreamento enviado por SMS/Email.</p>
-              <p><strong>Troca de Tamanhos Garantida:</strong> Caso o tamanho escolhido não fique perfeitamente ajustado no seu corpo, disponibilizamos suporte direto para troca rápida sem complicações.</p>
+              <div id="tab-shipping-details">
+                <p><strong>Envios para Portugal:</strong> Envio expresso através de CTT Expresso com código de rastreamento enviado por SMS/Email.</p>
+                <p><strong>Garantia de Satisfação:</strong> Suporte direto para esclarecimento e acompanhamento completo de entrega.</p>
+              </div>
             </div>
           </div>
 
@@ -460,11 +462,11 @@
             </div>
             <div class="flex items-center gap-2 text-gray-300">
               <span>🚚</span>
-              <span>Entrega estimada em <strong>24h a 48h úteis</strong> via CTT Expresso</span>
+              <span id="buybox-shipping-estimate">Entrega estimada em <strong>24h a 72h úteis</strong> via CTT Expresso</span>
             </div>
             <div class="flex items-center gap-2 text-gray-300">
-              <span>🔄</span>
-              <span>Troca de tamanho 100% garantida sem complicação</span>
+              <span id="buybox-guarantee-icon">🔄</span>
+              <span id="buybox-guarantee-note">Troca de tamanho 100% garantida sem complicação</span>
             </div>
           </div>
 
@@ -566,28 +568,124 @@
     </div>
   </div>
 
-  <!-- Cart Slide-Over Drawer -->
-  <div id="cart-overlay" onclick="Store.toggleCart()" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 hidden transition-opacity duration-300"></div>
-  <aside id="cart-drawer" class="fixed top-0 right-0 h-full w-full sm:w-[440px] bg-[#0c0d12] border-l border-[#242533] z-50 transform translate-x-full transition-transform duration-300 flex flex-col shadow-2xl">
-    <div class="p-5 border-b border-[#242533] flex items-center justify-between bg-[#12131b]">
+  <!-- Standard Cart Backdrop & Drawer -->
+  <div id="cart-backdrop"></div>
+  <div id="cart-drawer">
+    <div class="p-4 border-b border-[#242533] flex items-center justify-between bg-[#11121a]">
       <div class="flex items-center gap-2">
         <span class="text-xl">🛒</span>
-        <h3 class="font-heading font-black text-lg text-white tracking-wider">SEU CESTO</h3>
+        <h3 class="font-sub font-bold text-lg text-white uppercase tracking-wider">A Tua Garagem / Carrinho</h3>
       </div>
-      <button onclick="Store.toggleCart()" class="text-gray-400 hover:text-white p-1 text-lg cursor-pointer">✕</button>
-    </div>
-    <div id="cart-items" class="flex-grow overflow-y-auto p-5 space-y-4"></div>
-    <div class="p-5 border-t border-[#242533] bg-[#0e0f16] space-y-4">
-      <div class="flex justify-between font-heading font-black text-lg text-white">
-        <span>TOTAL:</span>
-        <span id="cart-total" class="text-[#ffe600]">0,00 €</span>
-      </div>
-      <button onclick="Store.checkout()" class="w-full py-4 bg-[#e61426] hover:bg-[#ff2a3c] text-white font-heading font-black text-sm uppercase tracking-wider rounded-xl shadow-lg transition-all flex items-center justify-center gap-2 cursor-pointer">
-        <span>FINALIZAR ENCOMENDA</span>
-        <span>➜</span>
+      <button id="cart-close-btn" onclick="Store.closeCart()" class="text-gray-400 hover:text-white text-lg p-1 cursor-pointer">
+        ✕
       </button>
     </div>
-  </aside>
+
+    <!-- Items List (Populated by Store.updateCartUI) -->
+    <div id="cart-items-container" class="flex-1 overflow-y-auto p-4 space-y-2"></div>
+
+    <!-- Footer with Subtotal & Actions -->
+    <div class="p-4 bg-[#11121a] border-t border-[#242533] space-y-3">
+      <div class="flex items-center justify-between text-base font-sub font-bold text-gray-300">
+        <span>SUBTOTAL:</span>
+        <span id="cart-subtotal" class="font-heading font-black text-xl text-white">0,00 €</span>
+      </div>
+
+      <button id="btn-checkout-cart" onclick="Store.openCheckoutModal()" class="w-full py-3.5 bg-[#e61426] hover:bg-[#ff2a3c] text-white font-sub font-bold uppercase tracking-wider rounded shadow-lg shadow-red-900/50 transition-all flex items-center justify-center gap-2 cursor-pointer">
+        <span>FINALIZAR ENCOMENDA</span>
+        <span class="text-xs bg-red-950 px-2 py-0.5 rounded">MB WAY / Multibanco / Cartão</span>
+      </button>
+
+      <button id="btn-whatsapp-cart" onclick="Store.sendCartViaWhatsapp()" class="w-full py-3 bg-[#17261d] hover:bg-[#203629] text-[#25d366] border border-[#25d366]/40 rounded font-sub font-bold uppercase tracking-wider text-xs transition-all flex items-center justify-center gap-2 cursor-pointer">
+        <span>💬 Enviar Encomenda pelo WhatsApp</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Checkout Modal -->
+  <div id="checkout-modal" class="modal-overlay">
+    <div class="modal-content relative p-6 sm:p-8">
+      <button id="checkout-modal-close" onclick="Store.closeCheckoutModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white text-xl bg-[#151620] w-8 h-8 rounded-full flex items-center justify-center border border-[#262838] cursor-pointer">
+        ✕
+      </button>
+
+      <div id="checkout-form-container">
+        <div class="mb-6">
+          <span class="text-xs font-sub font-bold text-[#ff4d5a] uppercase tracking-widest block">CHECKOUT SEGURO</span>
+          <h3 class="font-heading font-black text-2xl text-white">FINALIZAR ENCOMENDA</h3>
+          <p class="text-xs text-gray-400 mt-1">Preencha os dados para entrega e selecione a forma de pagamento.</p>
+        </div>
+
+        <form onsubmit="Store.processCheckout(event)" class="space-y-4 font-body text-sm">
+          <div class="grid sm:grid-cols-2 gap-3">
+            <div>
+              <label class="block text-xs font-sub font-bold text-gray-400 uppercase mb-1">Nome Completo *</label>
+              <input type="text" id="chk-name" required placeholder="Ex: Diogo Silva" class="w-full bg-[#12131c] text-white border border-[#26283b] rounded p-2.5 outline-none focus:border-[#e61426]">
+            </div>
+            <div>
+              <label class="block text-xs font-sub font-bold text-gray-400 uppercase mb-1">Telemóvel / WhatsApp *</label>
+              <input type="tel" id="chk-phone" required placeholder="+351 912 345 678" class="w-full bg-[#12131c] text-white border border-[#26283b] rounded p-2.5 outline-none focus:border-[#e61426]">
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-xs font-sub font-bold text-gray-400 uppercase mb-1">Email para Rastreio *</label>
+            <input type="email" id="chk-email" required placeholder="seu.email@exemplo.com" class="w-full bg-[#12131c] text-white border border-[#26283b] rounded p-2.5 outline-none focus:border-[#e61426]">
+          </div>
+
+          <div>
+            <label class="block text-xs font-sub font-bold text-gray-400 uppercase mb-1">Morada de Entrega *</label>
+            <input type="text" id="chk-address" required placeholder="Ex: Av. da Liberdade, 120, 2º Dto" class="w-full bg-[#12131c] text-white border border-[#26283b] rounded p-2.5 outline-none focus:border-[#e61426]">
+          </div>
+
+          <div class="grid grid-cols-2 gap-3">
+            <div>
+              <label class="block text-xs font-sub font-bold text-gray-400 uppercase mb-1">Código Postal *</label>
+              <input type="text" id="chk-postal" required placeholder="1250-140" class="w-full bg-[#12131c] text-white border border-[#26283b] rounded p-2.5 outline-none focus:border-[#e61426]">
+            </div>
+            <div>
+              <label class="block text-xs font-sub font-bold text-gray-400 uppercase mb-1">Cidade / Distrito *</label>
+              <input type="text" id="chk-city" required placeholder="Lisboa" class="w-full bg-[#12131c] text-white border border-[#26283b] rounded p-2.5 outline-none focus:border-[#e61426]">
+            </div>
+          </div>
+
+          <div id="payment-methods-pt" class="pt-4 border-t border-[#242533]">
+            <label class="block text-xs font-sub font-bold text-gray-300 uppercase tracking-wider mb-2">
+              🇵🇹 Método de Pagamento (Portugal):
+            </label>
+            <div class="grid grid-cols-3 gap-2">
+              <label class="flex flex-col items-center justify-center p-3 bg-[#12131b] border border-[#26283b] rounded-lg cursor-pointer hover:border-[#e61426] transition-colors has-[:checked]:border-[#e61426] has-[:checked]:bg-red-950/20">
+                <input type="radio" name="pay-pt" value="mbway" checked class="accent-[#e61426] mb-1">
+                <span class="font-sub font-bold text-sm text-white">MB WAY</span>
+                <span class="text-[10px] text-gray-400">App Telemóvel</span>
+              </label>
+              <label class="flex flex-col items-center justify-center p-3 bg-[#12131b] border border-[#26283b] rounded-lg cursor-pointer hover:border-[#e61426] transition-colors has-[:checked]:border-[#e61426] has-[:checked]:bg-red-950/20">
+                <input type="radio" name="pay-pt" value="multibanco" class="accent-[#e61426] mb-1">
+                <span class="font-sub font-bold text-sm text-white">Multibanco</span>
+                <span class="text-[10px] text-gray-400">Entidade / Ref</span>
+              </label>
+              <label class="flex flex-col items-center justify-center p-3 bg-[#12131b] border border-[#26283b] rounded-lg cursor-pointer hover:border-[#e61426] transition-colors has-[:checked]:border-[#e61426] has-[:checked]:bg-red-950/20">
+                <input type="radio" name="pay-pt" value="card" class="accent-[#e61426] mb-1">
+                <span class="font-sub font-bold text-sm text-white">Cartão</span>
+                <span class="text-[10px] text-gray-400">Visa / Master</span>
+              </label>
+            </div>
+          </div>
+
+          <div class="pt-4 flex items-center justify-between border-t border-[#242533]">
+            <div>
+              <span class="text-xs text-gray-400 block font-sub">TOTAL DA ENCOMENDA:</span>
+              <span id="chk-total" class="font-heading font-black text-2xl text-[#ffe600]">0,00 €</span>
+            </div>
+            <button type="submit" class="px-8 py-3.5 bg-[#e61426] hover:bg-[#ff2a3c] text-white font-sub font-bold uppercase tracking-wider rounded-lg shadow-lg shadow-red-900/40 transition-all flex items-center gap-2 cursor-pointer">
+              <span>CONFIRMAR & PAGAR</span>
+              <span>➜</span>
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
 
   <!-- Sidebar Menu -->
   <div id="sidebar-overlay" onclick="Store.toggleSidebar()" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 hidden transition-opacity duration-300"></div>
@@ -750,6 +848,47 @@
 
       // Init Size Table Body
       switchSizeGuideTab(currentProduct.id.includes('oversized') ? 'oversized' : (currentProduct.id.includes('classic') ? 'classic' : 'hoodie'));
+
+      // Shipping & Guarantee Info Setup
+      const isWearOrGear = currentProduct.category === 'wear' || currentProduct.id.includes('kashvelo');
+      const shippingEstimateEl = document.getElementById('buybox-shipping-estimate');
+      const guaranteeNoteEl = document.getElementById('buybox-guarantee-note');
+      const tabShippingTitleEl = document.getElementById('tab-shipping-title');
+      const tabShippingDetailsEl = document.getElementById('tab-shipping-details');
+
+      if (isWearOrGear) {
+        if (shippingEstimateEl) {
+          shippingEstimateEl.innerHTML = 'Entrega estimada em <strong>24h a 72h úteis</strong> via CTT Expresso em Portugal Continental';
+        }
+        if (guaranteeNoteEl) {
+          guaranteeNoteEl.textContent = 'Troca de tamanho 100% garantida sem complicação';
+        }
+        if (tabShippingTitleEl) {
+          tabShippingTitleEl.innerHTML = '<span>🚚</span> ENVIOS & POLÍTICA DE TROCA DE TAMANHOS';
+        }
+        if (tabShippingDetailsEl) {
+          tabShippingDetailsEl.innerHTML = `
+            <p><strong>Envios para Portugal:</strong> Envio expresso através de CTT Expresso com entrega entre <strong>24h a 72h úteis</strong> e código de rastreamento oficial enviado por SMS/Email.</p>
+            <p><strong>Troca de Tamanhos Garantida:</strong> Caso o tamanho escolhido não fique perfeitamente ajustado no seu corpo, disponibilizamos suporte direto para troca rápida sem complicações.</p>
+          `;
+        }
+      } else {
+        if (shippingEstimateEl) {
+          shippingEstimateEl.innerHTML = 'Entrega estimada em <strong>5 a 20 dias úteis</strong> (Envio Internacional Expresso com rastreamento CTT)';
+        }
+        if (guaranteeNoteEl) {
+          guaranteeNoteEl.textContent = 'Garantia total de entrega com rastreamento CTT em tempo real';
+        }
+        if (tabShippingTitleEl) {
+          tabShippingTitleEl.innerHTML = '<span>🚚</span> ENVIOS & POLÍTICA DE GARANTIA';
+        }
+        if (tabShippingDetailsEl) {
+          tabShippingDetailsEl.innerHTML = `
+            <p><strong>Envios para Portugal:</strong> Envio Internacional Expresso com entrega estimada entre <strong>5 a 20 dias úteis</strong> e código de rastreamento oficial CTT para acompanhar cada etapa em tempo real desde a saída do armazém logístico.</p>
+            <p><strong>Garantia & Devoluções:</strong> Garantia total de entrega. Caso haja qualquer inconformidade com a peça, dispõe de 14 dias para devolução ou reenvio garantido sem custos adicionais.</p>
+          `;
+        }
+      }
     }
 
     function renderPrices() {
@@ -1059,18 +1198,27 @@
       const discountRatio = pack.bundlePriceEUR / pack.originalPriceEUR;
 
       pack.items.forEach(it => {
-        const discountedEUR = Math.round(((it.priceEUR || 39.9) * discountRatio) * 100) / 100;
+        const prodMatch = PRODUCTS.find(x => x.id === it.id);
+        const basePrice = (prodMatch && prodMatch.priceEUR) ? prodMatch.priceEUR : (it.priceEUR || 39.9);
+        const discountedEUR = Math.round((basePrice * discountRatio) * 100) / 100;
         const discountedBRL = Math.round((discountedEUR * 6.5) * 100) / 100;
-        Store.cart.push({
-          id: it.id + '-pack',
-          name: `${it.name}`,
-          priceEUR: discountedEUR,
-          priceBRL: discountedBRL,
-          image: it.image,
-          variation: `Pack Especial: ${pack.title} (-${pack.discountPct}%)`,
-          quantity: 1,
-          supplierUrl: ''
-        });
+        const variation = `Pack Especial: ${pack.title} (-${pack.discountPct}%)`;
+
+        const existingIndex = Store.cart.findIndex(i => i.id === it.id && i.variation === variation);
+        if (existingIndex > -1) {
+          Store.cart[existingIndex].quantity += 1;
+        } else {
+          Store.cart.push({
+            id: it.id,
+            name: it.name,
+            priceEUR: discountedEUR,
+            priceBRL: discountedBRL,
+            image: it.image || (prodMatch ? prodMatch.image : ''),
+            variation: variation,
+            quantity: 1,
+            supplierUrl: prodMatch ? prodMatch.supplierUrl : ''
+          });
+        }
       });
 
       Store.saveCart();

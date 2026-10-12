@@ -21,48 +21,22 @@ const TrackingService = {
     let estimatedDelivery = '5 a 9 dias úteis';
     let steps = [];
 
-    if (status === 'Aguardando Compra') {
-      progressPercent = 15;
-      badgeText = 'Aguardando Processamento no Fornecedor';
-      estimatedDelivery = '7 a 12 dias úteis';
+    if (status === 'Em Processo' || status === 'Em Preparação' || status === 'Aguardando Compra') {
+      progressPercent = 40;
+      badgeText = 'Em Processamento & Envio';
+      const isWear = order.items && order.items.some(it => (it.id && (it.id.includes('hoodie') || it.id.includes('tshirt') || it.id.includes('kashvelo'))));
+      estimatedDelivery = isWear ? '24h a 72h úteis' : '5 a 20 dias úteis';
       steps = [
         {
-          status: 'Aguardando confirmação e compra no fornecedor',
-          location: 'Central de Operações Dark Ghostrider',
+          status: 'Em processamento, embalamento e expedição',
+          location: 'Centro de Logística e Despacho Dark Ghostrider',
           date: 'Agora',
           completed: false,
           active: true
         },
         {
-          status: 'Encomenda registada no sistema e pagamento confirmado',
+          status: 'Encomenda registada no sistema e pagamento validado',
           location: 'Dark Ghostrider Store (Loja Oficial)',
-          date: dateStr,
-          completed: true,
-          active: false
-        }
-      ];
-    } else if (status === 'Em Preparação') {
-      progressPercent = 40;
-      badgeText = 'Em Preparação no Armazém / Fornecedor';
-      estimatedDelivery = '6 a 10 dias úteis';
-      steps = [
-        {
-          status: 'Em preparação e embalamento no centro de logística internacional',
-          location: 'Armazém Central Cainiao / Fornecedor Parceiro',
-          date: 'Hoje',
-          completed: false,
-          active: true
-        },
-        {
-          status: 'Artigo encomendado no fornecedor oficial pelo Dark',
-          location: 'Processamento de Dropshipping',
-          date: dateStr,
-          completed: true,
-          active: false
-        },
-        {
-          status: 'Encomenda registada e pagamento validado',
-          location: 'Dark Ghostrider Store',
           date: dateStr,
           completed: true,
           active: false
@@ -70,12 +44,13 @@ const TrackingService = {
       ];
     } else if (status === 'Enviado' || status.includes('Trânsito') || status.includes('Expedido')) {
       progressPercent = 75;
-      badgeText = 'Em Trânsito Internacional';
-      estimatedDelivery = '4 a 7 dias úteis';
+      badgeText = 'Em Trânsito';
+      const isWear = order.items && order.items.some(it => (it.id && (it.id.includes('hoodie') || it.id.includes('tshirt') || it.id.includes('kashvelo'))));
+      estimatedDelivery = isWear ? '24h a 48h úteis' : '5 a 15 dias úteis';
       steps = [
         {
-          status: `Em trânsito internacional para ${destination} (${carrier})`,
-          location: 'Hub de Distribuição Internacional Cainiao Global',
+          status: `Em transporte expresso para ${destination} (${carrier})`,
+          location: 'Rede de Distribuição Expresso CTT',
           date: 'Hoje',
           completed: false,
           active: true
@@ -88,8 +63,8 @@ const TrackingService = {
           active: false
         },
         {
-          status: 'Pacote embalado com proteção reforçada para peças de moto',
-          location: 'Armazém de Exportação',
+          status: 'Pacote embalado com proteção reforçada',
+          location: 'Centro de Expedição',
           date: dateStr,
           completed: true,
           active: false
@@ -102,9 +77,9 @@ const TrackingService = {
           active: false
         }
       ];
-    } else if (status === 'Entregue') {
+    } else if (status === 'Finalizado' || status === 'Entregue') {
       progressPercent = 100;
-      badgeText = 'Entregue com Sucesso';
+      badgeText = 'Finalizado com Sucesso';
       estimatedDelivery = 'Entregue';
       steps = [
         {
@@ -115,25 +90,44 @@ const TrackingService = {
           active: true
         },
         {
-          status: `Saiu para entrega com o carteiro (${carrier})`,
-          location: 'Centro de Distribuição Local',
+          status: `Saiu para entrega com o carteiro / estafeta (${carrier})`,
+          location: 'Centro de Distribuição Local CTT',
           date: 'Ontem',
           completed: true,
           active: false
         },
         {
-          status: 'Desembaraço aduaneiro concluído sem taxas alfandegárias',
-          location: 'Aeroporto Internacional (Alfândega)',
-          date: dateStr,
-          completed: true,
-          active: false
-        },
-        {
-          status: 'Chegada ao país de destino',
+          status: 'Chegada ao centro de triagem local',
           location: destination,
           date: dateStr,
           completed: true,
           active: false
+        }
+      ];
+    } else if (status === 'Cancelado') {
+      progressPercent = 0;
+      badgeText = 'Cancelado';
+      estimatedDelivery = 'Pedido Cancelado';
+      steps = [
+        {
+          status: 'Pedido cancelado e processo finalizado',
+          location: 'Central Dark Ghostrider',
+          date: dateStr,
+          completed: true,
+          active: false
+        }
+      ];
+    } else if (status === 'Devolvido') {
+      progressPercent = 100;
+      badgeText = 'Devolvido';
+      estimatedDelivery = 'Devolução Concluída';
+      steps = [
+        {
+          status: 'Devolução processada e rececionada com sucesso',
+          location: 'Armazém Central Dark Ghostrider',
+          date: dateStr,
+          completed: true,
+          active: true
         }
       ];
     } else {

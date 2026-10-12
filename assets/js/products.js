@@ -69,9 +69,10 @@ const PRODUCTS = [
         "savingsEUR": 18.00,
         "bundlePriceEUR": 71.80,
         "originalPriceEUR": 89.80,
+        "discountPct": 20,
         "items": [
           { "id": "hoodie-dark-ghostrider-oficial", "name": "Sweatshirt com Capuz Oficial", "image": "assets/images/apparel/hoodie_preto_front.jpg", "priceEUR": 59.90 },
-          { "id": "tshirt-classic-bio190-dark-ghostrider", "name": "T-Shirt Classic Bio190", "image": "assets/images/apparel/tshirt_classic_preto.jpg", "priceEUR": 29.90 }
+          { "id": "tshirt-classic-bio190-dark-ghostrider", "name": "T-Shirt Classic Bio190", "image": "assets/images/apparel/tshirt_preto_front.jpg", "priceEUR": 29.90 }
         ]
       },
       {
@@ -80,9 +81,10 @@ const PRODUCTS = [
         "savingsEUR": 20.00,
         "bundlePriceEUR": 79.80,
         "originalPriceEUR": 99.80,
+        "discountPct": 20,
         "items": [
           { "id": "hoodie-dark-ghostrider-oficial", "name": "Sweatshirt com Capuz Oficial", "image": "assets/images/apparel/hoodie_preto_front.jpg", "priceEUR": 59.90 },
-          { "id": "tshirt-oversized-dark-ghostrider", "name": "T-Shirt Oversized Boxy", "image": "assets/images/apparel/tshirt_oversized_preto.jpg", "priceEUR": 39.90 }
+          { "id": "tshirt-oversized-dark-ghostrider", "name": "T-Shirt Oversized Boxy", "image": "assets/images/apparel/tshirt_preto_front.jpg", "priceEUR": 39.90 }
         ]
       }
     ],
@@ -91,9 +93,7 @@ const PRODUCTS = [
       "assets/images/apparel/hoodie_preto_back.jpg",
       "assets/images/apparel/hoodie_amarelo_front.jpg",
       "assets/images/apparel/hoodie_amarelo_back.jpg",
-      "assets/images/apparel/estampa_costas.jpg",
-      "assets/images/apparel/emblema_peito.jpg",
-      "assets/images/apparel/banner_colecao_vestuario.jpg"
+      "assets/images/apparel/hoodie_duo_full.jpg"
     ]
   },
   {
@@ -142,12 +142,22 @@ const PRODUCTS = [
       "netProfitEUR": 16.04
     },
     "variantImages": {
-      "Preto Stealth (All Black)": "assets/images/apparel/tshirt_oversized_preto.jpg",
-      "Amarelo Fluorescente (High-Vis Neon)": "assets/images/apparel/tshirt_oversized_amarelo.jpg"
+      "Preto Stealth (All Black)": "assets/images/apparel/tshirt_preto_front.jpg",
+      "Amarelo Fluorescente (High-Vis Neon)": "assets/images/apparel/tshirt_amarelo_front.jpg"
     },
     "dualView": {
-      "front": "assets/images/apparel/tshirt_oversized_preto.jpg",
-      "back": "assets/images/apparel/estampa_costas.jpg"
+      "front": "assets/images/apparel/tshirt_preto_front.jpg",
+      "back": "assets/images/apparel/tshirt_preto_back.jpg"
+    },
+    "variantDualViews": {
+      "Preto Stealth (All Black)": {
+        "front": "assets/images/apparel/tshirt_preto_front.jpg",
+        "back": "assets/images/apparel/tshirt_preto_back.jpg"
+      },
+      "Amarelo Fluorescente (High-Vis Neon)": {
+        "front": "assets/images/apparel/tshirt_amarelo_front.jpg",
+        "back": "assets/images/apparel/tshirt_amarelo_back.jpg"
+      }
     },
     "packs": [
       {
@@ -156,8 +166,9 @@ const PRODUCTS = [
         "savingsEUR": 20.00,
         "bundlePriceEUR": 79.80,
         "originalPriceEUR": 99.80,
+        "discountPct": 20,
         "items": [
-          { "id": "tshirt-oversized-dark-ghostrider", "name": "T-Shirt Oversized Boxy", "image": "assets/images/apparel/tshirt_oversized_preto.jpg", "priceEUR": 39.90 },
+          { "id": "tshirt-oversized-dark-ghostrider", "name": "T-Shirt Oversized Boxy", "image": "assets/images/apparel/tshirt_preto_front.jpg", "priceEUR": 39.90 },
           { "id": "hoodie-dark-ghostrider-oficial", "name": "Sweatshirt com Capuz Oficial", "image": "assets/images/apparel/hoodie_preto_front.jpg", "priceEUR": 59.90 }
         ]
       },
@@ -167,18 +178,18 @@ const PRODUCTS = [
         "savingsEUR": 10.50,
         "bundlePriceEUR": 59.30,
         "originalPriceEUR": 69.80,
+        "discountPct": 15,
         "items": [
-          { "id": "tshirt-oversized-dark-ghostrider", "name": "T-Shirt Oversized Boxy", "image": "assets/images/apparel/tshirt_oversized_preto.jpg", "priceEUR": 39.90 },
-          { "id": "tshirt-classic-bio190-dark-ghostrider", "name": "T-Shirt Classic Bio190", "image": "assets/images/apparel/tshirt_classic_preto.jpg", "priceEUR": 29.90 }
+          { "id": "tshirt-oversized-dark-ghostrider", "name": "T-Shirt Oversized Boxy", "image": "assets/images/apparel/tshirt_preto_front.jpg", "priceEUR": 39.90 },
+          { "id": "tshirt-classic-bio190-dark-ghostrider", "name": "T-Shirt Classic Bio190", "image": "assets/images/apparel/tshirt_preto_front.jpg", "priceEUR": 29.90 }
         ]
       }
     ],
     "gallery": [
-      "assets/images/apparel/tshirt_oversized_preto.jpg",
-      "assets/images/apparel/tshirt_oversized_amarelo.jpg",
-      "assets/images/apparel/estampa_costas.jpg",
-      "assets/images/apparel/emblema_peito.jpg",
-      "assets/images/apparel/banner_colecao_vestuario.jpg"
+      "assets/images/apparel/tshirt_preto_front.jpg",
+      "assets/images/apparel/tshirt_preto_back.jpg",
+      "assets/images/apparel/tshirt_amarelo_front.jpg",
+      "assets/images/apparel/tshirt_amarelo_back.jpg"
     ]
   },
   {
@@ -227,12 +238,22 @@ const PRODUCTS = [
       "netProfitEUR": 10.96
     },
     "variantImages": {
-      "Preto Stealth (All Black)": "assets/images/apparel/tshirt_classic_preto.jpg",
-      "Amarelo Fluorescente (High-Vis Neon)": "assets/images/apparel/tshirt_classic_amarelo.jpg"
+      "Preto Stealth (All Black)": "assets/images/apparel/tshirt_preto_front.jpg",
+      "Amarelo Fluorescente (High-Vis Neon)": "assets/images/apparel/tshirt_amarelo_front.jpg"
     },
     "dualView": {
-      "front": "assets/images/apparel/tshirt_classic_preto.jpg",
-      "back": "assets/images/apparel/estampa_costas.jpg"
+      "front": "assets/images/apparel/tshirt_preto_front.jpg",
+      "back": "assets/images/apparel/tshirt_preto_back.jpg"
+    },
+    "variantDualViews": {
+      "Preto Stealth (All Black)": {
+        "front": "assets/images/apparel/tshirt_preto_front.jpg",
+        "back": "assets/images/apparel/tshirt_preto_back.jpg"
+      },
+      "Amarelo Fluorescente (High-Vis Neon)": {
+        "front": "assets/images/apparel/tshirt_amarelo_front.jpg",
+        "back": "assets/images/apparel/tshirt_amarelo_back.jpg"
+      }
     },
     "packs": [
       {
@@ -241,18 +262,18 @@ const PRODUCTS = [
         "savingsEUR": 18.00,
         "bundlePriceEUR": 71.80,
         "originalPriceEUR": 89.80,
+        "discountPct": 20,
         "items": [
-          { "id": "tshirt-classic-bio190-dark-ghostrider", "name": "T-Shirt Classic Bio190", "image": "assets/images/apparel/tshirt_classic_preto.jpg", "priceEUR": 29.90 },
+          { "id": "tshirt-classic-bio190-dark-ghostrider", "name": "T-Shirt Classic Bio190", "image": "assets/images/apparel/tshirt_preto_front.jpg", "priceEUR": 29.90 },
           { "id": "hoodie-dark-ghostrider-oficial", "name": "Sweatshirt com Capuz Oficial", "image": "assets/images/apparel/hoodie_preto_front.jpg", "priceEUR": 59.90 }
         ]
       }
     ],
     "gallery": [
-      "assets/images/apparel/tshirt_classic_preto.jpg",
-      "assets/images/apparel/tshirt_classic_amarelo.jpg",
-      "assets/images/apparel/estampa_costas.jpg",
-      "assets/images/apparel/emblema_peito.jpg",
-      "assets/images/apparel/banner_colecao_vestuario.jpg"
+      "assets/images/apparel/tshirt_preto_front.jpg",
+      "assets/images/apparel/tshirt_preto_back.jpg",
+      "assets/images/apparel/tshirt_amarelo_front.jpg",
+      "assets/images/apparel/tshirt_amarelo_back.jpg"
     ]
   },
   {
@@ -1307,3 +1328,49 @@ const PRODUCTS = [
     }
   }
 ];
+
+// Apply stored price and discount overrides immediately
+function applyProductOverrides() {
+  try {
+    const rawLocal = localStorage.getItem('dark_price_overrides');
+    if (rawLocal) {
+      const overrides = JSON.parse(rawLocal);
+      Object.keys(overrides).forEach(id => {
+        const prod = PRODUCTS.find(p => p.id === id);
+        if (prod && overrides[id]) {
+          const ov = overrides[id];
+          if (ov.priceEUR !== undefined && !isNaN(ov.priceEUR)) prod.priceEUR = Number(ov.priceEUR);
+          if (ov.compareAtEUR !== undefined && !isNaN(ov.compareAtEUR)) prod.compareAtEUR = Number(ov.compareAtEUR);
+          if (ov.priceBRL !== undefined && !isNaN(ov.priceBRL)) prod.priceBRL = Number(ov.priceBRL);
+          else if (ov.priceEUR !== undefined) prod.priceBRL = Math.round(Number(ov.priceEUR) * 6.5 * 100) / 100;
+          if (ov.compareAtBRL !== undefined && !isNaN(ov.compareAtBRL)) prod.compareAtBRL = Number(ov.compareAtBRL);
+          else if (ov.compareAtEUR !== undefined) prod.compareAtBRL = Math.round(Number(ov.compareAtEUR) * 6.5 * 100) / 100;
+          if (ov.discountPct !== undefined && !isNaN(ov.discountPct)) prod.discountPct = Number(ov.discountPct);
+          if (ov.supplierCostEUR !== undefined && !isNaN(ov.supplierCostEUR)) {
+            if (!prod.costDetails) prod.costDetails = {};
+            prod.costDetails.totalCostEUR = Number(ov.supplierCostEUR);
+            prod.costDetails.netProfitEUR = Math.round((prod.priceEUR - prod.costDetails.totalCostEUR) * 100) / 100;
+          }
+        }
+      });
+    }
+  } catch (e) {
+    console.warn('Error applying local overrides', e);
+  }
+}
+
+// Initial synchronous apply from localStorage
+applyProductOverrides();
+
+// Asynchronous sync from server
+if (typeof window !== 'undefined' && window.fetch) {
+  fetch('/api/products')
+    .then(r => r.ok ? r.json() : null)
+    .then(data => {
+      if (data && Object.keys(data).length > 0) {
+        localStorage.setItem('dark_price_overrides', JSON.stringify(data));
+        applyProductOverrides();
+      }
+    })
+    .catch(() => {});
+}
