@@ -227,7 +227,7 @@
         <span>🏷️</span> TABELA DE PREÇOS & MARGENS (<span id="nav-count-products">24</span>)
       </button>
       <button id="nav-btn-reels" onclick="switchAdminTab('reels')" class="px-5 py-2.5 rounded-xl font-heading font-black text-xs sm:text-sm tracking-wider uppercase transition-all text-gray-400 hover:text-[#f6ff00] hover:bg-yellow-500/10 flex items-center gap-2 cursor-pointer border border-[#f6ff00]/20">
-        <span>🎬</span> VÍDEO REELS PROMO (9:16)
+        <span>🎬</span> CENTRAL DE VÍDEOS & STORIES (10 VÍDEOS)
       </button>
     </div>
 
@@ -369,37 +369,43 @@
     </div>
 
     <!-- ==========================================
-         VIEW 3: ESTÚDIO DE DIVULGAÇÃO SOCIAL MEDIA & VÍDEO REELS (9:16)
+         VIEW 3: ESTÚDIO DE DIVULGAÇÃO SOCIAL MEDIA — 10 VÍDEOS STORIES (9:16)
          ========================================== -->
     <div id="admin-view-reels" class="hidden">
       <!-- Toolbar Header Card -->
       <div class="bg-gradient-to-r from-[#141524] via-[#161822] to-[#0d0e16] border border-yellow-500/30 rounded-2xl p-5 sm:p-6 mb-6 shadow-2xl">
-        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
           <div>
-            <div class="flex items-center gap-2.5 mb-1.5">
+            <div class="flex items-center gap-2.5 mb-1.5 flex-wrap">
               <span class="text-2xl">🎬</span>
               <h2 class="font-heading font-black text-white text-base sm:text-xl tracking-wide uppercase">
-                ESTÚDIO DE DIVULGAÇÃO — VÍDEO REELS 9:16
+                CENTRAL DE VÍDEOS & STORIES (10 VÍDEOS • 9:16)
               </h2>
               <span class="px-2.5 py-0.5 rounded-full text-[10px] font-sub font-bold uppercase tracking-wider bg-yellow-950/80 text-yellow-400 border border-yellow-500/40">
                 🔒 EXCLUSIVO DO ADMIN
               </span>
+              <span class="px-2.5 py-0.5 rounded-full text-[10px] font-sub font-bold uppercase tracking-wider bg-emerald-950/80 text-emerald-400 border border-emerald-500/40">
+                ⚡ 10 A 15 SEGUNDOS CADA
+              </span>
             </div>
-            <p class="text-xs text-gray-400 font-sub max-w-2xl">
-              Vídeo oficial em formato vertical <strong>9:16 (720x1280)</strong> com logos centralizados em estilo Instagram Stories, trilha sonora Phonk 128 BPM e kit completo com legenda pronta para publicação nos Reels, TikTok e Shorts.
+            <p class="text-xs text-gray-400 font-sub max-w-3xl">
+              Biblioteca com <strong>10 vídeos exclusivos em proporção vertical 9:16</strong> produzidos para divulgar no <strong>Instagram Stories, Reels e TikTok</strong>. Inclui logos centrais animados em estilo Stories, stickers de link interativos, batidas Phonk dinâmicas e kit com legenda personalizada e download direto em 1 clique.
             </p>
           </div>
 
-          <div class="flex items-center gap-3">
-            <a href="assets/videos/reels_dark_ghostrider_store.mp4" download="reels_dark_ghostrider_store.mp4" class="px-5 py-3 rounded-xl bg-[#f6ff00] hover:bg-[#e5ed00] text-black font-heading font-black text-xs sm:text-sm uppercase tracking-wider shadow-lg shadow-black flex items-center gap-2 transition-transform hover:scale-105 whitespace-nowrap">
-              <span>📥</span> Descarregar Vídeo (.MP4)
+          <div class="flex items-center gap-2.5 flex-wrap">
+            <a id="adminActiveDownloadBtn" href="assets/videos/stories/story_01_colecao_streetwear.mp4" download="story_01_colecao_streetwear.mp4" class="px-5 py-3 rounded-xl bg-[#f6ff00] hover:bg-[#e5ed00] text-black font-heading font-black text-xs sm:text-sm uppercase tracking-wider shadow-lg shadow-black flex items-center gap-2 transition-transform hover:scale-105 whitespace-nowrap">
+              <span>📥</span> Baixar Este Vídeo (.MP4)
+            </a>
+            <a href="#stories-catalog-grid" class="px-4 py-3 rounded-xl bg-[#1c1d29] hover:bg-[#282a3c] text-gray-200 border border-[#303248] font-sub font-bold text-xs uppercase tracking-wider transition-colors flex items-center gap-1.5 whitespace-nowrap">
+              <span>⬇️</span> Ver Galeria (10)
             </a>
           </div>
         </div>
       </div>
 
-      <!-- Main Reels Grid: Mockup on Left + Social Media Kit on Right -->
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+      <!-- Main Stage: Smartphone Mockup on Left + Video Details & Social Kit on Right -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start mb-10">
 
         <!-- LEFT: Smartphone Mockup Player (lg:col-span-5) -->
         <div class="lg:col-span-5 flex flex-col items-center">
@@ -414,8 +420,8 @@
             <video 
               id="adminReelsVideo" 
               class="w-full h-full object-cover rounded-[36px] cursor-pointer"
-              src="assets/videos/reels_dark_ghostrider_store.mp4" 
-              poster="assets/images/reels_poster.jpg" 
+              src="assets/videos/stories/story_01_colecao_streetwear.mp4" 
+              poster="assets/images/stories_posters/story_01_colecao_streetwear_poster.jpg" 
               playsinline 
               loop 
               preload="auto">
@@ -432,127 +438,97 @@
             <div class="absolute bottom-2 inset-x-2 p-3 bg-gradient-to-t from-black via-black/80 to-transparent rounded-b-[36px] z-30 flex flex-col gap-2">
               <div class="flex items-center gap-2">
                 <span id="adminTimeCur" class="text-[10px] font-mono text-gray-300 w-8">00:00</span>
-                <input type="range" id="adminScrubber" min="0" max="22" step="0.1" value="0" class="flex-1 h-1.5 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-[#f6ff00]">
-                <span id="adminTimeTot" class="text-[10px] font-mono text-gray-400 w-8">00:22</span>
+                <input type="range" id="adminScrubber" min="0" max="12" step="0.1" value="0" class="flex-1 h-1.5 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-[#f6ff00]">
+                <span id="adminTimeTot" class="text-[10px] font-mono text-gray-400 w-8">00:12</span>
               </div>
               <div class="flex items-center justify-between text-white text-xs">
                 <div class="flex items-center gap-2">
                   <button onclick="toggleAdminVideo()" class="p-1 hover:text-[#f6ff00]">Play/Pausa</button>
                   <button onclick="toggleAdminMute()" id="adminMuteBtn" class="p-1 hover:text-[#f6ff00]">🔇 Som</button>
                 </div>
-                <span class="text-[10px] font-bold text-[#f6ff00] bg-[#f6ff00]/10 px-2 py-0.5 rounded border border-[#f6ff00]/20">9:16 HD</span>
+                <div class="flex items-center gap-1.5">
+                  <span id="adminActiveBadgeCategory" class="text-[9px] font-bold text-[#f6ff00] bg-[#f6ff00]/10 px-2 py-0.5 rounded border border-[#f6ff00]/20">VESTUÁRIO</span>
+                  <span class="text-[9px] font-bold text-white/90 bg-white/10 px-1.5 py-0.5 rounded">9:16 HD</span>
+                </div>
               </div>
             </div>
           </div>
 
-          <!-- Chapter Jump Buttons -->
-          <div class="w-full max-w-[360px] mt-4 grid grid-cols-2 gap-2 text-xs">
-            <button onclick="seekAdminVideo(0)" class="p-2 rounded-lg bg-[#141622] hover:bg-[#1f2233] border border-[#26283b] text-left text-gray-300 hover:text-white transition-colors">
-              <strong class="block text-white text-[11px]">⚡ Abertura</strong> 00:00
+          <!-- Video Selector Arrows & Counter -->
+          <div class="w-full max-w-[360px] mt-4 flex items-center justify-between gap-2">
+            <button onclick="stepAdminStory(-1)" class="flex-1 p-2.5 rounded-xl bg-[#141622] hover:bg-[#202334] border border-[#26283b] text-gray-300 hover:text-white transition-colors text-xs font-sub font-bold uppercase flex items-center justify-center gap-1.5 cursor-pointer">
+              <span>⬅️</span> Anterior
             </button>
-            <button onclick="seekAdminVideo(3.8)" class="p-2 rounded-lg bg-[#141622] hover:bg-[#1f2233] border border-[#26283b] text-left text-gray-300 hover:text-white transition-colors">
-              <strong class="block text-[#f6ff00] text-[11px]">👕 Drop 01</strong> 00:04
-            </button>
-            <button onclick="seekAdminVideo(8.5)" class="p-2 rounded-lg bg-[#141622] hover:bg-[#1f2233] border border-[#26283b] text-left text-gray-300 hover:text-white transition-colors">
-              <strong class="block text-white text-[11px]">🏍️ Setup MT-07</strong> 00:08
-            </button>
-            <button onclick="seekAdminVideo(13.0)" class="p-2 rounded-lg bg-[#141622] hover:bg-[#1f2233] border border-[#26283b] text-left text-gray-300 hover:text-white transition-colors">
-              <strong class="block text-white text-[11px]">🔍 Motocard & Packs</strong> 00:13
-            </button>
-            <button onclick="seekAdminVideo(17.5)" class="col-span-2 p-2 rounded-lg bg-[#141622] hover:bg-[#1f2233] border border-[#26283b] text-center text-gray-300 hover:text-white transition-colors">
-              <strong class="text-white text-[11px]">📲 Call to Action & Link na Bio</strong> (00:17)
+            <span id="adminStoryCounter" class="text-xs font-mono text-[#f6ff00] px-3 py-1 bg-black/60 rounded-lg border border-[#2b2d42]">1 / 10</span>
+            <button onclick="stepAdminStory(1)" class="flex-1 p-2.5 rounded-xl bg-[#141622] hover:bg-[#202334] border border-[#26283b] text-gray-300 hover:text-white transition-colors text-xs font-sub font-bold uppercase flex items-center justify-center gap-1.5 cursor-pointer">
+              Próximo <span>➡️</span>
             </button>
           </div>
         </div>
 
-        <!-- RIGHT: Kit de Publicação & Download (lg:col-span-7) -->
+        <!-- RIGHT: Active Story Details & Social Kit (lg:col-span-7) -->
         <div class="lg:col-span-7 space-y-6">
           
-          <!-- Download Card -->
-          <div class="p-5 rounded-2xl bg-[#141622] border border-[#232636]">
-            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <!-- Active Video Info & Download Card -->
+          <div class="p-5 sm:p-6 rounded-2xl bg-[#141622] border border-[#232636] relative overflow-hidden">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
               <div>
-                <span class="inline-block px-2 py-0.5 rounded text-[10px] font-bold bg-green-500/10 text-green-400 border border-green-500/30 uppercase mb-1">
-                  ✓ Ficheiro Renderizado (3.14 MB)
-                </span>
-                <h3 class="font-heading font-black text-lg text-white uppercase">
-                  Ficheiro de Vídeo MP4
+                <div class="flex items-center gap-2 mb-1.5 flex-wrap">
+                  <span id="adminCardCatPill" class="px-2 py-0.5 rounded text-[10px] font-bold bg-yellow-500/10 text-[#f6ff00] border border-yellow-500/30 uppercase">
+                    VESTUÁRIO
+                  </span>
+                  <span id="adminCardDurationPill" class="px-2 py-0.5 rounded text-[10px] font-bold bg-white/10 text-gray-200 border border-white/20 uppercase">
+                    ⏱️ 12 Segundos
+                  </span>
+                  <span id="adminCardSizePill" class="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 uppercase">
+                    ✓ 1.7 MB
+                  </span>
+                </div>
+                <h3 id="adminActiveTitle" class="font-heading font-black text-xl text-white uppercase tracking-wide">
+                  Drop 01 Streetwear • Coleção Completa
                 </h3>
-                <p class="text-xs text-gray-400 mt-0.5">
-                  Proporção 9:16 vertical (720x1280) a 30 FPS com trilha sonora Phonk 128 BPM.
+                <p id="adminActiveSubtitle" class="text-xs text-gray-400 mt-1">
+                  Ideal para anunciar o lançamento e as novidades de streetwear da marca nos Stories.
                 </p>
               </div>
-              <a href="assets/videos/reels_dark_ghostrider_store.mp4" download="reels_dark_ghostrider_store.mp4" class="px-5 py-3 rounded-xl bg-[#f6ff00] hover:bg-[#e5ed00] text-black font-heading font-black text-xs uppercase tracking-wider shadow-lg flex items-center justify-center gap-2 whitespace-nowrap">
-                <span>📥</span> Baixar Vídeo
+
+              <a id="adminSideDownloadBtn" href="assets/videos/stories/story_01_colecao_streetwear.mp4" download="story_01_colecao_streetwear.mp4" class="px-5 py-3 rounded-xl bg-[#f6ff00] hover:bg-[#e5ed00] text-black font-heading font-black text-xs uppercase tracking-wider shadow-lg flex items-center justify-center gap-2 whitespace-nowrap transition-transform hover:scale-105">
+                <span>📥</span> Baixar Vídeo (.MP4)
               </a>
             </div>
           </div>
 
           <!-- Caption Copy Box -->
-          <div class="p-5 rounded-2xl bg-[#141622] border border-[#232636]">
+          <div class="p-5 sm:p-6 rounded-2xl bg-[#141622] border border-[#232636]">
             <div class="flex items-center justify-between mb-3">
               <div>
-                <h3 class="font-heading font-black text-lg text-white uppercase flex items-center gap-2">
+                <h3 class="font-heading font-black text-base sm:text-lg text-white uppercase flex items-center gap-2">
                   <span>📋</span> Legenda Pronta para o Instagram & TikTok
                 </h3>
                 <p class="text-xs text-gray-400 mt-0.5">
-                  Copia e cola diretamente na tua publicação.
+                  Atualizada automaticamente para o vídeo selecionado. Copia com 1 clique!
                 </p>
               </div>
-              <button onclick="copyAdminCaption()" id="adminCopyBtn" class="px-4 py-2 rounded-xl bg-[#232638] hover:bg-[#f6ff00] text-gray-200 hover:text-black font-bold text-xs uppercase tracking-wider transition-all border border-[#34384e] flex items-center gap-1.5">
+              <button onclick="copyAdminCaption()" id="adminCopyBtn" class="px-4 py-2 rounded-xl bg-[#232638] hover:bg-[#f6ff00] text-gray-200 hover:text-black font-bold text-xs uppercase tracking-wider transition-all border border-[#34384e] flex items-center gap-1.5 cursor-pointer">
                 <span id="adminCopyIcon">📄</span> <span id="adminCopyText">Copiar Legenda</span>
               </button>
             </div>
 
-            <textarea id="adminCaptionBox" readonly class="w-full h-52 p-3.5 rounded-xl bg-black/50 border border-[#232636] text-xs leading-relaxed text-gray-300 font-mono resize-none focus:outline-none focus:border-[#f6ff00]/50 select-all">⚡ A LOJA OFICIAL DARK GHOSTRIDER JÁ ESTÁ NO AR! ⚡
-
-Tudo o que uso na minha MT-07 e a nova coleção de vestuário exclusiva já estão disponíveis! 🔥
-
-👕 DROP 01 OFICIAL:
-• Sweatshirts com capuz 320g (Preto Stealth & Cyber Amarelo)
-• T-Shirts 100% Algodão Penteado Oversized
-• Estampa icónica frente e costas em alta definição
-• Packs económicos com desconto direto!
-
-🏍️ SETUP MT-07:
-• Retrovisores Stealth Wing em Alumínio CNC
-• Escape Completo Yoshimura R77 Full System Carbono
-• Lanterna LED Fumê com Piscas Sequenciais Integrados
-• Sliders e proteções testadas na rua e pista
-
-🇵🇹 Pagamentos rápidos por MB WAY ou Cartão de Crédito
-🚀 Envio CTT Expresso com rastreio em 24/48h
-
-👉 Clica no link da bio para garantir as tuas peças antes que esgotem:
-🌐 WWW.DARKGHOSTRIDER.COM
-
-#darkghostrider #mt07 #yamahamt07 #drop01 #streetwear #motovlog #portugal #bikelife #darkrider #motorcycle #escapes #stealthmirrors #mbway</textarea>
+            <textarea id="adminCaptionBox" readonly class="w-full h-44 p-3.5 rounded-xl bg-black/50 border border-[#232636] text-xs leading-relaxed text-gray-300 font-mono resize-none focus:outline-none focus:border-[#f6ff00]/50 select-all"></textarea>
           </div>
 
-          <!-- Cover Thumbnails for Instagram Cover -->
+          <!-- Cover Image Download Card -->
           <div class="p-5 rounded-2xl bg-[#141622] border border-[#232636]">
-            <h3 class="font-heading font-black text-lg text-white uppercase mb-2 flex items-center gap-2">
-              <span>🖼️</span> Capas do Vídeo para o Reels (Download)
-            </h3>
-            <p class="text-xs text-gray-400 mb-3">
-              Clica para abrir ou salvar a imagem de capa desejada:
-            </p>
-            <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
-              <a href="assets/images/reels_poster_intro.jpg" target="_blank" class="block rounded-lg overflow-hidden border border-[#282a3d] hover:border-[#f6ff00] transition-colors relative group">
-                <img src="assets/images/reels_poster_intro.jpg" alt="Capa Abertura" class="w-full h-32 object-cover">
-                <span class="absolute bottom-1 inset-x-1 text-center bg-black/80 text-[10px] text-white py-0.5 rounded">Abertura</span>
-              </a>
-              <a href="assets/images/reels_poster_drop01.jpg" target="_blank" class="block rounded-lg overflow-hidden border border-[#282a3d] hover:border-[#f6ff00] transition-colors relative group">
-                <img src="assets/images/reels_poster_drop01.jpg" alt="Capa Drop 01" class="w-full h-32 object-cover">
-                <span class="absolute bottom-1 inset-x-1 text-center bg-black/80 text-[10px] text-[#f6ff00] py-0.5 rounded">Drop 01</span>
-              </a>
-              <a href="assets/images/reels_poster_setup.jpg" target="_blank" class="block rounded-lg overflow-hidden border border-[#282a3d] hover:border-[#f6ff00] transition-colors relative group">
-                <img src="assets/images/reels_poster_setup.jpg" alt="Capa Setup" class="w-full h-32 object-cover">
-                <span class="absolute bottom-1 inset-x-1 text-center bg-black/80 text-[10px] text-white py-0.5 rounded">Setup MT-07</span>
-              </a>
-              <a href="assets/images/reels_poster_cta.jpg" target="_blank" class="block rounded-lg overflow-hidden border border-[#282a3d] hover:border-[#f6ff00] transition-colors relative group">
-                <img src="assets/images/reels_poster_cta.jpg" alt="Capa CTA" class="w-full h-32 object-cover">
-                <span class="absolute bottom-1 inset-x-1 text-center bg-black/80 text-[10px] text-[#f6ff00] py-0.5 rounded">Chamada</span>
+            <div class="flex items-center justify-between gap-3">
+              <div class="flex items-center gap-3">
+                <img id="adminCurrentPosterThumb" src="assets/images/stories_posters/story_01_colecao_streetwear_poster.jpg" alt="Capa" class="w-14 h-20 rounded-lg object-cover border border-[#2b2d42]">
+                <div>
+                  <h4 class="font-heading font-black text-sm text-white uppercase">Capa em Alta Definição (Poster)</h4>
+                  <p class="text-xs text-gray-400">Podes usar esta imagem como frame de capa ou thumbnail nos Stories.</p>
+                </div>
+              </div>
+              <a id="adminDownloadPosterBtn" href="assets/images/stories_posters/story_01_colecao_streetwear_poster.jpg" download="story_01_poster.jpg" class="px-3.5 py-2 rounded-lg bg-[#232638] hover:bg-white text-gray-200 hover:text-black text-xs font-bold uppercase transition-colors whitespace-nowrap">
+                📥 Baixar Capa
               </a>
             </div>
           </div>
@@ -560,6 +536,70 @@ Tudo o que uso na minha MT-07 e a nova coleção de vestuário exclusiva já est
         </div>
 
       </div>
+
+      <!-- ==========================================
+           GALLERY: TODOS OS 10 VÍDEOS STORIES (+ 1 MASTER REEL)
+           ========================================== -->
+      <div id="stories-catalog-grid" class="pt-4 border-t border-[#232636]">
+        
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+          <div>
+            <div class="flex items-center gap-2 mb-1">
+              <span class="text-xl">📱</span>
+              <h3 class="font-heading font-black text-lg text-white uppercase">
+                GALERIA DOS 10 VÍDEOS DE STORIES & REELS
+              </h3>
+            </div>
+            <p class="text-xs text-gray-400">
+              Clica em qualquer vídeo para reproduzir no telemóvel acima, copiar a sua legenda ou descarregar o ficheiro .MP4:
+            </p>
+          </div>
+
+          <!-- Category filter buttons -->
+          <div class="flex flex-wrap gap-1.5 text-xs font-sub font-bold uppercase">
+            <button id="story-filter-all" onclick="filterAdminStoriesList('all')" class="px-3 py-1.5 rounded-lg bg-[#f6ff00] text-black">Todos (10)</button>
+            <button id="story-filter-apparel" onclick="filterAdminStoriesList('apparel')" class="px-3 py-1.5 rounded-lg bg-[#141622] hover:bg-[#1f2233] text-gray-300">Vestuário (4)</button>
+            <button id="story-filter-mt07" onclick="filterAdminStoriesList('mt07')" class="px-3 py-1.5 rounded-lg bg-[#141622] hover:bg-[#1f2233] text-gray-300">Setup MT-07 (2)</button>
+            <button id="story-filter-gear" onclick="filterAdminStoriesList('gear')" class="px-3 py-1.5 rounded-lg bg-[#141622] hover:bg-[#1f2233] text-gray-300">Proteção & Cockpit (3)</button>
+            <button id="story-filter-official" onclick="filterAdminStoriesList('official')" class="px-3 py-1.5 rounded-lg bg-[#141622] hover:bg-[#1f2233] text-gray-300">Loja Oficial (1)</button>
+          </div>
+        </div>
+
+        <!-- 10 Video Cards Grid -->
+        <div id="adminStoriesCardsContainer" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+          <!-- Injected via JavaScript -->
+        </div>
+
+        <!-- Extra: Master 22s Reel Card -->
+        <div class="mt-8 p-5 sm:p-6 rounded-2xl bg-gradient-to-r from-[#171927] to-[#12131e] border border-yellow-500/20 flex flex-col md:flex-row md:items-center justify-between gap-5">
+          <div class="flex items-center gap-4">
+            <div class="w-16 h-24 rounded-xl overflow-hidden border border-[#2b2d42] shrink-0">
+              <img src="assets/images/reels_poster.jpg" alt="Master Reel" class="w-full h-full object-cover">
+            </div>
+            <div>
+              <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-yellow-500/10 text-[#f6ff00] border border-yellow-500/30 uppercase">
+                VÍDEO MASTER COMPLETO (22s)
+              </span>
+              <h4 class="font-heading font-black text-lg text-white uppercase mt-1">
+                Reel Promocional Geral de Apresentação
+              </h4>
+              <p class="text-xs text-gray-400 mt-0.5">
+                O vídeo longo de 22 segundos abrangendo toda a loja, motocard e vestuário num só filme.
+              </p>
+            </div>
+          </div>
+          <div class="flex items-center gap-2.5 shrink-0">
+            <button onclick="selectMasterReel()" class="px-4 py-2.5 rounded-xl bg-[#232638] hover:bg-white text-gray-200 hover:text-black font-sub font-bold text-xs uppercase transition-colors">
+              ▶ Assistir Reel Master
+            </button>
+            <a href="assets/videos/reels_dark_ghostrider_store.mp4" download="reels_dark_ghostrider_store.mp4" class="px-4 py-2.5 rounded-xl bg-[#f6ff00] hover:bg-[#e5ed00] text-black font-sub font-black text-xs uppercase tracking-wider transition-transform hover:scale-105">
+              📥 Baixar Master (.MP4)
+            </a>
+          </div>
+        </div>
+
+      </div>
+
     </div>
 
   </main>
@@ -1673,8 +1713,329 @@ Tudo o que uso na minha MT-07 e a nova coleção de vestuário exclusiva já est
     }
 
     // ==========================================
-    // REELS VIDEO PLAYER & COPY CONTROLLER
+    // STORIES & REELS CENTRAL STUDIO CONTROLLER
     // ==========================================
+    const STORIES_PLAYLIST = [
+      {
+        id: 'story_01_colecao_streetwear',
+        title: 'Drop 01 Streetwear • Coleção Completa',
+        subtitle: 'Vídeo dinâmico de abertura apresentando a nova coleção de streetwear da marca.',
+        category: 'Vestuário',
+        filterCategory: 'apparel',
+        categoryBadgeClass: 'bg-yellow-500/10 text-[#f6ff00] border-yellow-500/30',
+        duration: 12,
+        videoSrc: 'assets/videos/stories/story_01_colecao_streetwear.mp4',
+        posterSrc: 'assets/images/stories_posters/story_01_colecao_streetwear_poster.jpg',
+        size: '1.7 MB',
+        caption: `🔥 DROP 01 OFICIAL NO AR! 🔥\n\nHoodies Heavyweight 380g e T-Shirts Oversized exclusivas Dark Ghostrider.\nQualidade pesada, acabamento premium e o visual que vocês pediram!\n\n👕 DISPONÍVEL NO SITE:\n• Hoodie Preto Stealth & Cyber Amarelo\n• T-Shirts 100% Algodão Penteado\n• Envio rápido 24/48h por CTT Expresso\n\n👉 Clica no sticker de link para garantir as tuas peças:\n🌐 WWW.DARKGHOSTRIDER.COM\n\n#darkghostrider #streetwear #drop01 #hoodie #tshirt #portugal #bikelife #mt07`
+      },
+      {
+        id: 'story_02_hoodie_heavyweight',
+        title: 'Hoodie Heavyweight 380g • Preto & Amarelo',
+        subtitle: 'Foco total no hoodie oficial com bordado peito e estampa caveira nas costas.',
+        category: 'Hoodie',
+        filterCategory: 'apparel',
+        categoryBadgeClass: 'bg-red-500/10 text-red-400 border-red-500/30',
+        duration: 10,
+        videoSrc: 'assets/videos/stories/story_02_hoodie_heavyweight.mp4',
+        posterSrc: 'assets/images/stories_posters/story_02_hoodie_heavyweight_poster.jpg',
+        size: '1.7 MB',
+        caption: `⚡ O HOODIE MAIS PEDIDO! ⚡\n\nHeavyweight 380g com forro quentinho, corte streetwear e a caveira oficial em alta definição nas costas.\n\nQual a tua cor favorita: Preto Stealth ou Cyber Amarelo? 🔥\n\n👉 Clica no link e garante o teu tamanho antes que esgote:\n🌐 WWW.DARKGHOSTRIDER.COM\n\n#darkghostrider #hoodieheavyweight #streetwear #darkrider #yamahamt07 #mt07`
+      },
+      {
+        id: 'story_03_tshirts_oversized',
+        title: 'T-Shirts Streetwear & Oversized',
+        subtitle: 'Destaque para o tecido 100% algodão penteado e cortes Classic e Oversized.',
+        category: 'T-Shirts',
+        filterCategory: 'apparel',
+        categoryBadgeClass: 'bg-blue-500/10 text-blue-400 border-blue-500/30',
+        duration: 10,
+        videoSrc: 'assets/videos/stories/story_03_tshirts_oversized.mp4',
+        posterSrc: 'assets/images/stories_posters/story_03_tshirts_oversized_poster.jpg',
+        size: '1.8 MB',
+        caption: `💀 T-SHIRTS OFICIAIS DARK GHOSTRIDER! 💀\n\nCorte oversized e classic com 100% algodão penteado de alta densidade. Não desbota nem deforma.\n\nEstampa frontal e traseira em alta definição. Disponível em Preto e Cyber Amarelo!\n\n👉 Clica no link da bio e escolhe a tua:\n🌐 WWW.DARKGHOSTRIDER.COM\n\n#tshirtoversized #streetwearraw #darkghostrider #motovlog #portugal #bikelife`
+      },
+      {
+        id: 'story_04_pack_economico',
+        title: 'Pack Económico • Hoodie + T-Shirt (Poupança)',
+        subtitle: 'Apresenta a oferta especial do combo de roupas com desconto direto de até 20€.',
+        category: 'Oferta Pack',
+        filterCategory: 'apparel',
+        categoryBadgeClass: 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30',
+        duration: 11,
+        videoSrc: 'assets/videos/stories/story_04_pack_economico.mp4',
+        posterSrc: 'assets/images/stories_posters/story_04_pack_economico_poster.jpg',
+        size: '1.7 MB',
+        caption: `💥 QUERES O HOODIE E A T-SHIRT? LEVA O PACK! 💥\n\nCom o PACK ECONÓMICO poupas até 20€ no combo completo!\nEscolhe as cores que quiseres e o desconto entra automaticamente no teu carrinho.\n\n👉 Aproveita enquanto dura o stock do primeiro lote:\n🌐 WWW.DARKGHOSTRIDER.COM\n\n#packeconomico #desconto #darkghostrider #streetwearcombo #mt07 #poupança`
+      },
+      {
+        id: 'story_05_raiox_mt07',
+        title: 'Raio-X MT-07 • Setup Completo do Dark',
+        subtitle: 'Mostra a moto e convida os seguidores a explorarem a página de Raio-X com links diretos.',
+        category: 'Raio-X Moto',
+        filterCategory: 'mt07',
+        categoryBadgeClass: 'bg-purple-500/10 text-purple-400 border-purple-500/30',
+        duration: 12,
+        videoSrc: 'assets/videos/stories/story_05_raiox_mt07.mp4',
+        posterSrc: 'assets/images/stories_posters/story_05_raiox_mt07_poster.jpg',
+        size: '1.3 MB',
+        caption: `🏍️ RAIO-X COMPLETO DA MT-07 DO DARK! 🏍️\n\nSempre me perguntam o que tenho instalado na moto. Agora está tudo reunido numa página interativa:\n\n• Escape Full Yoshimura R77 Carbono\n• Retrovisores Stealth Wing em Alumínio CNC\n• Lanterna LED Fumê com piscas embutidos\n• Sliders e proteções de motor\n\n👉 Clica no link e vê cada peça em detalhe:\n🌐 WWW.DARKGHOSTRIDER.COM/RAIOX\n\n#mt07 #yamahamt07 #raiox #setupmoto #darkrider #escapes #acessoriosmoto`
+      },
+      {
+        id: 'story_06_escape_yoshimura_r77',
+        title: 'Escape Yoshimura R77 Full System Carbono',
+        subtitle: 'Fotos detalhadas da ponteira de carbono e dos coletores de escape da MT-07.',
+        category: 'Escapes',
+        filterCategory: 'mt07',
+        categoryBadgeClass: 'bg-orange-500/10 text-orange-400 border-orange-500/30',
+        duration: 10,
+        videoSrc: 'assets/videos/stories/story_06_escape_yoshimura_r77.mp4',
+        posterSrc: 'assets/images/stories_posters/story_06_escape_yoshimura_r77_poster.jpg',
+        size: '1.1 MB',
+        caption: `🔊 O RONCO BRUTO DA MT-07! 🔊\n\nEscape Yoshimura R77 Full System em aço inoxidável com ponteira de fibra de carbono autêntica.\nDesempenho, estética agressiva e o som inconfundível dos vídeos do Dark!\n\n👉 Link direto para o escape no site oficial:\n🌐 WWW.DARKGHOSTRIDER.COM\n\n#yoshimurar77 #escapemt07 #roncomoto #yamaha #darkghostrider #motovlog`
+      },
+      {
+        id: 'story_07_retrovisores_stealth',
+        title: 'Retrovisores Stealth Wing & Cockpit CNC',
+        subtitle: 'Foco nos espelhos aerodinâmicos asa de morcego e tampas de reservatório CNC.',
+        category: 'Cockpit',
+        filterCategory: 'gear',
+        categoryBadgeClass: 'bg-cyan-500/10 text-cyan-400 border-cyan-500/30',
+        duration: 10,
+        videoSrc: 'assets/videos/stories/story_07_retrovisores_stealth.mp4',
+        posterSrc: 'assets/images/stories_posters/story_07_retrovisores_stealth_poster.jpg',
+        size: '0.9 MB',
+        caption: `🦅 TRANSFORMA A FRENTE DA TUA MOTO! 🦅\n\nRetrovisores Stealth Wing em liga de alumínio CNC. Abre como espelho com vidro anti-reflexo ou fecha no modo asa aerodinâmica de corrida.\n\nE confere também as tampas de reservatório de fluido anodizadas!\n\n👉 Disponível com envio rápido no site:\n🌐 WWW.DARKGHOSTRIDER.COM\n\n#retrovisoresstealth #stealthwing #cockpitmt07 #yamahamt07 #darkrider`
+      },
+      {
+        id: 'story_08_luvas_kashvelo',
+        title: 'Luvas Táticas Kashvelo Oficiais',
+        subtitle: 'As luvas oficiais do Dark com proteção de nós dos dedos e palma de alta aderência.',
+        category: 'Acessórios',
+        filterCategory: 'gear',
+        categoryBadgeClass: 'bg-pink-500/10 text-pink-400 border-pink-500/30',
+        duration: 10,
+        videoSrc: 'assets/videos/stories/story_08_luvas_kashvelo.mp4',
+        posterSrc: 'assets/images/stories_posters/story_08_luvas_kashvelo_poster.jpg',
+        size: '1.2 MB',
+        caption: `🧤 AS LUVAS TÁTICAS DO DARK! 🧤\n\nLuvas de pilotagem Kashvelo com proteção rígida de nós dos dedos, palma com aderência reforçada antiderrapante e dedos touch screen.\n\nDisponíveis nos tamanhos S, M, L e XL com envio expresso!\n\n👉 Clica no link para escolher o teu tamanho:\n🌐 WWW.DARKGHOSTRIDER.COM\n\n#luvasdemoto #kashvelo #equipamentomoto #segurancamoto #darkghostrider`
+      },
+      {
+        id: 'story_09_sliders_protecao',
+        title: 'Proteção Total • Sliders & Joelheiras Komine',
+        subtitle: 'Equipamento de segurança de impacto: sliders de motor, joelheiras e pads de tração.',
+        category: 'Proteção',
+        filterCategory: 'gear',
+        categoryBadgeClass: 'bg-amber-500/10 text-amber-400 border-amber-500/30',
+        duration: 11,
+        videoSrc: 'assets/videos/stories/story_09_sliders_protecao.mp4',
+        posterSrc: 'assets/images/stories_posters/story_09_sliders_protecao_poster.jpg',
+        size: '1.2 MB',
+        caption: `🛡️ PROTEÇÃO TOTAL PARA A TUA MÁQUINA! 🛡️\n\nSliders de motor Coolpad CNC para proteger motor e chassi em caso de queda, joelheiras com sliders de raspagem Komine e pads de tração para o tanque.\n\nAnda com estilo e máxima segurança.\n\n👉 Confere todos os itens de proteção no site:\n🌐 WWW.DARKGHOSTRIDER.COM\n\n#slidersmoto #kominestore #protecaomoto #bikelife #seguranca #mt07`
+      },
+      {
+        id: 'story_10_store_launch_bio',
+        title: 'Loja Oficial Dark • Link na Bio',
+        subtitle: 'Chamada geral para os seguidores acessarem darkghostrider.com.',
+        category: 'Oficial',
+        filterCategory: 'official',
+        categoryBadgeClass: 'bg-green-500/10 text-green-400 border-green-500/30',
+        duration: 12,
+        videoSrc: 'assets/videos/stories/story_10_store_launch_bio.mp4',
+        posterSrc: 'assets/images/stories_posters/story_10_store_launch_bio_poster.jpg',
+        size: '1.7 MB',
+        caption: `⚡ A LOJA OFICIAL DARK GHOSTRIDER ESTÁ NO AR! ⚡\n\nTudo o que procuras num só lugar:\n• Vestuário Drop 01 Exclusivo\n• Peças & Raio-X da MT-07\n• Equipamentos & Acessórios\n\n🇵🇹 Pagamentos rápidos por MB WAY ou Cartão\n🚀 Envio rápido com código de rastreio\n\n👉 Toca no link da bio e entra agora:\n🌐 WWW.DARKGHOSTRIDER.COM\n\n#darkghostrider #lojaoficial #portugal #bikelife #streetwear #mt07`
+      }
+    ];
+
+    let currentStoryIndex = 0;
+    let activeStoriesFilter = 'all';
+
+    function renderStoriesCatalogCards() {
+      const container = document.getElementById('adminStoriesCardsContainer');
+      if (!container) return;
+      container.innerHTML = '';
+
+      STORIES_PLAYLIST.forEach((st, idx) => {
+        if (activeStoriesFilter !== 'all' && st.filterCategory !== activeStoriesFilter) return;
+
+        const isCurrent = idx === currentStoryIndex;
+        const card = document.createElement('div');
+        card.id = `story-card-${idx}`;
+        card.className = `p-3.5 rounded-2xl bg-[#141622] border transition-all cursor-pointer group flex flex-col justify-between ${
+          isCurrent ? 'border-[#f6ff00] shadow-lg shadow-yellow-500/10 bg-[#191b29]' : 'border-[#232636] hover:border-[#383a54]'
+        }`;
+
+        card.innerHTML = `
+          <div>
+            <div class="relative w-full aspect-[9/16] rounded-xl overflow-hidden bg-black/60 mb-2.5">
+              <img src="${st.posterSrc}" alt="${st.title}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+              <div class="absolute top-2 left-2 flex items-center gap-1">
+                <span class="px-2 py-0.5 rounded text-[9px] font-bold ${st.categoryBadgeClass} uppercase backdrop-blur-sm">
+                  ${st.category}
+                </span>
+              </div>
+              <div class="absolute bottom-2 right-2">
+                <span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-black/80 text-white border border-white/10">
+                  ⏱️ ${st.duration}s
+                </span>
+              </div>
+              ${isCurrent ? `
+                <div class="absolute inset-0 bg-yellow-500/10 border-2 border-[#f6ff00] rounded-xl flex items-center justify-center">
+                  <span class="px-2.5 py-1 rounded-full bg-[#f6ff00] text-black font-heading font-black text-[10px] uppercase shadow-lg">
+                    ▶ ATIVO NO PLAYER
+                  </span>
+                </div>
+              ` : ''}
+            </div>
+
+            <h4 class="font-heading font-black text-xs text-white uppercase line-clamp-2 mb-1 group-hover:text-[#f6ff00] transition-colors">
+              ${st.title}
+            </h4>
+            <p class="text-[11px] text-gray-400 line-clamp-2 mb-3">
+              ${st.subtitle}
+            </p>
+          </div>
+
+          <div class="space-y-1.5 pt-2 border-t border-[#232636]">
+            <button onclick="selectAdminStory(${idx}); window.scrollTo({top: 400, behavior: 'smooth'});" class="w-full py-1.5 rounded-lg bg-[#232638] hover:bg-[#f6ff00] text-gray-200 hover:text-black font-sub font-bold text-[10px] uppercase transition-colors flex items-center justify-center gap-1 cursor-pointer">
+              ▶ Assistir
+            </button>
+            <div class="grid grid-cols-2 gap-1.5">
+              <a href="${st.videoSrc}" download="${st.id}.mp4" class="py-1.5 rounded-lg bg-[#191b28] hover:bg-[#282a3c] text-white font-sub font-bold text-[10px] uppercase text-center border border-[#303348] transition-colors" title="Baixar Vídeo MP4">
+                📥 Baixar
+              </a>
+              <button onclick="copySpecificCaption(${idx})" class="py-1.5 rounded-lg bg-[#191b28] hover:bg-[#282a3c] text-gray-300 hover:text-white font-sub font-bold text-[10px] uppercase text-center border border-[#303348] transition-colors cursor-pointer" title="Copiar Legenda">
+                📋 Legenda
+              </button>
+            </div>
+          </div>
+        `;
+
+        container.appendChild(card);
+      });
+    }
+
+    function selectAdminStory(idx) {
+      if (idx < 0 || idx >= STORIES_PLAYLIST.length) return;
+      currentStoryIndex = idx;
+      const st = STORIES_PLAYLIST[idx];
+
+      const vid = document.getElementById('adminReelsVideo');
+      const counter = document.getElementById('adminStoryCounter');
+      const title = document.getElementById('adminActiveTitle');
+      const sub = document.getElementById('adminActiveSubtitle');
+      const catPill = document.getElementById('adminCardCatPill');
+      const durPill = document.getElementById('adminCardDurationPill');
+      const sizePill = document.getElementById('adminCardSizePill');
+      const badgeCat = document.getElementById('adminActiveBadgeCategory');
+      const sideDownload = document.getElementById('adminSideDownloadBtn');
+      const topDownload = document.getElementById('adminActiveDownloadBtn');
+      const posterThumb = document.getElementById('adminCurrentPosterThumb');
+      const posterBtn = document.getElementById('adminDownloadPosterBtn');
+      const captionBox = document.getElementById('adminCaptionBox');
+      const scrubber = document.getElementById('adminScrubber');
+      const timeTot = document.getElementById('adminTimeTot');
+
+      if (vid) {
+        vid.src = st.videoSrc;
+        vid.poster = st.posterSrc;
+        vid.currentTime = 0;
+        const playBtn = document.getElementById('adminCenterPlayBtn');
+        const playIcon = document.getElementById('adminPlayIcon');
+        if (playBtn) playBtn.style.opacity = '1';
+        if (playIcon) playIcon.innerText = '▶';
+      }
+
+      if (counter) counter.innerText = `${idx + 1} / ${STORIES_PLAYLIST.length}`;
+      if (title) title.innerText = st.title;
+      if (sub) sub.innerText = st.subtitle;
+      if (catPill) catPill.innerText = st.category;
+      if (durPill) durPill.innerText = `⏱️ ${st.duration} Segundos`;
+      if (sizePill) sizePill.innerText = `✓ ${st.size}`;
+      if (badgeCat) badgeCat.innerText = st.category.toUpperCase();
+
+      if (sideDownload) {
+        sideDownload.href = st.videoSrc;
+        sideDownload.download = `${st.id}.mp4`;
+      }
+      if (topDownload) {
+        topDownload.href = st.videoSrc;
+        topDownload.download = `${st.id}.mp4`;
+      }
+      if (posterThumb) posterThumb.src = st.posterSrc;
+      if (posterBtn) {
+        posterBtn.href = st.posterSrc;
+        posterBtn.download = `${st.id}_poster.jpg`;
+      }
+      if (captionBox) captionBox.value = st.caption;
+      if (scrubber) scrubber.max = st.duration;
+      if (timeTot) timeTot.innerText = `00:${st.duration < 10 ? '0' : ''}${st.duration}`;
+
+      renderStoriesCatalogCards();
+    }
+
+    function stepAdminStory(delta) {
+      let nextIdx = currentStoryIndex + delta;
+      if (nextIdx < 0) nextIdx = STORIES_PLAYLIST.length - 1;
+      if (nextIdx >= STORIES_PLAYLIST.length) nextIdx = 0;
+      selectAdminStory(nextIdx);
+    }
+
+    function filterAdminStoriesList(cat) {
+      activeStoriesFilter = cat;
+      const btns = ['all', 'apparel', 'mt07', 'gear', 'official'];
+      btns.forEach(b => {
+        const btn = document.getElementById(`story-filter-${b}`);
+        if (!btn) return;
+        if (b === cat) {
+          btn.className = 'px-3 py-1.5 rounded-lg bg-[#f6ff00] text-black font-sub font-bold text-xs uppercase cursor-pointer';
+        } else {
+          btn.className = 'px-3 py-1.5 rounded-lg bg-[#141622] hover:bg-[#1f2233] text-gray-300 font-sub font-bold text-xs uppercase cursor-pointer';
+        }
+      });
+      renderStoriesCatalogCards();
+    }
+
+    function copySpecificCaption(idx) {
+      selectAdminStory(idx);
+      copyAdminCaption();
+    }
+
+    function selectMasterReel() {
+      const vid = document.getElementById('adminReelsVideo');
+      if (vid) {
+        vid.src = 'assets/videos/reels_dark_ghostrider_store.mp4';
+        vid.poster = 'assets/images/reels_poster.jpg';
+        vid.currentTime = 0;
+        const playBtn = document.getElementById('adminCenterPlayBtn');
+        const playIcon = document.getElementById('adminPlayIcon');
+        if (playBtn) playBtn.style.opacity = '1';
+        if (playIcon) playIcon.innerText = '▶';
+      }
+      const title = document.getElementById('adminActiveTitle');
+      const sub = document.getElementById('adminActiveSubtitle');
+      const catPill = document.getElementById('adminCardCatPill');
+      const durPill = document.getElementById('adminCardDurationPill');
+      const sizePill = document.getElementById('adminCardSizePill');
+      const sideDownload = document.getElementById('adminSideDownloadBtn');
+      const captionBox = document.getElementById('adminCaptionBox');
+
+      if (title) title.innerText = 'Reel Master Promocional (Apresentação Geral)';
+      if (sub) sub.innerText = 'Vídeo longo completo de 22 segundos abrangendo vestuário, setup da MT-07 e loja.';
+      if (catPill) catPill.innerText = 'MASTER REEL';
+      if (durPill) durPill.innerText = '⏱️ 22 Segundos';
+      if (sizePill) sizePill.innerText = '✓ 4.2 MB';
+      if (sideDownload) {
+        sideDownload.href = 'assets/videos/reels_dark_ghostrider_store.mp4';
+        sideDownload.download = 'reels_dark_ghostrider_store.mp4';
+      }
+      if (captionBox) {
+        captionBox.value = `⚡ A LOJA OFICIAL DARK GHOSTRIDER JÁ ESTÁ NO AR! ⚡\n\nTudo o que uso na minha MT-07 e a nova coleção de vestuário exclusiva já estão disponíveis! 🔥\n\n👕 DROP 01 OFICIAL:\n• Sweatshirts com capuz 320g (Preto Stealth & Cyber Amarelo)\n• T-Shirts 100% Algodão Penteado Oversized\n• Estampa icónica frente e costas em alta definição\n• Packs económicos com desconto direto!\n\n🏍️ SETUP MT-07:\n• Retrovisores Stealth Wing em Alumínio CNC\n• Escape Completo Yoshimura R77 Full System Carbono\n• Lanterna LED Fumê com Piscas Sequenciais Integrados\n• Sliders e proteções testadas na rua e pista\n\n🇵🇹 Pagamentos rápidos por MB WAY ou Cartão de Crédito\n🚀 Envio CTT Expresso com rastreio em 24/48h\n\n👉 Clica no link da bio para garantir as tuas peças antes que esgotem:\n🌐 WWW.DARKGHOSTRIDER.COM\n\n#darkghostrider #mt07 #yamahamt07 #drop01 #streetwear #motovlog #portugal #bikelife #darkrider #motorcycle #escapes #stealthmirrors #mbway`;
+      }
+      window.scrollTo({ top: 380, behavior: 'smooth' });
+    }
+
     function toggleAdminVideo() {
       const vid = document.getElementById('adminReelsVideo');
       const btn = document.getElementById('adminCenterPlayBtn');
@@ -1748,9 +2109,9 @@ Tudo o que uso na minha MT-07 e a nova coleção de vestuário exclusiva já est
       });
 
       vid.addEventListener('loadedmetadata', () => {
-        scrubber.max = vid.duration || 22;
-        const m = Math.floor((vid.duration || 22) / 60);
-        const s = Math.floor((vid.duration || 22) % 60);
+        scrubber.max = vid.duration || 12;
+        const m = Math.floor((vid.duration || 12) / 60);
+        const s = Math.floor((vid.duration || 12) % 60);
         if (tot) tot.innerText = `${m < 10 ? '0' : ''}${m}:${s < 10 ? '0' : ''}${s}`;
       });
 
@@ -1767,6 +2128,7 @@ Tudo o que uso na minha MT-07 e a nova coleção de vestuário exclusiva já est
         document.getElementById('admin-whatsapp-input').value = savedPhone;
       }
       checkAdminAuth();
+      selectAdminStory(0);
       setupAdminVideoListeners();
     });
   </script>
