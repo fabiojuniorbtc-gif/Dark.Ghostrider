@@ -836,10 +836,10 @@
           Configuração de Moeda
         </span>
         <div class="grid grid-cols-2 gap-2 px-1">
-          <button type="button" onclick="Store.setCurrency('EUR'); Store.closeSidebar();" class="currency-btn py-2 px-3 rounded-lg border border-[#242533] bg-[#12131b] hover:bg-[#1a1b26] text-xs font-sub font-bold text-center text-white flex items-center justify-center gap-1.5 transition-colors">
+          <button type="button" data-currency="EUR" onclick="Store.setCurrency('EUR'); Store.closeSidebar();" class="currency-btn py-2 px-3 rounded-lg border border-[#242533] bg-[#12131b] hover:bg-[#1a1b26] text-xs font-sub font-bold text-center text-white flex items-center justify-center gap-1.5 transition-colors">
             <span>🇵🇹</span> EUR (€)
           </button>
-          <button type="button" onclick="Store.setCurrency('BRL'); Store.closeSidebar();" class="currency-btn py-2 px-3 rounded-lg border border-[#242533] bg-[#12131b] hover:bg-[#1a1b26] text-xs font-sub font-bold text-center text-gray-400 hover:text-white flex items-center justify-center gap-1.5 transition-colors">
+          <button type="button" data-currency="BRL" onclick="Store.setCurrency('BRL'); Store.closeSidebar();" class="currency-btn py-2 px-3 rounded-lg border border-[#242533] bg-[#12131b] hover:bg-[#1a1b26] text-xs font-sub font-bold text-center text-gray-400 hover:text-white flex items-center justify-center gap-1.5 transition-colors">
             <span>🇧🇷</span> BRL (R$)
           </button>
         </div>

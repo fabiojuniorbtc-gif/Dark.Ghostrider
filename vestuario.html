@@ -162,15 +162,8 @@
           </p>
         </div>
 
-        <div class="flex flex-wrap items-center gap-3">
-          <a href="#guia-tamanhos" class="px-4 py-2.5 bg-[#171824] hover:bg-[#202232] border border-gray-600 hover:border-white text-gray-200 hover:text-white rounded-xl text-xs font-sub font-bold uppercase tracking-wider transition-all flex items-center gap-1.5 shadow">
-            <span>📏</span> Tabela de Medidas
-          </a>
-          <a href="catalogo.html" class="px-4 py-2.5 bg-[#e61426] hover:bg-[#ff2a3c] text-white rounded-xl text-xs font-sub font-bold uppercase tracking-wider transition-all flex items-center gap-1.5 shadow">
-            <span>🛒</span> Ver Peças da Moto
-          </a>
-        </div>
       </div>
+
 
     </div>
   </section>
@@ -276,8 +269,8 @@
             <div>
               <span class="text-[10px] text-gray-400 block font-sub">PREÇO OFICIAL:</span>
               <div class="flex items-baseline gap-2">
-                <span class="font-heading font-black text-xl text-[#ffe600]">59,90 €</span>
-                <span class="text-xs line-through text-gray-500">79,90 €</span>
+                <span class="font-heading font-black text-xl text-[#ffe600]" data-price-eur="59.90" data-price-brl="329.90">59,90 €</span>
+                <span class="text-xs line-through text-gray-500" data-compare-eur="79.90" data-compare-brl="439.90">79,90 €</span>
               </div>
             </div>
             <a href="produto.html?id=hoodie-dark-ghostrider-oficial" class="px-4 py-2.5 bg-[#e61426] hover:bg-[#ff2a3c] text-white font-sub font-bold text-xs uppercase tracking-wider rounded-lg transition-all shadow-md inline-flex items-center">
@@ -328,8 +321,8 @@
             <div>
               <span class="text-[10px] text-gray-400 block font-sub">PREÇO OFICIAL:</span>
               <div class="flex items-baseline gap-2">
-                <span class="font-heading font-black text-xl text-[#ffe600]">39,90 €</span>
-                <span class="text-xs line-through text-gray-500">49,90 €</span>
+                <span class="font-heading font-black text-xl text-[#ffe600]" data-price-eur="39.90" data-price-brl="219.90">39,90 €</span>
+                <span class="text-xs line-through text-gray-500" data-compare-eur="49.90" data-compare-brl="279.90">49,90 €</span>
               </div>
             </div>
             <a href="produto.html?id=tshirt-oversized-dark-ghostrider" class="px-4 py-2.5 bg-[#e61426] hover:bg-[#ff2a3c] text-white font-sub font-bold text-xs uppercase tracking-wider rounded-lg transition-all shadow-md inline-flex items-center">
@@ -380,8 +373,8 @@
             <div>
               <span class="text-[10px] text-gray-400 block font-sub">PREÇO OFICIAL:</span>
               <div class="flex items-baseline gap-2">
-                <span class="font-heading font-black text-xl text-[#ffe600]">29,90 €</span>
-                <span class="text-xs line-through text-gray-500">39,90 €</span>
+                <span class="font-heading font-black text-xl text-[#ffe600]" data-price-eur="29.90" data-price-brl="169.90">29,90 €</span>
+                <span class="text-xs line-through text-gray-500" data-compare-eur="39.90" data-compare-brl="219.90">39,90 €</span>
               </div>
             </div>
             <a href="produto.html?id=tshirt-classic-bio190-dark-ghostrider" class="px-4 py-2.5 bg-[#e61426] hover:bg-[#ff2a3c] text-white font-sub font-bold text-xs uppercase tracking-wider rounded-lg transition-all shadow-md inline-flex items-center">
@@ -1057,10 +1050,10 @@
           Configuração de Moeda
         </span>
         <div class="grid grid-cols-2 gap-2 px-1">
-          <button type="button" onclick="Store.setCurrency('EUR'); Store.closeSidebar();" class="currency-btn py-2 px-3 rounded-lg border border-[#242533] bg-[#12131b] hover:bg-[#1a1b26] text-xs font-sub font-bold text-center text-white flex items-center justify-center gap-1.5 transition-colors">
+          <button type="button" data-currency="EUR" onclick="Store.setCurrency('EUR'); Store.closeSidebar();" class="currency-btn py-2 px-3 rounded-lg border border-[#242533] bg-[#12131b] hover:bg-[#1a1b26] text-xs font-sub font-bold text-center text-white flex items-center justify-center gap-1.5 transition-colors">
             <span>🇵🇹</span> EUR (€)
           </button>
-          <button type="button" onclick="Store.setCurrency('BRL'); Store.closeSidebar();" class="currency-btn py-2 px-3 rounded-lg border border-[#242533] bg-[#12131b] hover:bg-[#1a1b26] text-xs font-sub font-bold text-center text-gray-400 hover:text-white flex items-center justify-center gap-1.5 transition-colors">
+          <button type="button" data-currency="BRL" onclick="Store.setCurrency('BRL'); Store.closeSidebar();" class="currency-btn py-2 px-3 rounded-lg border border-[#242533] bg-[#12131b] hover:bg-[#1a1b26] text-xs font-sub font-bold text-center text-gray-400 hover:text-white flex items-center justify-center gap-1.5 transition-colors">
             <span>🇧🇷</span> BRL (R$)
           </button>
         </div>

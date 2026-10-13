@@ -13,6 +13,13 @@ const Store = {
   whatsappNumber: '351968885713', // Real WhatsApp number
 
   init() {
+    try {
+      const savedCurrency = localStorage.getItem('dark_currency');
+      if (savedCurrency === 'BRL' || savedCurrency === 'EUR') {
+        this.currency = savedCurrency;
+      }
+    } catch (e) {}
+
     this.loadCart();
 
     // Check URL parameters (e.g. ?category=wear or ?product=...)
@@ -28,6 +35,8 @@ const Store = {
     } catch (e) {}
 
     this.setupEventListeners();
+    this.updateCurrencyUI();
+    this.updateStaticApparelPrices();
 
     if (this.activeCategory !== 'all') {
       document.querySelectorAll('.category-pill').forEach(pill => {
@@ -69,17 +78,88 @@ const Store = {
   },
 
   setCurrency(curr) {
+    if (!curr || (curr !== 'EUR' && curr !== 'BRL')) {
+      curr = 'EUR';
+    }
     this.currency = curr;
-    document.querySelectorAll('.currency-btn').forEach(btn => {
-      btn.classList.toggle('active', btn.dataset.currency === curr);
-    });
+    try {
+      localStorage.setItem('dark_currency', curr);
+    } catch (e) {}
+
+    this.updateCurrencyUI();
+    this.updateStaticApparelPrices();
     this.renderProducts();
     this.updateCartUI();
+
+    window.dispatchEvent(new CustomEvent('dark_currency_changed', { detail: { currency: curr } }));
+  },
+
+  updateCurrencyUI() {
+    const curr = this.currency || 'EUR';
+    document.querySelectorAll('.currency-btn').forEach(btn => {
+      let btnCurr = btn.dataset.currency;
+      if (!btnCurr) {
+        const text = btn.textContent || '';
+        const oc = btn.getAttribute('onclick') || '';
+        if (text.includes('BRL') || text.includes('R$') || oc.includes('BRL')) {
+          btnCurr = 'BRL';
+          btn.dataset.currency = 'BRL';
+        } else {
+          btnCurr = 'EUR';
+          btn.dataset.currency = 'EUR';
+        }
+      }
+
+      const isActive = btnCurr === curr;
+      btn.classList.toggle('active', isActive);
+
+      // Top navbar pill styling
+      if (btn.classList.contains('px-2.5') || btn.classList.contains('px-2')) {
+        if (isActive) {
+          btn.classList.add('bg-[#e61426]', 'text-white', 'shadow-sm');
+          btn.classList.remove('text-gray-400');
+        } else {
+          btn.classList.remove('bg-[#e61426]', 'text-white', 'shadow-sm');
+          btn.classList.add('text-gray-400');
+        }
+      }
+
+      // Sidebar button styling
+      if (btn.classList.contains('py-2') && btn.classList.contains('px-3')) {
+        if (isActive) {
+          btn.classList.add('bg-[#e61426]', 'text-white', 'border-[#e61426]', 'shadow-sm');
+          btn.classList.remove('bg-[#12131b]', 'text-gray-400');
+        } else {
+          btn.classList.remove('bg-[#e61426]', 'border-[#e61426]', 'shadow-sm');
+          btn.classList.add('bg-[#12131b]', 'text-gray-400');
+        }
+      }
+    });
+  },
+
+  updateStaticApparelPrices() {
+    document.querySelectorAll('[data-price-eur]').forEach(el => {
+      const eur = parseFloat(el.getAttribute('data-price-eur'));
+      const brlAttr = el.getAttribute('data-price-brl');
+      const brl = brlAttr ? parseFloat(brlAttr) : (eur * 5.5);
+      if (!isNaN(eur)) {
+        el.textContent = this.formatPrice(eur, brl);
+      }
+    });
+    document.querySelectorAll('[data-compare-eur]').forEach(el => {
+      const eur = parseFloat(el.getAttribute('data-compare-eur'));
+      const brlAttr = el.getAttribute('data-compare-brl');
+      const brl = brlAttr ? parseFloat(brlAttr) : (eur * 5.5);
+      if (!isNaN(eur)) {
+        el.textContent = this.formatPrice(eur, brl);
+      }
+    });
   },
 
   formatPrice(priceEUR, priceBRL) {
     if (this.currency === 'BRL') {
-      return `R$ ${priceBRL.toFixed(2).replace('.', ',')}`;
+      const brl = (typeof priceBRL === 'number' && !isNaN(priceBRL)) ? priceBRL : (priceEUR * 5.5);
+      return `R$ ${brl.toFixed(2).replace('.', ',')}`;
     }
     return `${priceEUR.toFixed(2).replace('.', ',')} €`;
   },
@@ -227,7 +307,19 @@ const Store = {
   setupEventListeners() {
     // Currency buttons
     document.querySelectorAll('.currency-btn').forEach(btn => {
-      btn.addEventListener('click', () => this.setCurrency(btn.dataset.currency));
+      btn.addEventListener('click', () => {
+        let curr = btn.dataset.currency;
+        if (!curr) {
+          const text = btn.textContent || '';
+          const oc = btn.getAttribute('onclick') || '';
+          if (text.includes('BRL') || text.includes('R$') || oc.includes('BRL')) {
+            curr = 'BRL';
+          } else {
+            curr = 'EUR';
+          }
+        }
+        this.setCurrency(curr);
+      });
     });
 
     // Category pills

@@ -1157,7 +1157,7 @@
                 <img src="assets/images/kashvelo-logo.jpg" class="w-full h-full object-contain">
               </div>
               <div class="ml-auto text-right">
-                <span class="text-xs text-emerald-400 font-bold block">Poupe 15,00 €</span>
+                <span class="text-xs text-emerald-400 font-bold block">Poupe ${Store.formatPrice(15, 82.5)}</span>
                 <button type="button" onclick="handleAddPackFallback()" class="mt-1 px-4 py-2 bg-[#ffe600] hover:bg-[#fff033] text-black font-sub font-black text-xs uppercase tracking-wider rounded-lg shadow transition-all cursor-pointer">
                   ADICIONAR PACK
                 </button>
@@ -1176,15 +1176,15 @@
                 ${pack.title}
               </h4>
               <span class="text-[11px] font-sub font-bold text-emerald-400">
-                ✓ Economize ${pack.savingsEUR.toFixed(2)} € no conjunto
+                ✓ Economize ${Store.formatPrice(pack.savingsEUR, pack.savingsBRL || (pack.savingsEUR * 5.5))} no conjunto
               </span>
             </div>
             <div class="text-right sm:self-auto self-start">
               <span class="text-base sm:text-lg font-heading font-black text-[#ffe600]">
-                ${pack.bundlePriceEUR.toFixed(2)} €
+                ${Store.formatPrice(pack.bundlePriceEUR, pack.bundlePriceBRL || (pack.bundlePriceEUR * 5.5))}
               </span>
               <span class="text-xs line-through text-gray-500 block">
-                ${pack.originalPriceEUR.toFixed(2)} €
+                ${Store.formatPrice(pack.originalPriceEUR, pack.originalPriceBRL || (pack.originalPriceEUR * 5.5))}
               </span>
             </div>
           </div>
@@ -1336,6 +1336,11 @@
 
     document.addEventListener('DOMContentLoaded', () => {
       initProductPage();
+    });
+
+    window.addEventListener('dark_currency_changed', () => {
+      renderPrices();
+      renderPacks();
     });
   </script>
 </body>
