@@ -42,6 +42,10 @@ const Store = {
     this.renderProducts();
     this.updateCartUI();
 
+    window.addEventListener('dark_coupon_applied', () => {
+      this.updateCartUI();
+    });
+
     try {
       const urlParams = new URLSearchParams(window.location.search);
       const prodParam = urlParams.get('product');
@@ -875,9 +879,86 @@ const Store = {
       `;
     }).join('');
 
-    if (subtotalEl) {
-      subtotalEl.textContent = this.formatPrice(subtotalEUR, subtotalBRL);
+    const coupon = this.getAppliedCoupon();
+    let discountEUR = 0;
+    let discountBRL = 0;
+    if (coupon && coupon.discountPct) {
+      discountEUR = subtotalEUR * (coupon.discountPct / 100);
+      discountBRL = subtotalBRL * (coupon.discountPct / 100);
     }
+    const finalEUR = Math.max(0, subtotalEUR - discountEUR);
+    const finalBRL = Math.max(0, subtotalBRL - discountBRL);
+
+    // Update coupon UI in cart
+    const couponBox = document.getElementById('cart-coupon-box');
+    if (couponBox) {
+      if (coupon) {
+        couponBox.innerHTML = `
+          <div class="flex items-center justify-between bg-[#13201a] border border-emerald-500/40 p-2.5 rounded-xl text-xs">
+            <div class="flex items-center gap-1.5">
+              <span class="text-emerald-400">🏷️</span>
+              <span class="font-bold text-white uppercase">${coupon.code}</span>
+              <span class="px-1.5 py-0.5 rounded text-[10px] bg-emerald-500/20 text-emerald-300 font-bold">-${coupon.discountPct}%</span>
+            </div>
+            <button onclick="Store.removeCoupon()" class="text-gray-400 hover:text-red-400 text-[11px] underline cursor-pointer">Remover</button>
+          </div>
+        `;
+      } else {
+        couponBox.innerHTML = `
+          <div class="flex gap-1.5">
+            <input type="text" id="cart-coupon-input" placeholder="Cupão (ex: DARK10)" class="flex-1 bg-[#151622] text-white text-xs px-2.5 py-2 rounded-lg border border-[#2b2d42] outline-none focus:border-[#f6ff00] uppercase font-mono">
+            <button onclick="Store.applyCouponCode(document.getElementById('cart-coupon-input').value)" class="px-3 py-2 bg-[#25283b] hover:bg-[#f6ff00] text-gray-200 hover:text-black font-sub font-bold text-xs uppercase rounded-lg transition-colors cursor-pointer">Aplicar</button>
+          </div>
+        `;
+      }
+    }
+
+    const discountRow = document.getElementById('cart-discount-row');
+    const discountVal = document.getElementById('cart-discount-val');
+    if (discountRow && discountVal) {
+      if (coupon && discountEUR > 0) {
+        discountRow.classList.remove('hidden');
+        discountRow.classList.add('flex');
+        discountVal.textContent = `- ${this.formatPrice(discountEUR, discountBRL)}`;
+      } else {
+        discountRow.classList.add('hidden');
+        discountRow.classList.remove('flex');
+      }
+    }
+
+    if (subtotalEl) {
+      subtotalEl.textContent = this.formatPrice(finalEUR, finalBRL);
+    }
+  },
+
+  getAppliedCoupon() {
+    if (window.DarkClub) return window.DarkClub.getActiveCoupon();
+    const saved = localStorage.getItem('dark_active_coupon');
+    if (saved) {
+      try { return JSON.parse(saved); } catch (e) {}
+    }
+    return null;
+  },
+
+  applyCouponCode(code) {
+    code = String(code || '').trim().toUpperCase();
+    if (!code) return;
+    if (code === 'DARK10') {
+      if (window.DarkClub) {
+        window.DarkClub.setActiveCoupon('DARK10', 10);
+      } else {
+        localStorage.setItem('dark_active_coupon', JSON.stringify({ code: 'DARK10', discountPct: 10, appliedAt: Date.now() }));
+      }
+      this.updateCartUI();
+      alert('⚡ Cupão DARK10 ativado com sucesso! 10% de desconto concedido.');
+    } else {
+      alert('Cupão inválido ou expirado. Tenta DARK10.');
+    }
+  },
+
+  removeCoupon() {
+    localStorage.removeItem('dark_active_coupon');
+    this.updateCartUI();
   },
 
   buyItemToCart(productId) {
@@ -934,16 +1015,39 @@ const Store = {
     const modal = document.getElementById('checkout-modal');
     if (!modal) return;
 
-    let totalEUR = 0;
-    let totalBRL = 0;
+    let subtotalEUR = 0;
+    let subtotalBRL = 0;
     this.cart.forEach(item => {
-      totalEUR += item.priceEUR * item.quantity;
-      totalBRL += item.priceBRL * item.quantity;
+      subtotalEUR += item.priceEUR * item.quantity;
+      subtotalBRL += item.priceBRL * item.quantity;
     });
 
-    const totalText = this.formatPrice(totalEUR, totalBRL);
+    const coupon = this.getAppliedCoupon();
+    let discountEUR = 0;
+    let discountBRL = 0;
+    if (coupon && coupon.discountPct) {
+      discountEUR = subtotalEUR * (coupon.discountPct / 100);
+      discountBRL = subtotalBRL * (coupon.discountPct / 100);
+    }
+    const finalEUR = Math.max(0, subtotalEUR - discountEUR);
+    const finalBRL = Math.max(0, subtotalBRL - discountBRL);
+
+    const totalText = this.formatPrice(finalEUR, finalBRL);
     const totalEl = document.getElementById('checkout-modal-total');
     if (totalEl) totalEl.textContent = totalText;
+
+    const discountRow = document.getElementById('checkout-discount-row');
+    const discountVal = document.getElementById('checkout-discount-val');
+    if (discountRow && discountVal) {
+      if (coupon && discountEUR > 0) {
+        discountRow.classList.remove('hidden');
+        discountRow.classList.add('flex');
+        discountVal.textContent = `- ${this.formatPrice(discountEUR, discountBRL)} (${coupon.code} -${coupon.discountPct}%)`;
+      } else {
+        discountRow.classList.add('hidden');
+        discountRow.classList.remove('flex');
+      }
+    }
 
     const ptMethods = document.getElementById('payment-methods-pt');
     const brMethods = document.getElementById('payment-methods-br');
@@ -974,16 +1078,16 @@ const Store = {
     const orderId = 'DG-' + (this.currency === 'BRL' ? 'BR-' : 'PT-') + Math.floor(100000 + Math.random() * 900000);
     const trackingNumber = 'LP00' + Math.floor(10000000 + Math.random() * 90000000) + (this.currency === 'BRL' ? 'BR' : 'PT');
 
-    let totalEUR = 0;
-    let totalBRL = 0;
+    let subtotalEUR = 0;
+    let subtotalBRL = 0;
     let totalCostEUR = 0;
 
     const enrichedItems = this.cart.map(item => {
       const prod = PRODUCTS.find(p => p.id === item.id);
       const supplierCost = (prod && prod.costDetails && prod.costDetails.totalCostEUR) ? prod.costDetails.totalCostEUR : 0;
       const supplierUrl = item.supplierUrl || (prod ? prod.supplierUrl : '');
-      totalEUR += item.priceEUR * item.quantity;
-      totalBRL += item.priceBRL * item.quantity;
+      subtotalEUR += item.priceEUR * item.quantity;
+      subtotalBRL += item.priceBRL * item.quantity;
       totalCostEUR += supplierCost * item.quantity;
       return {
         ...item,
@@ -992,7 +1096,16 @@ const Store = {
       };
     });
 
-    const netProfitEUR = Math.round((totalEUR - totalCostEUR) * 100) / 100;
+    const coupon = this.getAppliedCoupon();
+    let discountEUR = 0;
+    let discountBRL = 0;
+    if (coupon && coupon.discountPct) {
+      discountEUR = subtotalEUR * (coupon.discountPct / 100);
+      discountBRL = subtotalBRL * (coupon.discountPct / 100);
+    }
+    const finalEUR = Math.max(0, subtotalEUR - discountEUR);
+    const finalBRL = Math.max(0, subtotalBRL - discountBRL);
+    const netProfitEUR = Math.round((finalEUR - totalCostEUR) * 100) / 100;
 
     const newOrder = {
       id: orderId,
@@ -1012,8 +1125,10 @@ const Store = {
       address: `${address}, ${postalCode} ${city}`,
       country: country,
       currency: this.currency,
-      totalEUR: Math.round(totalEUR * 100) / 100,
-      totalBRL: Math.round(totalBRL * 100) / 100,
+      subtotalEUR: Math.round(subtotalEUR * 100) / 100,
+      totalEUR: Math.round(finalEUR * 100) / 100,
+      totalBRL: Math.round(finalBRL * 100) / 100,
+      coupon: coupon ? { code: coupon.code, discountPct: coupon.discountPct, discountEUR: Math.round(discountEUR * 100) / 100 } : null,
       totalCostEUR: Math.round(totalCostEUR * 100) / 100,
       netProfitEUR: netProfitEUR,
       paymentMethod: this.currency === 'BRL' ? 'PIX' : 'MB WAY',
@@ -1028,7 +1143,23 @@ const Store = {
       notes: 'Encomenda efetuada no site. Aguardando compra no AliExpress.'
     };
 
-    // 1. Post to Server API (triggers Telegram Bot notification)
+    // 1. Silent lead capture to subscribers list
+    if (email) {
+      try {
+        fetch('/api/subscribers', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            email: email,
+            name: name,
+            source: 'Checkout Loja',
+            coupon: coupon ? coupon.code : ''
+          })
+        }).catch(() => {});
+      } catch (e) {}
+    }
+
+    // 2. Post to Server API (triggers Telegram Bot notification)
     try {
       await fetch('/api/orders', {
         method: 'POST',
@@ -1039,7 +1170,7 @@ const Store = {
       console.warn('API /api/orders indisponivel, sincronizando localmente', e);
     }
 
-    // 2. LocalStorage backup sync
+    // 3. LocalStorage backup sync
     const orders = JSON.parse(localStorage.getItem('dark_ghostrider_orders') || '[]');
     orders.unshift(newOrder);
     localStorage.setItem('dark_ghostrider_orders', JSON.stringify(orders));
@@ -1064,7 +1195,8 @@ const Store = {
 
       const notifyBtn = document.getElementById('btn-notify-dark');
       if (notifyBtn) {
-        const msg = `🚨 *NOVA COMPRA REGISTRADA NO SITE!*\n\n*ID:* ${orderId}\n*Cliente:* ${name}\n*Total:* ${this.formatPrice(totalEUR, totalBRL)}\n*Destino:* ${city}, ${country}\n\nFavor processar o envio no fornecedor.`;
+        const couponNote = coupon ? `\n*Cupão Aplicado:* ${coupon.code} (-${coupon.discountPct}%)` : '';
+        const msg = `🚨 *NOVA COMPRA REGISTRADA NO SITE!*\n\n*ID:* ${orderId}\n*Cliente:* ${name}\n*Total:* ${this.formatPrice(finalEUR, finalBRL)}${couponNote}\n*Destino:* ${city}, ${country}\n\nFavor processar o envio no fornecedor.`;
         notifyBtn.href = `https://wa.me/${this.whatsappNumber}?text=${encodeURIComponent(msg)}`;
       }
     }

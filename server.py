@@ -21,6 +21,7 @@ DATA_DIR = os.path.join(DIRECTORY, 'data')
 ORDERS_FILE = os.path.join(DATA_DIR, 'orders.json')
 CONFIG_FILE = os.path.join(DATA_DIR, 'config.json')
 PRODUCTS_OVERRIDE_FILE = os.path.join(DATA_DIR, 'products_override.json')
+SUBSCRIBERS_FILE = os.path.join(DATA_DIR, 'subscribers.json')
 
 os.makedirs(DATA_DIR, exist_ok=True)
 BASE_SITE_URL = os.environ.get('BASE_SITE_URL', 'https://www.darkghostrider.com').rstrip('/')
@@ -70,6 +71,57 @@ def save_products_override(data):
     with data_lock:
         with open(PRODUCTS_OVERRIDE_FILE, 'w', encoding='utf-8') as f:
             json.dump(data, f, indent=2, ensure_ascii=False)
+
+def load_subscribers():
+    with data_lock:
+        if os.path.exists(SUBSCRIBERS_FILE):
+            try:
+                with open(SUBSCRIBERS_FILE, 'r', encoding='utf-8') as f:
+                    return json.load(f)
+            except Exception:
+                pass
+    return []
+
+def save_subscribers(subs):
+    with data_lock:
+        with open(SUBSCRIBERS_FILE, 'w', encoding='utf-8') as f:
+            json.dump(subs, f, indent=2, ensure_ascii=False)
+
+def notify_subscriber_telegram(sub):
+    cfg = load_config()
+    token = cfg.get('telegram_token')
+    chat_id = cfg.get('telegram_chat_id')
+    if not token or not chat_id:
+        return
+    email = sub.get('email', '')
+    name = sub.get('name', 'Membro VIP')
+    source = sub.get('source', 'Modal VIP')
+    coupon = sub.get('coupon', 'DARK10')
+    dt = sub.get('createdAt', '')
+    try:
+        from datetime import datetime
+        dt_obj = datetime.fromisoformat(dt.replace('Z', '+00:00'))
+        dt_str = dt_obj.strftime('%d/%m/%Y às %H:%M')
+    except Exception:
+        dt_str = dt
+
+    text = f"""🎯 <b>NOVO MEMBRO NO DARK CLUB VIP!</b>
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+👤 <b>Nome:</b> {name}
+📧 <b>Email:</b> <code>{email}</code>
+🏷️ <b>Cupão Gerado:</b> <code>{coupon}</code> (-10% OFF)
+📍 <b>Origem:</b> {source}
+📅 <b>Data:</b> {dt_str}
+
+<i>💡 Este cliente já recebeu o cupão de 10% e pode finalizar uma compra na loja a qualquer instante!</i>"""
+    markup = {
+        'inline_keyboard': [
+            [
+                {'text': '📧 VER LEADS NO ADMIN', 'url': f'{BASE_SITE_URL}/admin.html'}
+            ]
+        ]
+    }
+    send_telegram_message(token, chat_id, text, markup)
 
 def send_telegram_message(token, chat_id, text, reply_markup=None):
     if not token or not chat_id:
@@ -326,6 +378,36 @@ class StoreHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
             self.wfile.write(json.dumps(overrides, ensure_ascii=False).encode('utf-8'))
             return
 
+        elif path == '/api/subscribers':
+            subs = load_subscribers()
+            self.send_response(200)
+            self.send_header('Content-Type', 'application/json; charset=utf-8')
+            self.end_headers()
+            res = {
+                'total': len(subs),
+                'subscribers': subs
+            }
+            self.wfile.write(json.dumps(res, ensure_ascii=False).encode('utf-8'))
+            return
+
+        elif path == '/api/subscribers/export.csv' or path == '/api/subscribers/export':
+            subs = load_subscribers()
+            self.send_response(200)
+            self.send_header('Content-Type', 'text/csv; charset=utf-8')
+            self.send_header('Content-Disposition', 'attachment; filename="dark_club_subscribers.csv"')
+            self.end_headers()
+            # UTF-8 BOM for Microsoft Excel compatibility
+            csv_lines = ['\ufeffEmail,Nome,Origem,Cupom,Data de Registo']
+            for s in subs:
+                em = s.get('email', '').replace('"', '""')
+                nm = s.get('name', 'Membro VIP').replace('"', '""')
+                src = s.get('source', 'Modal VIP').replace('"', '""')
+                cp = s.get('coupon', 'DARK10').replace('"', '""')
+                dt = s.get('createdAt', '')
+                csv_lines.append(f'"{em}","{nm}","{src}","{cp}","{dt}"')
+            self.wfile.write('\r\n'.join(csv_lines).encode('utf-8'))
+            return
+
         # Serve static files as default
         super().do_GET()
 
@@ -524,6 +606,79 @@ A partir de agora, sempre que um cliente comprar na loja:
                 self.send_header('Content-Type', 'application/json; charset=utf-8')
                 self.end_headers()
                 self.wfile.write(json.dumps({'success': False, 'error': str(res)}, ensure_ascii=False).encode('utf-8'))
+            return
+
+        elif path == '/api/subscribers':
+            email = str(data.get('email', '')).strip().lower()
+            if not email or '@' not in email or '.' not in email:
+                self.send_response(400)
+                self.send_header('Content-Type', 'application/json; charset=utf-8')
+                self.end_headers()
+                self.wfile.write(json.dumps({'success': False, 'error': 'Email inválido. Digite um email válido.'}, ensure_ascii=False).encode('utf-8'))
+                return
+
+            subs = load_subscribers()
+            existing = next((s for s in subs if s.get('email', '').strip().lower() == email), None)
+            
+            if existing:
+                self.send_response(200)
+                self.send_header('Content-Type', 'application/json; charset=utf-8')
+                self.end_headers()
+                self.wfile.write(json.dumps({
+                    'success': True,
+                    'alreadySubscribed': True,
+                    'coupon': existing.get('coupon', 'DARK10'),
+                    'message': 'Este email já está no Dark Club VIP! O teu cupão é DARK10.'
+                }, ensure_ascii=False).encode('utf-8'))
+                return
+
+            import uuid
+            from datetime import datetime
+            new_sub = {
+                'id': str(uuid.uuid4())[:8],
+                'email': email,
+                'name': str(data.get('name', '')).strip() or 'Membro VIP',
+                'source': str(data.get('source', 'Modal VIP')).strip(),
+                'coupon': 'DARK10',
+                'discountPct': 10,
+                'createdAt': datetime.utcnow().isoformat() + 'Z'
+            }
+            subs.insert(0, new_sub)
+            save_subscribers(subs)
+
+            # Telegram notification
+            threading.Thread(target=notify_subscriber_telegram, args=(new_sub,), daemon=True).start()
+
+            self.send_response(201)
+            self.send_header('Content-Type', 'application/json; charset=utf-8')
+            self.end_headers()
+            self.wfile.write(json.dumps({
+                'success': True,
+                'isNew': True,
+                'coupon': 'DARK10',
+                'discountPct': 10,
+                'message': 'Bem-vindo ao Dark Club VIP! Cupão DARK10 ativado com sucesso.'
+            }, ensure_ascii=False).encode('utf-8'))
+            return
+
+        elif path == '/api/subscribers/delete':
+            email = str(data.get('email', '')).strip().lower()
+            subs = load_subscribers()
+            before_len = len(subs)
+            subs = [s for s in subs if s.get('email', '').strip().lower() != email]
+            save_subscribers(subs)
+            self.send_response(200)
+            self.send_header('Content-Type', 'application/json; charset=utf-8')
+            self.end_headers()
+            self.wfile.write(json.dumps({'success': True, 'removed': before_len - len(subs)}, ensure_ascii=False).encode('utf-8'))
+            return
+
+        elif path == '/api/subscribers/clear':
+            save_subscribers([])
+            self.send_response(200)
+            self.send_header('Content-Type', 'application/json; charset=utf-8')
+            self.end_headers()
+            self.wfile.write(json.dumps({'success': True, 'message': 'Lista de subscritores limpa com sucesso.'}, ensure_ascii=False).encode('utf-8'))
             return
 
         self.send_response(404)

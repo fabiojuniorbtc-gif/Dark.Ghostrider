@@ -1,0 +1,11 @@
+[
+  {
+    "id": "38b5e8af",
+    "email": "teste.rider@dark.com",
+    "name": "Piloto Teste",
+    "source": "Modal VIP",
+    "coupon": "DARK10",
+    "discountPct": 10,
+    "createdAt": "2026-10-13T08:52:39.312878Z"
+  }
+]

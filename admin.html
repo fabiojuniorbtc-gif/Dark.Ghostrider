@@ -229,6 +229,9 @@
       <button id="nav-btn-reels" onclick="switchAdminTab('reels')" class="px-5 py-2.5 rounded-xl font-heading font-black text-xs sm:text-sm tracking-wider uppercase transition-all text-gray-400 hover:text-[#f6ff00] hover:bg-yellow-500/10 flex items-center gap-2 cursor-pointer border border-[#f6ff00]/20">
         <span>🎬</span> CENTRAL DE VÍDEOS & STORIES (10 VÍDEOS)
       </button>
+      <button id="nav-btn-leads" onclick="switchAdminTab('leads')" class="px-5 py-2.5 rounded-xl font-heading font-black text-xs sm:text-sm tracking-wider uppercase transition-all text-gray-400 hover:text-emerald-400 hover:bg-emerald-500/10 flex items-center gap-2 cursor-pointer border border-emerald-500/20">
+        <span>📧</span> DARK CLUB VIP & LEADS (<span id="nav-count-leads">0</span>)
+      </button>
     </div>
 
     <!-- ==========================================
@@ -602,6 +605,204 @@
 
     </div>
 
+    <!-- ==========================================
+         VIEW 4: DARK CLUB VIP & LEADS
+         ========================================== -->
+    <div id="admin-view-leads" class="hidden">
+      
+      <!-- Leads Stats Grid -->
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+        <div class="bg-[#12131b] border border-[#242533] rounded-xl p-4">
+          <span class="text-xs text-gray-400 font-sub font-bold block mb-1">TOTAL DE LEADS CAPTURADOS</span>
+          <span id="stat-total-leads" class="font-heading font-black text-2xl text-emerald-400">0</span>
+        </div>
+        <div class="bg-[#12131b] border border-[#242533] rounded-xl p-4">
+          <span class="text-xs text-gray-400 font-sub font-bold block mb-1">CUPÃO PRINCIPAL ATIVO</span>
+          <span class="font-heading font-black text-xl text-[#f6ff00] flex items-center gap-1.5">
+            <span>🏷️</span> DARK10 <span class="text-xs text-gray-400 font-normal">(-10%)</span>
+          </span>
+        </div>
+        <div class="bg-[#12131b] border border-[#242533] rounded-xl p-4">
+          <span class="text-xs text-gray-400 font-sub font-bold block mb-1">CANAL MAIS FORTE</span>
+          <span id="stat-top-source" class="font-heading font-black text-lg text-white">Modal VIP</span>
+        </div>
+        <div class="bg-[#12131b] border border-[#242533] rounded-xl p-4">
+          <span class="text-xs text-gray-400 font-sub font-bold block mb-1">ÚLTIMA INSCRIÇÃO</span>
+          <span id="stat-last-lead-date" class="font-heading font-bold text-sm text-cyan-400 truncate block">A carregar...</span>
+        </div>
+      </div>
+
+      <!-- Action Bar & Search -->
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6 bg-[#11121a] border border-[#242533] p-3 rounded-xl">
+        <div class="relative flex-1 max-w-md">
+          <span class="absolute left-3 top-2.5 text-gray-500 text-sm">🔍</span>
+          <input type="text" id="leads-search-input" oninput="filterSubscribers(this.value)" placeholder="Pesquisar por email, nome ou origem..." class="w-full bg-[#090a0e] text-white text-xs pl-9 pr-4 py-2.5 rounded-lg border border-[#242538] focus:border-emerald-500 outline-none">
+        </div>
+
+        <div class="flex flex-wrap items-center gap-2">
+          <button onclick="exportSubscribersCSV()" class="px-3.5 py-2 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg text-xs font-sub font-bold uppercase tracking-wider transition-colors flex items-center gap-1.5 shadow">
+            <span>📥</span> Exportar CSV (Excel / Mailchimp)
+          </button>
+          <button onclick="loadSubscribersFromServer()" class="px-3 py-2 bg-[#171822] hover:bg-[#242536] border border-[#2e3046] text-gray-300 hover:text-white rounded-lg text-xs font-sub font-bold uppercase transition-colors flex items-center gap-1.5">
+            <span>🔄</span> Atualizar
+          </button>
+          <button onclick="createMockSubscriber()" class="px-3 py-2 bg-[#1f202b] hover:bg-[#2b2d3d] border border-[#34364a] text-gray-300 hover:text-white rounded-lg text-xs font-sub font-bold uppercase transition-colors">
+            + Adicionar Manual
+          </button>
+          <button onclick="clearAllSubscribers()" class="px-3 py-2 bg-[#261014] hover:bg-[#3d1319] border border-red-800/40 text-red-300 hover:text-red-200 rounded-lg text-xs font-sub font-bold uppercase transition-colors" title="Limpar todos os emails de teste">
+            <span>🧹</span> Limpar Lista
+          </button>
+        </div>
+      </div>
+
+      <!-- Subscribers Table -->
+      <div class="bg-[#11121a] border border-[#242533] rounded-2xl overflow-hidden shadow-2xl mb-12">
+        <div class="p-4 border-b border-[#242533] flex items-center justify-between">
+          <div class="flex items-center gap-2">
+            <span class="text-lg">📋</span>
+            <h3 class="font-heading font-black text-sm text-white uppercase tracking-wider">
+              LISTA DE SUBSCRIÇÃO VIP (<span id="table-count-leads">0</span> contactos)
+            </h3>
+          </div>
+          <span class="text-[11px] text-gray-400 font-sub">Notificação automática via Telegram Bot a cada nova captura</span>
+        </div>
+
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-xs font-body">
+            <thead class="bg-[#0b0c10] border-b border-[#242533] text-gray-400 uppercase font-sub font-bold text-[10px] tracking-wider">
+              <tr>
+                <th class="p-3.5">#</th>
+                <th class="p-3.5">Data / Hora</th>
+                <th class="p-3.5">Email do Piloto</th>
+                <th class="p-3.5">Nome / Nick</th>
+                <th class="p-3.5">Origem da Captura</th>
+                <th class="p-3.5">Cupão Concedido</th>
+                <th class="p-3.5 text-right">Ações</th>
+              </tr>
+            </thead>
+            <tbody id="subscribers-table-body" class="divide-y divide-[#1e202c]">
+              <!-- Injected dynamically -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ==========================================
+           EMAIL MARKETING TEMPLATES & CAMPAIGNS
+           ========================================== -->
+      <div class="border-t border-[#1f202b] pt-8">
+        <div class="mb-6">
+          <span class="text-xs font-sub font-bold text-[#f6ff00] uppercase tracking-widest block mb-1">
+            ⚡ AUTOMAÇÃO DE EMAIL & CAMPANHAS MENSAIS
+          </span>
+          <h2 class="font-heading font-black text-2xl text-white uppercase">
+            TEMPLATES DE EMAIL PRONTOS A ENVIAR (1-CLICK COPY)
+          </h2>
+          <p class="text-xs text-gray-400 font-sub mt-1">
+            Usa estes modelos profissionais no teu Mailchimp, Brevo ou Gmail para disparar promoções e novidades para a tua lista de pilotos.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+          <!-- Campaign Card 1: Boas-Vindas VIP -->
+          <div class="bg-[#12131b] border border-[#242533] hover:border-yellow-500/40 rounded-2xl p-5 flex flex-col justify-between transition-all">
+            <div>
+              <div class="flex items-center justify-between gap-2 mb-3">
+                <span class="px-2.5 py-0.5 rounded-full text-[10px] font-sub font-bold bg-[#f6ff00]/10 text-[#f6ff00] border border-[#f6ff00]/30 uppercase">
+                  BOAS-VINDAS & 1ª COMPRA
+                </span>
+                <span class="text-xs text-gray-400 font-mono">Template 01</span>
+              </div>
+              <h4 class="font-heading font-black text-base text-white uppercase mb-1">
+                Boas-Vindas ao Dark Club + Cupão 10%
+              </h4>
+              <p class="text-xs text-gray-400 mb-3">
+                Enviado logo após a inscrição para garantir a primeira compra na loja.
+              </p>
+              <div class="bg-[#0b0c10] border border-[#1e202c] p-3 rounded-xl mb-4 text-[11px] font-mono text-gray-300 space-y-1">
+                <div class="text-gray-500 font-bold">Assunto: ⚡ Bem-vindo à Garagem Dark Ghostrider! Teu cupão de 10% (-10%)</div>
+                <div class="text-gray-400">Cupão: <strong class="text-[#f6ff00]">DARK10</strong></div>
+                <div class="text-gray-400 truncate">Preview: "Boas, piloto! Bem-vindo à irmandade sobre duas rodas..."</div>
+              </div>
+            </div>
+            <div class="flex items-center gap-2 pt-2 border-t border-[#1a1c27]">
+              <button onclick="copyCampaignTemplate('welcome', 'text')" class="flex-1 py-2 bg-[#1b1d28] hover:bg-[#252838] text-white rounded-lg text-xs font-sub font-bold uppercase transition-colors">
+                📋 Copiar Texto
+              </button>
+              <button onclick="copyCampaignTemplate('welcome', 'html')" class="flex-1 py-2 bg-[#f6ff00] hover:bg-[#e6ee00] text-black rounded-lg text-xs font-sub font-black uppercase transition-colors">
+                ⚡ Copiar HTML
+              </button>
+            </div>
+          </div>
+
+          <!-- Campaign Card 2: Promoção Mensal -->
+          <div class="bg-[#12131b] border border-[#242533] hover:border-red-500/40 rounded-2xl p-5 flex flex-col justify-between transition-all">
+            <div>
+              <div class="flex items-center justify-between gap-2 mb-3">
+                <span class="px-2.5 py-0.5 rounded-full text-[10px] font-sub font-bold bg-red-500/10 text-[#ff4d5a] border border-red-500/30 uppercase">
+                  DISPARO MENSAL
+                </span>
+                <span class="text-xs text-gray-400 font-mono">Template 02</span>
+              </div>
+              <h4 class="font-heading font-black text-base text-white uppercase mb-1">
+                Promoção Mensal de Peças & Setup MT-07
+              </h4>
+              <p class="text-xs text-gray-400 mb-3">
+                Disparo no início ou fim de mês com as peças mais quentes e novidades mecânicas.
+              </p>
+              <div class="bg-[#0b0c10] border border-[#1e202c] p-3 rounded-xl mb-4 text-[11px] font-mono text-gray-300 space-y-1">
+                <div class="text-gray-500 font-bold">Assunto: 🔥 O Setup que a tua MT-07 merece este mês (Acessórios Stealth)</div>
+                <div class="text-gray-400">Destaque: Retrovisores E9, Rabeta Curta & Proteção</div>
+                <div class="text-gray-400 truncate">Preview: "Dark Rider, o asfalto não espera. Hora de afinar a tua máquina..."</div>
+              </div>
+            </div>
+            <div class="flex items-center gap-2 pt-2 border-t border-[#1a1c27]">
+              <button onclick="copyCampaignTemplate('monthly', 'text')" class="flex-1 py-2 bg-[#1b1d28] hover:bg-[#252838] text-white rounded-lg text-xs font-sub font-bold uppercase transition-colors">
+                📋 Copiar Texto
+              </button>
+              <button onclick="copyCampaignTemplate('monthly', 'html')" class="flex-1 py-2 bg-[#e61426] hover:bg-[#ff2a3c] text-white rounded-lg text-xs font-sub font-black uppercase transition-colors">
+                ⚡ Copiar HTML
+              </button>
+            </div>
+          </div>
+
+          <!-- Campaign Card 3: Drop de Vestuário -->
+          <div class="bg-[#12131b] border border-[#242533] hover:border-cyan-500/40 rounded-2xl p-5 flex flex-col justify-between transition-all">
+            <div>
+              <div class="flex items-center justify-between gap-2 mb-3">
+                <span class="px-2.5 py-0.5 rounded-full text-[10px] font-sub font-bold bg-cyan-500/10 text-cyan-400 border border-cyan-500/30 uppercase">
+                  LANÇAMENTO / NOVO DROP
+                </span>
+                <span class="text-xs text-gray-400 font-mono">Template 03</span>
+              </div>
+              <h4 class="font-heading font-black text-base text-white uppercase mb-1">
+                Acesso Antecipado: Vestuário Drop Oficial
+              </h4>
+              <p class="text-xs text-gray-400 mb-3">
+                Para avisar sobre novas coleções de hoodies, t-shirts oversized e bonés.
+              </p>
+              <div class="bg-[#0b0c10] border border-[#1e202c] p-3 rounded-xl mb-4 text-[11px] font-mono text-gray-300 space-y-1">
+                <div class="text-gray-500 font-bold">Assunto: 🥷 ACESSO VIP: Drop 01 de Vestuário Oficial Dark Ghostrider</div>
+                <div class="text-gray-400">Destaque: Hoodies 400 GSM & Oversized</div>
+                <div class="text-gray-400 truncate">Preview: "Estilo puro e proteção para os teus rolés diários..."</div>
+              </div>
+            </div>
+            <div class="flex items-center gap-2 pt-2 border-t border-[#1a1c27]">
+              <button onclick="copyCampaignTemplate('drop', 'text')" class="flex-1 py-2 bg-[#1b1d28] hover:bg-[#252838] text-white rounded-lg text-xs font-sub font-bold uppercase transition-colors">
+                📋 Copiar Texto
+              </button>
+              <button onclick="copyCampaignTemplate('drop', 'html')" class="flex-1 py-2 bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white rounded-lg text-xs font-sub font-black uppercase transition-colors">
+                ⚡ Copiar HTML
+              </button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+
   </main>
 
   <script src="assets/js/products.js"></script>
@@ -632,6 +833,7 @@
         if (dashView) dashView.style.display = 'block';
         if (logoutBtn) logoutBtn.style.display = 'flex';
         loadOrdersFromServer();
+        loadSubscribersFromServer();
         fetchTelegramConfig();
       } else {
         if (loginView) loginView.style.display = 'flex';
@@ -811,13 +1013,16 @@
       const ordersView = document.getElementById('admin-view-orders');
       const pricesView = document.getElementById('admin-view-prices');
       const reelsView = document.getElementById('admin-view-reels');
+      const leadsView = document.getElementById('admin-view-leads');
       const btnOrders = document.getElementById('nav-btn-orders');
       const btnPrices = document.getElementById('nav-btn-prices');
       const btnReels = document.getElementById('nav-btn-reels');
+      const btnLeads = document.getElementById('nav-btn-leads');
 
       if (ordersView) ordersView.classList.add('hidden');
       if (pricesView) pricesView.classList.add('hidden');
       if (reelsView) reelsView.classList.add('hidden');
+      if (leadsView) leadsView.classList.add('hidden');
 
       if (btnOrders) {
         btnOrders.className = 'px-5 py-2.5 rounded-xl font-heading font-black text-xs sm:text-sm tracking-wider uppercase transition-all text-gray-400 hover:text-white hover:bg-white/5 flex items-center gap-2 cursor-pointer';
@@ -827,6 +1032,9 @@
       }
       if (btnReels) {
         btnReels.className = 'px-5 py-2.5 rounded-xl font-heading font-black text-xs sm:text-sm tracking-wider uppercase transition-all text-gray-400 hover:text-[#f6ff00] hover:bg-yellow-500/10 flex items-center gap-2 cursor-pointer border border-[#f6ff00]/20';
+      }
+      if (btnLeads) {
+        btnLeads.className = 'px-5 py-2.5 rounded-xl font-heading font-black text-xs sm:text-sm tracking-wider uppercase transition-all text-gray-400 hover:text-emerald-400 hover:bg-emerald-500/10 flex items-center gap-2 cursor-pointer border border-emerald-500/20';
       }
 
       if (tab === 'orders') {
@@ -845,6 +1053,12 @@
         if (btnReels) {
           btnReels.className = 'px-5 py-2.5 rounded-xl font-heading font-black text-xs sm:text-sm tracking-wider uppercase transition-all bg-[#f6ff00] text-black shadow-lg shadow-yellow-950/50 flex items-center gap-2 cursor-pointer border border-[#f6ff00]';
         }
+      } else if (tab === 'leads') {
+        if (leadsView) leadsView.classList.remove('hidden');
+        if (btnLeads) {
+          btnLeads.className = 'px-5 py-2.5 rounded-xl font-heading font-black text-xs sm:text-sm tracking-wider uppercase transition-all bg-emerald-600 text-white shadow-lg shadow-emerald-950/50 flex items-center gap-2 cursor-pointer border border-emerald-500';
+        }
+        loadSubscribersFromServer();
       }
     }
 
@@ -2120,6 +2334,478 @@
       });
 
       vid.addEventListener('click', toggleAdminVideo);
+    }
+
+    // ==========================================
+    // DARK CLUB VIP & SUBSCRIBERS CONTROLLER
+    // ==========================================
+    function escapeHtml(str) {
+      if (!str) return '';
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
+
+    let cachedSubscribers = [];
+
+    async function loadSubscribersFromServer() {
+      try {
+        const resp = await fetch('/api/subscribers');
+        if (resp.ok) {
+          const data = await resp.json();
+          cachedSubscribers = Array.isArray(data) ? data : (data.subscribers || []);
+        } else {
+          cachedSubscribers = [];
+        }
+      } catch (e) {
+        console.warn('Erro ao carregar lista de inscritos:', e);
+        cachedSubscribers = [];
+      }
+
+      updateSubscribersUI(cachedSubscribers);
+    }
+
+    function updateSubscribersUI(list) {
+      const total = list.length;
+      
+      const countNav = document.getElementById('nav-count-leads');
+      if (countNav) countNav.textContent = total;
+
+      const countTable = document.getElementById('table-count-leads');
+      if (countTable) countTable.textContent = total;
+
+      const statTotal = document.getElementById('stat-total-leads');
+      if (statTotal) statTotal.textContent = total;
+
+      // Calculate top channel
+      const sourceCounts = {};
+      list.forEach(s => {
+        const src = s.source || 'Modal VIP';
+        sourceCounts[src] = (sourceCounts[src] || 0) + 1;
+      });
+      let topSource = 'Nenhum lead ainda';
+      let maxCount = 0;
+      for (const [src, cnt] of Object.entries(sourceCounts)) {
+        if (cnt > maxCount) {
+          maxCount = cnt;
+          topSource = src;
+        }
+      }
+      const statSource = document.getElementById('stat-top-source');
+      if (statSource) statSource.textContent = total > 0 ? `${topSource} (${maxCount})` : 'Aguardando';
+
+      // Last lead date
+      const statLast = document.getElementById('stat-last-lead-date');
+      if (statLast) {
+        const lastCreated = total > 0 ? (list[0].createdAt || list[0].created_at) : null;
+        if (lastCreated) {
+          const d = new Date(lastCreated);
+          statLast.textContent = d.toLocaleString('pt-PT', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' });
+        } else {
+          statLast.textContent = 'Sem registos';
+        }
+      }
+
+      renderSubscribersTable(list);
+    }
+
+    function renderSubscribersTable(list) {
+      const tbody = document.getElementById('subscribers-table-body');
+      if (!tbody) return;
+
+      if (!list || list.length === 0) {
+        tbody.innerHTML = `
+          <tr>
+            <td colspan="7" class="text-center py-12 text-gray-500">
+              <div class="text-4xl mb-3">📬</div>
+              <p class="font-sub font-semibold text-base text-gray-300">Nenhum lead capturado ainda</p>
+              <p class="text-xs text-gray-500 mt-1">Os emails capturados através do Modal VIP, Rodapé ou Checkout surgirão aqui automaticamente.</p>
+              <button onclick="createMockSubscriber()" class="mt-4 px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg text-xs font-sub font-bold uppercase transition-colors inline-block cursor-pointer">
+                + Inserir Lead de Teste
+              </button>
+            </td>
+          </tr>
+        `;
+        return;
+      }
+
+      tbody.innerHTML = list.map((sub, idx) => {
+        let dateFormatted = 'N/A';
+        const rawDate = sub.createdAt || sub.created_at;
+        if (rawDate) {
+          try {
+            dateFormatted = new Date(rawDate).toLocaleString('pt-PT', {
+              day: '2-digit', month: '2-digit', year: 'numeric',
+              hour: '2-digit', minute: '2-digit'
+            });
+          } catch (e) {}
+        }
+
+        const sourceColors = {
+          'Modal VIP': 'bg-yellow-500/10 text-[#f6ff00] border-yellow-500/30',
+          'Modal VIP Boas-Vindas': 'bg-yellow-500/10 text-[#f6ff00] border-yellow-500/30',
+          'Rodapé Loja': 'bg-cyan-500/10 text-cyan-400 border-cyan-500/30',
+          'Checkout Loja': 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30',
+          'Manual Admin': 'bg-purple-500/10 text-purple-400 border-purple-500/30'
+        };
+        const badgeClass = sourceColors[sub.source] || 'bg-gray-800 text-gray-300 border-gray-700';
+
+        return `
+          <tr class="hover:bg-white/[0.02] transition-colors">
+            <td class="p-3.5 font-mono text-gray-500 text-[11px]">${list.length - idx}</td>
+            <td class="p-3.5 text-gray-400 font-mono text-[11px] whitespace-nowrap">${dateFormatted}</td>
+            <td class="p-3.5">
+              <div class="flex items-center gap-2">
+                <span class="font-bold text-white text-xs">${escapeHtml(sub.email)}</span>
+                <button onclick="copyToClipboard('${escapeHtml(sub.email)}', 'Email copiado!')" class="text-gray-500 hover:text-white text-xs cursor-pointer" title="Copiar email">
+                  📋
+                </button>
+              </div>
+            </td>
+            <td class="p-3.5">
+              ${sub.name ? `<span class="text-gray-200 font-sub">${escapeHtml(sub.name)}</span>` : `<span class="text-gray-600 italic">Sem nome</span>`}
+            </td>
+            <td class="p-3.5">
+              <span class="px-2 py-0.5 rounded text-[10px] font-sub font-bold border ${badgeClass} uppercase">
+                ${escapeHtml(sub.source || 'Modal VIP')}
+              </span>
+            </td>
+            <td class="p-3.5">
+              <span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-[#13201a] border border-emerald-500/40 text-emerald-300">
+                🏷️ ${escapeHtml(sub.coupon || 'DARK10')} (-10%)
+              </span>
+            </td>
+            <td class="p-3.5 text-right whitespace-nowrap">
+              <div class="flex items-center justify-end gap-2">
+                <a href="mailto:${encodeURIComponent(sub.email)}?subject=${encodeURIComponent('Dark Ghostrider Store - Boas-vindas ao Dark Club')}" class="p-1.5 rounded bg-[#161824] hover:bg-emerald-600/30 border border-[#2b2d42] hover:border-emerald-500 text-gray-300 hover:text-emerald-300 text-xs transition-colors" title="Enviar Email Direto">
+                  ✉️
+                </a>
+                <button onclick="deleteSubscriber('${escapeHtml(sub.email)}')" class="p-1.5 rounded bg-[#261014] hover:bg-red-800/40 border border-red-900/40 text-red-400 hover:text-red-200 text-xs transition-colors cursor-pointer" title="Apagar Lead">
+                  🗑️
+                </button>
+              </div>
+            </td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    function filterSubscribers(query) {
+      query = String(query || '').trim().toLowerCase();
+      if (!query) {
+        renderSubscribersTable(cachedSubscribers);
+        return;
+      }
+      const filtered = cachedSubscribers.filter(s => {
+        return (s.email && s.email.toLowerCase().includes(query)) ||
+               (s.name && s.name.toLowerCase().includes(query)) ||
+               (s.source && s.source.toLowerCase().includes(query));
+      });
+      renderSubscribersTable(filtered);
+    }
+
+    function exportSubscribersCSV() {
+      window.location.href = '/api/subscribers/export.csv';
+    }
+
+    async function deleteSubscriber(email) {
+      if (!confirm(`Tens a certeza que queres eliminar o lead "${email}"?`)) return;
+      try {
+        const resp = await fetch('/api/subscribers/delete', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email })
+        });
+        const data = await resp.json();
+        if (resp.ok && data.success) {
+          loadSubscribersFromServer();
+        } else {
+          alert('Erro ao eliminar lead: ' + (data.error || 'Falha de comunicação.'));
+        }
+      } catch (e) {
+        alert('Erro ao ligar ao servidor.');
+      }
+    }
+
+    async function clearAllSubscribers() {
+      if (!confirm('⚠️ ATENÇÃO: Tens a certeza que queres apagar TODOS os leads de teste da lista?')) return;
+      try {
+        const resp = await fetch('/api/subscribers/clear', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({})
+        });
+        const data = await resp.json();
+        if (resp.ok && data.success) {
+          loadSubscribersFromServer();
+        } else {
+          alert('Erro ao limpar lista.');
+        }
+      } catch (e) {
+        alert('Erro ao ligar ao servidor.');
+      }
+    }
+
+    async function createMockSubscriber() {
+      const email = prompt('Digita o email para registar:');
+      if (!email || !email.includes('@')) return;
+      const name = prompt('Digita o nome (opcional):') || '';
+      try {
+        const resp = await fetch('/api/subscribers', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, name, source: 'Manual Admin', coupon: 'DARK10' })
+        });
+        const data = await resp.json();
+        if (resp.ok && data.success) {
+          alert(`Lead registado com sucesso! Cupão DARK10 atribuído.`);
+          loadSubscribersFromServer();
+        } else {
+          alert('Aviso: ' + (data.message || 'Erro ao registar.'));
+        }
+      } catch (e) {
+        alert('Erro ao ligar ao servidor.');
+      }
+    }
+
+    function copyToClipboard(text, successMsg) {
+      navigator.clipboard.writeText(text).then(() => {
+        alert(successMsg || 'Copiado para a área de transferência!');
+      }).catch(() => {
+        prompt('Copia manualmente o texto abaixo:', text);
+      });
+    }
+
+    // ==========================================
+    // CAMPAIGN TEMPLATES (TEXT & RESPONSIVE HTML)
+    // ==========================================
+    const CAMPAIGN_TEMPLATES = {
+      welcome: {
+        text: `Assunto: ⚡ Bem-vindo à Garagem Dark Ghostrider! Teu cupão de 10% (-10%)
+
+Boas, piloto!
+
+Bem-vindo ao Dark Club VIP da Garagem Dark Ghostrider.
+
+Como prometido, aqui está o teu cupão exclusivo de 10% de desconto para a tua primeira encomenda na loja:
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+🔥 CÓDIGO DO CUPÃO: DARK10
+⚡ DESCONTO: -10% EM TODA A LOJA
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Acede à loja e o cupão será aplicado automaticamente:
+https://darkghostrider.com?cupao=DARK10
+
+O que encontras na Garagem:
+✓ Peças e Estética Stealth da Yamaha MT-07 testadas no asfalto real
+✓ Retrovisores Asa Stealth E9 Homologados
+✓ Vestuário Oficial Drop 01 (Hoodies 400 GSM & Oversized)
+✓ Envios rápidos via CTT Expresso com código de rastreamento
+
+Abraço de duas rodas e boas curvas,
+Dark Ghostrider
+@dark.ghostrider`,
+        html: `<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Bem-vindo ao Dark Club VIP</title>
+</head>
+<body style="margin:0;padding:0;background-color:#07080c;font-family:'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#ffffff;">
+  <table role="presentation" width="100%" border="0" cellspacing="0" cellpadding="0" style="background-color:#07080c;padding:30px 15px;">
+    <tr>
+      <td align="center">
+        <table role="presentation" width="100%" max-width="600" style="max-width:600px;background-color:#0f1017;border:1px solid #232535;border-radius:20px;overflow:hidden;box-shadow:0 20px 40px rgba(0,0,0,0.8);">
+          <tr>
+            <td align="center" style="padding:40px 30px 20px;background:linear-gradient(180deg,#1c1015 0%,#0f1017 100%);border-bottom:1px solid #242535;">
+              <span style="font-size:11px;font-weight:900;letter-spacing:3px;text-transform:uppercase;color:#f6ff00;padding:4px 12px;background:rgba(246,255,0,0.1);border:1px solid rgba(246,255,0,0.3);border-radius:20px;display:inline-block;margin-bottom:15px;">⚡ DARK CLUB VIP</span>
+              <h1 style="margin:0;font-size:26px;font-weight:900;color:#ffffff;letter-spacing:1px;text-transform:uppercase;">BEM-VINDO À GARAGEM</h1>
+              <p style="margin:8px 0 0;font-size:14px;color:#a0a2b3;">O teu passaporte exclusivo para o setup definitivo da MT-07</p>
+            </td>
+          </tr>
+          <tr>
+            <td style="padding:30px 35px;">
+              <p style="margin:0 0 16px;font-size:15px;line-height:1.6;color:#d5d6e0;">Boas, piloto!</p>
+              <p style="margin:0 0 20px;font-size:14px;line-height:1.6;color:#a0a2b3;">
+                Acabaste de entrar na irmandade sobre duas rodas. Como agradecimento por te juntares ao <strong>Dark Club</strong>, tens aqui <strong>10% de desconto imediato</strong> na tua primeira compra:
+              </p>
+              <table role="presentation" width="100%" border="0" cellspacing="0" cellpadding="0" style="margin:25px 0;background-color:#141622;border:2px dashed #f6ff00;border-radius:16px;">
+                <tr>
+                  <td align="center" style="padding:22px 20px;">
+                    <span style="font-size:11px;font-weight:800;letter-spacing:2px;color:#a0a2b3;text-transform:uppercase;display:block;margin-bottom:6px;">CÓDIGO DE CUPÃO EXCLUSIVO</span>
+                    <span style="font-size:32px;font-weight:900;letter-spacing:4px;color:#f6ff00;font-family:monospace;display:block;">DARK10</span>
+                    <span style="font-size:12px;color:#34d399;font-weight:700;margin-top:6px;display:block;">✓ 10% DE DESCONTO EM TODA A LOJA</span>
+                  </td>
+                </tr>
+              </table>
+              <div align="center" style="margin:30px 0 20px;">
+                <a href="https://darkghostrider.com" target="_blank" style="background-color:#e61426;color:#ffffff;padding:15px 35px;border-radius:12px;text-decoration:none;font-weight:900;font-size:14px;letter-spacing:1px;text-transform:uppercase;display:inline-block;box-shadow:0 8px 20px rgba(230,20,38,0.4);">
+                  IR PARA A LOJA & USAR CUPÃO ➜
+                </a>
+              </div>
+              <p style="margin:25px 0 0;font-size:12px;line-height:1.5;color:#7a7c8e;text-align:center;">
+                Envios rápidos via CTT Expresso em 24h-72h • Pagamentos por MB WAY, Multibanco, Cartão e PIX.
+              </p>
+            </td>
+          </tr>
+          <tr>
+            <td align="center" style="padding:25px;background-color:#090a0f;border-top:1px solid #1a1c27;font-size:11px;color:#606272;">
+              © 2026 Dark Ghostrider Store. Peças e vestuário testados no limite.<br>
+              Instagram: <a href="https://instagram.com/dark.ghostrider" style="color:#e61426;text-decoration:none;">@dark.ghostrider</a>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>`
+      },
+      monthly: {
+        text: `Assunto: 🔥 O Setup que a tua MT-07 merece este mês (Acessórios Stealth)
+
+Fala, Dark Rider!
+
+O asfalto não espera e a tua máquina merece estar impecável.
+Separamos a seleção especial deste mês com os acessórios mais requisitados na garagem:
+
+1. Retrovisores Asa Stealth E9 Homologados (Vidro Antirreflexo Azul)
+2. Eliminador de Rabeta Curto em Alumínio CNC
+3. Proteções de Radiador & Sliders de Eixo Anti-Queda
+4. Adesivos 3D Protetores de Tanque Resistentes a Raios UV
+
+🚀 Vantagens deste mês:
+- Envio CTT Expresso em 24h-72h (Portugal Continental)
+- Rastreamento em tempo real do pacote
+- Pagamento simplificado via MB WAY e Multibanco
+
+Confere o catálogo completo atualizado:
+https://darkghostrider.com/catalogo.html
+
+Acelera com cabeça,
+Dark Ghostrider`,
+        html: `<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Promoção Mensal Dark Ghostrider</title>
+</head>
+<body style="margin:0;padding:0;background-color:#07080c;font-family:'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#ffffff;">
+  <table role="presentation" width="100%" border="0" cellspacing="0" cellpadding="0" style="background-color:#07080c;padding:30px 15px;">
+    <tr>
+      <td align="center">
+        <table role="presentation" width="100%" max-width="600" style="max-width:600px;background-color:#0f1017;border:1px solid #232535;border-radius:20px;overflow:hidden;">
+          <tr>
+            <td align="center" style="padding:40px 30px 20px;background:linear-gradient(180deg,#241013 0%,#0f1017 100%);border-bottom:1px solid #242535;">
+              <span style="font-size:11px;font-weight:900;letter-spacing:3px;text-transform:uppercase;color:#ff4d5a;padding:4px 12px;background:rgba(255,77,90,0.1);border:1px solid rgba(255,77,90,0.3);border-radius:20px;display:inline-block;margin-bottom:15px;">🔥 DISPARO MENSAL</span>
+              <h1 style="margin:0;font-size:24px;font-weight:900;color:#ffffff;text-transform:uppercase;">O SETUP DO MÊS PARA A MT-07</h1>
+              <p style="margin:8px 0 0;font-size:13px;color:#a0a2b3;">Peças homologadas, design stealth e entrega rápida</p>
+            </td>
+          </tr>
+          <tr>
+            <td style="padding:30px 35px;">
+              <p style="margin:0 0 16px;font-size:14px;line-height:1.6;color:#d5d6e0;">
+                O tempo bom está a chegar e é hora de afinar a tua máquina. Selecionámos os componentes mais desejados da temporada:
+              </p>
+              <ul style="margin:0 0 25px;padding-left:20px;font-size:13px;line-height:1.9;color:#a0a2b3;">
+                <li><strong style="color:#ffffff;">Retrovisores Asa Stealth E9:</strong> Aerodinâmica pura e visão clara.</li>
+                <li><strong style="color:#ffffff;">Eliminador de Rabeta CNC:</strong> Traseira limpa e agressiva.</li>
+                <li><strong style="color:#ffffff;">Sliders Anti-Queda:</strong> Proteção de bloco de motor e eixos.</li>
+                <li><strong style="color:#ffffff;">Adesivos 3D Resinados:</strong> Proteção de tanque contra arranhões.</li>
+              </ul>
+              <div align="center" style="margin:30px 0 20px;">
+                <a href="https://darkghostrider.com/catalogo.html" target="_blank" style="background-color:#e61426;color:#ffffff;padding:15px 35px;border-radius:12px;text-decoration:none;font-weight:900;font-size:14px;letter-spacing:1px;text-transform:uppercase;display:inline-block;">
+                  VER CATÁLOGO COMPLETO ➜
+                </a>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td align="center" style="padding:25px;background-color:#090a0f;border-top:1px solid #1a1c27;font-size:11px;color:#606272;">
+              © 2026 Dark Ghostrider Store • <a href="https://instagram.com/dark.ghostrider" style="color:#e61426;text-decoration:none;">@dark.ghostrider</a>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>`
+      },
+      drop: {
+        text: `Assunto: 🥷 ACESSO VIP: Drop 01 de Vestuário Oficial Dark Ghostrider
+
+Atenção, comunidade Dark Rider!
+
+O primeiro Drop Oficial de Vestuário Dark Ghostrider está disponível com acesso prioritário para inscritos VIP.
+
+Destaques do Drop 01:
+- Hoodie Heavyweight 400 GSM Algodão Penteado (Corte Streetwear & Quente)
+- T-Shirt Oversized Boxy Fit 240 GSM (Estampa Stealth em Alta Definição)
+- T-Shirt Classic Biker 100% Algodão
+- Boné Curvo Premium com Bordado 3D Dark Ghostrider
+- Balaclava Corta-Vento Térmica para Capacete
+
+⚠️ Peças de tiragem limitada do XS ao 4XL.
+
+Garante o teu tamanho antes que esgote:
+https://darkghostrider.com/vestuario.html
+
+Nos vemos na estrada,
+Dark Ghostrider`,
+        html: `<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Drop Oficial Dark Ghostrider</title>
+</head>
+<body style="margin:0;padding:0;background-color:#07080c;font-family:'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#ffffff;">
+  <table role="presentation" width="100%" border="0" cellspacing="0" cellpadding="0" style="background-color:#07080c;padding:30px 15px;">
+    <tr>
+      <td align="center">
+        <table role="presentation" width="100%" max-width="600" style="max-width:600px;background-color:#0f1017;border:1px solid #232535;border-radius:20px;overflow:hidden;">
+          <tr>
+            <td align="center" style="padding:40px 30px 20px;background:linear-gradient(180deg,#0a1b24 0%,#0f1017 100%);border-bottom:1px solid #242535;">
+              <span style="font-size:11px;font-weight:900;letter-spacing:3px;text-transform:uppercase;color:#22d3ee;padding:4px 12px;background:rgba(34,211,238,0.1);border:1px solid rgba(34,211,238,0.3);border-radius:20px;display:inline-block;margin-bottom:15px;">🥷 NOVO DROP 01</span>
+              <h1 style="margin:0;font-size:24px;font-weight:900;color:#ffffff;text-transform:uppercase;">VESTUÁRIO OFICIAL DISPONÍVEL</h1>
+              <p style="margin:8px 0 0;font-size:13px;color:#a0a2b3;">Algodão Heavyweight 400 GSM & Modelagem Streetwear</p>
+            </td>
+          </tr>
+          <tr>
+            <td style="padding:30px 35px;">
+              <p style="margin:0 0 16px;font-size:14px;line-height:1.6;color:#d5d6e0;">
+                O Drop 01 foi desenhado para quem vive sobre duas rodas e não abre mão de estética, conforto e resistência ao vento.
+              </p>
+              <div align="center" style="margin:30px 0 20px;">
+                <a href="https://darkghostrider.com/vestuario.html" target="_blank" style="background-color:#0891b2;color:#ffffff;padding:15px 35px;border-radius:12px;text-decoration:none;font-weight:900;font-size:14px;letter-spacing:1px;text-transform:uppercase;display:inline-block;">
+                  GARANTIR O MEU TAMANHO ➜
+                </a>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td align="center" style="padding:25px;background-color:#090a0f;border-top:1px solid #1a1c27;font-size:11px;color:#606272;">
+              © 2026 Dark Ghostrider Store • <a href="https://instagram.com/dark.ghostrider" style="color:#22d3ee;text-decoration:none;">@dark.ghostrider</a>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>`
+      }
+    };
+
+    function copyCampaignTemplate(campKey, format) {
+      const camp = CAMPAIGN_TEMPLATES[campKey];
+      if (!camp) return;
+      const content = format === 'html' ? camp.html : camp.text;
+      copyToClipboard(content, `✓ Template ${format.toUpperCase()} da campanha copiado com sucesso!`);
     }
 
     document.addEventListener('DOMContentLoaded', () => {

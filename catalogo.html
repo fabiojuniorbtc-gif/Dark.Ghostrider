@@ -411,18 +411,18 @@
   <footer class="bg-[#050608] border-t border-[#1a1b24] py-12 text-sm text-gray-400">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       
-      <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
-        <div class="md:col-span-2">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
+        <div>
           <div class="flex items-center gap-3 mb-4">
             <img src="assets/images/logo.jpg" alt="Logo" class="w-10 h-10 rounded border border-[#e61426]/40 object-cover">
             <span class="font-heading font-black text-xl text-white tracking-widest">
               DARK <span class="text-[#e61426]">GHOSTRIDER</span>
             </span>
           </div>
-          <p class="text-gray-400 font-body text-xs sm:text-sm max-w-sm mb-4 leading-relaxed">
+          <p class="text-gray-400 font-body text-xs mb-4 leading-relaxed">
             A estética dark rider e o setup definitivo da Yamaha MT-07. Peças selecionadas, homologadas e testadas pelo piloto.
           </p>
-          <div class="flex items-center gap-3">
+          <div class="flex items-center gap-2">
             <a href="https://instagram.com/dark.ghostrider" target="_blank" rel="noopener noreferrer" class="p-2 bg-[#12131a] hover:bg-[#1c1d29] border border-[#242533] rounded text-white transition-colors text-xs font-sub font-bold flex items-center gap-1.5">
               <span>📸 Instagram:</span> @dark.ghostrider
             </a>
@@ -432,11 +432,11 @@
         <div>
           <h4 class="font-sub font-bold text-white uppercase tracking-wider mb-3">Links Rápidos</h4>
           <ul class="space-y-2 text-xs font-sub">
-            <li><a href="#quem-e-o-dark" class="text-[#ff4d5a] hover:text-white transition-colors font-bold">★ Quem é o Dark?</a></li>
-            <li><a href="#catalogo" class="hover:text-white transition-colors">Todos os Acessórios</a></li>
-            <li><a href="#destaque-retrovisor" class="hover:text-white transition-colors">Retrovisores E9 Stealth</a></li>
+            <li><a href="index.html" class="hover:text-white transition-colors">Página Inicial</a></li>
+            <li><a href="vestuario.html" class="hover:text-white transition-colors">Vestuário Oficial (Drop 01)</a></li>
             <li><a href="raiox.html" class="hover:text-white transition-colors">Raio-X da MT-07</a></li>
             <li><a href="rastreio.html" class="text-cyan-400 hover:text-cyan-300 transition-colors">Rastreamento de Encomendas</a></li>
+            <li><button type="button" data-open-dark-club class="text-[#f6ff00] hover:text-white transition-colors text-left font-bold flex items-center gap-1"><span>⚡</span> Ganhar 10% OFF (Dark Club)</button></li>
             <li><a href="admin.html" class="text-gray-500 hover:text-gray-300 transition-colors flex items-center gap-1"><span>🔒</span> Painel de Pedidos (Admin)</a></li>
           </ul>
         </div>
@@ -448,6 +448,24 @@
             <p>🇧🇷 <strong>Brasil:</strong> PIX Instantâneo e Cartões de Crédito.</p>
             <p>💬 <strong>WhatsApp:</strong> Pedido direto com o Dark Ghostrider.</p>
           </div>
+        </div>
+
+        <!-- DARK CLUB VIP NEWSLETTER LEAD CAPTURE -->
+        <div class="bg-[#0e0f17] border border-yellow-500/20 p-4 rounded-2xl relative overflow-hidden">
+          <div class="flex items-center gap-1.5 mb-2">
+            <span class="text-xs font-heading font-black text-[#f6ff00] uppercase tracking-wider">⚡ DARK CLUB VIP</span>
+            <span class="text-[9px] bg-yellow-500/10 text-yellow-300 px-1.5 py-0.5 rounded font-bold uppercase">-10% OFF</span>
+          </div>
+          <p class="text-[11px] text-gray-300 mb-3 leading-relaxed">
+            Recebe <strong>10% de desconto imediato</strong> no carrinho e acesso antecipado a novos drops e promoções mensais.
+          </p>
+          <form id="footer-newsletter-form" class="space-y-2">
+            <input type="email" required placeholder="O teu email..." class="w-full bg-[#151622] text-white text-xs px-3 py-2 rounded-lg border border-[#2b2d42] focus:border-[#f6ff00] outline-none">
+            <button type="submit" class="w-full py-2 bg-[#f6ff00] hover:bg-[#e6ee00] text-black font-heading font-black text-xs uppercase rounded-lg transition-transform hover:scale-[1.02] cursor-pointer">
+              Ativar 10% de Desconto
+            </button>
+          </form>
+          <span class="text-[9px] text-gray-500 block mt-2 text-center">Zero spam. Desconto ativado na hora.</span>
         </div>
       </div>
 
@@ -492,8 +510,18 @@
 
     <!-- Footer with Subtotal & Actions -->
     <div class="p-4 bg-[#11121a] border-t border-[#242533] space-y-3">
+      <!-- Cupão Dark Club VIP -->
+      <div id="cart-coupon-box" class="pt-1">
+        <!-- Injected dynamically by Store.updateCartUI() -->
+      </div>
+
+      <div id="cart-discount-row" class="hidden items-center justify-between text-xs font-sub font-bold text-emerald-400 bg-emerald-950/30 p-2 rounded-lg border border-emerald-500/20">
+        <span class="flex items-center gap-1.5"><span>⚡</span> DESCONTO DARK CLUB (10%):</span>
+        <span id="cart-discount-val" class="font-mono font-black">- 0,00 €</span>
+      </div>
+
       <div class="flex items-center justify-between text-base font-sub font-bold text-gray-300">
-        <span>SUBTOTAL:</span>
+        <span>TOTAL:</span>
         <span id="cart-subtotal" class="font-heading font-black text-xl text-white">0,00 €</span>
       </div>
 
@@ -621,8 +649,12 @@
           </div>
 
           <!-- Total & Submit -->
-          <div class="pt-4 flex items-center justify-between">
+          <div class="pt-4 border-t border-[#242533] flex items-center justify-between">
             <div>
+              <div id="checkout-discount-row" class="hidden items-center gap-1.5 text-xs font-sub text-emerald-400 mb-1">
+                <span>⚡ DESCONTO:</span>
+                <span id="checkout-discount-val" class="font-mono font-bold">- 0,00 €</span>
+              </div>
               <span class="text-xs text-gray-400 block font-sub">TOTAL DA ENCOMENDA:</span>
               <span id="checkout-modal-total" class="font-heading font-black text-2xl text-white">0,00 €</span>
             </div>
@@ -712,6 +744,7 @@
   <script src="assets/js/products.js"></script>
   <script src="assets/js/smoke.js"></script>
   <script src="assets/js/tracking.js"></script>
+  <script src="assets/js/dark-club.js"></script>
   <script src="assets/js/app.js"></script>
   <!-- ==========================================
        STICKY FLOATING SOCIAL MEDIA DOCK (LATERAL DIREITA)
