@@ -98,18 +98,18 @@ const PRODUCTS = [
   },
   {
     "id": "tshirt-oversized-dark-ghostrider",
-    "name": "T-Shirt Streetwear Oversized Boxy Dark Ghostrider (Estampa A3)",
+    "name": "T-Shirt Streetwear Oversized Boxy Street Division (Estampa A3)",
     "category": "wear",
     "priceEUR": 39.9,
     "compareAtEUR": 49.9,
     "priceBRL": 249.0,
     "compareAtBRL": 320.0,
-    "badge": "STREETWEAR OVERSIZED A3",
+    "badge": "STREET DIVISION A3",
     "isDarkChoice": true,
     "rating": 5.0,
     "reviewsCount": 36,
     "image": "assets/images/apparel/tshirt_oversized_preto.jpg",
-    "description": "T-shirt com corte largo contemporâneo Oversized Boxy Fit, ombros caídos e gola canelada de alta densidade. Confeccionada em algodão pesado estruturado. Estampa DTF em grande formato A3 nas costas com acabamento fosco ultra-resistente a lavagens e emblema de peito de alta precisão. A peça definitiva para encontros de motos e estilo urbano marcante.",
+    "description": "T-shirt com corte largo contemporâneo Oversized Boxy Fit, ombros caídos e gola canelada de alta densidade. Confeccionada em algodão pesado estruturado. Estampa oficial Street Division em grande formato A3 nas costas com acabamento fosco ultra-resistente a lavagens e emblema circular de peito. A peça definitiva para encontros de motos e estilo urbano marcante.",
     "options": [
       {
         "name": "Cor",
@@ -162,26 +162,26 @@ const PRODUCTS = [
     "packs": [
       {
         "id": "pack-oversized-hoodie",
-        "title": "Pack Streetwear Pro: Leve a T-Shirt Oversized + Sweatshirt com 20% EXTRA de desconto",
+        "title": "Pack Streetwear Pro: Leve a T-Shirt Oversized Street Division + Sweatshirt com 20% EXTRA",
         "savingsEUR": 20.00,
         "bundlePriceEUR": 79.80,
         "originalPriceEUR": 99.80,
         "discountPct": 20,
         "items": [
-          { "id": "tshirt-oversized-dark-ghostrider", "name": "T-Shirt Oversized Boxy", "image": "assets/images/apparel/tshirt_preto_front.jpg", "priceEUR": 39.90 },
+          { "id": "tshirt-oversized-dark-ghostrider", "name": "T-Shirt Oversized Street Division", "image": "assets/images/apparel/tshirt_preto_front.jpg", "priceEUR": 39.90 },
           { "id": "hoodie-dark-ghostrider-oficial", "name": "Sweatshirt com Capuz Oficial", "image": "assets/images/apparel/hoodie_preto_front.jpg", "priceEUR": 59.90 }
         ]
       },
       {
         "id": "pack-oversized-classic",
-        "title": "Pack Duplo T-Shirts: Leve a Oversized + Classic Bio190 (-15% EXTRA)",
+        "title": "Pack Duplo T-Shirts Street Division: Oversized + Classic Bio190 (-15% EXTRA)",
         "savingsEUR": 10.50,
         "bundlePriceEUR": 59.30,
         "originalPriceEUR": 69.80,
         "discountPct": 15,
         "items": [
-          { "id": "tshirt-oversized-dark-ghostrider", "name": "T-Shirt Oversized Boxy", "image": "assets/images/apparel/tshirt_preto_front.jpg", "priceEUR": 39.90 },
-          { "id": "tshirt-classic-bio190-dark-ghostrider", "name": "T-Shirt Classic Bio190", "image": "assets/images/apparel/tshirt_preto_front.jpg", "priceEUR": 29.90 }
+          { "id": "tshirt-oversized-dark-ghostrider", "name": "T-Shirt Oversized Street Division", "image": "assets/images/apparel/tshirt_preto_front.jpg", "priceEUR": 39.90 },
+          { "id": "tshirt-classic-bio190-dark-ghostrider", "name": "T-Shirt Classic Bio190 Street Division", "image": "assets/images/apparel/tshirt_preto_front.jpg", "priceEUR": 29.90 }
         ]
       }
     ],
@@ -194,18 +194,18 @@ const PRODUCTS = [
   },
   {
     "id": "tshirt-classic-bio190-dark-ghostrider",
-    "name": "T-Shirt Classic Rider Bio190 IC 100% Algodão Orgânico (Estampa A3)",
+    "name": "T-Shirt Classic Rider Bio190 IC Street Division (Estampa A3)",
     "category": "wear",
     "priceEUR": 29.9,
     "compareAtEUR": 39.9,
     "priceBRL": 189.0,
     "compareAtBRL": 249.0,
-    "badge": "100% ALGODÃO ORGÂNICO A3",
+    "badge": "STREET DIVISION • 100% ALGODÃO ORGÂNICO",
     "isDarkChoice": true,
     "rating": 4.9,
     "reviewsCount": 52,
     "image": "assets/images/apparel/tshirt_classic_preto.jpg",
-    "description": "A camisola essencial para pilotos. Confeccionada no conceituado modelo Kariban Bio190 IC (185-190 g/m²) em 100% algodão biológico certificado. Modelo sem etiqueta de marca no pescoço ('No Label'), corte clássico tubular confortável perfeito para vestir sob o blusão de mota. Conta com mega estampa A3 nas costas e emblema no peito com cores de alto contraste.",
+    "description": "A camisola essencial para pilotos na nova edição oficial Street Division. Confeccionada no conceituado modelo Kariban Bio190 IC (185-190 g/m²) em 100% algodão biológico certificado. Modelo sem etiqueta de marca no pescoço ('No Label'), corte clássico tubular confortável perfeito para vestir sob o blusão de mota. Conta com mega estampa Skull Street Division em formato A3 nas costas e emblema circular no peito.",
     "options": [
       {
         "name": "Cor",

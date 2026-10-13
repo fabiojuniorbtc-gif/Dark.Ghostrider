@@ -232,6 +232,9 @@
       <button id="nav-btn-leads" onclick="switchAdminTab('leads')" class="px-5 py-2.5 rounded-xl font-heading font-black text-xs sm:text-sm tracking-wider uppercase transition-all text-gray-400 hover:text-emerald-400 hover:bg-emerald-500/10 flex items-center gap-2 cursor-pointer border border-emerald-500/20">
         <span>📧</span> DARK CLUB VIP & LEADS (<span id="nav-count-leads">0</span>)
       </button>
+      <button id="nav-btn-print" onclick="switchAdminTab('print')" class="px-5 py-2.5 rounded-xl font-heading font-black text-xs sm:text-sm tracking-wider uppercase transition-all text-gray-400 hover:text-cyan-400 hover:bg-cyan-500/10 flex items-center gap-2 cursor-pointer border border-cyan-500/20">
+        <span>👕</span> ESTAMPARIA (300 DPI)
+      </button>
     </div>
 
     <!-- ==========================================
@@ -803,7 +806,293 @@
 
     </div>
 
-  </main>
+    <!-- ==========================================
+         VIEW 5: PACOTE DE PRODUÇÃO & ESTAMPARIA (300 DPI)
+         ========================================== -->
+    <div id="admin-view-print" class="hidden">
+      <!-- Hero Package Download Header Card -->
+      <div class="bg-gradient-to-r from-[#0d1624] via-[#0b1b24] to-[#08121a] border border-cyan-500/40 rounded-2xl p-6 sm:p-8 mb-8 shadow-2xl relative overflow-hidden">
+        <div class="absolute -top-24 -right-24 w-72 h-72 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none"></div>
+        <div class="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+          <div>
+            <div class="flex items-center gap-2 mb-2">
+              <span class="px-2.5 py-1 rounded bg-cyan-500/20 text-cyan-400 font-sub font-black text-[10px] uppercase tracking-wider border border-cyan-500/40">
+                ⭐ RESOLUÇÃO MESTRE DE IMPRESSÃO
+              </span>
+              <span class="px-2.5 py-1 rounded bg-yellow-500/20 text-[#ffe600] font-sub font-black text-[10px] uppercase tracking-wider border border-yellow-500/40">
+                100% TRANSPARENTE RGBA (300 DPI)
+              </span>
+            </div>
+            <h2 class="font-heading font-black text-2xl sm:text-3xl text-white tracking-wide uppercase">
+              FICHEIROS DE PRODUÇÃO PARA ESTAMPARIA
+            </h2>
+            <p class="text-xs sm:text-sm text-gray-300 font-body max-w-2xl mt-1 leading-relaxed">
+              Logos e estampas nas medidas oficiais exatas de corte e impressão têxtil. Pronto para enviar por e-mail ou WhatsApp à estamparia para produção em <strong class="text-cyan-400">DTF (Direct to Film)</strong> ou <strong class="text-[#ffe600]">Serigrafia / Silk-Screen</strong>.
+            </p>
+          </div>
+
+          <div class="flex flex-wrap sm:flex-nowrap items-center gap-3">
+            <a href="assets/images/apparel/producao_estamparia/PACOTE_COMPLETO_ESTAMPARIA_300DPI.zip" download="PACOTE_COMPLETO_ESTAMPARIA_300DPI.zip" class="px-5 py-3.5 bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-sub font-black text-xs sm:text-sm uppercase tracking-wider rounded-xl transition-all shadow-xl shadow-cyan-950/60 flex items-center gap-2.5 hover:scale-[1.02] cursor-pointer">
+              <span>📦</span>
+              <span>Descarregar Pacote Completo ZIP (9.4 MB)</span>
+            </a>
+            <a href="assets/images/apparel/producao_estamparia/GUIA_TECNICO_PRODUCAO_ESTAMPARIA.txt" download="GUIA_TECNICO_PRODUCAO_ESTAMPARIA.txt" class="px-4 py-3.5 bg-[#141724] hover:bg-[#1d2235] border border-cyan-500/30 text-cyan-300 hover:text-white font-sub font-bold text-xs uppercase tracking-wider rounded-xl transition-all flex items-center gap-2">
+              <span>📄</span>
+              <span>Ficha Técnica TXT</span>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Specs Quick Badges -->
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+        <div class="bg-[#12131b] border border-[#242533] rounded-xl p-4">
+          <span class="text-xs text-gray-400 font-sub font-bold block mb-1">DENSIDADE / RESOLUÇÃO</span>
+          <span class="font-heading font-black text-2xl text-cyan-400">300 DPI</span>
+          <span class="text-[10px] text-gray-500 block mt-0.5">Padrão gráfico internacional</span>
+        </div>
+        <div class="bg-[#12131b] border border-[#242533] rounded-xl p-4">
+          <span class="text-xs text-gray-400 font-sub font-bold block mb-1">CANAL DE COR / FUNDO</span>
+          <span class="font-heading font-black text-xl text-emerald-400">RGBA Transparente</span>
+          <span class="text-[10px] text-gray-500 block mt-0.5">Sem caixas nem ruído de fundo</span>
+        </div>
+        <div class="bg-[#12131b] border border-[#242533] rounded-xl p-4">
+          <span class="text-xs text-gray-400 font-sub font-bold block mb-1">TAMANHO PEITO (BOLSO)</span>
+          <span class="font-heading font-black text-2xl text-[#ffe600]">10 x 10 CM</span>
+          <span class="text-[10px] text-gray-500 block mt-0.5">1181 x 1181 px @ 300 DPI</span>
+        </div>
+        <div class="bg-[#12131b] border border-[#242533] rounded-xl p-4">
+          <span class="text-xs text-gray-400 font-sub font-bold block mb-1">TAMANHO COSTAS (MEGA A3)</span>
+          <span class="font-heading font-black text-2xl text-[#ff4d5a]">30 x 42 CM (A3)</span>
+          <span class="text-[10px] text-gray-500 block mt-0.5">3508 x 4960 px @ 300 DPI</span>
+        </div>
+      </div>
+
+      <!-- Production Files Grid (6 Items) -->
+      <h3 class="font-heading font-black text-lg text-white uppercase tracking-wider mb-4 flex items-center gap-2">
+        <span>🎨</span> Ficheiros Individuais Prontos Para Impressão
+      </h3>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-10">
+        
+        <!-- File 1: Peito Emblema 10x10 cm -->
+        <div class="bg-[#10111a] border border-[#26283b] hover:border-cyan-500/60 rounded-2xl p-5 flex flex-col justify-between transition-all group shadow-xl">
+          <div>
+            <div class="relative aspect-square rounded-xl overflow-hidden bg-[radial-gradient(#1f2233_1px,transparent_1px)] [background-size:12px_12px] bg-[#090a0f] mb-4 border border-[#1f202e] flex items-center justify-center p-4">
+              <img src="assets/images/apparel/producao_estamparia/01_PEITO_EMBLEMA_10x10cm_300DPI_TRANSPARENTE.png" alt="Emblema Peito" class="max-h-full max-w-full object-contain filter drop-shadow-[0_0_8px_rgba(255,255,255,0.2)]">
+              <span class="absolute top-3 left-3 bg-cyan-600 text-white text-[10px] font-sub font-black px-2 py-0.5 rounded uppercase">
+                PEITO 10x10 CM
+              </span>
+              <span class="absolute bottom-3 right-3 bg-black/85 text-gray-300 text-[10px] font-mono px-2 py-0.5 rounded border border-white/10">
+                1181x1181 px
+              </span>
+            </div>
+            <h4 class="font-heading font-black text-base text-white group-hover:text-cyan-400 transition-colors uppercase leading-snug mb-1">
+              01. Emblema Oficial Peito (10x10 cm)
+            </h4>
+            <p class="text-xs text-gray-400 font-body mb-3">
+              Logo Dark Ghostrider com capacete e tipografia circular. Aplicação no peito esquerdo para t-shirts pretas e amarelas.
+            </p>
+            <div class="flex flex-wrap gap-1.5 text-[10px] font-mono mb-4 text-gray-400">
+              <span class="px-2 py-0.5 rounded bg-[#171824] border border-gray-700">300 DPI</span>
+              <span class="px-2 py-0.5 rounded bg-[#171824] border border-gray-700">Transparente</span>
+              <span class="px-2 py-0.5 rounded bg-[#171824] border border-gray-700">2.1 MB PNG</span>
+            </div>
+          </div>
+          <a href="assets/images/apparel/producao_estamparia/01_PEITO_EMBLEMA_10x10cm_300DPI_TRANSPARENTE.png" download="01_PEITO_EMBLEMA_10x10cm_300DPI_TRANSPARENTE.png" class="w-full py-2.5 bg-cyan-600 hover:bg-cyan-500 text-white font-sub font-bold text-xs uppercase tracking-wider rounded-lg transition-all flex items-center justify-center gap-2 shadow">
+            <span>⬇️</span> Descarregar PNG
+          </a>
+        </div>
+
+        <!-- File 2: Costas Street Division Preto A3 -->
+        <div class="bg-[#10111a] border border-[#26283b] hover:border-yellow-500/60 rounded-2xl p-5 flex flex-col justify-between transition-all group shadow-xl">
+          <div>
+            <div class="relative aspect-square rounded-xl overflow-hidden bg-[radial-gradient(#1f2233_1px,transparent_1px)] [background-size:12px_12px] bg-[#090a0f] mb-4 border border-[#1f202e] flex items-center justify-center p-4">
+              <img src="assets/images/apparel/producao_estamparia/02_COSTAS_STREET_DIVISION_PRETO_A3_300DPI.png" alt="Costas Street Division Preto" class="max-h-full max-w-full object-contain filter drop-shadow-[0_0_8px_rgba(255,255,255,0.15)]">
+              <span class="absolute top-3 left-3 bg-[#ffe600] text-black text-[10px] font-sub font-black px-2 py-0.5 rounded uppercase">
+                COSTAS A3 • TECIDO PRETO
+              </span>
+              <span class="absolute bottom-3 right-3 bg-black/85 text-gray-300 text-[10px] font-mono px-2 py-0.5 rounded border border-white/10">
+                3508x4960 px
+              </span>
+            </div>
+            <h4 class="font-heading font-black text-base text-white group-hover:text-[#ffe600] transition-colors uppercase leading-snug mb-1">
+              02. Costas Street Division (T-Shirt Preta)
+            </h4>
+            <p class="text-xs text-gray-400 font-body mb-3">
+              Estampa master completa com caveira motoqueira, lettering "DARK GHOSTRIDER" e "STREET DIVISION" em branco e amarelo fluo.
+            </p>
+            <div class="flex flex-wrap gap-1.5 text-[10px] font-mono mb-4 text-gray-400">
+              <span class="px-2 py-0.5 rounded bg-[#171824] border border-gray-700">300 DPI</span>
+              <span class="px-2 py-0.5 rounded bg-[#171824] border border-gray-700">A3 (30x42 cm)</span>
+              <span class="px-2 py-0.5 rounded bg-[#171824] border border-gray-700">14.2 MB PNG</span>
+            </div>
+          </div>
+          <a href="assets/images/apparel/producao_estamparia/02_COSTAS_STREET_DIVISION_PRETO_A3_300DPI.png" download="02_COSTAS_STREET_DIVISION_PRETO_A3_300DPI.png" class="w-full py-2.5 bg-[#e61426] hover:bg-[#ff2a3c] text-white font-sub font-bold text-xs uppercase tracking-wider rounded-lg transition-all flex items-center justify-center gap-2 shadow">
+            <span>⬇️</span> Descarregar PNG
+          </a>
+        </div>
+
+        <!-- File 3: Costas Street Division Amarelo A3 -->
+        <div class="bg-[#10111a] border border-[#26283b] hover:border-yellow-400/60 rounded-2xl p-5 flex flex-col justify-between transition-all group shadow-xl">
+          <div>
+            <div class="relative aspect-square rounded-xl overflow-hidden bg-[radial-gradient(#1f2233_1px,transparent_1px)] [background-size:12px_12px] bg-[#090a0f] mb-4 border border-[#1f202e] flex items-center justify-center p-4">
+              <img src="assets/images/apparel/producao_estamparia/03_COSTAS_STREET_DIVISION_AMARELO_A3_300DPI.png" alt="Costas Street Division Amarelo" class="max-h-full max-w-full object-contain filter drop-shadow-[0_0_8px_rgba(255,255,255,0.25)]">
+              <span class="absolute top-3 left-3 bg-yellow-400 text-black text-[10px] font-sub font-black px-2 py-0.5 rounded uppercase">
+                COSTAS A3 • TECIDO AMARELO
+              </span>
+              <span class="absolute bottom-3 right-3 bg-black/85 text-gray-300 text-[10px] font-mono px-2 py-0.5 rounded border border-white/10">
+                3508x4960 px
+              </span>
+            </div>
+            <h4 class="font-heading font-black text-base text-white group-hover:text-yellow-400 transition-colors uppercase leading-snug mb-1">
+              03. Costas Street Division (T-Shirt Amarela)
+            </h4>
+            <p class="text-xs text-gray-400 font-body mb-3">
+              Versão calibrada para fundo amarelo fluorescente, com contorno preto 2px e máscara de contraste nos textos e detalhes do capacete.
+            </p>
+            <div class="flex flex-wrap gap-1.5 text-[10px] font-mono mb-4 text-gray-400">
+              <span class="px-2 py-0.5 rounded bg-[#171824] border border-gray-700">300 DPI</span>
+              <span class="px-2 py-0.5 rounded bg-[#171824] border border-gray-700">Contorno Preto</span>
+              <span class="px-2 py-0.5 rounded bg-[#171824] border border-gray-700">8.4 MB PNG</span>
+            </div>
+          </div>
+          <a href="assets/images/apparel/producao_estamparia/03_COSTAS_STREET_DIVISION_AMARELO_A3_300DPI.png" download="03_COSTAS_STREET_DIVISION_AMARELO_A3_300DPI.png" class="w-full py-2.5 bg-yellow-500 hover:bg-yellow-400 text-black font-sub font-black text-xs uppercase tracking-wider rounded-lg transition-all flex items-center justify-center gap-2 shadow">
+            <span>⬇️</span> Descarregar PNG
+          </a>
+        </div>
+
+        <!-- File 4: Costas Veículos Lentos Preto A3 -->
+        <div class="bg-[#10111a] border border-[#26283b] hover:border-gray-400/60 rounded-2xl p-5 flex flex-col justify-between transition-all group shadow-xl">
+          <div>
+            <div class="relative aspect-square rounded-xl overflow-hidden bg-[radial-gradient(#1f2233_1px,transparent_1px)] [background-size:12px_12px] bg-[#090a0f] mb-4 border border-[#1f202e] flex items-center justify-center p-4">
+              <img src="assets/images/apparel/producao_estamparia/04_COSTAS_VEICULOS_LENTOS_PRETO_A3_300DPI.png" alt="Veículos Lentos Preto" class="max-h-full max-w-full object-contain filter drop-shadow-[0_0_8px_rgba(255,255,255,0.2)]">
+              <span class="absolute top-3 left-3 bg-gray-200 text-black text-[10px] font-sub font-black px-2 py-0.5 rounded uppercase">
+                EDIÇÃO MINIMALISTA • PRETO
+              </span>
+              <span class="absolute bottom-3 right-3 bg-black/85 text-gray-300 text-[10px] font-mono px-2 py-0.5 rounded border border-white/10">
+                3508x4960 px
+              </span>
+            </div>
+            <h4 class="font-heading font-black text-base text-white group-hover:text-gray-200 transition-colors uppercase leading-snug mb-1">
+              04. Costas "Veículos Lentos à Direita" (Preto)
+            </h4>
+            <p class="text-xs text-gray-400 font-body mb-3">
+              Frase humorística minimalista para as costas da t-shirt preta. Tipografia Agency FB Bold em branco marfim com setas de pista.
+            </p>
+            <div class="flex flex-wrap gap-1.5 text-[10px] font-mono mb-4 text-gray-400">
+              <span class="px-2 py-0.5 rounded bg-[#171824] border border-gray-700">300 DPI</span>
+              <span class="px-2 py-0.5 rounded bg-[#171824] border border-gray-700">A3 Vectorial</span>
+              <span class="px-2 py-0.5 rounded bg-[#171824] border border-gray-700">141 KB PNG</span>
+            </div>
+          </div>
+          <a href="assets/images/apparel/producao_estamparia/04_COSTAS_VEICULOS_LENTOS_PRETO_A3_300DPI.png" download="04_COSTAS_VEICULOS_LENTOS_PRETO_A3_300DPI.png" class="w-full py-2.5 bg-[#1f202b] hover:bg-[#2b2d3d] border border-gray-600 text-white font-sub font-bold text-xs uppercase tracking-wider rounded-lg transition-all flex items-center justify-center gap-2 shadow">
+            <span>⬇️</span> Descarregar PNG
+          </a>
+        </div>
+
+        <!-- File 5: Costas Veículos Lentos Amarelo A3 -->
+        <div class="bg-[#10111a] border border-[#26283b] hover:border-red-500/60 rounded-2xl p-5 flex flex-col justify-between transition-all group shadow-xl">
+          <div>
+            <div class="relative aspect-square rounded-xl overflow-hidden bg-[radial-gradient(#1f2233_1px,transparent_1px)] [background-size:12px_12px] bg-[#090a0f] mb-4 border border-[#1f202e] flex items-center justify-center p-4">
+              <img src="assets/images/apparel/producao_estamparia/05_COSTAS_VEICULOS_LENTOS_AMARELO_A3_300DPI.png" alt="Veículos Lentos Amarelo" class="max-h-full max-w-full object-contain filter drop-shadow-[0_0_8px_rgba(255,255,255,0.2)]">
+              <span class="absolute top-3 left-3 bg-[#e61426] text-white text-[10px] font-sub font-black px-2 py-0.5 rounded uppercase">
+                EDIÇÃO MINIMALISTA • AMARELO
+              </span>
+              <span class="absolute bottom-3 right-3 bg-black/85 text-gray-300 text-[10px] font-mono px-2 py-0.5 rounded border border-white/10">
+                3508x4960 px
+              </span>
+            </div>
+            <h4 class="font-heading font-black text-base text-white group-hover:text-red-400 transition-colors uppercase leading-snug mb-1">
+              05. Costas "Veículos Lentos à Direita" (Amarelo)
+            </h4>
+            <p class="text-xs text-gray-400 font-body mb-3">
+              Frase humorística com preto absoluto (#000000) de alto contraste e setas vermelhas de ultrapassagem para o tecido amarelo fluorescente.
+            </p>
+            <div class="flex flex-wrap gap-1.5 text-[10px] font-mono mb-4 text-gray-400">
+              <span class="px-2 py-0.5 rounded bg-[#171824] border border-gray-700">300 DPI</span>
+              <span class="px-2 py-0.5 rounded bg-[#171824] border border-gray-700">Alto Contraste</span>
+              <span class="px-2 py-0.5 rounded bg-[#171824] border border-gray-700">143 KB PNG</span>
+            </div>
+          </div>
+          <a href="assets/images/apparel/producao_estamparia/05_COSTAS_VEICULOS_LENTOS_AMARELO_A3_300DPI.png" download="05_COSTAS_VEICULOS_LENTOS_AMARELO_A3_300DPI.png" class="w-full py-2.5 bg-[#e61426] hover:bg-[#ff2a3c] text-white font-sub font-bold text-xs uppercase tracking-wider rounded-lg transition-all flex items-center justify-center gap-2 shadow">
+            <span>⬇️</span> Descarregar PNG
+          </a>
+        </div>
+
+        <!-- File 6: Master Dark Side Rider A3 -->
+        <div class="bg-[#10111a] border border-[#26283b] hover:border-purple-500/60 rounded-2xl p-5 flex flex-col justify-between transition-all group shadow-xl">
+          <div>
+            <div class="relative aspect-square rounded-xl overflow-hidden bg-[radial-gradient(#1f2233_1px,transparent_1px)] [background-size:12px_12px] bg-[#090a0f] mb-4 border border-[#1f202e] flex items-center justify-center p-4">
+              <img src="assets/images/apparel/producao_estamparia/06_COSTAS_DARK_SIDE_RIDER_A3_300DPI.png" alt="Dark Side Rider Master" class="max-h-full max-w-full object-contain filter drop-shadow-[0_0_8px_rgba(255,255,255,0.2)]">
+              <span class="absolute top-3 left-3 bg-purple-600 text-white text-[10px] font-sub font-black px-2 py-0.5 rounded uppercase">
+                ILUSTRAÇÃO MASTER • A3
+              </span>
+              <span class="absolute bottom-3 right-3 bg-black/85 text-gray-300 text-[10px] font-mono px-2 py-0.5 rounded border border-white/10">
+                3508x4960 px
+              </span>
+            </div>
+            <h4 class="font-heading font-black text-base text-white group-hover:text-purple-400 transition-colors uppercase leading-snug mb-1">
+              06. Ilustração Master Rider Perfil (A3)
+            </h4>
+            <p class="text-xs text-gray-400 font-body mb-3">
+              Arte solo de perfil do capacete Dark Ghostrider com visor neon e efeito smoke, ideal para hoodies, casacos ou posters.
+            </p>
+            <div class="flex flex-wrap gap-1.5 text-[10px] font-mono mb-4 text-gray-400">
+              <span class="px-2 py-0.5 rounded bg-[#171824] border border-gray-700">300 DPI</span>
+              <span class="px-2 py-0.5 rounded bg-[#171824] border border-gray-700">Isolado</span>
+              <span class="px-2 py-0.5 rounded bg-[#171824] border border-gray-700">4.8 MB PNG</span>
+            </div>
+          </div>
+          <a href="assets/images/apparel/producao_estamparia/06_COSTAS_DARK_SIDE_RIDER_A3_300DPI.png" download="06_COSTAS_DARK_SIDE_RIDER_A3_300DPI.png" class="w-full py-2.5 bg-purple-600 hover:bg-purple-500 text-white font-sub font-bold text-xs uppercase tracking-wider rounded-lg transition-all flex items-center justify-center gap-2 shadow">
+            <span>⬇️</span> Descarregar PNG
+          </a>
+        </div>
+
+      </div>
+
+      <!-- Technical Production Cheat Sheet -->
+      <div class="bg-[#11121c] border border-[#242538] rounded-2xl p-6 shadow-xl">
+        <h4 class="font-heading font-black text-white text-base uppercase tracking-wider mb-4 flex items-center gap-2">
+          <span>📋</span> GUIA TÉCNICO DE PRODUÇÃO & APLICAÇÃO TÊXTIL
+        </h4>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-xs text-gray-300 font-body">
+          <div class="bg-[#0b0c10] border border-[#1d1f2e] p-4 rounded-xl">
+            <h5 class="font-sub font-bold text-cyan-400 uppercase text-xs mb-2 flex items-center gap-1.5">
+              <span>🔥</span> RECOMENDAÇÃO DTF (Direct-to-Film)
+            </h5>
+            <ul class="space-y-1.5 text-gray-400">
+              <li>• <strong>Temperatura:</strong> 155°C a 165°C</li>
+              <li>• <strong>Tempo:</strong> 15 segundos</li>
+              <li>• <strong>Pressão:</strong> Média-Alta (4 a 5 bar)</li>
+              <li>• <strong>Película:</strong> Descolar 100% a frio (Cold Peel)</li>
+              <li>• <strong>Pós-Prensagem:</strong> 5 segundos com folha teflon para acabamento matte e fixação máxima.</li>
+            </ul>
+          </div>
+          <div class="bg-[#0b0c10] border border-[#1d1f2e] p-4 rounded-xl">
+            <h5 class="font-sub font-bold text-[#ffe600] uppercase text-xs mb-2 flex items-center gap-1.5">
+              <span>🖨️</span> SERIGRAFIA / SILK-SCREEN
+            </h5>
+            <ul class="space-y-1.5 text-gray-400">
+              <li>• <strong>Telas / Malhas:</strong> 43T a 77T recomendadas</li>
+              <li>• <strong>Tintas:</strong> Plastisol opaco de alta cobertura ou base água com cura térmica</li>
+              <li>• <strong>Tecido Preto:</strong> Requer base branca (white underbase) antes das cores</li>
+              <li>• <strong>Cura:</strong> Forno túnel a 160°C durante 2 minutos</li>
+            </ul>
+          </div>
+          <div class="bg-[#0b0c10] border border-[#1d1f2e] p-4 rounded-xl">
+            <h5 class="font-sub font-bold text-emerald-400 uppercase text-xs mb-2 flex items-center gap-1.5">
+              <span>📐</span> POSICIONAMENTO NA PEÇA
+            </h5>
+            <ul class="space-y-1.5 text-gray-400">
+              <li>• <strong>Peito Esquerdo:</strong> 7 a 9 cm abaixo da costura da gola, alinhado à cava</li>
+              <li>• <strong>Costas A3:</strong> Centrado horizontalmente, 4 a 5 cm abaixo da gola</li>
+              <li>• <strong>Lavagem:</strong> Lavar do avesso até 30°C, não passar ferro diretamente sobre a estampa</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
 
   <script src="assets/js/products.js"></script>
   <script>
@@ -1014,15 +1303,18 @@
       const pricesView = document.getElementById('admin-view-prices');
       const reelsView = document.getElementById('admin-view-reels');
       const leadsView = document.getElementById('admin-view-leads');
+      const printView = document.getElementById('admin-view-print');
       const btnOrders = document.getElementById('nav-btn-orders');
       const btnPrices = document.getElementById('nav-btn-prices');
       const btnReels = document.getElementById('nav-btn-reels');
       const btnLeads = document.getElementById('nav-btn-leads');
+      const btnPrint = document.getElementById('nav-btn-print');
 
       if (ordersView) ordersView.classList.add('hidden');
       if (pricesView) pricesView.classList.add('hidden');
       if (reelsView) reelsView.classList.add('hidden');
       if (leadsView) leadsView.classList.add('hidden');
+      if (printView) printView.classList.add('hidden');
 
       if (btnOrders) {
         btnOrders.className = 'px-5 py-2.5 rounded-xl font-heading font-black text-xs sm:text-sm tracking-wider uppercase transition-all text-gray-400 hover:text-white hover:bg-white/5 flex items-center gap-2 cursor-pointer';
@@ -1035,6 +1327,9 @@
       }
       if (btnLeads) {
         btnLeads.className = 'px-5 py-2.5 rounded-xl font-heading font-black text-xs sm:text-sm tracking-wider uppercase transition-all text-gray-400 hover:text-emerald-400 hover:bg-emerald-500/10 flex items-center gap-2 cursor-pointer border border-emerald-500/20';
+      }
+      if (btnPrint) {
+        btnPrint.className = 'px-5 py-2.5 rounded-xl font-heading font-black text-xs sm:text-sm tracking-wider uppercase transition-all text-gray-400 hover:text-cyan-400 hover:bg-cyan-500/10 flex items-center gap-2 cursor-pointer border border-cyan-500/20';
       }
 
       if (tab === 'orders') {
@@ -1059,6 +1354,11 @@
           btnLeads.className = 'px-5 py-2.5 rounded-xl font-heading font-black text-xs sm:text-sm tracking-wider uppercase transition-all bg-emerald-600 text-white shadow-lg shadow-emerald-950/50 flex items-center gap-2 cursor-pointer border border-emerald-500';
         }
         loadSubscribersFromServer();
+      } else if (tab === 'print') {
+        if (printView) printView.classList.remove('hidden');
+        if (btnPrint) {
+          btnPrint.className = 'px-5 py-2.5 rounded-xl font-heading font-black text-xs sm:text-sm tracking-wider uppercase transition-all bg-cyan-600 text-white shadow-lg shadow-cyan-950/50 flex items-center gap-2 cursor-pointer border border-cyan-400';
+        }
       }
     }
 
