@@ -277,6 +277,174 @@ const PRODUCTS = [
     ]
   },
   {
+    "id": "hoodie-veiculos-lentos-dark-ghostrider",
+    "name": "Sweatshirt com Capuz • Edição Especial 'Veículos Lentos à Direita'",
+    "category": "wear",
+    "priceEUR": 59.9,
+    "compareAtEUR": 79.9,
+    "priceBRL": 329.9,
+    "compareAtBRL": 439.9,
+    "badge": "EDIÇÃO BIKER HUMOR • DROP 01",
+    "isDarkChoice": true,
+    "rating": 5.0,
+    "reviewsCount": 42,
+    "image": "assets/images/apparel/hoodie_lentos_preto.jpg",
+    "description": "Edição Especial de Humor Motociclista da Dark Ghostrider! Desenvolvida especialmente para ultrapassagens com estilo e atitude. Frente limpa e minimalista apenas com o emblema oficial circular Dark Ghostrider no peito esquerdo (10x10cm). Nas costas, mega estampa de altíssima definição e contraste com a célebre frase 'VEÍCULOS LENTOS À DIREITA 👉' acompanhada da seta direcional de ultrapassagem e avisos de trânsito em alta visibilidade. Confeccionada em malha nobre 50% Algodão Ring Spun / 50% Poliéster reciclado (280g/m²) com bolso canguru e capuz forrado.",
+    "options": [
+      {
+        "name": "Cor",
+        "type": "select",
+        "values": [
+          "Preto Stealth (All Black)",
+          "Amarelo Fluorescente (High-Vis Neon)"
+        ]
+      },
+      {
+        "name": "Tamanho",
+        "type": "select",
+        "values": [
+          "XS",
+          "S",
+          "M",
+          "L",
+          "XL",
+          "2XL",
+          "3XL",
+          "4XL"
+        ]
+      }
+    ],
+    "supplierUrl": "Produção Nacional Oficial (Lisboa / Margem Sul)",
+    "costDetails": {
+      "productCostEUR": 33.74,
+      "shippingCostEUR": 0.0,
+      "totalCostEUR": 33.74,
+      "netProfitEUR": 26.16
+    },
+    "variantImages": {
+      "Preto Stealth (All Black)": "assets/images/apparel/hoodie_lentos_preto.jpg",
+      "Amarelo Fluorescente (High-Vis Neon)": "assets/images/apparel/hoodie_lentos_amarelo.jpg"
+    },
+    "dualView": {
+      "front": "assets/images/apparel/hoodie_lentos_preto_front.jpg",
+      "back": "assets/images/apparel/hoodie_lentos_preto_back.jpg"
+    },
+    "variantDualViews": {
+      "Preto Stealth (All Black)": {
+        "front": "assets/images/apparel/hoodie_lentos_preto_front.jpg",
+        "back": "assets/images/apparel/hoodie_lentos_preto_back.jpg"
+      },
+      "Amarelo Fluorescente (High-Vis Neon)": {
+        "front": "assets/images/apparel/hoodie_lentos_amarelo_front.jpg",
+        "back": "assets/images/apparel/hoodie_lentos_amarelo_back.jpg"
+      }
+    },
+    "packs": [
+      {
+        "id": "pack-hoodie-lentos-tshirt",
+        "title": "Pack Highway Rider: Leve o Hoodie + T-Shirt 'Veículos Lentos à Direita' com 20% EXTRA",
+        "savingsEUR": 20.00,
+        "bundlePriceEUR": 79.80,
+        "originalPriceEUR": 99.80,
+        "discountPct": 20,
+        "items": [
+          { "id": "hoodie-veiculos-lentos-dark-ghostrider", "name": "Sweatshirt Veículos Lentos à Direita", "image": "assets/images/apparel/hoodie_lentos_preto_front.jpg", "priceEUR": 59.90 },
+          { "id": "tshirt-veiculos-lentos-dark-ghostrider", "name": "T-Shirt Veículos Lentos à Direita", "image": "assets/images/apparel/tshirt_lentos_preto_front.jpg", "priceEUR": 39.90 }
+        ]
+      }
+    ],
+    "gallery": [
+      "assets/images/apparel/hoodie_lentos_preto_back.jpg",
+      "assets/images/apparel/hoodie_lentos_preto_front.jpg",
+      "assets/images/apparel/hoodie_lentos_amarelo_back.jpg",
+      "assets/images/apparel/hoodie_lentos_amarelo_front.jpg"
+    ]
+  },
+  {
+    "id": "tshirt-veiculos-lentos-dark-ghostrider",
+    "name": "T-Shirt Streetwear Oversized • Edição Especial 'Veículos Lentos à Direita'",
+    "category": "wear",
+    "priceEUR": 39.9,
+    "compareAtEUR": 49.9,
+    "priceBRL": 219.9,
+    "compareAtBRL": 279.9,
+    "badge": "EDIÇÃO BIKER HUMOR • BOX FIT A3",
+    "isDarkChoice": true,
+    "rating": 5.0,
+    "reviewsCount": 38,
+    "image": "assets/images/apparel/tshirt_lentos_preto.jpg",
+    "description": "T-Shirt com modelagem contemporânea Oversized Boxy Fit em algodão pesado estruturado. Na frente: minimalismo puro apenas com o emblema oficial no peito esquerdo. Nas costas: a icónica estampa de humor motociclista 'VEÍCULOS LENTOS À DIREITA 👉' em tamanho A3, com acabamento fosco ultra-resistente a lavagens. Desenhada para máxima nitidez visual na estrada tanto na cor Preto Stealth quanto no vibrante Amarelo Fluorescente High-Vis.",
+    "options": [
+      {
+        "name": "Cor",
+        "type": "select",
+        "values": [
+          "Preto Stealth (All Black)",
+          "Amarelo Fluorescente (High-Vis Neon)"
+        ]
+      },
+      {
+        "name": "Tamanho",
+        "type": "select",
+        "values": [
+          "XS",
+          "S",
+          "M",
+          "L",
+          "XL",
+          "2XL",
+          "3XL",
+          "4XL"
+        ]
+      }
+    ],
+    "supplierUrl": "Produção Nacional Oficial (Lisboa / Margem Sul)",
+    "costDetails": {
+      "productCostEUR": 21.36,
+      "shippingCostEUR": 0.0,
+      "totalCostEUR": 21.36,
+      "netProfitEUR": 18.54
+    },
+    "variantImages": {
+      "Preto Stealth (All Black)": "assets/images/apparel/tshirt_lentos_preto.jpg",
+      "Amarelo Fluorescente (High-Vis Neon)": "assets/images/apparel/tshirt_lentos_amarelo.jpg"
+    },
+    "dualView": {
+      "front": "assets/images/apparel/tshirt_lentos_preto_front.jpg",
+      "back": "assets/images/apparel/tshirt_lentos_preto_back.jpg"
+    },
+    "variantDualViews": {
+      "Preto Stealth (All Black)": {
+        "front": "assets/images/apparel/tshirt_lentos_preto_front.jpg",
+        "back": "assets/images/apparel/tshirt_lentos_preto_back.jpg"
+      },
+      "Amarelo Fluorescente (High-Vis Neon)": {
+        "front": "assets/images/apparel/tshirt_lentos_amarelo_front.jpg",
+        "back": "assets/images/apparel/tshirt_lentos_amarelo_back.jpg"
+      }
+    },
+    "packs": [
+      {
+        "id": "pack-tshirt-lentos-hoodie",
+        "title": "Pack Highway Rider: Complete com a Sweatshirt com Capuz com 20% EXTRA",
+        "savingsEUR": 20.00,
+        "bundlePriceEUR": 79.80,
+        "originalPriceEUR": 99.80,
+        "discountPct": 20,
+        "items": [
+          { "id": "tshirt-veiculos-lentos-dark-ghostrider", "name": "T-Shirt Veículos Lentos à Direita", "image": "assets/images/apparel/tshirt_lentos_preto_front.jpg", "priceEUR": 39.90 },
+          { "id": "hoodie-veiculos-lentos-dark-ghostrider", "name": "Sweatshirt Veículos Lentos à Direita", "image": "assets/images/apparel/hoodie_lentos_preto_front.jpg", "priceEUR": 59.90 }
+        ]
+      }
+    ],
+    "gallery": [
+      "assets/images/apparel/tshirt_lentos_preto_back.jpg",
+      "assets/images/apparel/tshirt_lentos_preto_front.jpg",
+      "assets/images/apparel/tshirt_lentos_amarelo_back.jpg",
+      "assets/images/apparel/tshirt_lentos_amarelo_front.jpg"
+    ]
+  },
+  {
     "id": "retrovisor-stealth-e9",
     "name": "Retrovisores Stealth Wing / Bar-End Elevado E9 Alumínio CNC - MT-07",
     "category": "mt07",
