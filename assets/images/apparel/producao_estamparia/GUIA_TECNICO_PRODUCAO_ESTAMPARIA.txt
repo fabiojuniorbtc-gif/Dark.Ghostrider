@@ -1,80 +1,88 @@
 ================================================================================
-DARK GHOSTRIDER OFFICIAL APPAREL - GUIA TECNICO DE PRODUCAO & ESTAMPARIA
+DARK GHOSTRIDER OFFICIAL APPAREL - GUIA TÉCNICO DE PRODUÇÃO & ESTAMPARIA (COMPLETO)
 ================================================================================
 Empresa / Marca: Dark Ghostrider (@dark.ghostrider)
-Veiculo Referencia: Yamaha MT-07 Lisboa
-Resolucao Padrao de Impressao: 300 DPI (Dots Per Inch)
-Espaco de Cores: RGB / Fundo 100% Transparente (Alpha Channel)
-Metodo Recomendado de Estampagem:
-  - DTF (Direct to Film) Textil Premium com po adesivo de alta elasticidade.
+Veículo Referência: Yamaha MT-07 Lisboa
+Resolução Padrão de Impressão: 300 DPI (Dots Per Inch)
+Espaço de Cores: RGB / Fundo 100% Transparente (Alpha Channel)
+Método Recomendado de Estampagem:
+  - DTF (Direct to Film) Têxtil Premium com pó adesivo de alta elasticidade.
   - Alternativa: Serigrafia / Silk-screen com tinta plastisol de alta cobertura.
 
 --------------------------------------------------------------------------------
-1. INDICE DE FICHEIROS & DIMENSOES DE CORTE / APLICACAO
+1. ÍNDICE DE FICHEIROS & DIMENSÕES DE CORTE / APLICAÇÃO
 --------------------------------------------------------------------------------
 Ficheiro 01:
   Nome: 01_PEITO_EMBLEMA_10x10cm_300DPI_TRANSPARENTE.png
-  Posicao: Peito Esquerdo (Pocket print)
-  Dimensao Fisica Real: 10,0 cm x 10,0 cm
-  Dimensao em Pixels: 1181 x 1181 px (300 DPI)
-  Colocacao: 7 a 8 cm abaixo do decote / gola, alinhado com o mamilo esquerdo.
-  Aplicacao: Hoodies e T-Shirts (Preto e Amarelo Fluorescente).
+  Posição: Peito Esquerdo (Pocket print)
+  Dimensão Física Real: 10,0 cm x 10,0 cm (1181 x 1181 px @ 300 DPI)
+  Aplicação: Universal (Hoodies e T-Shirts nas cores Preto Stealth e Amarelo Fluo).
 
 Ficheiro 02:
   Nome: 02_COSTAS_STREET_DIVISION_PRETO_A3_300DPI.png
-  Posicao: Costas Centralizadas
-  Dimensao Fisica Real: Formato A3 (29,7 cm de largura x 38,0 cm de altura)
-  Dimensao em Pixels: 3508 x 4960 px (300 DPI)
-  Colocacao: Centralizado, 9 a 10 cm abaixo da costura da gola posterior.
-  Aplicacao: T-Shirts e Hoodies PRETO STEALTH.
-  Paleta: Branco Marfim (#E4E3D8) + Vermelho Neon Visor + Sombreado Chumbo.
+  Posição: Costas Centralizadas
+  Dimensão Física Real: Formato A3 (29,7 cm x 38,0 cm @ 300 DPI)
+  Aplicação: T-Shirts e Hoodies PRETO STEALTH.
 
 Ficheiro 03:
   Nome: 03_COSTAS_STREET_DIVISION_AMARELO_A3_300DPI.png
-  Posicao: Costas Centralizadas
-  Dimensao Fisica Real: Formato A3 (29,7 cm de largura x 38,0 cm de altura)
-  Dimensao em Pixels: 3508 x 4960 px (300 DPI)
-  Colocacao: Centralizado, 9 a 10 cm abaixo da costura da gola posterior.
-  Aplicacao: T-Shirts e Hoodies AMARELO FLUORESCENTE (High-Vis Neon).
-  Paleta: Contornos em Preto Profundo (#0C0D10) + Branco Marfim + Vermelho Neon.
+  Posição: Costas Centralizadas
+  Dimensão Física Real: Formato A3 (29,7 cm x 38,0 cm @ 300 DPI)
+  Aplicação: T-Shirts e Hoodies AMARELO FLUORESCENTE.
 
 Ficheiro 04:
   Nome: 04_COSTAS_VEICULOS_LENTOS_PRETO_A3_300DPI.png
-  Posicao: Costas Centralizadas
-  Dimensao Fisica Real: Formato A3 (29,7 cm de largura x 40,0 cm de altura)
-  Dimensao em Pixels: 3508 x 4960 px (300 DPI)
-  Aplicacao: T-Shirts e Hoodies PRETO STEALTH (Edicao Biker).
-  Paleta: Branco Puro + Amarelo Fluorescente Neon (#FFE600).
+  Posição: Costas Centralizadas (Frase 1: 'VEÍCULOS LENTOS À DIREITA ➔')
+  Dimensão Física Real: Formato A3 (29,7 cm x 40,0 cm @ 300 DPI)
+  Aplicação: Peças PRETO STEALTH.
 
 Ficheiro 05:
   Nome: 05_COSTAS_VEICULOS_LENTOS_AMARELO_A3_300DPI.png
-  Posicao: Costas Centralizadas
-  Dimensao Fisica Real: Formato A3 (29,7 cm de largura x 40,0 cm de altura)
-  Dimensao em Pixels: 3508 x 4960 px (300 DPI)
-  Aplicacao: T-Shirts e Hoodies AMARELO FLUORESCENTE (Edicao Biker).
-  Paleta: Preto Absoluto (#0D0E12) + Seta em Vermelho Racing (#E6192D).
+  Posição: Costas Centralizadas (Frase 1: 'VEÍCULOS LENTOS À DIREITA ➔')
+  Dimensão Física Real: Formato A3 (29,7 cm x 40,0 cm @ 300 DPI)
+  Aplicação: Peças AMARELO FLUORESCENTE.
 
 Ficheiro 06:
   Nome: 06_COSTAS_DARK_SIDE_RIDER_A3_300DPI.png
-  Posicao: Costas Centralizadas
-  Dimensao Fisica Real: Formato A3 (29,7 cm de largura x 38,0 cm de altura)
-  Dimensao em Pixels: 3508 x 4960 px (300 DPI)
-  Aplicacao: Drop 01 Original (Capacete Dark Side Rider MT-07).
+  Posição: Costas Centralizadas (Drop 01 Original Helmet Rider)
+  Dimensão Física Real: Formato A3 (29,7 cm x 38,0 cm @ 300 DPI)
+
+Ficheiro 07:
+  Nome: 07_COSTAS_POR_FAVOR_PRETO_A3_300DPI.png
+  Posição: Costas Centralizadas (Frase 2: 'VEÍCULOS LENTOS À DIREITA, POR FAVOR. ➔')
+  Dimensão Física Real: Formato A3 (29,7 cm x 40,0 cm @ 300 DPI)
+  Aplicação: Peças PRETO STEALTH.
+
+Ficheiro 08:
+  Nome: 08_COSTAS_POR_FAVOR_AMARELO_A3_300DPI.png
+  Posição: Costas Centralizadas (Frase 2: 'VEÍCULOS LENTOS À DIREITA, POR FAVOR. ➔')
+  Dimensão Física Real: Formato A3 (29,7 cm x 40,0 cm @ 300 DPI)
+  Aplicação: Peças AMARELO FLUORESCENTE.
+
+Ficheiro 09:
+  Nome: 09_COSTAS_FAIXA_ESQUERDA_PRETO_A3_300DPI.png
+  Posição: Costas Centralizadas (Frase 3: 'A FAIXA DA ESQUERDA NÃO É TUA. 👉')
+  Dimensão Física Real: Formato A3 (29,7 cm x 40,0 cm @ 300 DPI)
+  Aplicação: Peças PRETO STEALTH.
+
+Ficheiro 10:
+  Nome: 10_COSTAS_FAIXA_ESQUERDA_AMARELO_A3_300DPI.png
+  Posição: Costas Centralizadas (Frase 3: 'A FAIXA DA ESQUERDA NÃO É TUA. 👉')
+  Dimensão Física Real: Formato A3 (29,7 cm x 40,0 cm @ 300 DPI)
+  Aplicação: Peças AMARELO FLUORESCENTE.
 
 --------------------------------------------------------------------------------
-2. PARAMETROS DE PRENSAGEM TERMICA (DTF)
+2. PARÂMETROS DE PRENSAGEM TÉRMICA (DTF)
 --------------------------------------------------------------------------------
   - Temperatura de Prensagem: 155°C - 165°C
   - Tempo: 12 a 15 segundos
-  - Pressao: Media a Alta (4 a 5 bar)
-  - Despeliculagem: Frio (Cold Peel) para maxima nitidez das linhas finas
-  - Segunda Prensagem (Pos-cura): 5 segundos com papel teflon / vegetal fosco.
+  - Pressão: Média a Alta (4 a 5 bar)
+  - Despeliculagem: Frio (Cold Peel)
+  - Segunda Prensagem (Pós-cura): 5 segundos com papel teflon fosco.
 
 --------------------------------------------------------------------------------
-3. INSTRUCOES DE LAVAGEM PARA O CLIENTE FINAL
+3. INSTRUÇÕES DE LAVAGEM
 --------------------------------------------------------------------------------
-  - Lavar do avesso a temperatura maxima de 30°C.
-  - Nao utilizar lixivia nem branqueadores oticos.
-  - Nao secar na maquina de secar roupa.
-  - Passar a ferro do avesso (nunca passar diretamente sobre a estampa).
+  - Lavar do avesso a temperatura máxima de 30°C.
+  - Não utilizar lixívia. Não secar na máquina. Passar do avesso.
 ================================================================================
