@@ -219,12 +219,15 @@
     <!-- ==========================================
          VIEW SWITCHER: ENCOMENDAS VS TABELA DE PREÇOS
          ========================================== -->
-    <div class="flex items-center gap-3 mb-6 bg-[#12131b] border border-[#242533] p-1.5 rounded-2xl w-fit">
+    <div class="flex items-center gap-3 mb-6 bg-[#12131b] border border-[#242533] p-1.5 rounded-2xl w-fit flex-wrap">
       <button id="nav-btn-orders" onclick="switchAdminTab('orders')" class="px-5 py-2.5 rounded-xl font-heading font-black text-xs sm:text-sm tracking-wider uppercase transition-all bg-[#e61426] text-white shadow-lg shadow-red-950/50 flex items-center gap-2 cursor-pointer">
         <span>📦</span> ENCOMENDAS (<span id="nav-count-orders">0</span>)
       </button>
       <button id="nav-btn-prices" onclick="switchAdminTab('prices')" class="px-5 py-2.5 rounded-xl font-heading font-black text-xs sm:text-sm tracking-wider uppercase transition-all text-gray-400 hover:text-white hover:bg-white/5 flex items-center gap-2 cursor-pointer">
         <span>🏷️</span> TABELA DE PREÇOS & MARGENS (<span id="nav-count-products">24</span>)
+      </button>
+      <button id="nav-btn-reels" onclick="switchAdminTab('reels')" class="px-5 py-2.5 rounded-xl font-heading font-black text-xs sm:text-sm tracking-wider uppercase transition-all text-gray-400 hover:text-[#f6ff00] hover:bg-yellow-500/10 flex items-center gap-2 cursor-pointer border border-[#f6ff00]/20">
+        <span>🎬</span> VÍDEO REELS PROMO (9:16)
       </button>
     </div>
 
@@ -362,6 +365,200 @@
             </tbody>
           </table>
         </div>
+      </div>
+    </div>
+
+    <!-- ==========================================
+         VIEW 3: ESTÚDIO DE DIVULGAÇÃO SOCIAL MEDIA & VÍDEO REELS (9:16)
+         ========================================== -->
+    <div id="admin-view-reels" class="hidden">
+      <!-- Toolbar Header Card -->
+      <div class="bg-gradient-to-r from-[#141524] via-[#161822] to-[#0d0e16] border border-yellow-500/30 rounded-2xl p-5 sm:p-6 mb-6 shadow-2xl">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div>
+            <div class="flex items-center gap-2.5 mb-1.5">
+              <span class="text-2xl">🎬</span>
+              <h2 class="font-heading font-black text-white text-base sm:text-xl tracking-wide uppercase">
+                ESTÚDIO DE DIVULGAÇÃO — VÍDEO REELS 9:16
+              </h2>
+              <span class="px-2.5 py-0.5 rounded-full text-[10px] font-sub font-bold uppercase tracking-wider bg-yellow-950/80 text-yellow-400 border border-yellow-500/40">
+                🔒 EXCLUSIVO DO ADMIN
+              </span>
+            </div>
+            <p class="text-xs text-gray-400 font-sub max-w-2xl">
+              Vídeo oficial em formato vertical <strong>9:16 (720x1280)</strong> com logos centralizados em estilo Instagram Stories, trilha sonora Phonk 128 BPM e kit completo com legenda pronta para publicação nos Reels, TikTok e Shorts.
+            </p>
+          </div>
+
+          <div class="flex items-center gap-3">
+            <a href="assets/videos/reels_dark_ghostrider_store.mp4" download="reels_dark_ghostrider_store.mp4" class="px-5 py-3 rounded-xl bg-[#f6ff00] hover:bg-[#e5ed00] text-black font-heading font-black text-xs sm:text-sm uppercase tracking-wider shadow-lg shadow-black flex items-center gap-2 transition-transform hover:scale-105 whitespace-nowrap">
+              <span>📥</span> Descarregar Vídeo (.MP4)
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Main Reels Grid: Mockup on Left + Social Media Kit on Right -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+
+        <!-- LEFT: Smartphone Mockup Player (lg:col-span-5) -->
+        <div class="lg:col-span-5 flex flex-col items-center">
+          <div class="relative w-[320px] sm:w-[360px] h-[640px] sm:h-[720px] bg-black rounded-[46px] p-2.5 shadow-2xl shadow-black border-4 border-[#252838] overflow-hidden flex flex-col justify-between">
+            <!-- Dynamic Island Notch -->
+            <div class="absolute top-2.5 left-1/2 -translate-x-1/2 w-28 h-6 bg-black rounded-full z-40 flex items-center justify-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-[#111] border border-white/10"></span>
+              <span class="w-2.5 h-2.5 rounded-full bg-[#0a0a0a] border border-[#f6ff00]/40"></span>
+            </div>
+
+            <!-- Video Player -->
+            <video 
+              id="adminReelsVideo" 
+              class="w-full h-full object-cover rounded-[36px] cursor-pointer"
+              src="assets/videos/reels_dark_ghostrider_store.mp4" 
+              poster="assets/images/reels_poster.jpg" 
+              playsinline 
+              loop 
+              preload="auto">
+            </video>
+
+            <!-- Center Play Button Overlay -->
+            <button id="adminCenterPlayBtn" onclick="toggleAdminVideo()" class="absolute inset-0 flex items-center justify-center bg-black/30 hover:bg-black/15 transition-all z-20 group cursor-pointer" title="Clique para Reproduzir / Pausar">
+              <div class="w-16 h-16 rounded-full bg-[#f6ff00] text-black flex items-center justify-center text-2xl font-black shadow-2xl group-hover:scale-110 transition-transform">
+                <span id="adminPlayIcon">▶</span>
+              </div>
+            </button>
+
+            <!-- Bottom Mini Controls -->
+            <div class="absolute bottom-2 inset-x-2 p-3 bg-gradient-to-t from-black via-black/80 to-transparent rounded-b-[36px] z-30 flex flex-col gap-2">
+              <div class="flex items-center gap-2">
+                <span id="adminTimeCur" class="text-[10px] font-mono text-gray-300 w-8">00:00</span>
+                <input type="range" id="adminScrubber" min="0" max="22" step="0.1" value="0" class="flex-1 h-1.5 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-[#f6ff00]">
+                <span id="adminTimeTot" class="text-[10px] font-mono text-gray-400 w-8">00:22</span>
+              </div>
+              <div class="flex items-center justify-between text-white text-xs">
+                <div class="flex items-center gap-2">
+                  <button onclick="toggleAdminVideo()" class="p-1 hover:text-[#f6ff00]">Play/Pausa</button>
+                  <button onclick="toggleAdminMute()" id="adminMuteBtn" class="p-1 hover:text-[#f6ff00]">🔇 Som</button>
+                </div>
+                <span class="text-[10px] font-bold text-[#f6ff00] bg-[#f6ff00]/10 px-2 py-0.5 rounded border border-[#f6ff00]/20">9:16 HD</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Chapter Jump Buttons -->
+          <div class="w-full max-w-[360px] mt-4 grid grid-cols-2 gap-2 text-xs">
+            <button onclick="seekAdminVideo(0)" class="p-2 rounded-lg bg-[#141622] hover:bg-[#1f2233] border border-[#26283b] text-left text-gray-300 hover:text-white transition-colors">
+              <strong class="block text-white text-[11px]">⚡ Abertura</strong> 00:00
+            </button>
+            <button onclick="seekAdminVideo(3.8)" class="p-2 rounded-lg bg-[#141622] hover:bg-[#1f2233] border border-[#26283b] text-left text-gray-300 hover:text-white transition-colors">
+              <strong class="block text-[#f6ff00] text-[11px]">👕 Drop 01</strong> 00:04
+            </button>
+            <button onclick="seekAdminVideo(8.5)" class="p-2 rounded-lg bg-[#141622] hover:bg-[#1f2233] border border-[#26283b] text-left text-gray-300 hover:text-white transition-colors">
+              <strong class="block text-white text-[11px]">🏍️ Setup MT-07</strong> 00:08
+            </button>
+            <button onclick="seekAdminVideo(13.0)" class="p-2 rounded-lg bg-[#141622] hover:bg-[#1f2233] border border-[#26283b] text-left text-gray-300 hover:text-white transition-colors">
+              <strong class="block text-white text-[11px]">🔍 Motocard & Packs</strong> 00:13
+            </button>
+            <button onclick="seekAdminVideo(17.5)" class="col-span-2 p-2 rounded-lg bg-[#141622] hover:bg-[#1f2233] border border-[#26283b] text-center text-gray-300 hover:text-white transition-colors">
+              <strong class="text-white text-[11px]">📲 Call to Action & Link na Bio</strong> (00:17)
+            </button>
+          </div>
+        </div>
+
+        <!-- RIGHT: Kit de Publicação & Download (lg:col-span-7) -->
+        <div class="lg:col-span-7 space-y-6">
+          
+          <!-- Download Card -->
+          <div class="p-5 rounded-2xl bg-[#141622] border border-[#232636]">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+              <div>
+                <span class="inline-block px-2 py-0.5 rounded text-[10px] font-bold bg-green-500/10 text-green-400 border border-green-500/30 uppercase mb-1">
+                  ✓ Ficheiro Renderizado (3.14 MB)
+                </span>
+                <h3 class="font-heading font-black text-lg text-white uppercase">
+                  Ficheiro de Vídeo MP4
+                </h3>
+                <p class="text-xs text-gray-400 mt-0.5">
+                  Proporção 9:16 vertical (720x1280) a 30 FPS com trilha sonora Phonk 128 BPM.
+                </p>
+              </div>
+              <a href="assets/videos/reels_dark_ghostrider_store.mp4" download="reels_dark_ghostrider_store.mp4" class="px-5 py-3 rounded-xl bg-[#f6ff00] hover:bg-[#e5ed00] text-black font-heading font-black text-xs uppercase tracking-wider shadow-lg flex items-center justify-center gap-2 whitespace-nowrap">
+                <span>📥</span> Baixar Vídeo
+              </a>
+            </div>
+          </div>
+
+          <!-- Caption Copy Box -->
+          <div class="p-5 rounded-2xl bg-[#141622] border border-[#232636]">
+            <div class="flex items-center justify-between mb-3">
+              <div>
+                <h3 class="font-heading font-black text-lg text-white uppercase flex items-center gap-2">
+                  <span>📋</span> Legenda Pronta para o Instagram & TikTok
+                </h3>
+                <p class="text-xs text-gray-400 mt-0.5">
+                  Copia e cola diretamente na tua publicação.
+                </p>
+              </div>
+              <button onclick="copyAdminCaption()" id="adminCopyBtn" class="px-4 py-2 rounded-xl bg-[#232638] hover:bg-[#f6ff00] text-gray-200 hover:text-black font-bold text-xs uppercase tracking-wider transition-all border border-[#34384e] flex items-center gap-1.5">
+                <span id="adminCopyIcon">📄</span> <span id="adminCopyText">Copiar Legenda</span>
+              </button>
+            </div>
+
+            <textarea id="adminCaptionBox" readonly class="w-full h-52 p-3.5 rounded-xl bg-black/50 border border-[#232636] text-xs leading-relaxed text-gray-300 font-mono resize-none focus:outline-none focus:border-[#f6ff00]/50 select-all">⚡ A LOJA OFICIAL DARK GHOSTRIDER JÁ ESTÁ NO AR! ⚡
+
+Tudo o que uso na minha MT-07 e a nova coleção de vestuário exclusiva já estão disponíveis! 🔥
+
+👕 DROP 01 OFICIAL:
+• Sweatshirts com capuz 320g (Preto Stealth & Cyber Amarelo)
+• T-Shirts 100% Algodão Penteado Oversized
+• Estampa icónica frente e costas em alta definição
+• Packs económicos com desconto direto!
+
+🏍️ SETUP MT-07:
+• Retrovisores Stealth Wing em Alumínio CNC
+• Escape Completo Yoshimura R77 Full System Carbono
+• Lanterna LED Fumê com Piscas Sequenciais Integrados
+• Sliders e proteções testadas na rua e pista
+
+🇵🇹 Pagamentos rápidos por MB WAY ou Cartão de Crédito
+🚀 Envio CTT Expresso com rastreio em 24/48h
+
+👉 Clica no link da bio para garantir as tuas peças antes que esgotem:
+🌐 WWW.DARKGHOSTRIDER.COM
+
+#darkghostrider #mt07 #yamahamt07 #drop01 #streetwear #motovlog #portugal #bikelife #darkrider #motorcycle #escapes #stealthmirrors #mbway</textarea>
+          </div>
+
+          <!-- Cover Thumbnails for Instagram Cover -->
+          <div class="p-5 rounded-2xl bg-[#141622] border border-[#232636]">
+            <h3 class="font-heading font-black text-lg text-white uppercase mb-2 flex items-center gap-2">
+              <span>🖼️</span> Capas do Vídeo para o Reels (Download)
+            </h3>
+            <p class="text-xs text-gray-400 mb-3">
+              Clica para abrir ou salvar a imagem de capa desejada:
+            </p>
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+              <a href="assets/images/reels_poster_intro.jpg" target="_blank" class="block rounded-lg overflow-hidden border border-[#282a3d] hover:border-[#f6ff00] transition-colors relative group">
+                <img src="assets/images/reels_poster_intro.jpg" alt="Capa Abertura" class="w-full h-32 object-cover">
+                <span class="absolute bottom-1 inset-x-1 text-center bg-black/80 text-[10px] text-white py-0.5 rounded">Abertura</span>
+              </a>
+              <a href="assets/images/reels_poster_drop01.jpg" target="_blank" class="block rounded-lg overflow-hidden border border-[#282a3d] hover:border-[#f6ff00] transition-colors relative group">
+                <img src="assets/images/reels_poster_drop01.jpg" alt="Capa Drop 01" class="w-full h-32 object-cover">
+                <span class="absolute bottom-1 inset-x-1 text-center bg-black/80 text-[10px] text-[#f6ff00] py-0.5 rounded">Drop 01</span>
+              </a>
+              <a href="assets/images/reels_poster_setup.jpg" target="_blank" class="block rounded-lg overflow-hidden border border-[#282a3d] hover:border-[#f6ff00] transition-colors relative group">
+                <img src="assets/images/reels_poster_setup.jpg" alt="Capa Setup" class="w-full h-32 object-cover">
+                <span class="absolute bottom-1 inset-x-1 text-center bg-black/80 text-[10px] text-white py-0.5 rounded">Setup MT-07</span>
+              </a>
+              <a href="assets/images/reels_poster_cta.jpg" target="_blank" class="block rounded-lg overflow-hidden border border-[#282a3d] hover:border-[#f6ff00] transition-colors relative group">
+                <img src="assets/images/reels_poster_cta.jpg" alt="Capa CTA" class="w-full h-32 object-cover">
+                <span class="absolute bottom-1 inset-x-1 text-center bg-black/80 text-[10px] text-[#f6ff00] py-0.5 rounded">Chamada</span>
+              </a>
+            </div>
+          </div>
+
+        </div>
+
       </div>
     </div>
 
@@ -573,28 +770,41 @@
       currentAdminTab = tab;
       const ordersView = document.getElementById('admin-view-orders');
       const pricesView = document.getElementById('admin-view-prices');
+      const reelsView = document.getElementById('admin-view-reels');
       const btnOrders = document.getElementById('nav-btn-orders');
       const btnPrices = document.getElementById('nav-btn-prices');
+      const btnReels = document.getElementById('nav-btn-reels');
+
+      if (ordersView) ordersView.classList.add('hidden');
+      if (pricesView) pricesView.classList.add('hidden');
+      if (reelsView) reelsView.classList.add('hidden');
+
+      if (btnOrders) {
+        btnOrders.className = 'px-5 py-2.5 rounded-xl font-heading font-black text-xs sm:text-sm tracking-wider uppercase transition-all text-gray-400 hover:text-white hover:bg-white/5 flex items-center gap-2 cursor-pointer';
+      }
+      if (btnPrices) {
+        btnPrices.className = 'px-5 py-2.5 rounded-xl font-heading font-black text-xs sm:text-sm tracking-wider uppercase transition-all text-gray-400 hover:text-white hover:bg-white/5 flex items-center gap-2 cursor-pointer';
+      }
+      if (btnReels) {
+        btnReels.className = 'px-5 py-2.5 rounded-xl font-heading font-black text-xs sm:text-sm tracking-wider uppercase transition-all text-gray-400 hover:text-[#f6ff00] hover:bg-yellow-500/10 flex items-center gap-2 cursor-pointer border border-[#f6ff00]/20';
+      }
 
       if (tab === 'orders') {
         if (ordersView) ordersView.classList.remove('hidden');
-        if (pricesView) pricesView.classList.add('hidden');
         if (btnOrders) {
           btnOrders.className = 'px-5 py-2.5 rounded-xl font-heading font-black text-xs sm:text-sm tracking-wider uppercase transition-all bg-[#e61426] text-white shadow-lg shadow-red-950/50 flex items-center gap-2 cursor-pointer';
         }
-        if (btnPrices) {
-          btnPrices.className = 'px-5 py-2.5 rounded-xl font-heading font-black text-xs sm:text-sm tracking-wider uppercase transition-all text-gray-400 hover:text-white hover:bg-white/5 flex items-center gap-2 cursor-pointer';
-        }
-      } else {
-        if (ordersView) ordersView.classList.add('hidden');
+      } else if (tab === 'prices') {
         if (pricesView) pricesView.classList.remove('hidden');
-        if (btnOrders) {
-          btnOrders.className = 'px-5 py-2.5 rounded-xl font-heading font-black text-xs sm:text-sm tracking-wider uppercase transition-all text-gray-400 hover:text-white hover:bg-white/5 flex items-center gap-2 cursor-pointer';
-        }
         if (btnPrices) {
           btnPrices.className = 'px-5 py-2.5 rounded-xl font-heading font-black text-xs sm:text-sm tracking-wider uppercase transition-all bg-[#e61426] text-white shadow-lg shadow-red-950/50 flex items-center gap-2 cursor-pointer';
         }
         renderPriceTable();
+      } else if (tab === 'reels') {
+        if (reelsView) reelsView.classList.remove('hidden');
+        if (btnReels) {
+          btnReels.className = 'px-5 py-2.5 rounded-xl font-heading font-black text-xs sm:text-sm tracking-wider uppercase transition-all bg-[#f6ff00] text-black shadow-lg shadow-yellow-950/50 flex items-center gap-2 cursor-pointer border border-[#f6ff00]';
+        }
       }
     }
 
@@ -1462,12 +1672,102 @@
       alert(`⚡ Desconto de ${disc}% aplicado em ${count} produtos na tabela!\nClique em [💾 SALVAR TODOS NA LOJA] para enviar as alterações para o site.`);
     }
 
+    // ==========================================
+    // REELS VIDEO PLAYER & COPY CONTROLLER
+    // ==========================================
+    function toggleAdminVideo() {
+      const vid = document.getElementById('adminReelsVideo');
+      const btn = document.getElementById('adminCenterPlayBtn');
+      const icon = document.getElementById('adminPlayIcon');
+      if (!vid) return;
+      if (vid.paused) {
+        vid.play().then(() => {
+          if (btn) btn.style.opacity = '0';
+          if (icon) icon.innerText = '❚❚';
+        }).catch(() => {});
+      } else {
+        vid.pause();
+        if (btn) btn.style.opacity = '1';
+        if (icon) icon.innerText = '▶';
+      }
+    }
+
+    function toggleAdminMute() {
+      const vid = document.getElementById('adminReelsVideo');
+      const btn = document.getElementById('adminMuteBtn');
+      if (!vid) return;
+      vid.muted = !vid.muted;
+      if (btn) btn.innerText = vid.muted ? '🔇 Som' : '🔊 Som';
+    }
+
+    function seekAdminVideo(sec) {
+      const vid = document.getElementById('adminReelsVideo');
+      if (!vid) return;
+      vid.currentTime = sec;
+      if (vid.paused) toggleAdminVideo();
+    }
+
+    function copyAdminCaption() {
+      const box = document.getElementById('adminCaptionBox');
+      if (!box) return;
+      navigator.clipboard.writeText(box.value).then(() => {
+        const btn = document.getElementById('adminCopyBtn');
+        const icon = document.getElementById('adminCopyIcon');
+        const txt = document.getElementById('adminCopyText');
+        if (btn) {
+          btn.classList.remove('bg-[#232638]', 'text-gray-200');
+          btn.classList.add('bg-[#f6ff00]', 'text-black');
+        }
+        if (icon) icon.innerText = '✓';
+        if (txt) txt.innerText = 'Copiado!';
+        setTimeout(() => {
+          if (btn) {
+            btn.classList.remove('bg-[#f6ff00]', 'text-black');
+            btn.classList.add('bg-[#232638]', 'text-gray-200');
+          }
+          if (icon) icon.innerText = '📄';
+          if (txt) txt.innerText = 'Copiar Legenda';
+        }, 2500);
+      }).catch(() => {
+        alert('Selecione e copie manualmente o texto da legenda.');
+      });
+    }
+
+    function setupAdminVideoListeners() {
+      const vid = document.getElementById('adminReelsVideo');
+      const scrubber = document.getElementById('adminScrubber');
+      const cur = document.getElementById('adminTimeCur');
+      const tot = document.getElementById('adminTimeTot');
+      if (!vid || !scrubber) return;
+
+      vid.addEventListener('timeupdate', () => {
+        scrubber.value = vid.currentTime;
+        const m = Math.floor(vid.currentTime / 60);
+        const s = Math.floor(vid.currentTime % 60);
+        if (cur) cur.innerText = `${m < 10 ? '0' : ''}${m}:${s < 10 ? '0' : ''}${s}`;
+      });
+
+      vid.addEventListener('loadedmetadata', () => {
+        scrubber.max = vid.duration || 22;
+        const m = Math.floor((vid.duration || 22) / 60);
+        const s = Math.floor((vid.duration || 22) % 60);
+        if (tot) tot.innerText = `${m < 10 ? '0' : ''}${m}:${s < 10 ? '0' : ''}${s}`;
+      });
+
+      scrubber.addEventListener('input', (e) => {
+        vid.currentTime = parseFloat(e.target.value);
+      });
+
+      vid.addEventListener('click', toggleAdminVideo);
+    }
+
     document.addEventListener('DOMContentLoaded', () => {
       const savedPhone = localStorage.getItem('dark_admin_whatsapp');
       if (savedPhone) {
         document.getElementById('admin-whatsapp-input').value = savedPhone;
       }
       checkAdminAuth();
+      setupAdminVideoListeners();
     });
   </script>
 </body>
