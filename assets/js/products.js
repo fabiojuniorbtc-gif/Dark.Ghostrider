@@ -1665,6 +1665,96 @@ const PRODUCTS = [
       "assets/images/products/kashvelo_real_enhanced.jpg",
       "assets/images/products/kashvelo-glove-top.jpg",
       "assets/images/products/kashvelo-glove-palm.jpg"
+    ],
+    "packs": [
+      {
+        "id": "pack-kashvelo-tshirt-lentos",
+        "title": "Pack Street Rider: Luvas Kashvelo Carbono + T-Shirt Oficial (20% EXTRA)",
+        "savingsEUR": 22.0,
+        "bundlePriceEUR": 87.8,
+        "originalPriceEUR": 109.8,
+        "savingsBRL": 132.0,
+        "bundlePriceBRL": 526.0,
+        "originalPriceBRL": 658.0,
+        "discountPct": 20,
+        "items": [
+          {
+            "id": "kashvelo-gear-base-layer",
+            "name": "Luvas de Proteção em Couro & Carbono Real",
+            "image": "assets/images/kashvelo.jpg",
+            "priceEUR": 69.9,
+            "priceBRL": 439.0
+          },
+          {
+            "id": "tshirt-veiculos-lentos-dark-ghostrider",
+            "name": "T-Shirt Streetwear Oversized - Veículos Lentos à Direita",
+            "image": "assets/images/apparel/tshirt_lentos_preto_front.jpg",
+            "priceEUR": 39.9,
+            "priceBRL": 219.0
+          }
+        ]
+      },
+      {
+        "id": "pack-kashvelo-hoodie-lentos",
+        "title": "Pack Track & Highway: Luvas Kashvelo Carbono + Sweatshirt com Capuz (20% EXTRA)",
+        "savingsEUR": 26.0,
+        "bundlePriceEUR": 103.8,
+        "originalPriceEUR": 129.8,
+        "savingsBRL": 154.0,
+        "bundlePriceBRL": 615.0,
+        "originalPriceBRL": 769.0,
+        "discountPct": 20,
+        "items": [
+          {
+            "id": "kashvelo-gear-base-layer",
+            "name": "Luvas de Proteção em Couro & Carbono Real",
+            "image": "assets/images/kashvelo.jpg",
+            "priceEUR": 69.9,
+            "priceBRL": 439.0
+          },
+          {
+            "id": "hoodie-veiculos-lentos-dark-ghostrider",
+            "name": "Sweatshirt com Capuz - Veículos Lentos à Direita",
+            "image": "assets/images/apparel/hoodie_lentos_preto_front.jpg",
+            "priceEUR": 59.9,
+            "priceBRL": 329.0
+          }
+        ]
+      },
+      {
+        "id": "pack-kashvelo-full-combo",
+        "title": "Pack Full Dark Rider: Luvas Kashvelo + Sweatshirt + T-Shirt Oficial (25% EXTRA)",
+        "savingsEUR": 42.5,
+        "bundlePriceEUR": 127.2,
+        "originalPriceEUR": 169.7,
+        "savingsBRL": 248.0,
+        "bundlePriceBRL": 740.0,
+        "originalPriceBRL": 988.0,
+        "discountPct": 25,
+        "items": [
+          {
+            "id": "kashvelo-gear-base-layer",
+            "name": "Luvas de Proteção em Couro & Carbono Real",
+            "image": "assets/images/kashvelo.jpg",
+            "priceEUR": 69.9,
+            "priceBRL": 439.0
+          },
+          {
+            "id": "hoodie-veiculos-lentos-dark-ghostrider",
+            "name": "Sweatshirt com Capuz Oficial",
+            "image": "assets/images/apparel/hoodie_lentos_preto_front.jpg",
+            "priceEUR": 59.9,
+            "priceBRL": 329.0
+          },
+          {
+            "id": "tshirt-veiculos-lentos-dark-ghostrider",
+            "name": "T-Shirt Streetwear Oversized",
+            "image": "assets/images/apparel/tshirt_lentos_preto_front.jpg",
+            "priceEUR": 39.9,
+            "priceBRL": 219.0
+          }
+        ]
+      }
     ]
   },
   {

@@ -1298,19 +1298,31 @@
       const packs = currentProduct.packs || [];
 
       if (!packs || packs.length === 0) {
+        const isApparel = currentProduct.category === 'wear';
+        const pairedProd = isApparel 
+          ? PRODUCTS.find(p => p.id === 'kashvelo-gear-base-layer')
+          : PRODUCTS.find(p => p.id === 'tshirt-veiculos-lentos-dark-ghostrider');
+        const pairedImg = pairedProd ? (pairedProd.image || 'assets/images/apparel/tshirt_lentos_preto_front.jpg') : 'assets/images/apparel/tshirt_lentos_preto_front.jpg';
+        const pairedName = pairedProd ? pairedProd.name : 'T-Shirt Oficial Street Division';
+        const pairedPriceEUR = pairedProd ? pairedProd.priceEUR : 39.90;
+        const totalOrigEUR = currentProduct.priceEUR + pairedPriceEUR;
+        const savingsEUR = Math.round((totalOrigEUR * 0.15) * 100) / 100;
+        const bundleEUR = Math.round((totalOrigEUR * 0.85) * 100) / 100;
+
         container.innerHTML = `
           <div class="bg-[#090a10] border border-[#242533] hover:border-[#ffe600]/60 rounded-xl p-4 transition-all">
             <span class="block font-sub font-bold text-xs text-white mb-2">Pack Biker Recomendado (-15% EXTRA)</span>
             <div class="flex items-center gap-3">
-              <div class="w-14 h-14 rounded-lg bg-black overflow-hidden border border-white/10 flex-shrink-0">
+              <div class="w-14 h-14 rounded-lg bg-black overflow-hidden border border-white/10 flex-shrink-0" title="${currentProduct.name}">
                 <img src="${currentProduct.image}" class="w-full h-full object-cover">
               </div>
               <span class="text-lg font-black text-[#ffe600]">+</span>
-              <div class="w-14 h-14 rounded-lg bg-black overflow-hidden border border-white/10 flex-shrink-0 p-1">
-                <img src="assets/images/kashvelo-logo.jpg" class="w-full h-full object-contain">
+              <div class="w-14 h-14 rounded-lg bg-black overflow-hidden border border-white/10 flex-shrink-0" title="${pairedName}">
+                <img src="${pairedImg}" class="w-full h-full object-cover">
               </div>
               <div class="ml-auto text-right">
-                <span class="text-xs text-emerald-400 font-bold block">Poupe ${Store.formatPrice(15, 82.5)}</span>
+                <span class="text-xs text-emerald-400 font-bold block">Poupe ${Store.formatPrice(savingsEUR, savingsEUR * 5.5)}</span>
+                <span class="text-sm font-heading font-black text-[#ffe600] block">${Store.formatPrice(bundleEUR, bundleEUR * 5.5)}</span>
                 <button type="button" onclick="handleAddPackFallback()" class="mt-1 px-4 py-2 bg-[#ffe600] hover:bg-[#fff033] text-black font-sub font-black text-xs uppercase tracking-wider rounded-lg shadow transition-all cursor-pointer">
                   ADICIONAR PACK
                 </button>
@@ -1363,16 +1375,44 @@
 
     function handleAddPackFallback() {
       if (!currentProduct) return;
+      const isApparel = currentProduct.category === 'wear';
+      const pairedProd = isApparel 
+        ? PRODUCTS.find(p => p.id === 'kashvelo-gear-base-layer')
+        : PRODUCTS.find(p => p.id === 'tshirt-veiculos-lentos-dark-ghostrider');
+      
+      const pairedName = pairedProd ? pairedProd.name : 'T-Shirt Streetwear Oficial';
+      const pairedImg = pairedProd ? (pairedProd.image || 'assets/images/apparel/tshirt_lentos_preto_front.jpg') : 'assets/images/apparel/tshirt_lentos_preto_front.jpg';
+      const pairedPriceEUR = pairedProd ? pairedProd.priceEUR : 39.90;
+      const pairedPriceBRL = pairedProd ? pairedProd.priceBRL : 219.00;
+
+      const discountRatio = 0.85; // 15% off
+      const item1EUR = Math.round((currentProduct.priceEUR * discountRatio) * 100) / 100;
+      const item1BRL = Math.round((currentProduct.priceBRL * discountRatio) * 100) / 100;
+      const item2EUR = Math.round((pairedPriceEUR * discountRatio) * 100) / 100;
+      const item2BRL = Math.round((pairedPriceBRL * discountRatio) * 100) / 100;
+
       Store.cart.push({
-        id: currentProduct.id + '-pack',
-        name: `${currentProduct.name} + Luvas KV Carbono`,
-        priceEUR: Math.round((currentProduct.priceEUR + 44.90) * 100) / 100,
-        priceBRL: Math.round(((currentProduct.priceEUR + 44.90) * 6.5) * 100) / 100,
+        id: currentProduct.id,
+        name: currentProduct.name,
+        priceEUR: item1EUR,
+        priceBRL: item1BRL,
         image: currentProduct.image,
         variation: 'Pack Especial Biker (-15%)',
         quantity: 1,
-        supplierUrl: ''
+        supplierUrl: currentProduct.supplierUrl || ''
       });
+      if (pairedProd) {
+        Store.cart.push({
+          id: pairedProd.id,
+          name: pairedProd.name,
+          priceEUR: item2EUR,
+          priceBRL: item2BRL,
+          image: pairedImg,
+          variation: 'Pack Especial Biker (-15%)',
+          quantity: 1,
+          supplierUrl: pairedProd.supplierUrl || ''
+        });
+      }
       Store.saveCart();
       Store.updateCartUI();
       Store.openCart();
