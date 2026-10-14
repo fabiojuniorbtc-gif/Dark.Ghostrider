@@ -409,11 +409,16 @@ const Store = {
     const checkoutClose = document.getElementById('checkout-modal-close');
     const checkoutModal = document.getElementById('checkout-modal');
     if (checkoutClose && checkoutModal) {
-      checkoutClose.addEventListener('click', () => checkoutModal.classList.remove('open'));
+      checkoutClose.addEventListener('click', () => this.closeCheckoutModal());
       checkoutModal.addEventListener('click', (e) => {
-        if (e.target === checkoutModal) checkoutModal.classList.remove('open');
+        if (e.target === checkoutModal) this.closeCheckoutModal();
       });
     }
+
+    // Payment method radio toggling for card drawer
+    document.querySelectorAll('input[name="pay-pt"], input[name="pay-br"]').forEach(r => {
+      r.addEventListener('change', () => this.onPaymentMethodChange());
+    });
 
     // Checkout button in cart
     const btnCheckoutCart = document.getElementById('btn-checkout-cart');
@@ -1192,19 +1197,86 @@ const Store = {
       }
     }
 
+    // Reset views
+    const formContainer = document.getElementById('checkout-form-container');
+    const successContainer = document.getElementById('checkout-success-container');
+    if (formContainer) formContainer.classList.remove('hidden');
+    if (successContainer) {
+      successContainer.classList.add('hidden');
+      successContainer.innerHTML = '';
+    }
+    if (this._mbwayInterval) {
+      clearInterval(this._mbwayInterval);
+      this._mbwayInterval = null;
+    }
+
+    this.onPaymentMethodChange();
     modal.classList.add('open');
+  },
+
+  closeCheckoutModal() {
+    const modal = document.getElementById('checkout-modal');
+    if (modal) {
+      modal.classList.remove('open');
+    }
+    if (this._mbwayInterval) {
+      clearInterval(this._mbwayInterval);
+      this._mbwayInterval = null;
+    }
+  },
+
+  onPaymentMethodChange() {
+    let method = 'mbway';
+    if (this.currency === 'BRL') {
+      const brChecked = document.querySelector('input[name="pay-br"]:checked');
+      method = brChecked ? brChecked.value : 'pix';
+    } else {
+      const ptChecked = document.querySelector('input[name="pay-pt"]:checked');
+      method = ptChecked ? ptChecked.value : 'mbway';
+    }
+
+    const cardBox = document.getElementById('card-fields-box');
+    if (cardBox) {
+      if (method === 'card') {
+        cardBox.classList.remove('hidden');
+      } else {
+        cardBox.classList.add('hidden');
+      }
+    }
   },
 
   async processCheckout(event) {
     event.preventDefault();
 
-    const name = document.getElementById('chk-name').value;
-    const phone = document.getElementById('chk-phone').value;
-    const email = document.getElementById('chk-email').value;
-    const address = document.getElementById('chk-address').value;
-    const postalCode = document.getElementById('chk-postal').value;
-    const city = document.getElementById('chk-city').value;
+    const nameEl = document.getElementById('chk-name');
+    const phoneEl = document.getElementById('chk-phone');
+    const emailEl = document.getElementById('chk-email');
+    const addressEl = document.getElementById('chk-address');
+    const postalEl = document.getElementById('chk-postal');
+    const cityEl = document.getElementById('chk-city');
+
+    const name = nameEl ? nameEl.value.trim() : 'Cliente';
+    const phone = phoneEl ? phoneEl.value.trim() : '';
+    const email = emailEl ? emailEl.value.trim() : '';
+    const address = addressEl ? addressEl.value.trim() : '';
+    const postalCode = postalEl ? postalEl.value.trim() : '';
+    const city = cityEl ? cityEl.value.trim() : '';
     const country = this.currency === 'BRL' ? 'Brasil' : 'Portugal';
+
+    // Identify selected payment method
+    let selectedPayment = 'MB WAY';
+    let paymentKey = 'mbway';
+    if (this.currency === 'BRL') {
+      const brRadio = document.querySelector('input[name="pay-br"]:checked');
+      paymentKey = brRadio ? brRadio.value : 'pix';
+      selectedPayment = paymentKey === 'card' ? 'Cartão de Crédito' : 'PIX';
+    } else {
+      const ptRadio = document.querySelector('input[name="pay-pt"]:checked');
+      paymentKey = ptRadio ? ptRadio.value : 'mbway';
+      if (paymentKey === 'multibanco') selectedPayment = 'Multibanco';
+      else if (paymentKey === 'card') selectedPayment = 'Cartão de Crédito';
+      else selectedPayment = 'MB WAY';
+    }
 
     const orderId = 'DG-' + (this.currency === 'BRL' ? 'BR-' : 'PT-') + Math.floor(100000 + Math.random() * 900000);
     const trackingNumber = 'LP00' + Math.floor(10000000 + Math.random() * 90000000) + (this.currency === 'BRL' ? 'BR' : 'PT');
@@ -1256,16 +1328,16 @@ const Store = {
       coupon: coupon ? { code: coupon.code, discountPct: coupon.discountPct, discountEUR: Math.round(discountEUR * 100) / 100 } : null,
       totalCostEUR: Math.round(totalCostEUR * 100) / 100,
       netProfitEUR: netProfitEUR,
-      paymentMethod: this.currency === 'BRL' ? 'PIX' : 'MB WAY',
-      paymentStatus: 'PAID',
+      paymentMethod: selectedPayment,
+      paymentStatus: paymentKey === 'card' ? 'PAID' : 'PENDING',
       items: enrichedItems,
       date: new Date().toISOString(),
       createdAt: new Date().toISOString(),
-      orderStatus: 'Aguardando Compra',
-      status: 'Aguardando Compra',
+      orderStatus: paymentKey === 'card' ? 'Pago - A Processar Envio' : 'Aguardando Pagamento',
+      status: paymentKey === 'card' ? 'Pago - A Processar Envio' : 'Aguardando Pagamento',
       trackingNumber: trackingNumber,
       carrier: country === 'Brasil' ? 'Correios do Brasil' : 'CTT Expresso Portugal',
-      notes: 'Encomenda efetuada no site. Aguardando compra no AliExpress.'
+      notes: `Encomenda via ${selectedPayment}. Registada pelo checkout da loja.`
     };
 
     // 1. Silent lead capture to subscribers list
@@ -1300,6 +1372,7 @@ const Store = {
     orders.unshift(newOrder);
     localStorage.setItem('dark_ghostrider_orders', JSON.stringify(orders));
 
+    // Clear active cart
     this.cart = [];
     this.saveCart();
 
@@ -1310,21 +1383,389 @@ const Store = {
       formContainer.classList.add('hidden');
       successContainer.classList.remove('hidden');
 
-      document.getElementById('success-order-id').textContent = orderId;
-      document.getElementById('success-tracking-number').textContent = trackingNumber;
-      
-      const trackBtn = document.getElementById('btn-view-tracking');
-      if (trackBtn) {
-        trackBtn.href = `rastreio.html?order=${orderId}`;
+      this.renderCheckoutSuccessScreen({
+        orderId,
+        trackingNumber,
+        selectedPayment,
+        paymentKey,
+        customerName: name,
+        customerPhone: phone,
+        customerEmail: email,
+        customerCity: city,
+        customerCountry: country,
+        finalEUR,
+        finalBRL,
+        coupon
+      });
+    }
+  },
+
+  renderCheckoutSuccessScreen(details) {
+    const successContainer = document.getElementById('checkout-success-container');
+    if (!successContainer) return;
+
+    const formattedTotal = this.formatPrice(details.finalEUR, details.finalBRL);
+    const couponNote = details.coupon ? `\n*Cupão Aplicado:* ${details.coupon.code} (-${details.coupon.discountPct}%)` : '';
+
+    if (details.paymentKey === 'mbway') {
+      const msgMB = `📱 *PAGAMENTO MB WAY - DARK GHOSTRIDER STORE*\n----------------------------------------\n*ID:* ${details.orderId}\n*Cliente:* ${details.customerName}\n*Telemóvel:* ${details.customerPhone}\n*Valor:* ${formattedTotal}${couponNote}\n\nJá efetuei a autorização na app MB WAY. Favor validar o pedido.`;
+      const waLink = `https://wa.me/${this.whatsappNumber}?text=${encodeURIComponent(msgMB)}`;
+
+      successContainer.innerHTML = `
+        <div class="text-left font-body">
+          <div class="text-center mb-5">
+            <div class="w-16 h-16 bg-red-600/20 text-[#ff4d5a] rounded-full flex items-center justify-center text-3xl mx-auto mb-3 border border-red-500/30 animate-pulse">
+              📱
+            </div>
+            <span class="text-xs font-sub font-bold text-[#ff4d5a] uppercase tracking-widest block mb-1">
+              PAGAMENTO MB WAY EMITIDO
+            </span>
+            <h3 class="font-heading font-black text-2xl text-white">AUTORIZAÇÃO PENDENTE</h3>
+            <p class="text-xs text-gray-300 mt-1 max-w-md mx-auto">
+              Enviámos uma notificação para o telemóvel <strong class="text-white">${details.customerPhone || 'indicado'}</strong> no montante de <strong class="text-[#ffe600] font-mono text-sm">${formattedTotal}</strong>.
+            </p>
+          </div>
+
+          <!-- Countdown Timer -->
+          <div class="bg-[#12131b] border border-amber-500/40 rounded-xl p-3.5 mb-4 flex items-center justify-between">
+            <div class="flex items-center gap-2.5">
+              <span class="text-2xl">⏳</span>
+              <div>
+                <div class="text-xs font-sub font-bold text-amber-400 uppercase">Tempo Limite para Aprovar:</div>
+                <div class="text-[11px] text-gray-400">Abre a tua app MB WAY e autoriza a transação</div>
+              </div>
+            </div>
+            <div id="mbway-timer" class="font-mono font-black text-lg text-amber-300 bg-black/50 px-3 py-1 rounded-lg border border-amber-500/30">
+              04:59
+            </div>
+          </div>
+
+          <!-- Order Summary Card -->
+          <div class="bg-[#090a10] border border-[#242533] rounded-xl p-4 space-y-2.5 mb-4 font-sub text-xs">
+            <div class="flex justify-between items-center pb-2 border-b border-[#1b1c28]">
+              <span class="text-gray-400">ID da Encomenda:</span>
+              <span class="font-bold text-white font-mono">${details.orderId}</span>
+            </div>
+            <div class="flex justify-between items-center pb-2 border-b border-[#1b1c28]">
+              <span class="text-gray-400">Total a Pagar:</span>
+              <span class="font-black text-[#ffe600] text-sm font-mono">${formattedTotal}</span>
+            </div>
+            <div class="flex justify-between items-center pb-2 border-b border-[#1b1c28]">
+              <span class="text-gray-400">Rastreio CTT Reservado:</span>
+              <span class="font-bold text-cyan-400 font-mono">${details.trackingNumber}</span>
+            </div>
+            <div class="bg-[#151622] rounded-lg p-3 border border-[#26283b] text-gray-300 text-[11px] leading-relaxed">
+              <strong class="text-white block mb-1">💡 Não recebeste a notificação? Envio Direto:</strong>
+              Podes transferir o valor por MB WAY diretamente para o telemóvel oficial da loja:
+              <div class="flex items-center justify-between mt-2 pt-2 border-t border-white/10">
+                <span class="font-mono font-bold text-white text-sm">968 885 713</span>
+                <button type="button" onclick="Store.copyToClipboard('968885713', this)" class="px-2.5 py-1 bg-white/10 hover:bg-white/20 text-white rounded text-[10px] font-bold uppercase transition-colors cursor-pointer">
+                  Copiar Número
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Action Buttons -->
+          <div class="space-y-2">
+            <a href="${waLink}" target="_blank" class="w-full py-3.5 bg-[#17261d] hover:bg-[#203629] text-[#25d366] border border-[#25d366]/40 rounded-xl font-sub font-bold uppercase tracking-wider text-xs transition-all flex items-center justify-center gap-2 shadow-lg shadow-green-950/40">
+              <span>💬 Confirmar Pagamento no WhatsApp</span>
+            </a>
+            <div class="grid grid-cols-2 gap-2">
+              <a href="rastreio.html?order=${details.orderId}" class="py-2.5 bg-[#12131c] hover:bg-[#1a1b26] text-cyan-400 border border-cyan-500/30 rounded-xl font-sub font-bold uppercase tracking-wider text-[11px] text-center transition-all flex items-center justify-center gap-1">
+                <span>📦 Ver Rastreio</span>
+              </a>
+              <button type="button" onclick="Store.closeCheckoutModal()" class="py-2.5 bg-[#12131c] hover:bg-[#1a1b26] text-gray-300 border border-[#26283b] rounded-xl font-sub font-bold uppercase tracking-wider text-[11px] text-center transition-all cursor-pointer">
+                Concluir
+              </button>
+            </div>
+          </div>
+        </div>
+      `;
+      this.startMbwayTimer(300);
+
+    } else if (details.paymentKey === 'multibanco') {
+      const p1 = Math.floor(100 + Math.random() * 900);
+      const p2 = Math.floor(100 + Math.random() * 900);
+      const p3 = Math.floor(100 + Math.random() * 900);
+      const mbRefFormatted = `${p1} ${p2} ${p3}`;
+      const mbRefRaw = `${p1}${p2}${p3}`;
+      const mbEntity = '21250';
+
+      const msgMB = `🏦 *COMPROVATIVO MULTIBANCO - DARK GHOSTRIDER STORE*\n----------------------------------------\n*ID:* ${details.orderId}\n*Cliente:* ${details.customerName}\n*Valor:* ${formattedTotal}${couponNote}\n*Entidade:* ${mbEntity}\n*Referência:* ${mbRefFormatted}\n\nEnvio em anexo o comprovativo de pagamento efetuado.`;
+      const waLink = `https://wa.me/${this.whatsappNumber}?text=${encodeURIComponent(msgMB)}`;
+
+      successContainer.innerHTML = `
+        <div class="text-left font-body">
+          <div class="text-center mb-5">
+            <div class="w-16 h-16 bg-blue-600/20 text-blue-400 rounded-full flex items-center justify-center text-3xl mx-auto mb-3 border border-blue-500/30">
+              🏦
+            </div>
+            <span class="text-xs font-sub font-bold text-blue-400 uppercase tracking-widest block mb-1">
+              REFERÊNCIA MULTIBANCO GERADA
+            </span>
+            <h3 class="font-heading font-black text-2xl text-white">DADOS PARA PAGAMENTO</h3>
+            <p class="text-xs text-gray-300 mt-1 max-w-md mx-auto">
+              Efetua o pagamento no teu <strong>Homebanking</strong> ou em qualquer <strong>Caixa Multibanco</strong> (Pagamentos > Pagamento de Serviços/Compras).
+            </p>
+          </div>
+
+          <!-- SIBS Multibanco Slip -->
+          <div class="bg-[#0a0e1a] border-2 border-blue-500/40 rounded-xl p-4 sm:p-5 mb-4 shadow-2xl">
+            <div class="flex items-center justify-between pb-3 mb-3 border-b border-blue-500/20">
+              <div class="flex items-center gap-2">
+                <span class="bg-blue-600 text-white font-black text-xs px-2 py-0.5 rounded font-sub">MB</span>
+                <span class="font-heading font-black text-sm text-white tracking-wider">MULTIBANCO</span>
+              </div>
+              <span class="text-[10px] font-sub text-blue-300 uppercase tracking-wider">Validade: 48 Horas</span>
+            </div>
+
+            <div class="space-y-2.5 font-mono">
+              <div class="flex items-center justify-between bg-black/40 p-2.5 rounded-lg border border-white/5">
+                <div>
+                  <span class="text-[10px] font-sub text-gray-400 block uppercase">ENTIDADE:</span>
+                  <span class="font-bold text-white text-base tracking-wider">${mbEntity}</span>
+                </div>
+                <button type="button" onclick="Store.copyToClipboard('${mbEntity}', this)" class="px-2.5 py-1 bg-white/10 hover:bg-white/20 text-white rounded text-[10px] font-sub font-bold uppercase transition-colors cursor-pointer">
+                  Copiar
+                </button>
+              </div>
+
+              <div class="flex items-center justify-between bg-black/40 p-2.5 rounded-lg border border-white/5">
+                <div>
+                  <span class="text-[10px] font-sub text-gray-400 block uppercase">REFERÊNCIA:</span>
+                  <span class="font-bold text-[#ffe600] text-base tracking-wider">${mbRefFormatted}</span>
+                </div>
+                <button type="button" onclick="Store.copyToClipboard('${mbRefRaw}', this)" class="px-2.5 py-1 bg-white/10 hover:bg-white/20 text-white rounded text-[10px] font-sub font-bold uppercase transition-colors cursor-pointer">
+                  Copiar
+                </button>
+              </div>
+
+              <div class="flex items-center justify-between bg-black/40 p-2.5 rounded-lg border border-white/5">
+                <div>
+                  <span class="text-[10px] font-sub text-gray-400 block uppercase">MONTANTE:</span>
+                  <span class="font-bold text-emerald-400 text-base tracking-wider">${formattedTotal}</span>
+                </div>
+                <button type="button" onclick="Store.copyToClipboard('${details.finalEUR.toFixed(2)}', this)" class="px-2.5 py-1 bg-white/10 hover:bg-white/20 text-white rounded text-[10px] font-sub font-bold uppercase transition-colors cursor-pointer">
+                  Copiar
+                </button>
+              </div>
+            </div>
+
+            <button type="button" onclick="Store.copyAllMultibanco('${mbEntity}', '${mbRefFormatted}', '${formattedTotal}', this)" class="mt-3 w-full py-2 bg-blue-600/20 hover:bg-blue-600/30 text-blue-300 border border-blue-500/30 rounded-lg text-xs font-sub font-bold uppercase tracking-wider transition-colors cursor-pointer flex items-center justify-center gap-1.5">
+              <span>📋 Copiar Todos os Dados Multibanco</span>
+            </button>
+          </div>
+
+          <!-- Action Buttons -->
+          <div class="space-y-2">
+            <a href="${waLink}" target="_blank" class="w-full py-3.5 bg-[#17261d] hover:bg-[#203629] text-[#25d366] border border-[#25d366]/40 rounded-xl font-sub font-bold uppercase tracking-wider text-xs transition-all flex items-center justify-center gap-2 shadow-lg shadow-green-950/40">
+              <span>💬 Enviar Comprovativo no WhatsApp</span>
+            </a>
+            <div class="grid grid-cols-2 gap-2">
+              <a href="rastreio.html?order=${details.orderId}" class="py-2.5 bg-[#12131c] hover:bg-[#1a1b26] text-cyan-400 border border-cyan-500/30 rounded-xl font-sub font-bold uppercase tracking-wider text-[11px] text-center transition-all flex items-center justify-center gap-1">
+                <span>📦 Ver Rastreio</span>
+              </a>
+              <button type="button" onclick="Store.closeCheckoutModal()" class="py-2.5 bg-[#12131c] hover:bg-[#1a1b26] text-gray-300 border border-[#26283b] rounded-xl font-sub font-bold uppercase tracking-wider text-[11px] text-center transition-all cursor-pointer">
+                Concluir
+              </button>
+            </div>
+          </div>
+        </div>
+      `;
+
+    } else if (details.paymentKey === 'card') {
+      const authCode = Math.floor(10000 + Math.random() * 90000);
+      const cardNumInput = document.getElementById('chk-card-num');
+      let cardLast4 = '4242';
+      if (cardNumInput && cardNumInput.value.replace(/\s+/g, '').length >= 4) {
+        const cleaned = cardNumInput.value.replace(/\s+/g, '');
+        cardLast4 = cleaned.slice(-4);
       }
 
-      const notifyBtn = document.getElementById('btn-notify-dark');
-      if (notifyBtn) {
-        const couponNote = coupon ? `\n*Cupão Aplicado:* ${coupon.code} (-${coupon.discountPct}%)` : '';
-        const msg = `🚨 *NOVA COMPRA REGISTRADA NO SITE!*\n\n*ID:* ${orderId}\n*Cliente:* ${name}\n*Total:* ${this.formatPrice(finalEUR, finalBRL)}${couponNote}\n*Destino:* ${city}, ${country}\n\nFavor processar o envio no fornecedor.`;
-        notifyBtn.href = `https://wa.me/${this.whatsappNumber}?text=${encodeURIComponent(msg)}`;
-      }
+      const msgCard = `💳 *PAGAMENTO COM CARTÃO APROVADO - DARK GHOSTRIDER STORE*\n----------------------------------------\n*ID:* ${details.orderId}\n*Cliente:* ${details.customerName}\n*Valor:* ${formattedTotal}${couponNote}\n*Autorização:* AUTH-${authCode}\n\nPoderiam confirmar a data prevista de entrega?`;
+      const waLink = `https://wa.me/${this.whatsappNumber}?text=${encodeURIComponent(msgCard)}`;
+
+      successContainer.innerHTML = `
+        <div class="text-left font-body">
+          <div class="text-center mb-5">
+            <div class="w-16 h-16 bg-emerald-500/20 text-emerald-400 rounded-full flex items-center justify-center text-3xl mx-auto mb-3 border border-emerald-500/30">
+              ✓
+            </div>
+            <span class="text-xs font-sub font-bold text-emerald-400 uppercase tracking-widest block mb-1">
+              PAGAMENTO APROVADO • 3D SECURE
+            </span>
+            <h3 class="font-heading font-black text-2xl text-white">ENCOMENDA CONFIRMADA!</h3>
+            <p class="text-xs text-gray-300 mt-1 max-w-md mx-auto">
+              O pagamento foi debitado com sucesso e o teu pedido já entrou em processamento logístico. Enviámos a confirmação para <strong class="text-white">${details.customerEmail || 'o teu email'}</strong>.
+            </p>
+          </div>
+
+          <!-- Transaction Card -->
+          <div class="bg-[#090a10] border border-emerald-500/30 rounded-xl p-4 mb-4 font-sub text-xs space-y-2.5 shadow-xl">
+            <div class="flex justify-between items-center pb-2 border-b border-[#1b1c28]">
+              <span class="text-gray-400">ID da Encomenda:</span>
+              <span class="font-bold text-white font-mono">${details.orderId}</span>
+            </div>
+            <div class="flex justify-between items-center pb-2 border-b border-[#1b1c28]">
+              <span class="text-gray-400">Método de Pagamento:</span>
+              <span class="font-bold text-white">Cartão Visa / Mastercard (•••• ${cardLast4})</span>
+            </div>
+            <div class="flex justify-between items-center pb-2 border-b border-[#1b1c28]">
+              <span class="text-gray-400">Código de Autorização:</span>
+              <span class="font-mono text-emerald-400 font-bold">AUTH-${authCode}</span>
+            </div>
+            <div class="flex justify-between items-center pb-2 border-b border-[#1b1c28]">
+              <span class="text-gray-400">Total Liquidado:</span>
+              <span class="font-black text-[#ffe600] text-sm font-mono">${formattedTotal}</span>
+            </div>
+            <div class="flex justify-between items-center">
+              <span class="text-gray-400">Código de Rastreio CTT:</span>
+              <span class="font-mono text-cyan-400 font-bold">${details.trackingNumber}</span>
+            </div>
+          </div>
+
+          <!-- Action Buttons -->
+          <div class="space-y-2">
+            <a href="rastreio.html?order=${details.orderId}" class="w-full py-3.5 bg-cyan-600 hover:bg-cyan-500 text-white rounded-xl font-sub font-bold uppercase tracking-wider text-xs transition-all flex items-center justify-center gap-2 shadow-lg shadow-cyan-950/40">
+              <span>📦 Acompanhar Encomenda nos CTT</span>
+            </a>
+            <div class="grid grid-cols-2 gap-2">
+              <a href="${waLink}" target="_blank" class="py-2.5 bg-[#17261d] hover:bg-[#203629] text-[#25d366] border border-[#25d366]/40 rounded-xl font-sub font-bold uppercase tracking-wider text-[11px] text-center transition-all flex items-center justify-center gap-1">
+                <span>💬 Falar no WhatsApp</span>
+              </a>
+              <button type="button" onclick="Store.closeCheckoutModal()" class="py-2.5 bg-[#12131c] hover:bg-[#1a1b26] text-gray-300 border border-[#26283b] rounded-xl font-sub font-bold uppercase tracking-wider text-[11px] text-center transition-all cursor-pointer">
+                Concluir
+              </button>
+            </div>
+          </div>
+        </div>
+      `;
+
+    } else {
+      // PIX (Brasil)
+      const pixKey = "pix@darkghostriderstore.com";
+      const msgPix = `🇧🇷 *PAGAMENTO PIX - DARK GHOSTRIDER STORE*\n----------------------------------------\n*ID:* ${details.orderId}\n*Cliente:* ${details.customerName}\n*Total:* ${formattedTotal}${couponNote}\n\nSegue o comprovante do PIX efetuado.`;
+      const waLink = `https://wa.me/${this.whatsappNumber}?text=${encodeURIComponent(msgPix)}`;
+
+      successContainer.innerHTML = `
+        <div class="text-left font-body">
+          <div class="text-center mb-5">
+            <div class="w-16 h-16 bg-emerald-500/20 text-emerald-400 rounded-full flex items-center justify-center text-3xl mx-auto mb-3 border border-emerald-500/30">
+              ⚡
+            </div>
+            <span class="text-xs font-sub font-bold text-emerald-400 uppercase tracking-widest block mb-1">
+              CHAVE PIX GERADA
+            </span>
+            <h3 class="font-heading font-black text-2xl text-white">PAGAMENTO INSTANTÂNEO</h3>
+            <p class="text-xs text-gray-300 mt-1 max-w-md mx-auto">
+              Utilize a chave PIX abaixo no app do seu banco para confirmação imediata.
+            </p>
+          </div>
+
+          <div class="bg-[#0a0f18] border border-emerald-500/40 rounded-xl p-4 mb-4 font-mono text-xs space-y-3 shadow-xl">
+            <div class="flex justify-between items-center pb-2 border-b border-white/10 font-sub">
+              <span class="text-gray-400">ID do Pedido:</span>
+              <span class="font-bold text-white">${details.orderId}</span>
+            </div>
+            <div class="flex justify-between items-center pb-2 border-b border-white/10 font-sub">
+              <span class="text-gray-400">Total a Pagar:</span>
+              <span class="font-black text-[#ffe600] text-sm">${formattedTotal}</span>
+            </div>
+            <div>
+              <span class="text-[11px] font-sub text-gray-400 block mb-1">CHAVE PIX (E-MAIL):</span>
+              <div class="flex items-center justify-between bg-black/50 p-2.5 rounded-lg border border-white/10">
+                <span class="text-emerald-300 font-bold">${pixKey}</span>
+                <button type="button" onclick="Store.copyToClipboard('${pixKey}', this)" class="px-2.5 py-1 bg-white/10 hover:bg-white/20 text-white rounded text-[10px] font-sub font-bold uppercase transition-colors cursor-pointer">
+                  Copiar
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="space-y-2">
+            <a href="${waLink}" target="_blank" class="w-full py-3.5 bg-[#17261d] hover:bg-[#203629] text-[#25d366] border border-[#25d366]/40 rounded-xl font-sub font-bold uppercase tracking-wider text-xs transition-all flex items-center justify-center gap-2 shadow-lg shadow-green-950/40">
+              <span>💬 Enviar Comprovante no WhatsApp</span>
+            </a>
+            <div class="grid grid-cols-2 gap-2">
+              <a href="rastreio.html?order=${details.orderId}" class="py-2.5 bg-[#12131c] hover:bg-[#1a1b26] text-cyan-400 border border-cyan-500/30 rounded-xl font-sub font-bold uppercase tracking-wider text-[11px] text-center transition-all flex items-center justify-center gap-1">
+                <span>📦 Rastreio</span>
+              </a>
+              <button type="button" onclick="Store.closeCheckoutModal()" class="py-2.5 bg-[#12131c] hover:bg-[#1a1b26] text-gray-300 border border-[#26283b] rounded-xl font-sub font-bold uppercase tracking-wider text-[11px] text-center transition-all cursor-pointer">
+                Concluir
+              </button>
+            </div>
+          </div>
+        </div>
+      `;
     }
+  },
+
+  startMbwayTimer(duration) {
+    if (this._mbwayInterval) clearInterval(this._mbwayInterval);
+    let remaining = duration;
+    const timerEl = document.getElementById('mbway-timer');
+    if (!timerEl) return;
+
+    const updateDisplay = () => {
+      const minutes = Math.floor(remaining / 60).toString().padStart(2, '0');
+      const seconds = (remaining % 60).toString().padStart(2, '0');
+      timerEl.textContent = `${minutes}:${seconds}`;
+    };
+
+    updateDisplay();
+    this._mbwayInterval = setInterval(() => {
+      remaining--;
+      if (remaining <= 0) {
+        clearInterval(this._mbwayInterval);
+        this._mbwayInterval = null;
+        if (timerEl) {
+          timerEl.textContent = '00:00';
+          timerEl.classList.add('text-red-500');
+        }
+      } else {
+        updateDisplay();
+      }
+    }, 1000);
+  },
+
+  copyToClipboard(text, btn) {
+    const doFeedback = () => {
+      if (!btn) return;
+      const oldHtml = btn.innerHTML;
+      btn.innerHTML = '<span>Copiado! ✓</span>';
+      btn.classList.add('text-emerald-400');
+      setTimeout(() => {
+        btn.innerHTML = oldHtml;
+        btn.classList.remove('text-emerald-400');
+      }, 2000);
+    };
+
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(doFeedback).catch(() => {
+        fallbackCopy(text);
+        doFeedback();
+      });
+    } else {
+      fallbackCopy(text);
+      doFeedback();
+    }
+
+    function fallbackCopy(val) {
+      const ta = document.createElement('textarea');
+      ta.value = val;
+      ta.style.position = 'fixed';
+      ta.style.opacity = '0';
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+    }
+  },
+
+  copyAllMultibanco(ent, ref, mont, btn) {
+    const text = `DADOS DE PAGAMENTO MULTIBANCO (DARK GHOSTRIDER STORE):\nEntidade: ${ent}\nReferência: ${ref}\nMontante: ${mont}`;
+    this.copyToClipboard(text, btn);
   },
 
   // ==========================================================================

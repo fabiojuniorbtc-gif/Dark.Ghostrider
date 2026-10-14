@@ -1635,11 +1635,10 @@ const PRODUCTS = [
         "name": "Tamanho",
         "type": "select",
         "values": [
-          "S (Palma 7.5 - 8.0 cm)",
-          "M (Palma 8.0 - 8.5 cm)",
-          "L (Palma 8.5 - 9.0 cm)",
-          "XL (Palma 9.0 - 9.5 cm)",
-          "XXL (Palma 9.5 - 10.0 cm)"
+          "S (Mão 18 cm / Palma 18.5 - 20 cm)",
+          "M (Mão 19 cm / Palma 19.5 - 21 cm)",
+          "L (Mão 20 cm / Palma 20.5 - 22 cm)",
+          "XL (Mão 21 cm / Palma 21 - 22.5 cm)"
         ]
       }
     ],
