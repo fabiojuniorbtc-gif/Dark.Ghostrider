@@ -72,7 +72,7 @@ const PRODUCTS = [
         "discountPct": 20,
         "items": [
           { "id": "hoodie-dark-ghostrider-oficial", "name": "Sweatshirt com Capuz Oficial", "image": "assets/images/apparel/hoodie_preto_front.jpg", "priceEUR": 59.90 },
-          { "id": "tshirt-classic-bio190-dark-ghostrider", "name": "T-Shirt Classic Bio190", "image": "assets/images/apparel/tshirt_preto_front.jpg", "priceEUR": 29.90 }
+          { "id": "tshirt-classic-bio190-dark-ghostrider", "name": "T-Shirt Classic Bio190", "image": "assets/images/apparel/tshirt_classic_preto.jpg", "priceEUR": 29.90 }
         ]
       },
       {
@@ -84,7 +84,7 @@ const PRODUCTS = [
         "discountPct": 20,
         "items": [
           { "id": "hoodie-dark-ghostrider-oficial", "name": "Sweatshirt com Capuz Oficial", "image": "assets/images/apparel/hoodie_preto_front.jpg", "priceEUR": 59.90 },
-          { "id": "tshirt-oversized-dark-ghostrider", "name": "T-Shirt Oversized Boxy", "image": "assets/images/apparel/tshirt_preto_front.jpg", "priceEUR": 39.90 }
+          { "id": "tshirt-oversized-dark-ghostrider", "name": "T-Shirt Oversized Boxy", "image": "assets/images/apparel/tshirt_oversized_preto.jpg", "priceEUR": 39.90 }
         ]
       }
     ],
@@ -142,21 +142,21 @@ const PRODUCTS = [
       "netProfitEUR": 16.04
     },
     "variantImages": {
-      "Preto Stealth (All Black)": "assets/images/apparel/tshirt_preto_front.jpg",
-      "Amarelo Fluorescente (High-Vis Neon)": "assets/images/apparel/tshirt_amarelo_front.jpg"
+      "Preto Stealth (All Black)": "assets/images/apparel/tshirt_oversized_preto.jpg",
+      "Amarelo Fluorescente (High-Vis Neon)": "assets/images/apparel/tshirt_oversized_amarelo.jpg"
     },
     "dualView": {
       "front": "assets/images/apparel/tshirt_preto_front.jpg",
-      "back": "assets/images/apparel/tshirt_preto_back.jpg"
+      "back": "assets/images/apparel/tshirt_oversized_preto.jpg"
     },
     "variantDualViews": {
       "Preto Stealth (All Black)": {
         "front": "assets/images/apparel/tshirt_preto_front.jpg",
-        "back": "assets/images/apparel/tshirt_preto_back.jpg"
+        "back": "assets/images/apparel/tshirt_oversized_preto.jpg"
       },
       "Amarelo Fluorescente (High-Vis Neon)": {
         "front": "assets/images/apparel/tshirt_amarelo_front.jpg",
-        "back": "assets/images/apparel/tshirt_amarelo_back.jpg"
+        "back": "assets/images/apparel/tshirt_oversized_amarelo.jpg"
       }
     },
     "packs": [
@@ -168,7 +168,7 @@ const PRODUCTS = [
         "originalPriceEUR": 99.80,
         "discountPct": 20,
         "items": [
-          { "id": "tshirt-oversized-dark-ghostrider", "name": "T-Shirt Oversized Street Division", "image": "assets/images/apparel/tshirt_preto_front.jpg", "priceEUR": 39.90 },
+          { "id": "tshirt-oversized-dark-ghostrider", "name": "T-Shirt Oversized Street Division", "image": "assets/images/apparel/tshirt_oversized_preto.jpg", "priceEUR": 39.90 },
           { "id": "hoodie-dark-ghostrider-oficial", "name": "Sweatshirt com Capuz Oficial", "image": "assets/images/apparel/hoodie_preto_front.jpg", "priceEUR": 59.90 }
         ]
       },
@@ -180,16 +180,16 @@ const PRODUCTS = [
         "originalPriceEUR": 69.80,
         "discountPct": 15,
         "items": [
-          { "id": "tshirt-oversized-dark-ghostrider", "name": "T-Shirt Oversized Street Division", "image": "assets/images/apparel/tshirt_preto_front.jpg", "priceEUR": 39.90 },
-          { "id": "tshirt-classic-bio190-dark-ghostrider", "name": "T-Shirt Classic Bio190 Street Division", "image": "assets/images/apparel/tshirt_preto_front.jpg", "priceEUR": 29.90 }
+          { "id": "tshirt-oversized-dark-ghostrider", "name": "T-Shirt Oversized Street Division", "image": "assets/images/apparel/tshirt_oversized_preto.jpg", "priceEUR": 39.90 },
+          { "id": "tshirt-classic-bio190-dark-ghostrider", "name": "T-Shirt Classic Bio190 Street Division", "image": "assets/images/apparel/tshirt_classic_preto.jpg", "priceEUR": 29.90 }
         ]
       }
     ],
     "gallery": [
+      "assets/images/apparel/tshirt_oversized_preto.jpg",
       "assets/images/apparel/tshirt_preto_front.jpg",
-      "assets/images/apparel/tshirt_preto_back.jpg",
-      "assets/images/apparel/tshirt_amarelo_front.jpg",
-      "assets/images/apparel/tshirt_amarelo_back.jpg"
+      "assets/images/apparel/tshirt_oversized_amarelo.jpg",
+      "assets/images/apparel/tshirt_amarelo_front.jpg"
     ]
   },
   {
@@ -238,21 +238,21 @@ const PRODUCTS = [
       "netProfitEUR": 10.96
     },
     "variantImages": {
-      "Preto Stealth (All Black)": "assets/images/apparel/tshirt_preto_front.jpg",
-      "Amarelo Fluorescente (High-Vis Neon)": "assets/images/apparel/tshirt_amarelo_front.jpg"
+      "Preto Stealth (All Black)": "assets/images/apparel/tshirt_classic_preto.jpg",
+      "Amarelo Fluorescente (High-Vis Neon)": "assets/images/apparel/tshirt_classic_amarelo.jpg"
     },
     "dualView": {
       "front": "assets/images/apparel/tshirt_preto_front.jpg",
-      "back": "assets/images/apparel/tshirt_preto_back.jpg"
+      "back": "assets/images/apparel/tshirt_classic_preto.jpg"
     },
     "variantDualViews": {
       "Preto Stealth (All Black)": {
         "front": "assets/images/apparel/tshirt_preto_front.jpg",
-        "back": "assets/images/apparel/tshirt_preto_back.jpg"
+        "back": "assets/images/apparel/tshirt_classic_preto.jpg"
       },
       "Amarelo Fluorescente (High-Vis Neon)": {
         "front": "assets/images/apparel/tshirt_amarelo_front.jpg",
-        "back": "assets/images/apparel/tshirt_amarelo_back.jpg"
+        "back": "assets/images/apparel/tshirt_classic_amarelo.jpg"
       }
     },
     "packs": [
@@ -264,16 +264,16 @@ const PRODUCTS = [
         "originalPriceEUR": 89.80,
         "discountPct": 20,
         "items": [
-          { "id": "tshirt-classic-bio190-dark-ghostrider", "name": "T-Shirt Classic Bio190", "image": "assets/images/apparel/tshirt_preto_front.jpg", "priceEUR": 29.90 },
+          { "id": "tshirt-classic-bio190-dark-ghostrider", "name": "T-Shirt Classic Bio190", "image": "assets/images/apparel/tshirt_classic_preto.jpg", "priceEUR": 29.90 },
           { "id": "hoodie-dark-ghostrider-oficial", "name": "Sweatshirt com Capuz Oficial", "image": "assets/images/apparel/hoodie_preto_front.jpg", "priceEUR": 59.90 }
         ]
       }
     ],
     "gallery": [
+      "assets/images/apparel/tshirt_classic_preto.jpg",
       "assets/images/apparel/tshirt_preto_front.jpg",
-      "assets/images/apparel/tshirt_preto_back.jpg",
-      "assets/images/apparel/tshirt_amarelo_front.jpg",
-      "assets/images/apparel/tshirt_amarelo_back.jpg"
+      "assets/images/apparel/tshirt_classic_amarelo.jpg",
+      "assets/images/apparel/tshirt_amarelo_front.jpg"
     ]
   },
   {

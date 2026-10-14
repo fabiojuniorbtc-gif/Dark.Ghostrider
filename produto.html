@@ -1305,6 +1305,7 @@
       if (src.includes('back')) return '👁️ Vista Costas';
       if (src.includes('costas')) return '👁️ Mega Estampa Costas';
       if (src.includes('peito')) return '👁️ Emblema Peito';
+      if (src.includes('oversized') || src.includes('classic')) return '👁️ Mega Estampa A3';
       return '👁️ Detalhe do Produto';
     }
 
@@ -1359,6 +1360,7 @@
         else if (tImg.includes('back')) tag = 'Costas';
         else if (tImg.includes('costas')) tag = 'Costas';
         else if (tImg.includes('peito')) tag = 'Peito';
+        else if (tImg.includes('oversized') || tImg.includes('classic')) tag = 'Estampa A3';
 
         const btn = document.createElement('button');
         btn.type = 'button';
