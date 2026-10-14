@@ -3,6 +3,8 @@ import socketserver
 import os
 import sys
 import json
+import html
+import re
 import urllib.request
 import urllib.error
 import urllib.parse
@@ -10,10 +12,10 @@ import threading
 import time
 from urllib.parse import urlparse
 
-# Force UTF-8 stdout on Windows console
+# Force UTF-8 stdout on Windows console with line buffering
 if sys.platform == "win32":
     import io
-    sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8', errors='replace')
+    sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8', errors='replace', line_buffering=True)
 
 PORT = 8080
 DIRECTORY = os.path.dirname(os.path.abspath(__file__))
@@ -145,6 +147,16 @@ def send_telegram_message(token, chat_id, text, reply_markup=None):
         try:
             err_body = json.loads(e.read().decode('utf-8'))
             desc = err_body.get('description', '')
+            # If HTML parsing failed, retry once with plain text without HTML tags
+            if 'can\'t parse entities' in desc.lower() or 'entity' in desc.lower():
+                plain_text = re.sub(r'<[^>]+>', '', text)
+                payload['text'] = plain_text
+                payload.pop('parse_mode', None)
+                data = json.dumps(payload).encode('utf-8')
+                req = urllib.request.Request(url, data=data, headers={'Content-Type': 'application/json'})
+                with urllib.request.urlopen(req, timeout=10) as resp:
+                    res_data = json.loads(resp.read().decode('utf-8'))
+                    return res_data.get('ok', False), res_data
             if 'chat not found' in desc.lower():
                 return False, "Chat não encontrado! Você precisa abrir o seu bot no Telegram e clicar em 'COMEÇAR / START' para autorizá-lo a enviar mensagens para você."
             return False, f"Telegram: {desc}"
@@ -154,72 +166,109 @@ def send_telegram_message(token, chat_id, text, reply_markup=None):
         return False, str(e)
 
 def notify_order_telegram(order):
-    cfg = load_config()
-    token = cfg.get('telegram_token', '').strip()
-    chat_id = cfg.get('telegram_chat_id', '').strip()
-    if not token or not chat_id:
-        print("[TELEGRAM] Aviso: Token ou Chat ID nao configurados em data/config.json.")
-        return False
+    try:
+        cfg = load_config()
+        token = cfg.get('telegram_token', '').strip()
+        chat_id = cfg.get('telegram_chat_id', '').strip()
+        if not token or not chat_id:
+            print("[TELEGRAM] Aviso: Token ou Chat ID nao configurados em data/config.json.", flush=True)
+            return False
 
-    cust = order.get('customer', {})
-    items = order.get('items', [])
-    items_desc = "\n".join([f"  • <b>{it.get('name')}</b> ({it.get('variant', 'Unico')}) x{it.get('quantity', 1)} - <b>{it.get('priceEUR', 0):.2f} €</b>" for it in items])
-    
-    # Primary supplier link
-    raw_supplier_url = items[0].get('supplierUrl', '') if items else ''
-    if raw_supplier_url and raw_supplier_url.startswith(('http://', 'https://')):
-        supplier_url = raw_supplier_url
-        supplier_btn_text = '🛒 COMPRAR NO FORNECEDOR'
-    else:
-        supplier_url = f"{BASE_SITE_URL}/admin.html"
-        supplier_btn_text = '👕 ENVIAR À ESTAMPARIA / VER NO PAINEL'
-    
-    phone_clean = cust.get('phone', '').replace(' ', '').replace('-', '').replace('+', '')
-    wa_customer_msg = f"Ola {cust.get('name')}, confirmamos a tua encomenda {order.get('id')} na Dark Ghostrider Store! Ja estamos a preparar o envio."
-    wa_customer_link = f"https://wa.me/{phone_clean}?text={urllib.parse.quote(wa_customer_msg)}"
+        cust = order.get('customer', {}) or {}
+        items = order.get('items', []) or []
+        
+        def safe_float(v, default=0.0):
+            try:
+                return float(v)
+            except (ValueError, TypeError):
+                return default
 
-    msg = f"""🚨 <b>NOVA ENCOMENDA NO SITE!</b>
+        items_lines = []
+        for it in items:
+            p_name = html.escape(str(it.get('name', 'Artigo')))
+            p_var = html.escape(str(it.get('variant') or it.get('variation') or 'Unico'))
+            try:
+                p_qty = int(it.get('quantity', 1) or 1)
+            except (ValueError, TypeError):
+                p_qty = 1
+            p_price = safe_float(it.get('priceEUR', 0))
+            items_lines.append(f"  • <b>{p_name}</b> ({p_var}) x{p_qty} - <b>{p_price:.2f} €</b>")
+        items_desc = "\n".join(items_lines) if items_lines else "  • Artigo não especificado"
+
+        # Primary supplier link
+        raw_supplier_url = items[0].get('supplierUrl', '') if items else ''
+        if raw_supplier_url and raw_supplier_url.startswith(('http://', 'https://')):
+            supplier_url = raw_supplier_url
+            supplier_btn_text = '🛒 COMPRAR NO FORNECEDOR'
+        else:
+            supplier_url = f"{BASE_SITE_URL}/admin.html"
+            supplier_btn_text = '👕 ENVIAR À ESTAMPARIA / VER NO PAINEL'
+        
+        c_name = html.escape(str(cust.get('name', 'Cliente')))
+        c_phone = html.escape(str(cust.get('phone', 'N/D')))
+        c_email = html.escape(str(cust.get('email', 'N/D')))
+        c_addr = html.escape(str(cust.get('address', 'Morada não indicada')))
+        c_postal = html.escape(str(cust.get('postalCode', '')))
+        c_city = html.escape(str(cust.get('city', '')))
+        c_country = html.escape(str(cust.get('country', 'Portugal')))
+        order_id = html.escape(str(order.get('id', 'N/D')))
+        pay_method = html.escape(str(order.get('paymentMethod', 'MB WAY')))
+
+        total_eur = safe_float(order.get('totalEUR', 0))
+        total_cost_eur = safe_float(order.get('totalCostEUR', 0))
+        net_profit_eur = safe_float(order.get('netProfitEUR', 0))
+
+        phone_clean = str(cust.get('phone', '')).replace(' ', '').replace('-', '').replace('+', '')
+        wa_customer_msg = f"Ola {cust.get('name', 'Piloto')}, confirmamos a tua encomenda {order.get('id')} na Dark Ghostrider Store! Ja estamos a preparar o envio."
+        wa_customer_link = f"https://wa.me/{phone_clean}?text={urllib.parse.quote(wa_customer_msg)}"
+
+        msg = f"""🚨 <b>NOVA ENCOMENDA NO SITE!</b>
 ━━━━━━━━━━━━━━━━━━━━━━━━━━
-📦 <b>ID Pedido:</b> <code>{order.get('id')}</code>
-👤 <b>Cliente:</b> {cust.get('name')}
-📱 <b>Telemóvel:</b> {cust.get('phone')}
-✉️ <b>Email:</b> {cust.get('email')}
+📦 <b>ID Pedido:</b> <code>{order_id}</code>
+👤 <b>Cliente:</b> {c_name}
+📱 <b>Telemóvel:</b> {c_phone}
+✉️ <b>Email:</b> {c_email}
 📍 <b>Morada de Envio:</b>
-   {cust.get('address')}
-   {cust.get('postalCode')} {cust.get('city')}, {cust.get('country')}
+   {c_addr}
+   {c_postal} {c_city}, {c_country}
 
 🛒 <b>Artigo(s):</b>
 {items_desc}
 
-💰 <b>Total Pago:</b> {order.get('totalEUR', 0):.2f} € ({order.get('paymentMethod', 'MB WAY')})
-🏷️ <b>Custo Fornecedor:</b> {order.get('totalCostEUR', 0):.2f} €
-💵 <b>LUCRO LIMPO:</b> <b>+{order.get('netProfitEUR', 0):.2f} €</b>
+💰 <b>Total Pago:</b> {total_eur:.2f} € ({pay_method})
+🏷️ <b>Custo Fornecedor:</b> {total_cost_eur:.2f} €
+💵 <b>LUCRO LIMPO:</b> <b>+{net_profit_eur:.2f} €</b>
 ━━━━━━━━━━━━━━━━━━━━━━━━━━
 👇 <i>Ações rápidas no telemóvel:</i>"""
 
-    reply_markup = {
-        'inline_keyboard': [
-            [
-                {'text': supplier_btn_text, 'url': supplier_url}
-            ],
-            [
-                {'text': '📦 MARCAR COMO COMPRADO', 'callback_data': f"status_prep_{order.get('id')}"}
-            ],
-            [
-                {'text': '📊 ABRIR NO PAINEL DARK ADMIN', 'url': f'{BASE_SITE_URL}/admin.html'}
-            ],
-            [
-                {'text': '📦 VER RASTREIO DA ENCOMENDA', 'url': f'{BASE_SITE_URL}/rastreio.html?order={order.get("id")}'}
-            ],
-            [
-                {'text': '💬 FALAR C/ CLIENTE NO WHATSAPP', 'url': wa_customer_link}
+        reply_markup = {
+            'inline_keyboard': [
+                [
+                    {'text': supplier_btn_text, 'url': supplier_url}
+                ],
+                [
+                    {'text': '📦 MARCAR COMO COMPRADO', 'callback_data': f"status_prep_{order.get('id')}"}
+                ],
+                [
+                    {'text': '📊 ABRIR NO PAINEL DARK ADMIN', 'url': f'{BASE_SITE_URL}/admin.html'}
+                ],
+                [
+                    {'text': '📦 VER RASTREIO DA ENCOMENDA', 'url': f'{BASE_SITE_URL}/rastreio.html?order={order.get("id")}'}
+                ],
+                [
+                    {'text': '💬 FALAR C/ CLIENTE NO WHATSAPP', 'url': wa_customer_link}
+                ]
             ]
-        ]
-    }
+        }
 
-    ok, res = send_telegram_message(token, chat_id, msg, reply_markup)
-    print(f"[TELEGRAM] Notificacao de pedido {order.get('id')}: {ok}")
-    return ok
+        ok, res = send_telegram_message(token, chat_id, msg, reply_markup)
+        print(f"[TELEGRAM] Notificacao de pedido {order.get('id')}: {ok} (detalhes: {res})", flush=True)
+        return ok
+    except Exception as e:
+        import traceback
+        print(f"[TELEGRAM ERROR] Falha ao preparar notificacao de pedido: {e}", flush=True)
+        traceback.print_exc()
+        return False
 
 # Background Poller for Telegram button callbacks
 def telegram_polling_thread():
@@ -423,18 +472,19 @@ class StoreHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
             data = {}
 
         if path == '/api/orders':
-            orders = load_orders()
             order_id = data.get('id')
             if not order_id:
                 import random
                 order_id = f"DG-PT-{random.randint(100000, 999999)}"
                 data['id'] = order_id
+            print(f"[ORDER RECEIVED] Nova encomenda recebida: {order_id} ({data.get('paymentMethod')})", flush=True)
+            orders = load_orders()
             
             if 'orderStatus' not in data:
                 data['orderStatus'] = 'Aguardando Compra'
             if 'createdAt' not in data:
-                from datetime import datetime
-                data['createdAt'] = datetime.utcnow().isoformat() + 'Z'
+                from datetime import datetime, timezone
+                data['createdAt'] = datetime.now(timezone.utc).isoformat()
             
             orders.insert(0, data)
             save_orders(orders)
