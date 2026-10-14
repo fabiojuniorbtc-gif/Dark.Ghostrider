@@ -418,16 +418,24 @@
             </div>
           </div>
 
+          <!-- Item-Specific Instagram Coupon Box (e.g. Kashvelo Luvas) -->
+          <div id="item-coupon-container" class="hidden"></div>
+
           <!-- Price Display -->
-          <div class="p-4 bg-[#090a10] border border-[#1f202b] rounded-xl">
+          <div id="buybox-price-card" class="p-4 bg-[#090a10] border border-[#1f202b] rounded-xl transition-all">
             <div class="flex items-baseline gap-3">
-              <span id="buybox-price" class="font-heading font-black text-3xl sm:text-4xl text-[#ffe600]">59,90 €</span>
+              <span id="buybox-price" class="font-heading font-black text-3xl sm:text-4xl text-[#ffe600]">69,90 €</span>
               <span id="buybox-compare-price" class="text-sm line-through text-gray-500">79,90 €</span>
               <span id="buybox-discount-badge" class="ml-auto px-2.5 py-0.5 bg-[#e61426] text-white text-[11px] font-sub font-black rounded uppercase tracking-wider">
                 PROMO -25%
               </span>
             </div>
             
+            <div id="buybox-coupon-note" class="hidden mt-2 text-xs font-sub font-bold text-emerald-400 flex items-center gap-1.5">
+              <span>🏷️</span>
+              <span>Cupão GR10GR aplicado (-10% exclusivo nas Luvas Kashvelo)</span>
+            </div>
+
             <div class="mt-2 text-[11px] text-gray-400 font-sub flex items-center gap-2 flex-wrap">
               <span>💳 Até 3x sem juros</span>
               <span>•</span>
@@ -852,7 +860,8 @@
         document.getElementById('product-badge-tag').textContent = currentProduct.badge;
       }
 
-      // Prices
+      // Prices & Exclusive Coupons
+      renderItemCouponBox();
       renderPrices();
 
       // Options: Cor / Versões
@@ -926,10 +935,154 @@
     }
 
     function renderPrices() {
-      const priceFormatted = Store.formatPrice(currentProduct.priceEUR, currentProduct.priceBRL);
-      const compFormatted = Store.formatPrice(currentProduct.compareAtEUR, currentProduct.compareAtBRL);
-      document.getElementById('buybox-price').textContent = priceFormatted;
-      document.getElementById('buybox-compare-price').textContent = compFormatted;
+      if (!currentProduct) return;
+      const coupon = Store.getAppliedCoupon();
+      const isKashvelo = currentProduct.id === 'kashvelo-gear-base-layer';
+      const hasGR10GR = coupon && coupon.code === 'GR10GR';
+      const couponNoteEl = document.getElementById('buybox-coupon-note');
+      const discountBadgeEl = document.getElementById('buybox-discount-badge');
+      const priceCardEl = document.getElementById('buybox-price-card');
+
+      if (isKashvelo && hasGR10GR) {
+        const discountedEUR = Math.round((currentProduct.priceEUR * 0.90) * 100) / 100;
+        const discountedBRL = Math.round((currentProduct.priceBRL * 0.90) * 100) / 100;
+
+        document.getElementById('buybox-price').textContent = Store.formatPrice(discountedEUR, discountedBRL);
+        document.getElementById('buybox-compare-price').textContent = Store.formatPrice(currentProduct.priceEUR, currentProduct.priceBRL);
+        
+        if (discountBadgeEl) {
+          discountBadgeEl.textContent = 'GR10GR -10%';
+          discountBadgeEl.className = 'ml-auto px-2.5 py-0.5 bg-emerald-600 text-white text-[11px] font-sub font-black rounded uppercase tracking-wider animate-pulse';
+          discountBadgeEl.style.display = '';
+        }
+        if (couponNoteEl) couponNoteEl.classList.remove('hidden');
+        if (priceCardEl) priceCardEl.classList.add('border-emerald-500/50', 'bg-emerald-950/20');
+      } else {
+        const priceFormatted = Store.formatPrice(currentProduct.priceEUR, currentProduct.priceBRL);
+        const compFormatted = Store.formatPrice(currentProduct.compareAtEUR, currentProduct.compareAtBRL);
+        document.getElementById('buybox-price').textContent = priceFormatted;
+        document.getElementById('buybox-compare-price').textContent = compFormatted;
+
+        if (discountBadgeEl) {
+          if (currentProduct.compareAtEUR && currentProduct.compareAtEUR > currentProduct.priceEUR) {
+            const pct = Math.round((1 - (currentProduct.priceEUR / currentProduct.compareAtEUR)) * 100);
+            discountBadgeEl.textContent = `PROMO -${pct}%`;
+            discountBadgeEl.className = 'ml-auto px-2.5 py-0.5 bg-[#e61426] text-white text-[11px] font-sub font-black rounded uppercase tracking-wider';
+            discountBadgeEl.style.display = '';
+          } else {
+            discountBadgeEl.style.display = 'none';
+          }
+        }
+        if (couponNoteEl) couponNoteEl.classList.add('hidden');
+        if (priceCardEl) {
+          priceCardEl.classList.remove('border-emerald-500/50', 'bg-emerald-950/20');
+        }
+      }
+    }
+
+    function renderItemCouponBox() {
+      const container = document.getElementById('item-coupon-container');
+      if (!container) return;
+
+      if (!currentProduct || currentProduct.id !== 'kashvelo-gear-base-layer') {
+        container.classList.add('hidden');
+        return;
+      }
+
+      container.classList.remove('hidden');
+      const coupon = Store.getAppliedCoupon();
+      const hasGR10GR = coupon && coupon.code === 'GR10GR';
+
+      if (hasGR10GR) {
+        container.innerHTML = `
+          <div class="rounded-xl border border-emerald-500/50 bg-[#0d1a14] p-3.5 space-y-2.5 shadow-lg shadow-emerald-950/30">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-2">
+                <span class="flex items-center justify-center w-6 h-6 rounded-lg bg-emerald-500 text-black text-xs font-bold">✓</span>
+                <span class="font-sub font-bold text-xs uppercase text-emerald-300 tracking-wider">CÓDIGO DE DESCONTO ATIVADO</span>
+              </div>
+              <button type="button" onclick="removeItemSpecificCoupon()" class="text-[11px] text-gray-400 hover:text-red-400 underline cursor-pointer">Remover</button>
+            </div>
+            <div class="flex items-baseline justify-between bg-black/40 p-2.5 rounded-lg border border-emerald-500/20">
+              <div>
+                <span class="font-mono font-black text-white text-sm tracking-wider">GR10GR</span>
+                <span class="text-[11px] text-emerald-400 block mt-0.5">10% de desconto aplicado exclusivamente nestas luvas (-${Store.formatPrice(6.99, 43.90)})</span>
+              </div>
+              <span class="px-2 py-0.5 bg-emerald-500/20 text-emerald-300 font-mono font-black text-xs rounded border border-emerald-500/40">-10%</span>
+            </div>
+            <p class="text-[10px] text-gray-400 font-sub flex items-center gap-1.5">
+              <span>📸</span> Código oficial do Instagram @dark.ghostrider aplicado com sucesso.
+            </p>
+          </div>
+        `;
+      } else {
+        container.innerHTML = `
+          <div class="rounded-xl border border-pink-500/30 bg-gradient-to-r from-[#170a14] via-[#100f1c] to-[#0c0d15] p-3.5 space-y-2.5 shadow-lg shadow-pink-950/20">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-2">
+                <span class="flex items-center justify-center w-6 h-6 rounded-lg bg-gradient-to-tr from-amber-500 via-rose-500 to-purple-600 text-white text-xs">📸</span>
+                <span class="font-sub font-bold text-xs uppercase text-white tracking-wider">CÓDIGO DE DESCONTO INSTAGRAM</span>
+              </div>
+              <a href="https://instagram.com/dark.ghostrider" target="_blank" rel="noopener noreferrer" class="text-[11px] font-mono text-pink-400 hover:text-pink-300 underline flex items-center gap-1">
+                @dark.ghostrider
+                <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+              </a>
+            </div>
+            <p class="text-[11px] text-gray-300 font-sub leading-snug">
+              Encontra o código no Instagram @dark.ghostrider e aplica aqui para receberes <strong>10% de desconto imediato</strong> exclusivo nestas luvas:
+            </p>
+            <div class="flex gap-2">
+              <input type="text" id="kashvelo-coupon-input" placeholder="Insere o código (ex: GR10GR)" class="flex-1 bg-[#090a10] border border-[#2b2d42] focus:border-[#ffe600] text-white text-xs uppercase font-mono px-3 py-2 rounded-lg outline-none transition-colors" onkeydown="if(event.key==='Enter') applyItemSpecificCoupon()" />
+              <button type="button" onclick="applyItemSpecificCoupon()" class="px-4 py-2 bg-[#ffe600] hover:bg-[#fff033] text-black font-sub font-black text-xs uppercase tracking-wider rounded-lg shadow transition-all cursor-pointer">
+                APLICAR
+              </button>
+            </div>
+            <div id="kashvelo-coupon-msg" class="text-[11px] font-sub text-rose-400 hidden"></div>
+          </div>
+        `;
+      }
+    }
+
+    function applyItemSpecificCoupon() {
+      const input = document.getElementById('kashvelo-coupon-input');
+      const msgEl = document.getElementById('kashvelo-coupon-msg');
+      if (!input) return;
+      const code = (input.value || '').trim().toUpperCase();
+      if (!code) {
+        if (msgEl) {
+          msgEl.textContent = 'Por favor, digita o código do cupão.';
+          msgEl.classList.remove('hidden');
+        }
+        return;
+      }
+      if (code === 'GR10GR') {
+        const couponData = {
+          code: 'GR10GR',
+          discountPct: 10,
+          targetProduct: 'kashvelo-gear-base-layer',
+          appliedAt: Date.now()
+        };
+        localStorage.setItem('dark_active_coupon', JSON.stringify(couponData));
+        window.dispatchEvent(new CustomEvent('dark_coupon_applied', { detail: couponData }));
+        renderItemCouponBox();
+        renderPrices();
+        if (window.Store && Store.updateCartUI) Store.updateCartUI();
+      } else {
+        if (msgEl) {
+          msgEl.textContent = 'Código inválido. Encontra o código oficial no perfil @dark.ghostrider no Instagram (código: GR10GR).';
+          msgEl.classList.remove('hidden');
+        } else {
+          alert('Código inválido. Encontra o código oficial no perfil @dark.ghostrider no Instagram (código: GR10GR).');
+        }
+      }
+    }
+
+    function removeItemSpecificCoupon() {
+      localStorage.removeItem('dark_active_coupon');
+      window.dispatchEvent(new CustomEvent('dark_coupon_applied', { detail: null }));
+      renderItemCouponBox();
+      renderPrices();
+      if (window.Store && Store.updateCartUI) Store.updateCartUI();
     }
 
     function renderVersions(colorValues) {
@@ -1280,7 +1433,10 @@
     function handleQuickWhatsApp() {
       if (!currentProduct) return;
       const phone = "351968885713";
-      const msg = `Olá Dark Ghostrider! Gostaria de encomendar: *${currentProduct.name}* (${selectedColor || ''} - Tamanho ${selectedSize || ''}) no valor de ${document.getElementById('buybox-price').textContent}. Como posso efetuar o pagamento por MB WAY?`;
+      const coupon = Store.getAppliedCoupon();
+      const hasGR10GR = coupon && coupon.code === 'GR10GR' && currentProduct.id === 'kashvelo-gear-base-layer';
+      const couponNote = hasGR10GR ? ' com CÓDIGO DO INSTAGRAM GR10GR (-10%)' : '';
+      const msg = `Olá Dark Ghostrider! Gostaria de encomendar: *${currentProduct.name}* (${selectedColor || ''} - Tamanho ${selectedSize || ''})${couponNote} no valor de ${document.getElementById('buybox-price').textContent}. Como posso efetuar o pagamento por MB WAY?`;
       window.open(`https://wa.me/${phone}?text=${encodeURIComponent(msg)}`, '_blank');
     }
 
@@ -1340,7 +1496,13 @@
 
     window.addEventListener('dark_currency_changed', () => {
       renderPrices();
+      renderItemCouponBox();
       renderPacks();
+    });
+
+    window.addEventListener('dark_coupon_applied', () => {
+      renderItemCouponBox();
+      renderPrices();
     });
   </script>
 </body>

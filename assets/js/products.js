@@ -1620,16 +1620,16 @@ const PRODUCTS = [
     "id": "kashvelo-gear-base-layer",
     "name": "Luvas de Proteção em Couro & Carbono Real - Kashvelo Gear Portugal",
     "category": "protection",
-    "priceEUR": 85.9,
-    "compareAtEUR": 85.9,
-    "priceBRL": 549.0,
-    "compareAtBRL": 549.0,
-    "badge": "PARCERIA OFICIAL KASHVELO",
+    "priceEUR": 69.9,
+    "compareAtEUR": 79.9,
+    "priceBRL": 439.0,
+    "compareAtBRL": 499.0,
+    "badge": "PARCERIA OFICIAL • CÓDIGO INSTAGRAM: GR10GR (-10%)",
     "isDarkChoice": true,
     "rating": 5.0,
     "reviewsCount": 164,
     "image": "assets/images/kashvelo.jpg",
-    "description": "Luvas de pilotagem em couro bovino legítimo perfurado de alta densidade desenvolvidas pela marca portuguesa Kashvelo Gear. Equipadas com escudo rígido de nós dos dedos em fibra de carbono real, reforço anatômico na palma anti-abrasão com painel antiderrapante, couro perfurado para respirabilidade térmica e costuras duplas reforçadas.",
+    "description": "Luvas de pilotagem em couro bovino legítimo perfurado de alta densidade desenvolvidas pela marca portuguesa Kashvelo Gear. Equipadas com escudo rígido de nós dos dedos em fibra de carbono real, reforço anatômico na palma anti-abrasão com painel antiderrapante, couro perfurado para respirabilidade térmica e costuras duplas reforçadas. Aplica o cupão GR10GR do Instagram para 10% de desconto imediato.",
     "options": [
       {
         "name": "Tamanho",
@@ -1653,10 +1653,11 @@ const PRODUCTS = [
     "supplierUrl": "https://kashvelogearpt.etsy.com?coupon=GR10GR",
     "isExternalPartner": true,
     "costDetails": {
-      "productCostEUR": 28.0,
-      "shippingCostEUR": 4.9,
-      "totalCostEUR": 32.9,
-      "netProfitEUR": 53.0
+      "productCostEUR": 63.0,
+      "shippingCostEUR": 0.0,
+      "totalCostEUR": 63.0,
+      "netProfitEUR": 6.9,
+      "commissionNote": "Parceria Oficial Kashvelo: comissão fixa de 6,90€ por par vendido"
     },
     "gallery": [
       "assets/images/kashvelo.jpg",

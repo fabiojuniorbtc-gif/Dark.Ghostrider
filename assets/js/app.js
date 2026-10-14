@@ -971,13 +971,7 @@ const Store = {
       `;
     }).join('');
 
-    const coupon = this.getAppliedCoupon();
-    let discountEUR = 0;
-    let discountBRL = 0;
-    if (coupon && coupon.discountPct) {
-      discountEUR = subtotalEUR * (coupon.discountPct / 100);
-      discountBRL = subtotalBRL * (coupon.discountPct / 100);
-    }
+    const { coupon, discountEUR, discountBRL } = this.calculateCouponDiscount(subtotalEUR, subtotalBRL);
     const finalEUR = Math.max(0, subtotalEUR - discountEUR);
     const finalBRL = Math.max(0, subtotalBRL - discountBRL);
 
@@ -985,12 +979,14 @@ const Store = {
     const couponBox = document.getElementById('cart-coupon-box');
     if (couponBox) {
       if (coupon) {
+        const isTargeted = coupon.targetProduct === 'kashvelo-gear-base-layer';
+        const targetLabel = isTargeted ? ' (Luvas Kashvelo)' : '';
         couponBox.innerHTML = `
           <div class="flex items-center justify-between bg-[#13201a] border border-emerald-500/40 p-2.5 rounded-xl text-xs">
             <div class="flex items-center gap-1.5">
               <span class="text-emerald-400">🏷️</span>
               <span class="font-bold text-white uppercase">${coupon.code}</span>
-              <span class="px-1.5 py-0.5 rounded text-[10px] bg-emerald-500/20 text-emerald-300 font-bold">-${coupon.discountPct}%</span>
+              <span class="px-1.5 py-0.5 rounded text-[10px] bg-emerald-500/20 text-emerald-300 font-bold">-${coupon.discountPct}%${targetLabel}</span>
             </div>
             <button onclick="Store.removeCoupon()" class="text-gray-400 hover:text-red-400 text-[11px] underline cursor-pointer">Remover</button>
           </div>
@@ -998,7 +994,7 @@ const Store = {
       } else {
         couponBox.innerHTML = `
           <div class="flex gap-1.5">
-            <input type="text" id="cart-coupon-input" placeholder="Cupão (ex: DARK10)" class="flex-1 bg-[#151622] text-white text-xs px-2.5 py-2 rounded-lg border border-[#2b2d42] outline-none focus:border-[#f6ff00] uppercase font-mono">
+            <input type="text" id="cart-coupon-input" placeholder="Cupão (ex: DARK10 ou GR10GR)" class="flex-1 bg-[#151622] text-white text-xs px-2.5 py-2 rounded-lg border border-[#2b2d42] outline-none focus:border-[#f6ff00] uppercase font-mono">
             <button onclick="Store.applyCouponCode(document.getElementById('cart-coupon-input').value)" class="px-3 py-2 bg-[#25283b] hover:bg-[#f6ff00] text-gray-200 hover:text-black font-sub font-bold text-xs uppercase rounded-lg transition-colors cursor-pointer">Aplicar</button>
           </div>
         `;
@@ -1011,7 +1007,8 @@ const Store = {
       if (coupon && discountEUR > 0) {
         discountRow.classList.remove('hidden');
         discountRow.classList.add('flex');
-        discountVal.textContent = `- ${this.formatPrice(discountEUR, discountBRL)}`;
+        const targetLabel = coupon.targetProduct ? ' (Luvas Kashvelo)' : '';
+        discountVal.textContent = `- ${this.formatPrice(discountEUR, discountBRL)}${targetLabel}`;
       } else {
         discountRow.classList.add('hidden');
         discountRow.classList.remove('flex');
@@ -1021,6 +1018,26 @@ const Store = {
     if (subtotalEl) {
       subtotalEl.textContent = this.formatPrice(finalEUR, finalBRL);
     }
+  },
+
+  calculateCouponDiscount(subtotalEUR, subtotalBRL) {
+    const coupon = this.getAppliedCoupon();
+    let discountEUR = 0;
+    let discountBRL = 0;
+    if (coupon && coupon.discountPct) {
+      if (coupon.targetProduct) {
+        (this.cart || []).forEach(item => {
+          if (item.id === coupon.targetProduct) {
+            discountEUR += (item.priceEUR * item.quantity) * (coupon.discountPct / 100);
+            discountBRL += (item.priceBRL * item.quantity) * (coupon.discountPct / 100);
+          }
+        });
+      } else {
+        discountEUR = subtotalEUR * (coupon.discountPct / 100);
+        discountBRL = subtotalBRL * (coupon.discountPct / 100);
+      }
+    }
+    return { coupon, discountEUR: Math.round(discountEUR * 100) / 100, discountBRL: Math.round(discountBRL * 100) / 100 };
   },
 
   getAppliedCoupon() {
@@ -1036,20 +1053,39 @@ const Store = {
     code = String(code || '').trim().toUpperCase();
     if (!code) return;
     if (code === 'DARK10') {
+      const couponData = { code: 'DARK10', discountPct: 10, appliedAt: Date.now() };
       if (window.DarkClub) {
         window.DarkClub.setActiveCoupon('DARK10', 10);
       } else {
-        localStorage.setItem('dark_active_coupon', JSON.stringify({ code: 'DARK10', discountPct: 10, appliedAt: Date.now() }));
+        localStorage.setItem('dark_active_coupon', JSON.stringify(couponData));
       }
+      window.dispatchEvent(new CustomEvent('dark_coupon_applied', { detail: couponData }));
       this.updateCartUI();
       alert('⚡ Cupão DARK10 ativado com sucesso! 10% de desconto concedido.');
+    } else if (code === 'GR10GR') {
+      const couponData = {
+        code: 'GR10GR',
+        discountPct: 10,
+        targetProduct: 'kashvelo-gear-base-layer',
+        appliedAt: Date.now()
+      };
+      localStorage.setItem('dark_active_coupon', JSON.stringify(couponData));
+      window.dispatchEvent(new CustomEvent('dark_coupon_applied', { detail: couponData }));
+      this.updateCartUI();
+      const hasKashvelo = this.cart && this.cart.some(it => it.id === 'kashvelo-gear-base-layer');
+      if (hasKashvelo) {
+        alert('🏍️ Cupão GR10GR ativado com sucesso! 10% de desconto aplicado exclusivamente nas Luvas Kashvelo Gear.');
+      } else {
+        alert('🏍️ Cupão GR10GR ativado! Este cupão é exclusivo para as Luvas Kashvelo Gear Portugal. Adiciona as luvas ao teu cesto para ver o desconto de 10%.');
+      }
     } else {
-      alert('Cupão inválido ou expirado. Tenta DARK10.');
+      alert('Cupão inválido ou expirado. Tenta DARK10 ou o cupão oficial do Instagram GR10GR.');
     }
   },
 
   removeCoupon() {
     localStorage.removeItem('dark_active_coupon');
+    window.dispatchEvent(new CustomEvent('dark_coupon_applied', { detail: null }));
     this.updateCartUI();
   },
 
@@ -1084,19 +1120,27 @@ const Store = {
   sendCartViaWhatsapp() {
     if (this.cart.length === 0) return;
 
-    let totalEUR = 0;
-    let totalBRL = 0;
+    let subtotalEUR = 0;
+    let subtotalBRL = 0;
     let itemsText = '';
 
     this.cart.forEach((item, idx) => {
-      totalEUR += item.priceEUR * item.quantity;
-      totalBRL += item.priceBRL * item.quantity;
+      subtotalEUR += item.priceEUR * item.quantity;
+      subtotalBRL += item.priceBRL * item.quantity;
       const pText = this.formatPrice(item.priceEUR, item.priceBRL);
       itemsText += `\n${idx + 1}. *${item.name}* x${item.quantity} ${item.variation ? `(${item.variation})` : ''} - ${pText}`;
     });
 
-    const totalText = this.formatPrice(totalEUR, totalBRL);
-    const msg = `🏍️ *ENCOMENDA DARK GHOSTRIDER STORE*\n----------------------------------------${itemsText}\n\n*TOTAL DA ENCOMENDA:* ${totalText}\n*País de Envio:* ${this.currency === 'EUR' ? 'Portugal 🇵🇹' : 'Brasil 🇧🇷'}\n\nGostaria de finalizar e efetuar o pagamento.`;
+    const { coupon, discountEUR, discountBRL } = this.calculateCouponDiscount(subtotalEUR, subtotalBRL);
+    const finalEUR = Math.max(0, subtotalEUR - discountEUR);
+    const finalBRL = Math.max(0, subtotalBRL - discountBRL);
+
+    const discountText = (coupon && discountEUR > 0) 
+      ? `\n*Cupão de Desconto:* ${coupon.code} (-${this.formatPrice(discountEUR, discountBRL)}${coupon.targetProduct ? ' em Luvas Kashvelo' : ''})` 
+      : '';
+
+    const totalText = this.formatPrice(finalEUR, finalBRL);
+    const msg = `🏍️ *ENCOMENDA DARK GHOSTRIDER STORE*\n----------------------------------------${itemsText}${discountText}\n\n*TOTAL DA ENCOMENDA:* ${totalText}\n*País de Envio:* ${this.currency === 'EUR' ? 'Portugal 🇵🇹' : 'Brasil 🇧🇷'}\n\nGostaria de finalizar e efetuar o pagamento.`;
 
     const encoded = encodeURIComponent(msg);
     window.open(`https://wa.me/${this.whatsappNumber}?text=${encoded}`, '_blank');
@@ -1114,13 +1158,7 @@ const Store = {
       subtotalBRL += item.priceBRL * item.quantity;
     });
 
-    const coupon = this.getAppliedCoupon();
-    let discountEUR = 0;
-    let discountBRL = 0;
-    if (coupon && coupon.discountPct) {
-      discountEUR = subtotalEUR * (coupon.discountPct / 100);
-      discountBRL = subtotalBRL * (coupon.discountPct / 100);
-    }
+    const { coupon, discountEUR, discountBRL } = this.calculateCouponDiscount(subtotalEUR, subtotalBRL);
     const finalEUR = Math.max(0, subtotalEUR - discountEUR);
     const finalBRL = Math.max(0, subtotalBRL - discountBRL);
 
@@ -1134,7 +1172,8 @@ const Store = {
       if (coupon && discountEUR > 0) {
         discountRow.classList.remove('hidden');
         discountRow.classList.add('flex');
-        discountVal.textContent = `- ${this.formatPrice(discountEUR, discountBRL)} (${coupon.code} -${coupon.discountPct}%)`;
+        const targetLabel = coupon.targetProduct ? ' (Exclusivo Luvas Kashvelo)' : '';
+        discountVal.textContent = `- ${this.formatPrice(discountEUR, discountBRL)} (${coupon.code} -${coupon.discountPct}%${targetLabel})`;
       } else {
         discountRow.classList.add('hidden');
         discountRow.classList.remove('flex');
@@ -1188,13 +1227,7 @@ const Store = {
       };
     });
 
-    const coupon = this.getAppliedCoupon();
-    let discountEUR = 0;
-    let discountBRL = 0;
-    if (coupon && coupon.discountPct) {
-      discountEUR = subtotalEUR * (coupon.discountPct / 100);
-      discountBRL = subtotalBRL * (coupon.discountPct / 100);
-    }
+    const { coupon, discountEUR, discountBRL } = this.calculateCouponDiscount(subtotalEUR, subtotalBRL);
     const finalEUR = Math.max(0, subtotalEUR - discountEUR);
     const finalBRL = Math.max(0, subtotalBRL - discountBRL);
     const netProfitEUR = Math.round((finalEUR - totalCostEUR) * 100) / 100;
