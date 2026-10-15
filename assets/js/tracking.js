@@ -21,7 +21,7 @@ const TrackingService = {
 
     let progressPercent = 35;
     let badgeText = 'Em Processamento';
-    let estimatedDelivery = '24h a 72h úteis';
+    let estimatedDelivery = order.deliveryEstimate || (destination.includes('Brasil') ? '15 a 25 dias úteis' : '4 a 6 dias úteis');
     let steps = [];
 
     const isShipped = Boolean(trackingNumber) || status === 'Enviado' || status.includes('Trânsito') || status.includes('Expedido');
@@ -100,7 +100,7 @@ const TrackingService = {
       // Estado Inicial: Em Processamento / Preparação (SEM código falso)
       progressPercent = 35;
       badgeText = 'Em Processamento';
-      estimatedDelivery = '24h a 72h úteis';
+      estimatedDelivery = order.deliveryEstimate || (destination.includes('Brasil') ? '15 a 25 dias úteis' : '4 a 6 dias úteis');
       steps = [
         {
           status: 'Aguardando recolha e atribuição de código CTT',

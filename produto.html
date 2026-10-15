@@ -468,11 +468,11 @@
             </div>
             <div class="flex items-center gap-2 text-gray-300">
               <span class="text-emerald-400">✓</span>
-              <span>Envio com frete incluso para Portugal & Espanha</span>
+              <span id="buybox-shipping-badge">Envio 4,85 € para Portugal Continental</span>
             </div>
             <div class="flex items-center gap-2 text-gray-300">
               <span>🚚</span>
-              <span id="buybox-shipping-estimate">Entrega estimada em <strong>24h a 72h úteis</strong> via CTT Expresso</span>
+              <span id="buybox-shipping-estimate">Entrega estimada em <strong>4 a 6 dias úteis</strong> via CTT Expresso</span>
             </div>
             <div class="flex items-center gap-2 text-gray-300">
               <span id="buybox-guarantee-icon">🔄</span>
@@ -640,6 +640,11 @@
       <div id="cart-discount-row" class="hidden items-center justify-between text-xs font-sub font-bold text-emerald-400 bg-emerald-950/30 p-2 rounded-lg border border-emerald-500/20">
         <span class="flex items-center gap-1.5"><span>⚡</span> DESCONTO DARK CLUB (10%):</span>
         <span id="cart-discount-val" class="font-mono font-black">- 0,00 €</span>
+      </div>
+
+      <div id="cart-shipping-row" class="flex items-center justify-between text-xs font-sub text-gray-400">
+        <span>Envio (Portugal Continental):</span>
+        <span id="cart-shipping-val" class="font-mono font-bold text-gray-300">A calcular</span>
       </div>
 
       <div class="flex items-center justify-between text-base font-sub font-bold text-gray-300">
@@ -890,7 +895,7 @@
 
                   <div class="flex justify-between text-gray-300">
                     <span>Envio:</span>
-                    <span class="text-emerald-400 font-bold uppercase tracking-wider">GRÁTIS</span>
+                    <span id="checkout-shipping-val" class="text-emerald-400 font-bold uppercase tracking-wider">GRÁTIS</span>
                   </div>
 
                   <div class="pt-2 border-t border-white/10 flex justify-between items-baseline">
@@ -1143,15 +1148,23 @@
       switchSizeGuideTab(currentProduct.id.includes('oversized') ? 'oversized' : (currentProduct.id.includes('classic') ? 'classic' : 'hoodie'));
 
       // Shipping & Guarantee Info Setup
-      const isWearOrGear = currentProduct.category === 'wear' || currentProduct.id.includes('kashvelo');
+      const isApparel = currentProduct.category === 'wear' || 
+                        currentProduct.id.includes('hoodie') || 
+                        currentProduct.id.includes('tshirt') || 
+                        currentProduct.id.includes('sweat') || 
+                        currentProduct.id.includes('kashvelo');
+      const shippingBadgeEl = document.getElementById('buybox-shipping-badge');
       const shippingEstimateEl = document.getElementById('buybox-shipping-estimate');
       const guaranteeNoteEl = document.getElementById('buybox-guarantee-note');
       const tabShippingTitleEl = document.getElementById('tab-shipping-title');
       const tabShippingDetailsEl = document.getElementById('tab-shipping-details');
 
-      if (isWearOrGear) {
+      if (isApparel) {
+        if (shippingBadgeEl) {
+          shippingBadgeEl.textContent = 'Envio de 4,85 € para Portugal Continental';
+        }
         if (shippingEstimateEl) {
-          shippingEstimateEl.innerHTML = 'Entrega estimada em <strong>24h a 72h úteis</strong> via CTT Expresso em Portugal Continental';
+          shippingEstimateEl.innerHTML = 'Entrega estimada em <strong>4 a 6 dias úteis</strong> via CTT Expresso em Portugal Continental';
         }
         if (guaranteeNoteEl) {
           guaranteeNoteEl.textContent = 'Troca de tamanho 100% garantida sem complicação';
@@ -1161,11 +1174,14 @@
         }
         if (tabShippingDetailsEl) {
           tabShippingDetailsEl.innerHTML = `
-            <p><strong>Envios para Portugal:</strong> Envio expresso através de CTT Expresso com entrega entre <strong>24h a 72h úteis</strong> e código de rastreamento oficial enviado por SMS/Email.</p>
+            <p><strong>Envios para Portugal Continental:</strong> Envio expresso de <strong>4,85 €</strong> através de CTT Expresso com entrega entre <strong>4 a 6 dias úteis</strong> e código de rastreamento oficial enviado por SMS/Email.</p>
             <p><strong>Troca de Tamanhos Garantida:</strong> Caso o tamanho escolhido não fique perfeitamente ajustado no seu corpo, disponibilizamos suporte direto para troca rápida sem complicações.</p>
           `;
         }
       } else {
+        if (shippingBadgeEl) {
+          shippingBadgeEl.textContent = 'Envio com frete incluso para Portugal & Espanha';
+        }
         if (shippingEstimateEl) {
           shippingEstimateEl.innerHTML = 'Entrega estimada em <strong>5 a 20 dias úteis</strong> (Envio Internacional Expresso com rastreamento CTT)';
         }

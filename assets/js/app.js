@@ -909,6 +909,7 @@ const Store = {
       this.cart.push({
         id: p.id,
         name: p.name,
+        category: p.category || (this.isApparelProduct ? (this.isApparelProduct(p) ? 'wear' : 'other') : 'wear'),
         image: itemImage,
         priceEUR: itemPriceEUR,
         priceBRL: itemPriceBRL,
@@ -991,8 +992,9 @@ const Store = {
     }).join('');
 
     const { coupon, discountEUR, discountBRL } = this.calculateCouponDiscount(subtotalEUR, subtotalBRL);
-    const finalEUR = Math.max(0, subtotalEUR - discountEUR);
-    const finalBRL = Math.max(0, subtotalBRL - discountBRL);
+    const shipping = this.calculateShipping();
+    const finalEUR = Math.max(0, subtotalEUR - discountEUR + (this.cart.length > 0 ? shipping.shippingEUR : 0));
+    const finalBRL = Math.max(0, subtotalBRL - discountBRL + (this.cart.length > 0 ? shipping.shippingBRL : 0));
 
     // Update coupon UI in cart
     const couponBox = document.getElementById('cart-coupon-box');
@@ -1031,6 +1033,21 @@ const Store = {
       } else {
         discountRow.classList.add('hidden');
         discountRow.classList.remove('flex');
+      }
+    }
+
+    const shippingRow = document.getElementById('cart-shipping-row');
+    const shippingVal = document.getElementById('cart-shipping-val');
+    if (shippingRow && shippingVal) {
+      if (this.cart.length === 0) {
+        shippingVal.textContent = '—';
+        shippingVal.className = 'font-mono text-gray-500';
+      } else if (shipping.isFree) {
+        shippingVal.textContent = 'GRÁTIS';
+        shippingVal.className = 'text-emerald-400 font-bold uppercase';
+      } else {
+        shippingVal.textContent = this.formatPrice(shipping.shippingEUR, shipping.shippingBRL);
+        shippingVal.className = 'font-mono font-bold text-[#ffe600]';
       }
     }
 
@@ -1127,10 +1144,19 @@ const Store = {
       variationText = ` (${vars.join(', ')})`;
     }
 
-    const curEUR = (fromModal && this.selectedVariantPrice) ? this.selectedVariantPrice.priceEUR : p.priceEUR;
-    const curBRL = (fromModal && this.selectedVariantPrice) ? this.selectedVariantPrice.priceBRL : p.priceBRL;
+    const isApparel = this.isApparelProduct(p);
+    const shippingEUR = isApparel ? 4.85 : 0;
+    const shippingBRL = isApparel ? 32.00 : 0;
+
+    const baseEUR = (fromModal && this.selectedVariantPrice) ? this.selectedVariantPrice.priceEUR : p.priceEUR;
+    const baseBRL = (fromModal && this.selectedVariantPrice) ? this.selectedVariantPrice.priceBRL : p.priceBRL;
+    const curEUR = baseEUR + shippingEUR;
+    const curBRL = baseBRL + shippingBRL;
     const priceText = this.formatPrice(curEUR, curBRL);
-    const msg = `Olá Dark Ghostrider! 🏍️ Vi no site da sua MT-07 e quero encomendar o produto:\n\n*${p.name}*${variationText}\nPreço: *${priceText}* (com frete incluso)\n\nComo posso efetuar o pagamento (MB WAY / Transferência)?`;
+    const shippingDesc = isApparel 
+      ? ` (inclui envio de 4,85€ Portugal Continental • Entrega em 4 a 6 dias úteis)` 
+      : ` (com frete incluso)`;
+    const msg = `Olá Dark Ghostrider! 🏍️ Vi no site da sua MT-07 e quero encomendar o produto:\n\n*${p.name}*${variationText}\nPreço Total: *${priceText}*${shippingDesc}\n\nComo posso efetuar o pagamento (MB WAY / Multibanco / Cartão)?`;
 
     const encoded = encodeURIComponent(msg);
     window.open(`https://wa.me/${this.whatsappNumber}?text=${encoded}`, '_blank');
@@ -1151,26 +1177,104 @@ const Store = {
     });
 
     const { coupon, discountEUR, discountBRL } = this.calculateCouponDiscount(subtotalEUR, subtotalBRL);
-    const finalEUR = Math.max(0, subtotalEUR - discountEUR);
-    const finalBRL = Math.max(0, subtotalBRL - discountBRL);
+    const shipping = this.calculateShipping();
+    const finalEUR = Math.max(0, subtotalEUR - discountEUR + (this.cart.length > 0 ? shipping.shippingEUR : 0));
+    const finalBRL = Math.max(0, subtotalBRL - discountBRL + (this.cart.length > 0 ? shipping.shippingBRL : 0));
 
     const discountText = (coupon && discountEUR > 0) 
       ? `\n*Cupão de Desconto:* ${coupon.code} (-${this.formatPrice(discountEUR, discountBRL)}${coupon.targetProduct ? ' em Luvas Kashvelo' : ''})` 
       : '';
 
+    const shippingText = (shipping.shippingEUR > 0)
+      ? `\n*Envio (Portugal Continental):* ${this.formatPrice(shipping.shippingEUR, shipping.shippingBRL)} (4 a 6 dias úteis)`
+      : `\n*Envio:* GRÁTIS`;
+
     const totalText = this.formatPrice(finalEUR, finalBRL);
-    const msg = `🏍️ *ENCOMENDA DARK GHOSTRIDER STORE*\n----------------------------------------${itemsText}${discountText}\n\n*TOTAL DA ENCOMENDA:* ${totalText}\n*País de Envio:* ${this.currency === 'EUR' ? 'Portugal 🇵🇹' : 'Brasil 🇧🇷'}\n\nGostaria de finalizar e efetuar o pagamento.`;
+    const msg = `🏍️ *ENCOMENDA DARK GHOSTRIDER STORE*\n----------------------------------------${itemsText}${discountText}${shippingText}\n\n*TOTAL DA ENCOMENDA:* ${totalText}\n*País de Envio:* ${this.currency === 'EUR' ? 'Portugal 🇵🇹' : 'Brasil 🇧🇷'}\n*Previsão de Entrega:* 4 a 6 dias úteis\n\nGostaria de finalizar e efetuar o pagamento.`;
 
     const encoded = encodeURIComponent(msg);
     window.open(`https://wa.me/${this.whatsappNumber}?text=${encoded}`, '_blank');
   },
 
+  isApparelProduct(itemOrProduct) {
+    if (!itemOrProduct) return false;
+    const id = (itemOrProduct.id || '').toLowerCase();
+    const name = (itemOrProduct.name || '').toLowerCase();
+    const category = (itemOrProduct.category || '').toLowerCase();
+    return category === 'wear' || 
+           id.includes('tshirt') || 
+           id.includes('hoodie') || 
+           id.includes('sweat') ||
+           name.includes('t-shirt') || 
+           name.includes('sweat') || 
+           name.includes('hoodie');
+  },
+
+  hasApparelInCart() {
+    return (this.cart || []).some(item => {
+      if (this.isApparelProduct(item)) return true;
+      const fullProd = (typeof PRODUCTS !== 'undefined' ? PRODUCTS : []).find(p => p.id === item.id);
+      return fullProd && this.isApparelProduct(fullProd);
+    });
+  },
+
+  calculateShipping() {
+    if (this.currency === 'EUR') {
+      if (this.hasApparelInCart()) {
+        return {
+          shippingEUR: 4.85,
+          shippingBRL: 32.00,
+          label: '4,85 € (Portugal Continental)',
+          isFree: false
+        };
+      }
+      return {
+        shippingEUR: 0.00,
+        shippingBRL: 0.00,
+        label: 'GRÁTIS',
+        isFree: true
+      };
+    } else {
+      if (this.hasApparelInCart()) {
+        return {
+          shippingEUR: 4.85,
+          shippingBRL: 32.00,
+          label: 'R$ 32,00 (Envio Internacional)',
+          isFree: false
+        };
+      }
+      return {
+        shippingEUR: 0.00,
+        shippingBRL: 0.00,
+        label: 'GRÁTIS',
+        isFree: true
+      };
+    }
+  },
+
+  addBusinessDays(startDate, days) {
+    let cur = new Date(startDate);
+    let added = 0;
+    while (added < days) {
+      cur.setDate(cur.getDate() + 1);
+      const day = cur.getDay();
+      if (day !== 0 && day !== 6) { // Skip weekends
+        added++;
+      }
+    }
+    return cur;
+  },
+
   getEstimatedDeliveryDates() {
     const now = new Date();
-    const start = new Date(now.getTime() + 3 * 24 * 3600 * 1000);
-    const end = new Date(now.getTime() + 5 * 24 * 3600 * 1000);
+    const start = this.addBusinessDays(now, 4);
+    const end = this.addBusinessDays(now, 6);
     const months = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
-    return `${start.getDate()} e ${end.getDate()} de ${months[end.getMonth()]}`;
+    if (start.getMonth() === end.getMonth()) {
+      return `${start.getDate()} e ${end.getDate()} de ${months[end.getMonth()]} (4 a 6 dias úteis)`;
+    } else {
+      return `${start.getDate()} de ${months[start.getMonth()]} e ${end.getDate()} de ${months[end.getMonth()]} (4 a 6 dias úteis)`;
+    }
   },
 
   renderCheckoutSidebar() {
@@ -1215,12 +1319,24 @@ const Store = {
     }
 
     const { coupon, discountEUR, discountBRL } = this.calculateCouponDiscount(subtotalEUR, subtotalBRL);
-    const finalEUR = Math.max(0, subtotalEUR - discountEUR);
-    const finalBRL = Math.max(0, subtotalBRL - discountBRL);
+    const shipping = this.calculateShipping();
+    const finalEUR = Math.max(0, subtotalEUR - discountEUR + (this.cart.length > 0 ? shipping.shippingEUR : 0));
+    const finalBRL = Math.max(0, subtotalBRL - discountBRL + (this.cart.length > 0 ? shipping.shippingBRL : 0));
 
     // Update DOM elements
     const subtotalEl = document.getElementById('checkout-subtotal-val');
     if (subtotalEl) subtotalEl.textContent = this.formatPrice(subtotalEUR, subtotalBRL);
+
+    const shippingEl = document.getElementById('checkout-shipping-val');
+    if (shippingEl) {
+      if (shipping.isFree || this.cart.length === 0) {
+        shippingEl.className = 'text-emerald-400 font-bold uppercase tracking-wider';
+        shippingEl.textContent = 'GRÁTIS';
+      } else {
+        shippingEl.className = 'text-[#ffe600] font-bold font-mono';
+        shippingEl.innerHTML = `${this.formatPrice(shipping.shippingEUR, shipping.shippingBRL)} <span class="text-[10px] text-gray-400 font-sub font-normal">(Portugal Continental)</span>`;
+      }
+    }
 
     const totalEl = document.getElementById('checkout-modal-total');
     if (totalEl) totalEl.textContent = this.formatPrice(finalEUR, finalBRL);
@@ -1469,8 +1585,9 @@ const Store = {
     });
 
     const { coupon, discountEUR, discountBRL } = this.calculateCouponDiscount(subtotalEUR, subtotalBRL);
-    const finalEUR = Math.max(0, subtotalEUR - discountEUR);
-    const finalBRL = Math.max(0, subtotalBRL - discountBRL);
+    const shipping = this.calculateShipping();
+    const finalEUR = Math.max(0, subtotalEUR - discountEUR + (this.cart.length > 0 ? shipping.shippingEUR : 0));
+    const finalBRL = Math.max(0, subtotalBRL - discountBRL + (this.cart.length > 0 ? shipping.shippingBRL : 0));
     const netProfitEUR = Math.round((finalEUR - totalCostEUR) * 100) / 100;
 
     // --- REAL STRIPE PAYMENT FLOW FOR CREDIT CARD ---
@@ -1624,6 +1741,7 @@ const Store = {
       country: country,
       currency: this.currency,
       subtotalEUR: Math.round(subtotalEUR * 100) / 100,
+      shippingEUR: Math.round(shipping.shippingEUR * 100) / 100,
       totalEUR: Math.round(finalEUR * 100) / 100,
       totalBRL: Math.round(finalBRL * 100) / 100,
       coupon: coupon ? { code: coupon.code, discountPct: coupon.discountPct, discountEUR: Math.round(discountEUR * 100) / 100 } : null,
@@ -1637,6 +1755,7 @@ const Store = {
       orderStatus: paymentKey === 'card' ? 'Pago - A Processar Envio' : 'Em Processamento',
       status: paymentKey === 'card' ? 'Pago - A Processar Envio' : 'Em Processamento',
       trackingNumber: trackingNumber,
+      deliveryEstimate: '4 a 6 dias úteis',
       carrier: country === 'Brasil' ? 'Correios do Brasil' : 'CTT Expresso Portugal',
       notes: `Encomenda via ${selectedPayment}. Registada pelo checkout da loja.`
     };

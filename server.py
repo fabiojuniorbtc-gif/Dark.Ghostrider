@@ -239,7 +239,8 @@ def notify_order_telegram(order):
         wa_customer_link = f"https://wa.me/{phone_clean}?text={urllib.parse.quote(wa_customer_msg)}"
 
         stripe_id = order.get('stripePaymentIntentId')
-        stripe_badge = f"\n💳 <b>Stripe Transação:</b> <code>{html.escape(stripe_id)}</code> (Aprovado)" if stripe_id else ""
+        shipping_eur = safe_float(order.get('shippingEUR', 0))
+        shipping_line = f"\n🚚 <b>Portes de Envio:</b> {shipping_eur:.2f} € (Portugal Continental)" if shipping_eur > 0 else "\n🚚 <b>Portes de Envio:</b> GRÁTIS"
 
         msg = f"""🚨 <b>NOVA ENCOMENDA NO SITE!</b>
 ━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -254,7 +255,7 @@ def notify_order_telegram(order):
 🛒 <b>Artigo(s):</b>
 {items_desc}
 
-💰 <b>Total Pago:</b> {total_eur:.2f} € ({pay_method}){stripe_badge}
+💰 <b>Total Pago:</b> {total_eur:.2f} € ({pay_method}){shipping_line}{stripe_badge}
 🏷️ <b>Custo Fornecedor:</b> {total_cost_eur:.2f} €
 💵 <b>LUCRO LIMPO:</b> <b>+{net_profit_eur:.2f} €</b>
 ━━━━━━━━━━━━━━━━━━━━━━━━━━
