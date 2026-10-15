@@ -44,9 +44,13 @@ Ficheiro 05:
   Aplicação: Peças AMARELO FLUORESCENTE.
 
 Ficheiro 06:
-  Nome: 06_COSTAS_DARK_SIDE_RIDER_A3_300DPI.png
-  Posição: Costas Centralizadas (Drop 01 Original Helmet Rider)
-  Dimensão Física Real: Formato A3 (29,7 cm x 38,0 cm @ 300 DPI)
+  Nome: 06_COSTAS_DARK_SIDE_RIDER_OFICIAL_A3_300DPI_TRANSPARENTE.png
+  Variante com Fundo Preto: 06_COSTAS_DARK_SIDE_RIDER_OFICIAL_A3_300DPI_BLACK_BG.png
+  Amostra / Preview: 06_COSTAS_DARK_SIDE_RIDER_MASTER_A3.jpg
+  Posição: Costas Centralizadas (Estampa Oficial Capacete Cyber Biker + Viseira Vermelha + Dark Side Rider)
+  Dimensão Física Real: Formato A3 Padrão Gráfico (29,7 cm x 42,0 cm @ 300 DPI - 3508 x 4960 px)
+  Aplicação: T-Shirts e Hoodies (DTF, Silk-Screen e Sublimação Têxtil).
+  Cores de Impressão: Preto Sólido, Branco/Prata Metálico, Vermelho Rubi (Viseira). Fundo Transparente.
 
 Ficheiro 07:
   Nome: 07_COSTAS_POR_FAVOR_PRETO_A3_300DPI.png
