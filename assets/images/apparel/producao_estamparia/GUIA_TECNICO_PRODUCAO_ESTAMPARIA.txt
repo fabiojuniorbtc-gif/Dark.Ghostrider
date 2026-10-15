@@ -25,10 +25,11 @@ Ficheiro 02:
   Aplicação: T-Shirts e Hoodies PRETO STEALTH.
 
 Ficheiro 03:
-  Nome: 03_COSTAS_STREET_DIVISION_AMARELO_A3_300DPI.png
-  Posição: Costas Centralizadas
-  Dimensão Física Real: Formato A3 (29,7 cm x 38,0 cm @ 300 DPI)
-  Aplicação: T-Shirts e Hoodies AMARELO FLUORESCENTE.
+  Nome: 03_COSTAS_SWEAT_AMARELA_OFICIAL_A3_300DPI.png / EMBLEMA_COSTAS_SWEAT_AMARELA_TRANSPARENTE.png
+  Posição: Costas Centralizadas (Emblema Oficial Circular Dark Ghostrider / Dark Side Rider)
+  Dimensão Física Real: Formato A3 (29,7 cm x 42,0 cm @ 300 DPI - 3508 x 4960 px)
+  Aplicação: Sweatshirt com Capuz Oficial AMARELO FLUORESCENTE (Design Exato do Anúncio).
+  Ficheiro de Apoio: EMBLEMA_COSTAS_SWEAT_AMARELA_PREVIEW.jpg (Amostra de cor).
 
 Ficheiro 04:
   Nome: 04_COSTAS_VEICULOS_LENTOS_PRETO_A3_300DPI.png
