@@ -30,6 +30,8 @@
   <!-- Custom Dark Rider CSS -->
   <link rel="stylesheet" href="assets/css/style.css">
   <link rel="icon" type="image/jpeg" href="assets/images/logo.jpg">
+  <!-- Stripe.js Official CDN -->
+  <script src="https://js.stripe.com/v3/"></script>
 </head>
 <body class="bg-[#08080a] text-gray-100 antialiased selection:bg-[#e61426] selection:text-white">
 <!-- ==========================================
@@ -1182,28 +1184,30 @@
                 <span class="text-[10px] text-gray-400">Até 12x</span>
               </label>
             </div>
-          <!-- Optional Card Fields Drawer (reveals when Card is selected) -->
+          <!-- Stripe Card Element Drawer (Official 256-bit Encrypted) -->
           <div id="card-fields-box" class="hidden p-3.5 bg-[#0a0b12] border border-[#26283b] rounded-xl space-y-3">
             <div class="flex items-center justify-between text-xs text-gray-400 font-sub pb-1 border-b border-white/5">
-              <span>🔒 PAGAMENTO COM CARTÃO (ENCRIPTADO 256-BIT)</span>
+              <span class="flex items-center gap-1.5 text-gray-300 font-bold">
+                <span>🔒 CARTÃO DE CRÉDITO • STRIPE OFICIAL</span>
+              </span>
               <div class="flex gap-1.5 items-center">
-                <span class="text-[10px] bg-white/10 px-1.5 py-0.5 rounded text-white font-bold">VISA</span>
-                <span class="text-[10px] bg-white/10 px-1.5 py-0.5 rounded text-white font-bold">MASTERCARD</span>
+                <span class="text-[9px] bg-white/10 px-1.5 py-0.5 rounded text-white font-bold">VISA</span>
+                <span class="text-[9px] bg-white/10 px-1.5 py-0.5 rounded text-white font-bold">MASTERCARD</span>
+                <span class="text-[9px] bg-white/10 px-1.5 py-0.5 rounded text-white font-bold">AMEX</span>
               </div>
             </div>
+            
             <div>
-              <label class="block text-[11px] font-sub text-gray-400 uppercase mb-1">Número do Cartão</label>
-              <input type="text" id="chk-card-num" placeholder="4532 •••• •••• 4242" maxlength="19" class="w-full bg-[#12131c] text-white border border-[#26283b] rounded p-2 text-xs font-mono outline-none focus:border-[#e61426]">
+              <label class="block text-[11px] font-sub text-gray-400 uppercase mb-1.5">Dados do Cartão (Número, Validade e CVV)</label>
+              <div id="stripe-card-element" class="w-full bg-[#12131c] text-white border border-[#26283b] rounded-lg p-3 outline-none transition-colors">
+                <!-- Stripe.js mounts the Card Element here -->
+              </div>
+              <div id="stripe-card-errors" class="text-xs text-red-400 font-sub font-semibold mt-1.5 hidden flex items-center gap-1"></div>
             </div>
-            <div class="grid grid-cols-2 gap-3">
-              <div>
-                <label class="block text-[11px] font-sub text-gray-400 uppercase mb-1">Validade (MM/AA)</label>
-                <input type="text" id="chk-card-exp" placeholder="MM/AA" maxlength="5" class="w-full bg-[#12131c] text-white border border-[#26283b] rounded p-2 text-xs font-mono outline-none focus:border-[#e61426]">
-              </div>
-              <div>
-                <label class="block text-[11px] font-sub text-gray-400 uppercase mb-1">CVV / CVC</label>
-                <input type="text" id="chk-card-cvc" placeholder="123" maxlength="4" class="w-full bg-[#12131c] text-white border border-[#26283b] rounded p-2 text-xs font-mono outline-none focus:border-[#e61426]">
-              </div>
+
+            <div class="text-[10px] text-gray-500 font-sub flex items-center justify-between pt-1">
+              <span class="flex items-center gap-1">⚡ Processado com encriptação 256-bit Stripe</span>
+              <span class="text-emerald-400 font-bold">🛡️ 3D Secure 2.0</span>
             </div>
           </div>
 

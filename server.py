@@ -22,6 +22,7 @@ DIRECTORY = os.path.dirname(os.path.abspath(__file__))
 DATA_DIR = os.path.join(DIRECTORY, 'data')
 ORDERS_FILE = os.path.join(DATA_DIR, 'orders.json')
 CONFIG_FILE = os.path.join(DATA_DIR, 'config.json')
+SECRETS_FILE = os.path.join(DATA_DIR, 'secrets.json')
 PRODUCTS_OVERRIDE_FILE = os.path.join(DATA_DIR, 'products_override.json')
 SUBSCRIBERS_FILE = os.path.join(DATA_DIR, 'subscribers.json')
 
@@ -30,14 +31,29 @@ BASE_SITE_URL = os.environ.get('BASE_SITE_URL', 'https://www.darkghostrider.com'
 data_lock = threading.Lock()
 
 def load_config():
+    cfg = {'telegram_token': '', 'telegram_chat_id': '', 'whatsapp_number': '351968885713'}
     with data_lock:
         if os.path.exists(CONFIG_FILE):
             try:
                 with open(CONFIG_FILE, 'r', encoding='utf-8') as f:
-                    return json.load(f)
+                    cfg.update(json.load(f))
             except Exception:
                 pass
-    return {'telegram_token': '', 'telegram_chat_id': '', 'whatsapp_number': '351968885713'}
+        if os.path.exists(SECRETS_FILE):
+            try:
+                with open(SECRETS_FILE, 'r', encoding='utf-8') as f:
+                    cfg.update(json.load(f))
+            except Exception:
+                pass
+    if os.environ.get('STRIPE_SECRET_KEY'):
+        cfg['stripe_secret_key'] = os.environ['STRIPE_SECRET_KEY']
+    if os.environ.get('STRIPE_PUBLISHABLE_KEY'):
+        cfg['stripe_publishable_key'] = os.environ['STRIPE_PUBLISHABLE_KEY']
+    if os.environ.get('TELEGRAM_TOKEN'):
+        cfg['telegram_token'] = os.environ['TELEGRAM_TOKEN']
+    if os.environ.get('TELEGRAM_CHAT_ID'):
+        cfg['telegram_chat_id'] = os.environ['TELEGRAM_CHAT_ID']
+    return cfg
 
 def save_config(cfg):
     with data_lock:
@@ -222,6 +238,9 @@ def notify_order_telegram(order):
         wa_customer_msg = f"Ola {cust.get('name', 'Piloto')}, confirmamos a tua encomenda {order.get('id')} na Dark Ghostrider Store! Ja estamos a preparar o envio."
         wa_customer_link = f"https://wa.me/{phone_clean}?text={urllib.parse.quote(wa_customer_msg)}"
 
+        stripe_id = order.get('stripePaymentIntentId')
+        stripe_badge = f"\n💳 <b>Stripe Transação:</b> <code>{html.escape(stripe_id)}</code> (Aprovado)" if stripe_id else ""
+
         msg = f"""🚨 <b>NOVA ENCOMENDA NO SITE!</b>
 ━━━━━━━━━━━━━━━━━━━━━━━━━━
 📦 <b>ID Pedido:</b> <code>{order_id}</code>
@@ -235,7 +254,7 @@ def notify_order_telegram(order):
 🛒 <b>Artigo(s):</b>
 {items_desc}
 
-💰 <b>Total Pago:</b> {total_eur:.2f} € ({pay_method})
+💰 <b>Total Pago:</b> {total_eur:.2f} € ({pay_method}){stripe_badge}
 🏷️ <b>Custo Fornecedor:</b> {total_cost_eur:.2f} €
 💵 <b>LUCRO LIMPO:</b> <b>+{net_profit_eur:.2f} €</b>
 ━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -407,11 +426,14 @@ class StoreHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
             cfg = load_config()
             token = cfg.get('telegram_token', '')
             masked = f"{token[:6]}...{token[-4:]}" if len(token) > 10 else ''
+            stripe_pk = cfg.get('stripe_publishable_key', 'pk_test_51UQYZLKCe054hIT53iLixOm0letaX0ZqyN2R9xQPDc7F5VhHsVCx7zqlN084sndpctVOoStVNpGXKrtwVZaaU0yL00tgX4Aw68')
             res = {
                 'telegram_configured': bool(token and cfg.get('telegram_chat_id')),
                 'telegram_chat_id': cfg.get('telegram_chat_id', ''),
                 'telegram_token_masked': masked,
-                'whatsapp_number': cfg.get('whatsapp_number', '351968885713')
+                'whatsapp_number': cfg.get('whatsapp_number', '351968885713'),
+                'stripe_configured': bool(cfg.get('stripe_secret_key') and stripe_pk),
+                'stripe_publishable_key': stripe_pk
             }
             self.send_response(200)
             self.send_header('Content-Type', 'application/json; charset=utf-8')
@@ -497,6 +519,74 @@ class StoreHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
             self.end_headers()
             self.wfile.write(json.dumps({'success': True, 'order': data}, ensure_ascii=False).encode('utf-8'))
             return
+
+        elif path == '/api/create-payment-intent':
+            cfg = load_config()
+            secret_key = cfg.get('stripe_secret_key', os.environ.get('STRIPE_SECRET_KEY', '')).strip()
+            
+            amount = data.get('amount')
+            currency = str(data.get('currency', 'eur')).lower()
+            order_id = data.get('orderId', 'DG-ORDER')
+            customer_name = data.get('customerName', '')
+            customer_email = data.get('customerEmail', '')
+            
+            if not amount or float(amount) <= 0:
+                self.send_response(400)
+                self.send_header('Content-Type', 'application/json; charset=utf-8')
+                self.end_headers()
+                self.wfile.write(json.dumps({'error': 'Montante inválido'}).encode('utf-8'))
+                return
+
+            try:
+                stripe_url = 'https://api.stripe.com/v1/payment_intents'
+                post_data = urllib.parse.urlencode({
+                    'amount': int(round(float(amount))),
+                    'currency': currency,
+                    'description': f"Dark Ghostrider Store - Encomenda {order_id}",
+                    'automatic_payment_methods[enabled]': 'true',
+                    'metadata[order_id]': str(order_id),
+                    'metadata[customer_name]': str(customer_name),
+                    'metadata[customer_email]': str(customer_email)
+                }).encode('utf-8')
+
+                req = urllib.request.Request(stripe_url, data=post_data, headers={
+                    'Authorization': f'Bearer {secret_key}',
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                })
+
+                with urllib.request.urlopen(req, timeout=15) as resp:
+                    stripe_res = json.loads(resp.read().decode('utf-8'))
+                    print(f"[STRIPE] PaymentIntent criado com sucesso: {stripe_res.get('id')} ({amount} {currency})", flush=True)
+                    self.send_response(200)
+                    self.send_header('Content-Type', 'application/json; charset=utf-8')
+                    self.end_headers()
+                    self.wfile.write(json.dumps({
+                        'success': True,
+                        'clientSecret': stripe_res.get('client_secret'),
+                        'paymentIntentId': stripe_res.get('id'),
+                        'status': stripe_res.get('status')
+                    }).encode('utf-8'))
+                    return
+            except urllib.error.HTTPError as e:
+                err_body = e.read().decode('utf-8')
+                try:
+                    err_json = json.loads(err_body)
+                    err_msg = err_json.get('error', {}).get('message', 'Erro no Stripe')
+                except Exception:
+                    err_msg = err_body
+                print(f"[STRIPE ERROR] HTTP {e.code}: {err_msg}", flush=True)
+                self.send_response(400)
+                self.send_header('Content-Type', 'application/json; charset=utf-8')
+                self.end_headers()
+                self.wfile.write(json.dumps({'error': err_msg}).encode('utf-8'))
+                return
+            except Exception as e:
+                print(f"[STRIPE ERROR] {e}", flush=True)
+                self.send_response(500)
+                self.send_header('Content-Type', 'application/json; charset=utf-8')
+                self.end_headers()
+                self.wfile.write(json.dumps({'error': str(e)}).encode('utf-8'))
+                return
 
         elif path == '/api/orders/clear':
             save_orders([])

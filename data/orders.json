@@ -1,1 +1,30 @@
-[]
+[
+  {
+    "id": "DG-PT-771122",
+    "customerName": "Teste Real Bot Telegram",
+    "customer": {
+      "name": "Fabio Junior - Teste Bot",
+      "phone": "+351 968 885 713",
+      "email": "fabio@teste.pt",
+      "address": "Av. da Liberdade 100",
+      "postalCode": "1250-001",
+      "city": "Lisboa",
+      "country": "Portugal"
+    },
+    "items": [
+      {
+        "name": "Luvas de Protecao em Couro & Carbono Real - Kashvelo Gear Portugal",
+        "variant": "Tamanho: M",
+        "quantity": 1,
+        "priceEUR": 62.91,
+        "supplierUrl": "https://kashvelogearpt.etsy.com?coupon=GR10GR"
+      }
+    ],
+    "totalEUR": 62.91,
+    "paymentMethod": "Cartao de Credito",
+    "totalCostEUR": 63.0,
+    "netProfitEUR": 6.9,
+    "orderStatus": "Aguardando Compra",
+    "createdAt": "2026-10-14T15:00:00.394857+00:00"
+  }
+]

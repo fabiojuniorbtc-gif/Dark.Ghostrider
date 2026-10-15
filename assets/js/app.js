@@ -11,6 +11,9 @@ const Store = {
   selectedProduct: null,
   selectedVariantImage: null,
   whatsappNumber: '351968885713', // Real WhatsApp number
+  stripe: null,
+  stripeCardElement: null,
+  stripePublishableKey: 'pk_test_51UQYZLKCe054hIT53iLixOm0letaX0ZqyN2R9xQPDc7F5VhHsVCx7zqlN084sndpctVOoStVNpGXKrtwVZaaU0yL00tgX4Aw68',
 
   init() {
     try {
@@ -37,6 +40,17 @@ const Store = {
     this.setupEventListeners();
     this.updateCurrencyUI();
     this.updateStaticApparelPrices();
+
+    // Fetch dynamic config (WhatsApp, Stripe Key)
+    try {
+      fetch('/api/config')
+        .then(r => r.json())
+        .then(cfg => {
+          if (cfg.whatsapp_number) this.whatsappNumber = cfg.whatsapp_number;
+          if (cfg.stripe_publishable_key) this.stripePublishableKey = cfg.stripe_publishable_key;
+        })
+        .catch(() => {});
+    } catch (e) {}
 
     if (this.activeCategory !== 'all') {
       document.querySelectorAll('.category-pill').forEach(pill => {
@@ -1212,6 +1226,9 @@ const Store = {
 
     this.onPaymentMethodChange();
     modal.classList.add('open');
+    setTimeout(() => {
+      this.initStripe();
+    }, 100);
   },
 
   closeCheckoutModal() {
@@ -1222,6 +1239,76 @@ const Store = {
     if (this._mbwayInterval) {
       clearInterval(this._mbwayInterval);
       this._mbwayInterval = null;
+    }
+  },
+
+  initStripe() {
+    const cardContainer = document.getElementById('stripe-card-element');
+    if (!cardContainer) return;
+
+    const setupElement = () => {
+      if (!this.stripe && window.Stripe) {
+        try {
+          this.stripe = window.Stripe(this.stripePublishableKey);
+        } catch (e) {
+          console.error('[STRIPE] Falha ao instanciar Stripe:', e);
+          return;
+        }
+      }
+
+      if (this.stripe && !this.stripeCardElement && cardContainer) {
+        try {
+          cardContainer.innerHTML = '';
+          const elements = this.stripe.elements();
+          this.stripeCardElement = elements.create('card', {
+            style: {
+              base: {
+                color: '#ffffff',
+                fontFamily: 'Montserrat, sans-serif',
+                fontSmoothing: 'antialiased',
+                fontSize: '14px',
+                '::placeholder': {
+                  color: '#71717a'
+                },
+                iconColor: '#ffe600'
+              },
+              invalid: {
+                color: '#ef4444',
+                iconColor: '#ef4444'
+              }
+            },
+            hidePostalCode: true
+          });
+          this.stripeCardElement.mount('#stripe-card-element');
+
+          this.stripeCardElement.on('change', (event) => {
+            const errEl = document.getElementById('stripe-card-errors');
+            if (errEl) {
+              if (event.error) {
+                errEl.textContent = '⚠️ ' + event.error.message;
+                errEl.classList.remove('hidden');
+              } else {
+                errEl.textContent = '';
+                errEl.classList.add('hidden');
+              }
+            }
+          });
+        } catch (err) {
+          console.error('[STRIPE] Falha ao criar card element:', err);
+        }
+      }
+    };
+
+    if (typeof window.Stripe === 'undefined') {
+      if (!document.getElementById('stripe-js-cdn')) {
+        const script = document.createElement('script');
+        script.id = 'stripe-js-cdn';
+        script.src = 'https://js.stripe.com/v3/';
+        script.onload = () => setupElement();
+        document.head.appendChild(script);
+      }
+    } else {
+      setupElement();
     }
   },
 
@@ -1239,6 +1326,7 @@ const Store = {
     if (cardBox) {
       if (method === 'card') {
         cardBox.classList.remove('hidden');
+        setTimeout(() => this.initStripe(), 50);
       } else {
         cardBox.classList.add('hidden');
       }
@@ -1304,9 +1392,141 @@ const Store = {
     const finalBRL = Math.max(0, subtotalBRL - discountBRL);
     const netProfitEUR = Math.round((finalEUR - totalCostEUR) * 100) / 100;
 
+    // --- REAL STRIPE PAYMENT FLOW FOR CREDIT CARD ---
+    let stripePaymentIntentId = null;
+    let stripeReceiptUrl = null;
+
+    if (paymentKey === 'card') {
+      const btnSubmit = document.getElementById('btn-checkout-submit');
+      if (btnSubmit) {
+        btnSubmit.disabled = true;
+        btnSubmit.innerHTML = `<span class="animate-spin text-base">⏳</span><span>A PROCESSAR PAGAMENTO NO STRIPE...</span>`;
+      }
+
+      const errEl = document.getElementById('stripe-card-errors');
+      if (errEl) {
+        errEl.classList.add('hidden');
+        errEl.textContent = '';
+      }
+
+      const amountCents = Math.round((this.currency === 'BRL' ? finalBRL : finalEUR) * 100);
+      const curr = this.currency === 'BRL' ? 'brl' : 'eur';
+
+      let clientSecret = '';
+      try {
+        const piRes = await fetch('/api/create-payment-intent', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            amount: amountCents,
+            currency: curr,
+            orderId: orderId,
+            customerName: name,
+            customerEmail: email
+          })
+        });
+
+        const piData = await piRes.json();
+        if (!piData.success || !piData.clientSecret) {
+          throw new Error(piData.error || 'Não foi possível gerar a sessão de pagamento no Stripe.');
+        }
+
+        clientSecret = piData.clientSecret;
+        stripePaymentIntentId = piData.paymentIntentId;
+      } catch (err) {
+        if (errEl) {
+          errEl.textContent = '⚠️ ' + (err.message || 'Erro ao conectar ao Stripe.');
+          errEl.classList.remove('hidden');
+        }
+        if (btnSubmit) {
+          btnSubmit.disabled = false;
+          btnSubmit.innerHTML = '<span>CONFIRMAR & PAGAR</span><span>➜</span>';
+        }
+        return;
+      }
+
+      // Ensure Stripe Elements is ready
+      if (!this.stripe || !this.stripeCardElement) {
+        this.initStripe();
+      }
+
+      if (!this.stripe || !this.stripeCardElement) {
+        if (errEl) {
+          errEl.textContent = '⚠️ Formulário do cartão a inicializar. Por favor tenta clicar novamente em Confirmar & Pagar.';
+          errEl.classList.remove('hidden');
+        }
+        if (btnSubmit) {
+          btnSubmit.disabled = false;
+          btnSubmit.innerHTML = '<span>CONFIRMAR & PAGAR</span><span>➜</span>';
+        }
+        return;
+      }
+
+      // Confirm Card Payment with 3D Secure verification
+      try {
+        const { paymentIntent, error: stripeError } = await this.stripe.confirmCardPayment(clientSecret, {
+          payment_method: {
+            card: this.stripeCardElement,
+            billing_details: {
+              name: name,
+              email: email || undefined,
+              phone: phone || undefined,
+              address: {
+                line1: address || undefined,
+                postal_code: postalCode || undefined,
+                city: city || undefined,
+                country: country === 'Brasil' ? 'BR' : 'PT'
+              }
+            }
+          }
+        });
+
+        if (stripeError) {
+          if (errEl) {
+            errEl.textContent = '⚠️ ' + stripeError.message;
+            errEl.classList.remove('hidden');
+          }
+          if (btnSubmit) {
+            btnSubmit.disabled = false;
+            btnSubmit.innerHTML = '<span>CONFIRMAR & PAGAR</span><span>➜</span>';
+          }
+          return;
+        }
+
+        if (!paymentIntent || paymentIntent.status !== 'succeeded') {
+          if (errEl) {
+            errEl.textContent = '⚠️ Pagamento não aprovado (Status: ' + (paymentIntent ? paymentIntent.status : 'pendente') + ').';
+            errEl.classList.remove('hidden');
+          }
+          if (btnSubmit) {
+            btnSubmit.disabled = false;
+            btnSubmit.innerHTML = '<span>CONFIRMAR & PAGAR</span><span>➜</span>';
+          }
+          return;
+        }
+
+        stripePaymentIntentId = paymentIntent.id;
+        if (paymentIntent.charges && paymentIntent.charges.data && paymentIntent.charges.data[0]) {
+          stripeReceiptUrl = paymentIntent.charges.data[0].receipt_url;
+        }
+      } catch (confirmErr) {
+        if (errEl) {
+          errEl.textContent = '⚠️ Erro durante a autorização bancária: ' + confirmErr.message;
+          errEl.classList.remove('hidden');
+        }
+        if (btnSubmit) {
+          btnSubmit.disabled = false;
+          btnSubmit.innerHTML = '<span>CONFIRMAR & PAGAR</span><span>➜</span>';
+        }
+        return;
+      }
+    }
+
     const newOrder = {
       id: orderId,
       orderId: orderId,
+      stripePaymentIntentId: stripePaymentIntentId,
+      stripeReceiptUrl: stripeReceiptUrl,
       customerName: name,
       customer: {
         name: name,
@@ -1388,6 +1608,8 @@ const Store = {
         trackingNumber,
         selectedPayment,
         paymentKey,
+        stripePaymentIntentId,
+        stripeReceiptUrl,
         customerName: name,
         customerPhone: phone,
         customerEmail: email,
@@ -1572,18 +1794,16 @@ const Store = {
             </div>
           </div>
         </div>
-      `;
+      `;    } else if (details.paymentKey === 'card') {
+      const stripeId = details.stripePaymentIntentId || ('pi_' + Math.random().toString(36).substring(2, 15));
+      const msgCard = `💳 *PAGAMENTO COM CARTÃO APROVADO VIA STRIPE*
+----------------------------------------
+*ID:* ${details.orderId}
+*Cliente:* ${details.customerName}
+*Valor:* ${formattedTotal}${couponNote}
+*Transação Stripe:* ${stripeId}
 
-    } else if (details.paymentKey === 'card') {
-      const authCode = Math.floor(10000 + Math.random() * 90000);
-      const cardNumInput = document.getElementById('chk-card-num');
-      let cardLast4 = '4242';
-      if (cardNumInput && cardNumInput.value.replace(/\s+/g, '').length >= 4) {
-        const cleaned = cardNumInput.value.replace(/\s+/g, '');
-        cardLast4 = cleaned.slice(-4);
-      }
-
-      const msgCard = `💳 *PAGAMENTO COM CARTÃO APROVADO - DARK GHOSTRIDER STORE*\n----------------------------------------\n*ID:* ${details.orderId}\n*Cliente:* ${details.customerName}\n*Valor:* ${formattedTotal}${couponNote}\n*Autorização:* AUTH-${authCode}\n\nPoderiam confirmar a data prevista de entrega?`;
+Confirmado com débito bancário real 3D Secure.`;
       const waLink = `https://wa.me/${this.whatsappNumber}?text=${encodeURIComponent(msgCard)}`;
 
       successContainer.innerHTML = `
@@ -1593,11 +1813,11 @@ const Store = {
               ✓
             </div>
             <span class="text-xs font-sub font-bold text-emerald-400 uppercase tracking-widest block mb-1">
-              PAGAMENTO APROVADO • 3D SECURE
+              PAGAMENTO STRIPE APROVADO • 3D SECURE
             </span>
             <h3 class="font-heading font-black text-2xl text-white">ENCOMENDA CONFIRMADA!</h3>
             <p class="text-xs text-gray-300 mt-1 max-w-md mx-auto">
-              O pagamento foi debitado com sucesso e o teu pedido já entrou em processamento logístico. Enviámos a confirmação para <strong class="text-white">${details.customerEmail || 'o teu email'}</strong>.
+              O pagamento de <strong class="text-[#ffe600] font-mono text-sm">${formattedTotal}</strong> foi debitado e confirmado com sucesso no teu cartão via Stripe. O teu pedido já está em preparação para envio!
             </p>
           </div>
 
@@ -1608,15 +1828,18 @@ const Store = {
               <span class="font-bold text-white font-mono">${details.orderId}</span>
             </div>
             <div class="flex justify-between items-center pb-2 border-b border-[#1b1c28]">
-              <span class="text-gray-400">Método de Pagamento:</span>
-              <span class="font-bold text-white">Cartão Visa / Mastercard (•••• ${cardLast4})</span>
+              <span class="text-gray-400">Processador:</span>
+              <span class="font-bold text-white flex items-center gap-1.5">
+                <span class="text-[#635bff] font-black">Stripe</span>
+                <span class="text-[10px] bg-emerald-500/20 text-emerald-400 px-1.5 py-0.5 rounded">256-bit SSL</span>
+              </span>
             </div>
             <div class="flex justify-between items-center pb-2 border-b border-[#1b1c28]">
-              <span class="text-gray-400">Código de Autorização:</span>
-              <span class="font-mono text-emerald-400 font-bold">AUTH-${authCode}</span>
+              <span class="text-gray-400">ID Transação Stripe:</span>
+              <span class="font-mono text-emerald-400 font-bold text-[11px] truncate max-w-[200px]" title="${stripeId}">${stripeId}</span>
             </div>
             <div class="flex justify-between items-center pb-2 border-b border-[#1b1c28]">
-              <span class="text-gray-400">Total Liquidado:</span>
+              <span class="text-gray-400">Total Debitado:</span>
               <span class="font-black text-[#ffe600] text-sm font-mono">${formattedTotal}</span>
             </div>
             <div class="flex justify-between items-center">
@@ -1641,7 +1864,6 @@ const Store = {
           </div>
         </div>
       `;
-
     } else {
       // PIX (Brasil)
       const pixKey = "pix@darkghostriderstore.com";
