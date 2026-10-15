@@ -10,7 +10,7 @@ import urllib.error
 import urllib.parse
 import threading
 import time
-from urllib.parse import urlparse
+from urllib.parse import urlparse, unquote
 
 # Force UTF-8 stdout on Windows console with line buffering
 if sys.platform == "win32":
@@ -407,9 +407,24 @@ class StoreHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
             return
 
         elif path.startswith('/api/orders/'):
-            order_id = path.replace('/api/orders/', '').strip().upper()
+            query = unquote(path.replace('/api/orders/', '')).strip().upper()
             orders = load_orders()
-            match = next((o for o in orders if o.get('id', '').upper() == order_id or o.get('trackingNumber', '').upper() == order_id), None)
+            match = None
+            query_digits = re.sub(r'[^0-9]', '', query)
+            for o in orders:
+                oid = str(o.get('id', '')).upper()
+                track = str(o.get('trackingNumber', '')).upper()
+                cust = o.get('customer', {}) or {}
+                c_email = str(cust.get('email', '')).upper()
+                c_phone = re.sub(r'[^0-9]', '', str(cust.get('phone', '')))
+                
+                if oid == query or (track and track == query) or (c_email and c_email == query):
+                    match = o
+                    break
+                if query_digits and len(query_digits) >= 9 and c_phone and query_digits in c_phone:
+                    match = o
+                    break
+
             if match:
                 self.send_response(200)
                 self.send_header('Content-Type', 'application/json; charset=utf-8')
@@ -426,7 +441,7 @@ class StoreHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
             cfg = load_config()
             token = cfg.get('telegram_token', '')
             masked = f"{token[:6]}...{token[-4:]}" if len(token) > 10 else ''
-            stripe_pk = cfg.get('stripe_publishable_key', 'pk_test_51UQYZLKCe054hIT53iLixOm0letaX0ZqyN2R9xQPDc7F5VhHsVCx7zqlN084sndpctVOoStVNpGXKrtwVZaaU0yL00tgX4Aw68')
+            stripe_pk = cfg.get('stripe_publishable_key', os.environ.get('STRIPE_PUBLISHABLE_KEY', ''))
             res = {
                 'telegram_configured': bool(token and cfg.get('telegram_chat_id')),
                 'telegram_chat_id': cfg.get('telegram_chat_id', ''),
@@ -503,7 +518,7 @@ class StoreHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
             orders = load_orders()
             
             if 'orderStatus' not in data:
-                data['orderStatus'] = 'Aguardando Compra'
+                data['orderStatus'] = 'Em Processamento'
             if 'createdAt' not in data:
                 from datetime import datetime, timezone
                 data['createdAt'] = datetime.now(timezone.utc).isoformat()

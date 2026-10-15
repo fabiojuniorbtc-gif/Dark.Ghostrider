@@ -1,5 +1,54 @@
 [
   {
+    "id": "DG-PT-528377",
+    "orderId": "DG-PT-528377",
+    "stripePaymentIntentId": "pi_3UQcU3KCe054hIT51p5okiXm",
+    "stripeReceiptUrl": null,
+    "customerName": "Fabio Fabio de Araujo Junior",
+    "customer": {
+      "name": "Fabio Fabio de Araujo Junior",
+      "phone": "+351968885713",
+      "email": "fabiojuniorbtc@gmial.com",
+      "address": "Rua Celestino Alves N2 4D",
+      "postalCode": "2910-456",
+      "city": "Setúbal",
+      "country": "Portugal"
+    },
+    "phone": "+351968885713",
+    "email": "fabiojuniorbtc@gmial.com",
+    "address": "Rua Celestino Alves N2 4D, 2910-456 Setúbal",
+    "country": "Portugal",
+    "currency": "EUR",
+    "subtotalEUR": 39.9,
+    "totalEUR": 39.9,
+    "totalBRL": 249,
+    "coupon": null,
+    "totalCostEUR": 23.86,
+    "netProfitEUR": 16.04,
+    "paymentMethod": "Cartão de Crédito",
+    "paymentStatus": "PAID",
+    "items": [
+      {
+        "id": "tshirt-oversized-dark-ghostrider",
+        "name": "T-Shirt Streetwear Oversized Boxy Street Division (Estampa A3)",
+        "image": "assets/images/apparel/tshirt_oversized_preto.jpg",
+        "priceEUR": 39.9,
+        "priceBRL": 249,
+        "variation": "Cor: Preto Stealth (All Black) | Tamanho: M",
+        "quantity": 1,
+        "supplierUrl": "Produção Nacional Oficial (Lisboa / Margem Sul)",
+        "supplierCostEUR": 23.86
+      }
+    ],
+    "date": "2026-10-15T00:36:46.616Z",
+    "createdAt": "2026-10-15T00:36:46.616Z",
+    "orderStatus": "Pago - A Processar Envio",
+    "status": "Pago - A Processar Envio",
+    "trackingNumber": "LP0012135868PT",
+    "carrier": "CTT Expresso Portugal",
+    "notes": "Encomenda via Cartão de Crédito. Registada pelo checkout da loja."
+  },
+  {
     "id": "DG-PT-771122",
     "customerName": "Teste Real Bot Telegram",
     "customer": {

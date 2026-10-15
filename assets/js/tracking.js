@@ -1,52 +1,70 @@
 /**
- * DARK GHOSTRIDER - REAL-TIME TRACKING SYSTEM (ALIEXPRESS / CAINIAO / CTT)
- * Suporta consulta via API REST no servidor e sincronização com status do AliExpress
+ * DARK GHOSTRIDER - REAL-TIME TRACKING SYSTEM (CTT EXPRESSO / CAINIAO GLOBAL)
+ * Consulta encomendas via API REST no servidor ou localStorage sem gerar códigos fictícios.
  */
 
 const TrackingService = {
 
-  // Gera etapas e progresso visual baseando-se no status real (AliExpress -> Dark -> Cliente)
   generateMilestoneSteps(order, code) {
     const rawDate = order.createdAt || order.date || new Date().toISOString();
-    const createdDate = new Date(rawDate);
-    const dateStr = createdDate.toLocaleString('pt-PT');
-    const orderId = order.id || code;
-    const trackingNumber = order.trackingNumber || (orderId.startsWith('LP') ? orderId : 'LP00' + Math.floor(10000000 + Math.random() * 90000000) + 'PT');
-    const carrier = order.carrier || (order.country === 'Brasil' ? 'Correios do Brasil' : 'CTT Expresso / Cainiao Global');
-    const destination = order.country ? (order.country === 'Brasil' ? 'Brasil 🇧🇷' : 'Portugal 🇵🇹') : 'Portugal 🇵🇹';
-    const status = order.orderStatus || order.status || 'Aguardando Compra';
+    let dateStr = 'Hoje';
+    try {
+      const createdDate = new Date(rawDate);
+      dateStr = createdDate.toLocaleString('pt-PT', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+    } catch (e) {}
 
-    let progressPercent = 20;
-    let badgeText = status;
-    let estimatedDelivery = '5 a 9 dias úteis';
+    const orderId = order.id || order.orderId || code;
+    const trackingNumber = (order.trackingNumber || '').trim();
+    const carrier = order.carrier || (order.country === 'Brasil' ? 'Correios do Brasil' : 'CTT Expresso Portugal');
+    const destination = order.country ? (order.country === 'Brasil' ? 'Brasil 🇧🇷' : 'Portugal 🇵🇹') : 'Portugal 🇵🇹';
+    const status = order.orderStatus || order.status || 'Em Processamento';
+
+    let progressPercent = 35;
+    let badgeText = 'Em Processamento';
+    let estimatedDelivery = '24h a 72h úteis';
     let steps = [];
 
-    if (status === 'Em Processo' || status === 'Em Preparação' || status === 'Aguardando Compra') {
-      progressPercent = 40;
-      badgeText = 'Em Processamento & Envio';
-      const isWear = order.items && order.items.some(it => (it.id && (it.id.includes('hoodie') || it.id.includes('tshirt') || it.id.includes('kashvelo'))));
-      estimatedDelivery = isWear ? '24h a 72h úteis' : '5 a 20 dias úteis';
+    const isShipped = Boolean(trackingNumber) || status === 'Enviado' || status.includes('Trânsito') || status.includes('Expedido');
+    const isDelivered = status === 'Finalizado' || status === 'Entregue';
+
+    if (isDelivered) {
+      progressPercent = 100;
+      badgeText = 'Entregue com Sucesso';
+      estimatedDelivery = 'Entregue';
       steps = [
         {
-          status: 'Em processamento, embalamento e expedição',
-          location: 'Centro de Logística e Despacho Dark Ghostrider',
-          date: 'Agora',
-          completed: false,
+          status: 'Objeto entregue ao destinatário em perfeitas condições',
+          location: order.address || `Destino Final (${destination})`,
+          date: 'Entregue',
+          completed: true,
           active: true
         },
         {
-          status: 'Encomenda registada no sistema e pagamento validado',
-          location: 'Dark Ghostrider Store (Loja Oficial)',
+          status: `Saiu para entrega com o estafeta (${carrier})`,
+          location: 'Centro de Distribuição Local',
+          date: 'Ontem',
+          completed: true,
+          active: false
+        },
+        {
+          status: `Código de rastreio oficial associado: ${trackingNumber || 'Expedido'}`,
+          location: carrier,
+          date: dateStr,
+          completed: true,
+          active: false
+        },
+        {
+          status: 'Encomenda confirmada e autorizada',
+          location: 'Dark Ghostrider Store',
           date: dateStr,
           completed: true,
           active: false
         }
       ];
-    } else if (status === 'Enviado' || status.includes('Trânsito') || status.includes('Expedido')) {
+    } else if (isShipped) {
       progressPercent = 75;
-      badgeText = 'Em Trânsito';
-      const isWear = order.items && order.items.some(it => (it.id && (it.id.includes('hoodie') || it.id.includes('tshirt') || it.id.includes('kashvelo'))));
-      estimatedDelivery = isWear ? '24h a 48h úteis' : '5 a 15 dias úteis';
+      badgeText = 'Em Trânsito (Expedido)';
+      estimatedDelivery = '24h a 48h úteis';
       steps = [
         {
           status: `Em transporte expresso para ${destination} (${carrier})`,
@@ -56,90 +74,55 @@ const TrackingService = {
           active: true
         },
         {
-          status: 'Código de rastreio oficial emitido e associado à encomenda',
+          status: `Código de rastreio oficial emitido: ${trackingNumber}`,
           location: `Transportadora: ${carrier}`,
+          date: 'Expedido',
+          completed: true,
+          active: false,
+          trackingLink: trackingNumber ? `https://www.ctt.pt/fechadas/pesquisa-de-objetos?object_id=${encodeURIComponent(trackingNumber)}` : null
+        },
+        {
+          status: 'Pacote embalado com proteção reforçada no armazém',
+          location: 'Centro de Logística Dark Ghostrider',
           date: dateStr,
           completed: true,
           active: false
         },
         {
-          status: 'Pacote embalado com proteção reforçada',
-          location: 'Centro de Expedição',
-          date: dateStr,
-          completed: true,
-          active: false
-        },
-        {
-          status: 'Encomenda processada e autorizada',
+          status: 'Encomenda registada e pagamento aprovado',
           location: 'Dark Ghostrider Store',
           date: dateStr,
           completed: true,
           active: false
         }
       ];
-    } else if (status === 'Finalizado' || status === 'Entregue') {
-      progressPercent = 100;
-      badgeText = 'Finalizado com Sucesso';
-      estimatedDelivery = 'Entregue';
-      steps = [
-        {
-          status: 'Objeto entregue ao destinatário em perfeitas condições',
-          location: order.address || `Destino Final (${destination})`,
-          date: 'Hoje',
-          completed: true,
-          active: true
-        },
-        {
-          status: `Saiu para entrega com o carteiro / estafeta (${carrier})`,
-          location: 'Centro de Distribuição Local CTT',
-          date: 'Ontem',
-          completed: true,
-          active: false
-        },
-        {
-          status: 'Chegada ao centro de triagem local',
-          location: destination,
-          date: dateStr,
-          completed: true,
-          active: false
-        }
-      ];
-    } else if (status === 'Cancelado') {
-      progressPercent = 0;
-      badgeText = 'Cancelado';
-      estimatedDelivery = 'Pedido Cancelado';
-      steps = [
-        {
-          status: 'Pedido cancelado e processo finalizado',
-          location: 'Central Dark Ghostrider',
-          date: dateStr,
-          completed: true,
-          active: false
-        }
-      ];
-    } else if (status === 'Devolvido') {
-      progressPercent = 100;
-      badgeText = 'Devolvido';
-      estimatedDelivery = 'Devolução Concluída';
-      steps = [
-        {
-          status: 'Devolução processada e rececionada com sucesso',
-          location: 'Armazém Central Dark Ghostrider',
-          date: dateStr,
-          completed: true,
-          active: true
-        }
-      ];
     } else {
+      // Estado Inicial: Em Processamento / Preparação (SEM código falso)
       progressPercent = 35;
-      badgeText = status;
+      badgeText = 'Em Processamento';
+      estimatedDelivery = '24h a 72h úteis';
       steps = [
         {
-          status: status,
-          location: 'Sistema de Logística Dark Ghostrider',
+          status: 'Aguardando recolha e atribuição de código CTT',
+          location: 'Centro de Expedição Dark Ghostrider',
+          date: 'Em processamento',
+          completed: false,
+          active: true,
+          note: 'O código de envio será enviado por WhatsApp ou Email assim que o pacote for recolhido pelos CTT.'
+        },
+        {
+          status: 'Artigos em separação, verificação de qualidade e embalamento',
+          location: 'Armazém Central',
+          date: 'Hoje',
+          completed: false,
+          active: true
+        },
+        {
+          status: 'Encomenda confirmada no sistema e pagamento validado',
+          location: 'Dark Ghostrider Store (Loja Oficial)',
           date: dateStr,
           completed: true,
-          active: true
+          active: false
         }
       ];
     }
@@ -156,7 +139,6 @@ const TrackingService = {
     };
   },
 
-  // Consulta assíncrona com fallback prioritário para API REST do Servidor
   async getOrderAsync(codeOrId) {
     if (!codeOrId) return null;
     const clean = codeOrId.trim().toUpperCase();
@@ -178,11 +160,15 @@ const TrackingService = {
     // 2. Tentar buscar no localStorage
     try {
       const savedOrders = JSON.parse(localStorage.getItem('dark_ghostrider_orders') || '[]');
-      const match = savedOrders.find(o => 
-        (o.id && o.id.toUpperCase() === clean) || 
-        (o.orderId && o.orderId.toUpperCase() === clean) ||
-        (o.trackingNumber && o.trackingNumber.toUpperCase() === clean)
-      );
+      const match = savedOrders.find(o => {
+        const oid = (o.id || o.orderId || '').toUpperCase();
+        const trk = (o.trackingNumber || '').toUpperCase();
+        const cust = o.customer || {};
+        const email = (cust.email || '').toUpperCase();
+        const phone = (cust.phone || '').replace(/[^0-9]/g, '');
+        const cleanDigits = clean.replace(/[^0-9]/g, '');
+        return oid === clean || (trk && trk === clean) || (email && email === clean) || (cleanDigits.length >= 9 && phone.includes(cleanDigits));
+      });
 
       if (match) {
         match.trackingHistory = this.generateMilestoneSteps(match, clean);
@@ -190,22 +176,10 @@ const TrackingService = {
       }
     } catch (e) {}
 
-    // 3. Simulação padrão para consulta de demonstração (ex: DG-PT-872341)
-    const mockOrder = {
-      id: clean,
-      customerName: "Cliente Dark Rider",
-      trackingNumber: clean.startsWith("LP") ? clean : "LP0087234120PT",
-      carrier: "CTT Portugal & Cainiao Global",
-      orderStatus: "Enviado",
-      destination: "Portugal 🇵🇹",
-      country: "Portugal",
-      createdAt: new Date(Date.now() - 3 * 24 * 3600 * 1000).toISOString()
-    };
-    mockOrder.trackingHistory = this.generateMilestoneSteps(mockOrder, clean);
-    return mockOrder;
+    // 3. Se não encontrar, retornar null para que o ecrã informe com precisão
+    return null;
   },
 
-  // Suporte síncrono legado
   getOrder(codeOrId) {
     if (!codeOrId) return null;
     const clean = codeOrId.trim().toUpperCase();
@@ -221,17 +195,7 @@ const TrackingService = {
       match.trackingHistory = this.generateMilestoneSteps(match, clean);
       return match;
     }
-
-    const mockOrder = {
-      id: clean,
-      customerName: "Cliente Dark Rider",
-      trackingNumber: clean.startsWith("LP") ? clean : "LP0087234120PT",
-      carrier: "CTT Portugal & Cainiao Global",
-      orderStatus: "Em Preparação",
-      country: "Portugal"
-    };
-    mockOrder.trackingHistory = this.generateMilestoneSteps(mockOrder, clean);
-    return mockOrder;
+    return null;
   }
 };
 

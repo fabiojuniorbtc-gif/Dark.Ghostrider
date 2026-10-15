@@ -1575,7 +1575,7 @@
       const carrier = carrierSelect ? carrierSelect.value : 'CTT Expresso';
 
       if (!newCode) {
-        alert('Por favor digite um código de rastreio (ex: LP0087234120PT).');
+        alert('Por favor digite um código de rastreio (ex: DA123456789PT).');
         return;
       }
 
@@ -1586,8 +1586,10 @@
           body: JSON.stringify({ trackingNumber: newCode, carrier: carrier })
         });
         if (resp.ok) {
-          alert(`Código ${newCode} associado com sucesso! Encomenda atualizada.`);
           await loadOrdersFromServer();
+          if (confirm(`Código ${newCode} associado com sucesso!\n\nDesejas abrir o WhatsApp agora para enviar o rastreio diretamente ao cliente?`)) {
+            sendTrackingWhatsapp(orderId);
+          }
         } else {
           fallbackSaveTracking(orderId, newCode, carrier);
         }
@@ -1601,11 +1603,13 @@
       if (idx > -1) {
         cachedOrders[idx].trackingNumber = code;
         cachedOrders[idx].carrier = carrier;
-        cachedOrders[idx].orderStatus = 'Em Processo';
-        cachedOrders[idx].status = 'Em Processo';
+        cachedOrders[idx].orderStatus = 'Enviado';
+        cachedOrders[idx].status = 'Enviado';
         localStorage.setItem('dark_ghostrider_orders', JSON.stringify(cachedOrders));
         renderAdminDashboard();
-        alert(`Código ${code} associado com sucesso!`);
+        if (confirm(`Código ${code} associado localmente!\n\nDesejas abrir o WhatsApp agora para enviar ao cliente?`)) {
+          sendTrackingWhatsapp(orderId);
+        }
       }
     }
 
@@ -1618,7 +1622,7 @@
       const phone = phoneRaw.replace(/[^0-9]/g, '');
       const custName = cust.name || order.customerName || 'Cliente';
       const trackingUrl = `${window.location.origin}${window.location.pathname.replace('admin.html', '')}rastreio.html?order=${order.id || order.orderId}`;
-      const status = order.orderStatus || order.status || 'Em Processo';
+      const status = order.orderStatus || order.status || 'Em Processamento';
 
       let msg = '';
       if (status === 'Cancelado') {
@@ -1628,10 +1632,28 @@
       } else if (status === 'Finalizado') {
         msg = `Olá ${custName}! 🏍️ A tua encomenda *${order.id || order.orderId}* consta como *FINALIZADA*! Esperamos que as peças fiquem insanas na tua máquina! Marca-nos no Instagram @dark.ghostrider!`;
       } else {
-        msg = `Olá ${custName}! 🏍️ A tua encomenda *${order.id || order.orderId}* na Dark Ghostrider Store está *EM PROCESSO*!\n\n📦 *Código de Rastreio:* ${order.trackingNumber || 'Em emissão'}\n🚚 *Transportadora:* ${order.carrier || 'CTT Expresso'}\n\nAcompanha em tempo real:\n${trackingUrl}`;
+        msg = `Olá ${custName}! 🏍️ A tua encomenda *${order.id || order.orderId}* na Dark Ghostrider Store foi *EXPEDIDA COM SUCESSO*!\n\n📦 *Código de Rastreio CTT:* ${order.trackingNumber || 'Em emissão'}\n🚚 *Transportadora:* ${order.carrier || 'CTT Expresso'}\n\nAcompanha em tempo real nos CTT:\n${trackingUrl}\n\nObrigado pela preferência e boas curvas! 🏍️💨`;
       }
 
       window.open(`https://wa.me/${phone}?text=${encodeURIComponent(msg)}`, '_blank');
+    }
+
+    function sendTrackingEmail(orderId) {
+      const order = cachedOrders.find(o => (o.id || o.orderId) === orderId);
+      if (!order) return;
+
+      const cust = order.customer || {};
+      const email = cust.email || '';
+      if (!email) {
+        alert('Esta encomenda não tem email associado.');
+        return;
+      }
+      const custName = cust.name || order.customerName || 'Cliente';
+      const trackingUrl = `${window.location.origin}${window.location.pathname.replace('admin.html', '')}rastreio.html?order=${order.id || order.orderId}`;
+      const subject = `Dark Ghostrider - A tua encomenda ${order.id || order.orderId} foi expedida!`;
+      const body = `Olá ${custName},\n\nA tua encomenda ${order.id || order.orderId} na Dark Ghostrider Store foi despachada!\n\nCódigo de Rastreio CTT: ${order.trackingNumber || 'A atribuir'}\nTransportadora: ${order.carrier || 'CTT Expresso'}\n\nPodes acompanhar o envio em tempo real através deste link:\n${trackingUrl}\n\nObrigado pela confiança e boas curvas!\nEquipa Dark Ghostrider`;
+
+      window.location.href = `mailto:${encodeURIComponent(email)}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
     }
 
     async function createMockOrder() {
@@ -1940,11 +1962,12 @@
             <!-- Workflow Action Buttons Bar -->
             <div class="pt-4 border-t border-[#1f202b] flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-4">
               
-              <!-- 4 Statuses Selector -->
+              <!-- Status Selector -->
               <div class="flex flex-wrap items-center gap-2">
                 <span class="text-xs font-sub font-bold text-gray-400">Status:</span>
                 <select onchange="setOrderStatus('${orderId}', this.value)" class="bg-[#141520] text-white text-xs px-3 py-1.5 rounded-lg border border-[#34364a] font-sub font-bold outline-none cursor-pointer">
-                  <option value="Em Processo" ${status === 'Em Processo' ? 'selected' : ''}>⏳ Em Processo</option>
+                  <option value="Em Processamento" ${status === 'Em Processamento' || status === 'Em Processo' ? 'selected' : ''}>⏳ Em Processamento</option>
+                  <option value="Enviado" ${status === 'Enviado' ? 'selected' : ''}>🚚 Enviado (Em Trânsito)</option>
                   <option value="Finalizado" ${status === 'Finalizado' ? 'selected' : ''}>✅ Finalizado</option>
                   <option value="Cancelado" ${status === 'Cancelado' ? 'selected' : ''}>❌ Cancelado</option>
                   <option value="Devolvido" ${status === 'Devolvido' ? 'selected' : ''}>🔄 Devolvido</option>
@@ -1955,21 +1978,25 @@
                 </button>
               </div>
 
-              <!-- Tracking Code Input & Carrier & WhatsApp -->
+              <!-- Tracking Code Input & Carrier & WhatsApp & Email -->
               <div class="flex flex-wrap items-center gap-2 justify-end">
                 <div class="flex items-center gap-1.5 bg-[#0b0c10] border border-[#26283b] p-1 rounded-lg">
-                  <input type="text" id="track-input-${orderId}" value="${order.trackingNumber || ''}" placeholder="Ex: LP0087234120PT" class="bg-transparent text-cyan-400 font-mono text-xs px-2 py-1 outline-none w-36">
+                  <input type="text" id="track-input-${orderId}" value="${order.trackingNumber || ''}" placeholder="Ex: DA123456789PT" class="bg-transparent text-cyan-400 font-mono text-xs px-2 py-1 outline-none w-36">
                   <select id="carrier-select-${orderId}" class="bg-[#141520] text-gray-300 text-xs px-2 py-1 rounded border border-[#27283c] outline-none font-sub">
-                    <option value="CTT Expresso / Cainiao Global" ${order.carrier && order.carrier.includes('CTT') ? 'selected' : ''}>CTT Expresso</option>
+                    <option value="CTT Expresso" ${order.carrier && order.carrier.includes('CTT') ? 'selected' : ''}>CTT Expresso</option>
                     <option value="Correios do Brasil" ${order.carrier && order.carrier.includes('Correios') ? 'selected' : ''}>Correios BR</option>
                   </select>
-                  <button onclick="updateTrackingCode('${orderId}')" class="px-3 py-1 bg-cyan-700 hover:bg-cyan-600 text-white rounded text-xs font-sub font-bold uppercase transition-colors cursor-pointer">
+                  <button onclick="updateTrackingCode('${orderId}')" class="px-3 py-1 bg-cyan-700 hover:bg-cyan-600 text-white rounded text-xs font-sub font-bold uppercase transition-colors cursor-pointer" title="Salvar e Atualizar">
                     Salvar Rastreio
                   </button>
                 </div>
 
-                <button onclick="sendTrackingWhatsapp('${orderId}')" class="px-3.5 py-1.5 bg-[#17261d] hover:bg-[#203629] text-[#25d366] border border-[#25d366]/40 rounded text-xs font-sub font-bold uppercase transition-colors flex items-center gap-1.5 cursor-pointer">
+                <button onclick="sendTrackingWhatsapp('${orderId}')" class="px-3.5 py-1.5 bg-[#17261d] hover:bg-[#203629] text-[#25d366] border border-[#25d366]/40 rounded text-xs font-sub font-bold uppercase transition-colors flex items-center gap-1.5 cursor-pointer" title="Enviar para o WhatsApp do Cliente">
                   <span>💬 WhatsApp</span>
+                </button>
+
+                <button onclick="sendTrackingEmail('${orderId}')" class="px-3 py-1.5 bg-[#171c26] hover:bg-[#202936] text-cyan-400 border border-cyan-800/40 rounded text-xs font-sub font-bold uppercase transition-colors flex items-center gap-1 cursor-pointer" title="Enviar Email ao Cliente">
+                  <span>✉️ Email</span>
                 </button>
 
                 <a href="rastreio.html?order=${orderId}" target="_blank" class="px-3 py-1.5 bg-[#1c1d29] hover:bg-[#272838] text-gray-300 rounded text-xs font-sub font-bold uppercase transition-colors">

@@ -117,14 +117,26 @@
           <!-- Header Status -->
           <div class="flex flex-col sm:flex-row sm:items-center justify-between pb-6 border-b border-[#222332] gap-4 mb-6">
             <div>
-              <span class="text-xs font-sub font-bold text-gray-400 uppercase tracking-wider block mb-1">CÓDIGO DE RASTREIO:</span>
-              <h2 class="font-heading font-black text-xl sm:text-2xl text-cyan-400 font-mono">${history.trackingNumber}</h2>
+              <span class="text-xs font-sub font-bold text-gray-400 uppercase tracking-wider block mb-1">
+                ${history.trackingNumber ? 'CÓDIGO DE RASTREIO CTT:' : 'ESTADO DO RASTREIO:'}
+              </span>
+              ${history.trackingNumber ? `
+                <div class="flex items-center gap-2 flex-wrap">
+                  <h2 class="font-heading font-black text-xl sm:text-2xl text-cyan-400 font-mono">${history.trackingNumber}</h2>
+                  <a href="https://www.ctt.pt/fechadas/pesquisa-de-objetos?object_id=${encodeURIComponent(history.trackingNumber)}" target="_blank" class="px-2.5 py-1 bg-cyan-950 hover:bg-cyan-900 text-cyan-300 border border-cyan-500/40 rounded text-[11px] font-sub font-bold uppercase tracking-wider transition-colors inline-flex items-center gap-1">
+                    <span>Ver nos CTT</span> <span>↗</span>
+                  </a>
+                </div>
+              ` : `
+                <h2 class="font-heading font-black text-xl sm:text-2xl text-amber-400 font-sub">A AGUARDAR EXPEDIÇÃO CTT</h2>
+                <p class="text-xs text-gray-400 mt-1">A tua encomenda está a ser preparada. Assim que for expedida, o código CTT será emitido e enviado por WhatsApp/Email.</p>
+              `}
               <p class="text-xs text-gray-400 mt-1">ID da Encomenda: <strong class="text-white">${history.orderId || code}</strong></p>
             </div>
 
             <div class="text-left sm:text-right">
               <span class="inline-flex items-center gap-1.5 px-3 py-1 border text-xs font-sub font-bold rounded-full uppercase mb-1 ${badgeClasses}">
-                <span class="w-2 h-2 rounded-full ${history.status.includes('Entregue') ? 'bg-emerald-400' : 'bg-cyan-400 animate-pulse'}"></span> ${history.status}
+                <span class="w-2 h-2 rounded-full ${history.status.includes('Entregue') ? 'bg-emerald-400' : (history.status.includes('Trânsito') ? 'bg-cyan-400 animate-pulse' : 'bg-amber-400 animate-pulse')}"></span> ${history.status}
               </span>
               <p class="text-xs text-gray-400 font-sub">Previsão: <strong class="text-white">${history.estimatedDelivery}</strong></p>
             </div>
@@ -133,9 +145,9 @@
           <!-- Progress Bar Visual -->
           <div class="mb-8">
             <div class="flex justify-between text-xs font-sub font-bold text-gray-400 uppercase mb-2">
-              <span class="${progress >= 15 ? 'text-white' : ''}">1. Registado</span>
-              <span class="${progress >= 40 ? 'text-amber-400' : ''}">2. No Fornecedor</span>
-              <span class="${progress >= 75 ? 'text-cyan-400' : ''}">3. Em Trânsito</span>
+              <span class="${progress >= 20 ? 'text-white' : ''}">1. Registado</span>
+              <span class="${progress >= 35 ? 'text-amber-400' : ''}">2. Em Preparação</span>
+              <span class="${progress >= 75 ? 'text-cyan-400' : ''}">3. Expedido CTT</span>
               <span class="${progress >= 100 ? 'text-emerald-400' : ''}">4. Entregue</span>
             </div>
             <div class="w-full bg-[#0b0c10] h-3 rounded-full overflow-hidden p-0.5 border border-[#242533]">

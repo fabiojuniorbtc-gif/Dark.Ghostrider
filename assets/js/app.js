@@ -1165,25 +1165,74 @@ const Store = {
     window.open(`https://wa.me/${this.whatsappNumber}?text=${encoded}`, '_blank');
   },
 
-  openCheckoutModal() {
-    if (this.cart.length === 0) return;
-    const modal = document.getElementById('checkout-modal');
-    if (!modal) return;
+  getEstimatedDeliveryDates() {
+    const now = new Date();
+    const start = new Date(now.getTime() + 3 * 24 * 3600 * 1000);
+    const end = new Date(now.getTime() + 5 * 24 * 3600 * 1000);
+    const months = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
+    return `${start.getDate()} e ${end.getDate()} de ${months[end.getMonth()]}`;
+  },
 
+  renderCheckoutSidebar() {
     let subtotalEUR = 0;
     let subtotalBRL = 0;
-    this.cart.forEach(item => {
-      subtotalEUR += item.priceEUR * item.quantity;
-      subtotalBRL += item.priceBRL * item.quantity;
-    });
+    let totalItems = 0;
+
+    const listEl = document.getElementById('checkout-cart-items-list');
+    if (listEl) {
+      if (this.cart.length === 0) {
+        listEl.innerHTML = `<div class="text-xs text-gray-500 py-3 text-center">O carrinho está vazio.</div>`;
+      } else {
+        listEl.innerHTML = this.cart.map(item => {
+          subtotalEUR += item.priceEUR * item.quantity;
+          subtotalBRL += item.priceBRL * item.quantity;
+          totalItems += item.quantity;
+          const formattedPrice = this.formatPrice(item.priceEUR * item.quantity, item.priceBRL * item.quantity);
+          const variantBadge = item.variant ? `<span class="text-[10px] bg-white/10 px-1.5 py-0.5 rounded text-gray-300 font-mono">${item.variant}</span>` : '';
+          return `
+            <div class="flex items-center gap-3 p-2 bg-[#141520] rounded-xl border border-white/5">
+              <img src="${item.image || 'assets/images/logo.png'}" alt="${item.name}" class="w-12 h-12 rounded-lg object-cover bg-black border border-white/10 shrink-0">
+              <div class="flex-1 min-w-0">
+                <div class="text-xs font-sub font-bold text-white truncate" title="${item.name}">${item.name}</div>
+                <div class="flex items-center gap-2 mt-0.5">
+                  ${variantBadge}
+                  <span class="text-[11px] text-gray-400">Qtd: ${item.quantity}</span>
+                </div>
+              </div>
+              <div class="font-mono font-bold text-xs text-[#ffe600] shrink-0">
+                ${formattedPrice}
+              </div>
+            </div>
+          `;
+        }).join('');
+      }
+    } else {
+      this.cart.forEach(item => {
+        subtotalEUR += item.priceEUR * item.quantity;
+        subtotalBRL += item.priceBRL * item.quantity;
+        totalItems += item.quantity;
+      });
+    }
 
     const { coupon, discountEUR, discountBRL } = this.calculateCouponDiscount(subtotalEUR, subtotalBRL);
     const finalEUR = Math.max(0, subtotalEUR - discountEUR);
     const finalBRL = Math.max(0, subtotalBRL - discountBRL);
 
-    const totalText = this.formatPrice(finalEUR, finalBRL);
+    // Update DOM elements
+    const subtotalEl = document.getElementById('checkout-subtotal-val');
+    if (subtotalEl) subtotalEl.textContent = this.formatPrice(subtotalEUR, subtotalBRL);
+
     const totalEl = document.getElementById('checkout-modal-total');
-    if (totalEl) totalEl.textContent = totalText;
+    if (totalEl) totalEl.textContent = this.formatPrice(finalEUR, finalBRL);
+
+    const btnTotalBadge = document.getElementById('btn-checkout-total-badge');
+    if (btnTotalBadge) btnTotalBadge.textContent = this.formatPrice(finalEUR, finalBRL);
+
+    const countEl = document.getElementById('checkout-cart-count');
+    if (countEl) countEl.textContent = totalItems;
+
+    const deliveryDatesEl = document.getElementById('checkout-delivery-dates');
+    if (deliveryDatesEl) deliveryDatesEl.textContent = this.getEstimatedDeliveryDates();
 
     const discountRow = document.getElementById('checkout-discount-row');
     const discountVal = document.getElementById('checkout-discount-val');
@@ -1191,13 +1240,45 @@ const Store = {
       if (coupon && discountEUR > 0) {
         discountRow.classList.remove('hidden');
         discountRow.classList.add('flex');
-        const targetLabel = coupon.targetProduct ? ' (Exclusivo Luvas Kashvelo)' : '';
+        const targetLabel = coupon.targetProduct ? ' (Luvas Kashvelo)' : '';
         discountVal.textContent = `- ${this.formatPrice(discountEUR, discountBRL)} (${coupon.code} -${coupon.discountPct}%${targetLabel})`;
       } else {
         discountRow.classList.add('hidden');
         discountRow.classList.remove('flex');
       }
     }
+  },
+
+  applyCheckoutCoupon() {
+    const input = document.getElementById('chk-coupon-input');
+    const feedback = document.getElementById('chk-coupon-feedback');
+    if (!input || !feedback) return;
+
+    const code = input.value.trim().toUpperCase();
+    if (!code) {
+      feedback.textContent = 'Por favor introduz um código de cupão.';
+      feedback.className = 'text-[11px] font-sub mt-1.5 text-amber-400 block';
+      return;
+    }
+
+    const res = this.applyCoupon(code);
+    if (res.success) {
+      feedback.textContent = `✓ ${res.message}`;
+      feedback.className = 'text-[11px] font-sub mt-1.5 text-emerald-400 block';
+      this.renderCheckoutSidebar();
+    } else {
+      feedback.textContent = `⚠️ ${res.message}`;
+      feedback.className = 'text-[11px] font-sub mt-1.5 text-red-400 block';
+    }
+  },
+
+  openCheckoutModal() {
+    if (this.cart.length === 0) return;
+    const modal = document.getElementById('checkout-modal');
+    if (!modal) return;
+
+    // Render Motocard sidebar and totals
+    this.renderCheckoutSidebar();
 
     const ptMethods = document.getElementById('payment-methods-pt');
     const brMethods = document.getElementById('payment-methods-br');
@@ -1360,14 +1441,14 @@ const Store = {
       selectedPayment = paymentKey === 'card' ? 'Cartão de Crédito' : 'PIX';
     } else {
       const ptRadio = document.querySelector('input[name="pay-pt"]:checked');
-      paymentKey = ptRadio ? ptRadio.value : 'mbway';
       if (paymentKey === 'multibanco') selectedPayment = 'Multibanco';
       else if (paymentKey === 'card') selectedPayment = 'Cartão de Crédito';
+      else if (paymentKey === 'bank_transfer') selectedPayment = 'Transferência Bancária';
       else selectedPayment = 'MB WAY';
     }
 
     const orderId = 'DG-' + (this.currency === 'BRL' ? 'BR-' : 'PT-') + Math.floor(100000 + Math.random() * 900000);
-    const trackingNumber = 'LP00' + Math.floor(10000000 + Math.random() * 90000000) + (this.currency === 'BRL' ? 'BR' : 'PT');
+    const trackingNumber = ''; // Sem código fictício inicial; o código real CTT é atribuído na expedição
 
     let subtotalEUR = 0;
     let subtotalBRL = 0;
@@ -1553,8 +1634,8 @@ const Store = {
       items: enrichedItems,
       date: new Date().toISOString(),
       createdAt: new Date().toISOString(),
-      orderStatus: paymentKey === 'card' ? 'Pago - A Processar Envio' : 'Aguardando Pagamento',
-      status: paymentKey === 'card' ? 'Pago - A Processar Envio' : 'Aguardando Pagamento',
+      orderStatus: paymentKey === 'card' ? 'Pago - A Processar Envio' : 'Em Processamento',
+      status: paymentKey === 'card' ? 'Pago - A Processar Envio' : 'Em Processamento',
       trackingNumber: trackingNumber,
       carrier: country === 'Brasil' ? 'Correios do Brasil' : 'CTT Expresso Portugal',
       notes: `Encomenda via ${selectedPayment}. Registada pelo checkout da loja.`
@@ -1673,8 +1754,14 @@ const Store = {
               <span class="font-black text-[#ffe600] text-sm font-mono">${formattedTotal}</span>
             </div>
             <div class="flex justify-between items-center pb-2 border-b border-[#1b1c28]">
-              <span class="text-gray-400">Rastreio CTT Reservado:</span>
-              <span class="font-bold text-cyan-400 font-mono">${details.trackingNumber}</span>
+              <span class="text-gray-400">Estado da Encomenda:</span>
+              <span class="font-bold text-amber-400 font-sub flex items-center gap-1">
+                <span>🟡</span> Em Processamento
+              </span>
+            </div>
+            <div class="bg-[#151622] rounded-lg p-3 border border-amber-500/20 text-gray-300 text-[11px] leading-relaxed">
+              <strong class="text-amber-400 block mb-0.5">📦 Envio do Código CTT:</strong>
+              O teu pedido está a ser preparado no armazém. Assim que a encomenda for despachada pelos CTT, receberás o código de rastreio oficial diretamente por WhatsApp (<strong class="text-white">${details.customerPhone}</strong>) ou Email (<strong class="text-white">${details.customerEmail}</strong>).
             </div>
             <div class="bg-[#151622] rounded-lg p-3 border border-[#26283b] text-gray-300 text-[11px] leading-relaxed">
               <strong class="text-white block mb-1">💡 Não recebeste a notificação? Envio Direto:</strong>
@@ -1842,20 +1929,80 @@ Confirmado com débito bancário real 3D Secure.`;
               <span class="text-gray-400">Total Debitado:</span>
               <span class="font-black text-[#ffe600] text-sm font-mono">${formattedTotal}</span>
             </div>
-            <div class="flex justify-between items-center">
-              <span class="text-gray-400">Código de Rastreio CTT:</span>
-              <span class="font-mono text-cyan-400 font-bold">${details.trackingNumber}</span>
+            <div class="flex justify-between items-center pb-2 border-b border-[#1b1c28]">
+              <span class="text-gray-400">Estado da Entrega:</span>
+              <span class="font-bold text-emerald-400 font-sub flex items-center gap-1">
+                <span>✓</span> Pago • Em Preparação no Armazém
+              </span>
+            </div>
+            <div class="bg-[#151622] rounded-xl border border-emerald-500/20 text-gray-300 text-[11px] leading-relaxed p-3">
+              <strong class="text-emerald-400 block mb-0.5">📦 Envio do Código CTT:</strong>
+              O pagamento foi debitado com sucesso no teu cartão via Stripe. A tua encomenda já entrou em separação e embalamento. Assim que for entregue à transportadora CTT, receberás o teu código de rastreio oficial por WhatsApp (<strong class="text-white">${details.customerPhone}</strong>) ou Email (<strong class="text-white">${details.customerEmail}</strong>).
             </div>
           </div>
 
           <!-- Action Buttons -->
           <div class="space-y-2">
             <a href="rastreio.html?order=${details.orderId}" class="w-full py-3.5 bg-cyan-600 hover:bg-cyan-500 text-white rounded-xl font-sub font-bold uppercase tracking-wider text-xs transition-all flex items-center justify-center gap-2 shadow-lg shadow-cyan-950/40">
-              <span>📦 Acompanhar Encomenda nos CTT</span>
+              <span>📦 Consultar Estado em Tempo Real</span>
             </a>
             <div class="grid grid-cols-2 gap-2">
               <a href="${waLink}" target="_blank" class="py-2.5 bg-[#17261d] hover:bg-[#203629] text-[#25d366] border border-[#25d366]/40 rounded-xl font-sub font-bold uppercase tracking-wider text-[11px] text-center transition-all flex items-center justify-center gap-1">
                 <span>💬 Falar no WhatsApp</span>
+              </a>
+              <button type="button" onclick="Store.closeCheckoutModal()" class="py-2.5 bg-[#12131c] hover:bg-[#1a1b26] text-gray-300 border border-[#26283b] rounded-xl font-sub font-bold uppercase tracking-wider text-[11px] text-center transition-all cursor-pointer">
+                Concluir
+              </button>
+            </div>
+          </div>
+        </div>
+      `;
+    } else if (details.paymentKey === 'bank_transfer') {
+      const msgBank = `🏦 *TRANSFERÊNCIA BANCÁRIA - DARK GHOSTRIDER STORE*\n----------------------------------------\n*ID:* ${details.orderId}\n*Cliente:* ${details.customerName}\n*Valor:* ${formattedTotal}${couponNote}\n\nEnvio em anexo o comprovativo de transferência bancária efetuada.`;
+      const waLink = `https://wa.me/${this.whatsappNumber}?text=${encodeURIComponent(msgBank)}`;
+
+      successContainer.innerHTML = `
+        <div class="text-left font-body">
+          <div class="text-center mb-5">
+            <div class="w-16 h-16 bg-blue-600/20 text-blue-400 rounded-full flex items-center justify-center text-3xl mx-auto mb-3 border border-blue-500/30">
+              🏦
+            </div>
+            <span class="text-xs font-sub font-bold text-blue-400 uppercase tracking-widest block mb-1">
+              TRANSFERÊNCIA BANCÁRIA
+            </span>
+            <h3 class="font-heading font-black text-2xl text-white">DADOS PARA TRANSFERÊNCIA</h3>
+            <p class="text-xs text-gray-300 mt-1 max-w-md mx-auto">
+              Efetua a transferência no teu banco com o montante exato de <strong class="text-[#ffe600] font-mono">${formattedTotal}</strong> e envia o comprovativo.
+            </p>
+          </div>
+
+          <div class="bg-[#0a0e1a] border-2 border-blue-500/40 rounded-xl p-4 sm:p-5 mb-4 shadow-2xl space-y-3 font-mono text-xs">
+            <div class="flex justify-between items-center pb-2 border-b border-white/10 font-sub">
+              <span class="text-gray-400">ID da Encomenda:</span>
+              <span class="font-bold text-white font-mono">${details.orderId}</span>
+            </div>
+            <div class="flex items-center justify-between bg-black/40 p-2.5 rounded-lg border border-white/5">
+              <div>
+                <span class="text-[10px] font-sub text-gray-400 block uppercase">IBAN DA CONTA:</span>
+                <span class="font-bold text-white text-sm tracking-wider">PT50 0033 0000 0000 0000 0000 0</span>
+              </div>
+              <button type="button" onclick="Store.copyToClipboard('PT50003300000000000000000', this)" class="px-2.5 py-1 bg-white/10 hover:bg-white/20 text-white rounded text-[10px] font-sub font-bold uppercase transition-colors cursor-pointer">
+                Copiar
+              </button>
+            </div>
+            <div class="flex justify-between items-center pt-1 font-sub">
+              <span class="text-gray-400">Beneficiário:</span>
+              <span class="font-bold text-white">Dark Ghostrider Store</span>
+            </div>
+          </div>
+
+          <div class="space-y-2">
+            <a href="${waLink}" target="_blank" class="w-full py-3.5 bg-[#17261d] hover:bg-[#203629] text-[#25d366] border border-[#25d366]/40 rounded-xl font-sub font-bold uppercase tracking-wider text-xs transition-all flex items-center justify-center gap-2 shadow-lg shadow-green-950/40">
+              <span>💬 Enviar Comprovativo no WhatsApp</span>
+            </a>
+            <div class="grid grid-cols-2 gap-2">
+              <a href="rastreio.html?order=${details.orderId}" class="py-2.5 bg-[#12131c] hover:bg-[#1a1b26] text-cyan-400 border border-cyan-500/30 rounded-xl font-sub font-bold uppercase tracking-wider text-[11px] text-center transition-all flex items-center justify-center gap-1">
+                <span>📦 Ver Rastreio</span>
               </a>
               <button type="button" onclick="Store.closeCheckoutModal()" class="py-2.5 bg-[#12131c] hover:bg-[#1a1b26] text-gray-300 border border-[#26283b] rounded-xl font-sub font-bold uppercase tracking-wider text-[11px] text-center transition-all cursor-pointer">
                 Concluir

@@ -556,6 +556,11 @@ body {
   transform: scale(1);
 }
 
+#checkout-modal .modal-content {
+  width: min(96vw, 1060px);
+  max-height: 94vh;
+}
+
 /* Hotspot Radar Pins */
 .hotspot-pin {
   position: absolute;
