@@ -351,7 +351,7 @@ APPAREL_STORIES = [
         "link_text": "COMPRAR HOODIE OFICIAL",
         "slides": [
             {
-                "image": "assets/images/apparel/hoodie_preto_front.jpg",
+                "image": "assets/images/apparel/hoodie_oficial_preto_front.jpg",
                 "tag": "DROP 01 • OFICIAL",
                 "title_line1": "SWEATSHIRT CAPUZ",
                 "title_line2": "DARK GHOSTRIDER",
@@ -360,16 +360,16 @@ APPAREL_STORIES = [
                 "show_shipping": False
             },
             {
-                "image": "assets/images/apparel/hoodie_preto_back.jpg",
+                "image": "assets/images/apparel/hoodie_oficial_preto_back.jpg",
                 "tag": "MEGA ESTAMPA A3 COSTAS",
                 "title_line1": "ESTAMPA COSTAS A3",
                 "title_line2": "ALTA DEFINIÇÃO DTF",
                 "sub": "380G HEAVYWEIGHT • ALGODÃO PENTEADO ULTRA MACIO",
-                "badge_type": "profile",
+                "badge_type": "none",
                 "show_shipping": False
             },
             {
-                "image": "assets/images/apparel/hoodie_amarelo_back.jpg",
+                "image": "assets/images/apparel/hoodie_oficial_amarelo_back.jpg",
                 "tag": "ENVIO RÁPIDO PORTUGAL",
                 "title_line1": "GARANTE O TEU",
                 "title_line2": "PRETO OU AMARELO",
@@ -740,15 +740,15 @@ def render_apparel_story(cfg, story_idx):
         canvas = Image.new("RGBA", (WIDTH, HEIGHT), (10, 11, 16, 255))
         src_img = get_cached_image(cur_slide["image"])
         
-        # Ken Burns smooth zoom
-        zoom = 1.0 + 0.10 * slide_prog
+        # Subtle Ken Burns smooth zoom (2% max to keep product framing pristine)
+        zoom = 1.0 + 0.02 * slide_prog
         card_w, card_h = 580, 580
         cx = WIDTH // 2
         cy = 465
         
         target_w = int(card_w * zoom)
         target_h = int(card_h * zoom)
-        thumb = src_img.resize((target_w, target_h), Image.Resampling.BILINEAR)
+        thumb = ImageOps.fit(src_img, (target_w, target_h), Image.Resampling.LANCZOS)
         left_c = (target_w - card_w) // 2
         top_c = (target_h - card_h) // 2
         thumb_cropped = thumb.crop((left_c, top_c, left_c + card_w, top_c + card_h))
@@ -823,14 +823,15 @@ def render_apparel_story(cfg, story_idx):
             draw.rounded_rectangle([x_p, y_p, x_p + w_p, y_p + 32], radius=16, fill=(25, 27, 36, 210), outline=(255, 255, 255, 60), width=1)
             draw.text((x_p + 12, y_p + 6), price_text, fill=(255, 255, 255, 240), font=FONT_SHIPPING)
         
-        # Center pulsating badge
-        badge_type = cur_slide["badge_type"]
-        badge_scale = 1.0 + 0.05 * math.sin(t * 5.0)
-        badge_img = LOGO_BADGE_PROFILE if badge_type == "profile" else LOGO_BADGE_SKULL
-        bw = int(140 * badge_scale)
-        bh = int(140 * badge_scale)
-        badge_resized = badge_img.resize((bw, bh), Image.Resampling.BILINEAR)
-        canvas.alpha_composite(badge_resized, (cx - bw // 2, 730 - bh // 2))
+        # Center pulsating badge (only when badge_type is not "none")
+        badge_type = cur_slide.get("badge_type", "skull")
+        if badge_type and badge_type != "none":
+            badge_scale = 1.0 + 0.05 * math.sin(t * 5.0)
+            badge_img = LOGO_BADGE_PROFILE if badge_type == "profile" else LOGO_BADGE_SKULL
+            bw = int(140 * badge_scale)
+            bh = int(140 * badge_scale)
+            badge_resized = badge_img.resize((bw, bh), Image.Resampling.BILINEAR)
+            canvas.alpha_composite(badge_resized, (cx - bw // 2, 730 - bh // 2))
         
         # Link Sticker
         link_bounce = 1.0 + 0.03 * math.sin(t * 4.0)
@@ -872,17 +873,25 @@ def render_apparel_story(cfg, story_idx):
     return out_video_path
 
 def main():
+    target_id = sys.argv[1] if len(sys.argv) > 1 else None
     print("================================================================")
-    print("BATCH RENDERING 9 APPAREL INSTAGRAM STORIES VIDEOS (9:16)")
-    print("Dedicated video for each T-shirt and Sweatshirt on the site")
+    print("BATCH RENDERING APPAREL INSTAGRAM STORIES VIDEOS (9:16)")
+    if target_id:
+        print(f"Targeting single story: {target_id}")
+    else:
+        print("Dedicated video for each T-shirt and Sweatshirt on the site")
     print("================================================================")
     total_t0 = time.time()
     
+    count = 0
     for idx, cfg in enumerate(APPAREL_STORIES):
+        if target_id and cfg["id"] != target_id and cfg["product_id"] != target_id:
+            continue
         render_apparel_story(cfg, idx)
+        count += 1
         
     print("\n================================================================")
-    print(f"ALL 9 APPAREL VIDEOS SUCCESSFULLY RENDERED IN {time.time() - total_t0:.1f}s!")
+    print(f"COMPLETED {count} APPAREL VIDEO(S) IN {time.time() - total_t0:.1f}s!")
     print(f"Videos saved to: {STORIES_DIR}")
     print(f"Posters saved to: {POSTERS_DIR}")
     print("================================================================")
