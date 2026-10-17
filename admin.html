@@ -227,7 +227,7 @@
         <span>🏷️</span> TABELA DE PREÇOS & MARGENS (<span id="nav-count-products">24</span>)
       </button>
       <button id="nav-btn-reels" onclick="switchAdminTab('reels')" class="px-5 py-2.5 rounded-xl font-heading font-black text-xs sm:text-sm tracking-wider uppercase transition-all text-gray-400 hover:text-[#f6ff00] hover:bg-yellow-500/10 flex items-center gap-2 cursor-pointer border border-[#f6ff00]/20">
-        <span>🎬</span> CENTRAL DE VÍDEOS & STORIES (10 VÍDEOS)
+        <span>🎬</span> CENTRAL DE VÍDEOS & STORIES (19 VÍDEOS)
       </button>
       <button id="nav-btn-leads" onclick="switchAdminTab('leads')" class="px-5 py-2.5 rounded-xl font-heading font-black text-xs sm:text-sm tracking-wider uppercase transition-all text-gray-400 hover:text-emerald-400 hover:bg-emerald-500/10 flex items-center gap-2 cursor-pointer border border-emerald-500/20">
         <span>📧</span> DARK CLUB VIP & LEADS (<span id="nav-count-leads">0</span>)
@@ -375,7 +375,7 @@
     </div>
 
     <!-- ==========================================
-         VIEW 3: ESTÚDIO DE DIVULGAÇÃO SOCIAL MEDIA — 10 VÍDEOS STORIES (9:16)
+         VIEW 3: ESTÚDIO DE DIVULGAÇÃO SOCIAL MEDIA — 19 VÍDEOS STORIES (9:16)
          ========================================== -->
     <div id="admin-view-reels" class="hidden">
       <!-- Toolbar Header Card -->
@@ -385,26 +385,26 @@
             <div class="flex items-center gap-2.5 mb-1.5 flex-wrap">
               <span class="text-2xl">🎬</span>
               <h2 class="font-heading font-black text-white text-base sm:text-xl tracking-wide uppercase">
-                CENTRAL DE VÍDEOS & STORIES (10 VÍDEOS • 9:16)
+                CENTRAL DE VÍDEOS & STORIES (19 VÍDEOS • 9:16)
               </h2>
               <span class="px-2.5 py-0.5 rounded-full text-[10px] font-sub font-bold uppercase tracking-wider bg-yellow-950/80 text-yellow-400 border border-yellow-500/40">
                 🔒 EXCLUSIVO DO ADMIN
               </span>
               <span class="px-2.5 py-0.5 rounded-full text-[10px] font-sub font-bold uppercase tracking-wider bg-emerald-950/80 text-emerald-400 border border-emerald-500/40">
-                ⚡ 10 A 15 SEGUNDOS CADA
+                ⚡ 8 A 12 SEGUNDOS CADA
               </span>
             </div>
             <p class="text-xs text-gray-400 font-sub max-w-3xl">
-              Biblioteca com <strong>10 vídeos exclusivos em proporção vertical 9:16</strong> produzidos para divulgar no <strong>Instagram Stories, Reels e TikTok</strong>. Inclui logos centrais animados em estilo Stories, stickers de link interativos, batidas Phonk dinâmicas e kit com legenda personalizada e download direto em 1 clique.
+              Biblioteca com <strong>19 vídeos exclusivos em proporção vertical 9:16</strong> (incluindo <strong>9 vídeos dedicados para cada T-Shirt e Sweatshirt</strong> da loja). Produzidos para divulgação direta no <strong>Instagram Stories, Reels e TikTok</strong> com logos animados, stickers interativos, batidas sintetizadas e download direto em 1 clique.
             </p>
           </div>
 
           <div class="flex items-center gap-2.5 flex-wrap">
-            <a id="adminActiveDownloadBtn" href="assets/videos/stories/story_01_colecao_streetwear.mp4" download="story_01_colecao_streetwear.mp4" class="px-5 py-3 rounded-xl bg-[#f6ff00] hover:bg-[#e5ed00] text-black font-heading font-black text-xs sm:text-sm uppercase tracking-wider shadow-lg shadow-black flex items-center gap-2 transition-transform hover:scale-105 whitespace-nowrap">
+            <a id="adminActiveDownloadBtn" href="assets/videos/stories/story_apparel_01_hoodie_oficial.mp4" download="story_apparel_01_hoodie_oficial.mp4" class="px-5 py-3 rounded-xl bg-[#f6ff00] hover:bg-[#e5ed00] text-black font-heading font-black text-xs sm:text-sm uppercase tracking-wider shadow-lg shadow-black flex items-center gap-2 transition-transform hover:scale-105 whitespace-nowrap">
               <span>📥</span> Baixar Este Vídeo (.MP4)
             </a>
             <a href="#stories-catalog-grid" class="px-4 py-3 rounded-xl bg-[#1c1d29] hover:bg-[#282a3c] text-gray-200 border border-[#303248] font-sub font-bold text-xs uppercase tracking-wider transition-colors flex items-center gap-1.5 whitespace-nowrap">
-              <span>⬇️</span> Ver Galeria (10)
+              <span>⬇️</span> Ver Galeria (19)
             </a>
           </div>
         </div>
@@ -426,8 +426,8 @@
             <video 
               id="adminReelsVideo" 
               class="w-full h-full object-cover rounded-[36px] cursor-pointer"
-              src="assets/videos/stories/story_01_colecao_streetwear.mp4" 
-              poster="assets/images/stories_posters/story_01_colecao_streetwear_poster.jpg" 
+              src="assets/videos/stories/story_apparel_01_hoodie_oficial.mp4" 
+              poster="assets/images/stories_posters/story_apparel_01_hoodie_oficial_poster.jpg" 
               playsinline 
               loop 
               preload="auto">
@@ -445,7 +445,7 @@
               <div class="flex items-center gap-2">
                 <span id="adminTimeCur" class="text-[10px] font-mono text-gray-300 w-8">00:00</span>
                 <input type="range" id="adminScrubber" min="0" max="12" step="0.1" value="0" class="flex-1 h-1.5 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-[#f6ff00]">
-                <span id="adminTimeTot" class="text-[10px] font-mono text-gray-400 w-8">00:12</span>
+                <span id="adminTimeTot" class="text-[10px] font-mono text-gray-400 w-8">00:08</span>
               </div>
               <div class="flex items-center justify-between text-white text-xs">
                 <div class="flex items-center gap-2">
@@ -453,7 +453,7 @@
                   <button onclick="toggleAdminMute()" id="adminMuteBtn" class="p-1 hover:text-[#f6ff00]">🔇 Som</button>
                 </div>
                 <div class="flex items-center gap-1.5">
-                  <span id="adminActiveBadgeCategory" class="text-[9px] font-bold text-[#f6ff00] bg-[#f6ff00]/10 px-2 py-0.5 rounded border border-[#f6ff00]/20">VESTUÁRIO</span>
+                  <span id="adminActiveBadgeCategory" class="text-[9px] font-bold text-[#f6ff00] bg-[#f6ff00]/10 px-2 py-0.5 rounded border border-[#f6ff00]/20">SWEATSHIRT</span>
                   <span class="text-[9px] font-bold text-white/90 bg-white/10 px-1.5 py-0.5 rounded">9:16 HD</span>
                 </div>
               </div>
@@ -465,7 +465,7 @@
             <button onclick="stepAdminStory(-1)" class="flex-1 p-2.5 rounded-xl bg-[#141622] hover:bg-[#202334] border border-[#26283b] text-gray-300 hover:text-white transition-colors text-xs font-sub font-bold uppercase flex items-center justify-center gap-1.5 cursor-pointer">
               <span>⬅️</span> Anterior
             </button>
-            <span id="adminStoryCounter" class="text-xs font-mono text-[#f6ff00] px-3 py-1 bg-black/60 rounded-lg border border-[#2b2d42]">1 / 10</span>
+            <span id="adminStoryCounter" class="text-xs font-mono text-[#f6ff00] px-3 py-1 bg-black/60 rounded-lg border border-[#2b2d42]">1 / 19</span>
             <button onclick="stepAdminStory(1)" class="flex-1 p-2.5 rounded-xl bg-[#141622] hover:bg-[#202334] border border-[#26283b] text-gray-300 hover:text-white transition-colors text-xs font-sub font-bold uppercase flex items-center justify-center gap-1.5 cursor-pointer">
               Próximo <span>➡️</span>
             </button>
@@ -553,7 +553,7 @@
             <div class="flex items-center gap-2 mb-1">
               <span class="text-xl">📱</span>
               <h3 class="font-heading font-black text-lg text-white uppercase">
-                GALERIA DOS 10 VÍDEOS DE STORIES & REELS
+                GALERIA DOS 19 VÍDEOS DE STORIES & REELS
               </h3>
             </div>
             <p class="text-xs text-gray-400">
@@ -563,8 +563,9 @@
 
           <!-- Category filter buttons -->
           <div class="flex flex-wrap gap-1.5 text-xs font-sub font-bold uppercase">
-            <button id="story-filter-all" onclick="filterAdminStoriesList('all')" class="px-3 py-1.5 rounded-lg bg-[#f6ff00] text-black">Todos (10)</button>
-            <button id="story-filter-apparel" onclick="filterAdminStoriesList('apparel')" class="px-3 py-1.5 rounded-lg bg-[#141622] hover:bg-[#1f2233] text-gray-300">Vestuário (4)</button>
+            <button id="story-filter-all" onclick="filterAdminStoriesList('all')" class="px-3 py-1.5 rounded-lg bg-[#f6ff00] text-black">Todos (19)</button>
+            <button id="story-filter-apparel-single" onclick="filterAdminStoriesList('apparel-single')" class="px-3 py-1.5 rounded-lg bg-[#141622] hover:bg-[#1f2233] text-gray-300">T-Shirts & Sweats (9)</button>
+            <button id="story-filter-apparel" onclick="filterAdminStoriesList('apparel')" class="px-3 py-1.5 rounded-lg bg-[#141622] hover:bg-[#1f2233] text-gray-300">Drops Coleção (4)</button>
             <button id="story-filter-mt07" onclick="filterAdminStoriesList('mt07')" class="px-3 py-1.5 rounded-lg bg-[#141622] hover:bg-[#1f2233] text-gray-300">Setup MT-07 (2)</button>
             <button id="story-filter-gear" onclick="filterAdminStoriesList('gear')" class="px-3 py-1.5 rounded-lg bg-[#141622] hover:bg-[#1f2233] text-gray-300">Proteção & Cockpit (3)</button>
             <button id="story-filter-official" onclick="filterAdminStoriesList('official')" class="px-3 py-1.5 rounded-lg bg-[#141622] hover:bg-[#1f2233] text-gray-300">Loja Oficial (1)</button>
@@ -2375,6 +2376,123 @@
     // ==========================================
     const STORIES_PLAYLIST = [
       {
+        id: 'story_apparel_01_hoodie_oficial',
+        title: 'Sweatshirt Capuz Oficial Dark Ghostrider • Drop 01',
+        subtitle: 'Vídeo dedicado de Story (9:16) com frente, estampa A3 costas e cor amarela fluo.',
+        category: 'Sweatshirt',
+        filterCategory: 'apparel-single',
+        categoryBadgeClass: 'bg-yellow-500/10 text-[#f6ff00] border-yellow-500/30',
+        duration: 8,
+        videoSrc: 'assets/videos/stories/story_apparel_01_hoodie_oficial.mp4',
+        posterSrc: 'assets/images/stories_posters/story_apparel_01_hoodie_oficial_poster.jpg',
+        size: '1.1 MB',
+        caption: `⚡ SWEATSHIRT COM CAPUZ OFICIAL DARK GHOSTRIDER • DROP 01 ⚡\n\nA peça principal da coleção oficial de lançamento da marca! Heavyweight 380g com corte streetwear, interior cardado quentinho e estampa oficial Dark Side Rider em tamanho A3 de alta definição.\n\n💰 Preço Oficial: 59,90 €\n🎨 Cores: Preto Stealth & Amarelo Fluo (High-Vis)\n📦 Envio CTT para Portugal Continental: 4,85 € (Entrega em 4 a 6 dias úteis)\n\n👉 Clica no sticker de link e garante já a tua:\n🌐 WWW.DARKGHOSTRIDER.COM\n\n#darkghostrider #hoodie #sweatshirt #drop01 #streetwear #bikelife #portugal #mt07`
+      },
+      {
+        id: 'story_apparel_02_tshirt_oversized',
+        title: 'T-Shirt Streetwear Oversized Boxy Street Division',
+        subtitle: 'Vídeo dedicado apresentando modelagem boxy fit com ombros caídos e estampa A3.',
+        category: 'T-Shirt',
+        filterCategory: 'apparel-single',
+        categoryBadgeClass: 'bg-blue-500/10 text-blue-400 border-blue-500/30',
+        duration: 8,
+        videoSrc: 'assets/videos/stories/story_apparel_02_tshirt_oversized.mp4',
+        posterSrc: 'assets/images/stories_posters/story_apparel_02_tshirt_oversized_poster.jpg',
+        size: '1.4 MB',
+        caption: `🔥 T-SHIRT OVERSIZED BOXY FIT • STREET DIVISION 🔥\n\nModelagem contemporânea boxy fit em algodão encorpado de alta densidade (240g/m²). Gola reforçada de 3cm, ombros caídos e a estampa master Dark Rider nas costas em tamanho A3.\n\n💰 Preço Oficial: 39,90 €\n🎨 Cores: Preto Stealth & Amarelo Fluo\n📦 Envio CTT para Portugal Continental: 4,85 € (Entrega em 4 a 6 dias úteis)\n\n👉 Clica no link e garante a tua antes do fim do lote:\n🌐 WWW.DARKGHOSTRIDER.COM\n\n#tshirtoversized #boxyfit #streetwear #darkghostrider #motovlog #bikerstyle`
+      },
+      {
+        id: 'story_apparel_03_tshirt_classic_bio190',
+        title: 'T-Shirt Classic Rider Bio190 IC Street Division',
+        subtitle: 'Vídeo dedicado com corte regular 100% algodão biológico e conforto total para moto.',
+        category: 'T-Shirt',
+        filterCategory: 'apparel-single',
+        categoryBadgeClass: 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30',
+        duration: 8,
+        videoSrc: 'assets/videos/stories/story_apparel_03_tshirt_classic_bio190.mp4',
+        posterSrc: 'assets/images/stories_posters/story_apparel_03_tshirt_classic_bio190_poster.jpg',
+        size: '1.5 MB',
+        caption: `💀 T-SHIRT CLASSIC RIDER BIO190 IC 💀\n\n100% algodão biológico orgânico penteado. Toque ultra suave, respirável e corte clássico perfeito para usar sozinho ou por baixo do casaco de moto.\n\n💰 Preço Oficial: 29,90 €\n🎨 Cores: Preto Stealth & Amarelo Fluo\n📦 Envio CTT para Portugal Continental: 4,85 € (Entrega em 4 a 6 dias úteis)\n\n👉 Clica no link para pedir já a tua:\n🌐 WWW.DARKGHOSTRIDER.COM\n\n#classicrider #darkghostrider #tshirtmoto #algodaoorganico #portugal #biker`
+      },
+      {
+        id: 'story_apparel_04_hoodie_lentos',
+        title: 'Sweat Capuz • Edição Especial "Veículos Lentos à Direita"',
+        subtitle: 'Vídeo dedicado da edição Biker Humor com frase icónica de ultrapassagem nas costas.',
+        category: 'Sweatshirt',
+        filterCategory: 'apparel-single',
+        categoryBadgeClass: 'bg-red-500/10 text-red-400 border-red-500/30',
+        duration: 8,
+        videoSrc: 'assets/videos/stories/story_apparel_04_hoodie_lentos.mp4',
+        posterSrc: 'assets/images/stories_posters/story_apparel_04_hoodie_lentos_poster.jpg',
+        size: '0.8 MB',
+        caption: `🚗💨 VEÍCULOS LENTOS À DIREITA • SWEATSHIRT COM CAPUZ 💨🚗\n\nA regra de ouro das autoestradas portuguesas em formato de atitude biker! Frente discreta e elegante com logo no peito e mensagem direta e divertida nas costas em tamanho A3.\n\n💰 Preço Oficial: 59,90 €\n🎨 Cores: Preto Stealth & Amarelo Fluo\n📦 Envio CTT para Portugal Continental: 4,85 € (Entrega em 4 a 6 dias úteis)\n\n👉 Clica no sticker e garante a tua com MB WAY ou Cartão:\n🌐 WWW.DARKGHOSTRIDER.COM\n\n#veiculoslentos #bikerhumor #darkghostrider #hoodiebiker #mt07 #autoestrada`
+      },
+      {
+        id: 'story_apparel_05_tshirt_lentos',
+        title: 'T-Shirt Oversized • Edição Especial "Veículos Lentos à Direita"',
+        subtitle: 'Vídeo dedicado da T-Shirt box fit de humor motard com estampa de alto contraste.',
+        category: 'T-Shirt',
+        filterCategory: 'apparel-single',
+        categoryBadgeClass: 'bg-orange-500/10 text-orange-400 border-orange-500/30',
+        duration: 8,
+        videoSrc: 'assets/videos/stories/story_apparel_05_tshirt_lentos.mp4',
+        posterSrc: 'assets/images/stories_posters/story_apparel_05_tshirt_lentos_poster.jpg',
+        size: '0.8 MB',
+        caption: `🏎️ T-SHIRT OVERSIZED • VEÍCULOS LENTOS À DIREITA 🏎️\n\nA t-shirt mais comentada da comunidade motard! Modelagem box fit contemporânea, estampa traseira em alta definição DTF que resiste a todas as lavagens.\n\n💰 Preço Oficial: 39,90 €\n🎨 Cores: Preto Stealth & Amarelo Fluo\n📦 Envio CTT para Portugal Continental: 4,85 € (Entrega em 4 a 6 dias úteis)\n\n👉 Clica no link e encomenda já a tua:\n🌐 WWW.DARKGHOSTRIDER.COM\n\n#veiculoslentos #tshirtoversized #bikerhumor #darkghostrider #portugal`
+      },
+      {
+        id: 'story_apparel_06_hoodie_faixa_esquerda',
+        title: 'Sweat Capuz • Edição Humor "A Faixa da Esquerda Não é Tua"',
+        subtitle: 'Vídeo dedicado do hoodie com o recado direto que todo biker queria dar na estrada.',
+        category: 'Sweatshirt',
+        filterCategory: 'apparel-single',
+        categoryBadgeClass: 'bg-yellow-500/10 text-[#f6ff00] border-yellow-500/30',
+        duration: 8,
+        videoSrc: 'assets/videos/stories/story_apparel_06_hoodie_faixa_esquerda.mp4',
+        posterSrc: 'assets/images/stories_posters/story_apparel_06_hoodie_faixa_esquerda_poster.jpg',
+        size: '0.8 MB',
+        caption: `⚡ A FAIXA DA ESQUERDA NÃO É TUA! • SWEATSHIRT CAPUZ ⚡\n\nPara quem não aguenta os carros parados a dormir na faixa da ultrapassagem. Heavyweight 380g quente e confortável para as voltas de fim de semana.\n\n💰 Preço Oficial: 59,90 €\n🎨 Cores: Preto Stealth & Amarelo Fluo\n📦 Envio CTT para Portugal Continental: 4,85 € (Entrega em 4 a 6 dias úteis)\n\n👉 Clica no link do story e aproveita o primeiro lote:\n🌐 WWW.DARKGHOSTRIDER.COM\n\n#afadadaesquerda #bikerhumor #darkghostrider #hoodie #mt07 #portugal`
+      },
+      {
+        id: 'story_apparel_07_tshirt_faixa_esquerda',
+        title: 'T-Shirt Oversized • Edição "A Faixa da Esquerda Não é Tua"',
+        subtitle: 'Vídeo dedicado da T-Shirt box fit com estampa traseira impactante e atitude biker.',
+        category: 'T-Shirt',
+        filterCategory: 'apparel-single',
+        categoryBadgeClass: 'bg-purple-500/10 text-purple-400 border-purple-500/30',
+        duration: 8,
+        videoSrc: 'assets/videos/stories/story_apparel_07_tshirt_faixa_esquerda.mp4',
+        posterSrc: 'assets/images/stories_posters/story_apparel_07_tshirt_faixa_esquerda_poster.jpg',
+        size: '0.8 MB',
+        caption: `👊 T-SHIRT OVERSIZED • A FAIXA DA ESQUERDA NÃO É TUA! 👊\n\nCorte oversized de alto padrão, caimento solto e estampa nas costas que chama a atenção onde quer que passes. Disponível nos tamanhos S a XXL.\n\n💰 Preço Oficial: 39,90 €\n🎨 Cores: Preto Stealth & Amarelo Fluo\n📦 Envio CTT para Portugal Continental: 4,85 € (Entrega em 4 a 6 dias úteis)\n\n👉 Clica no link para encomendar:\n🌐 WWW.DARKGHOSTRIDER.COM\n\n#afadadaesquerda #tshirtoversized #bikercommunity #darkghostrider #streetwear`
+      },
+      {
+        id: 'story_apparel_08_hoodie_lentos_porfavor',
+        title: 'Sweat Capuz • Edição "Veículos Lentos à Direita, Por Favor"',
+        subtitle: 'Vídeo dedicado da versão educada e cheia de sarcasmo para ultrapassagens cordiais.',
+        category: 'Sweatshirt',
+        filterCategory: 'apparel-single',
+        categoryBadgeClass: 'bg-cyan-500/10 text-cyan-400 border-cyan-500/30',
+        duration: 8,
+        videoSrc: 'assets/videos/stories/story_apparel_08_hoodie_lentos_porfavor.mp4',
+        posterSrc: 'assets/images/stories_posters/story_apparel_08_hoodie_lentos_porfavor_poster.jpg',
+        size: '0.8 MB',
+        caption: `✨ VEÍCULOS LENTOS À DIREITA, POR FAVOR • SWEAT CAPUZ ✨\n\nA versão educada e diplomática da regra motard! Máxima qualidade heavyweight 380g, capuz duplo com cordões reforçados e bolso canguru.\n\n💰 Preço Oficial: 59,90 €\n🎨 Cores: Preto Stealth & Amarelo Fluo\n📦 Envio CTT para Portugal Continental: 4,85 € (Entrega em 4 a 6 dias úteis)\n\n👉 Clica no link e garante a tua peça oficial:\n🌐 WWW.DARKGHOSTRIDER.COM\n\n#veiculoslentos #porfavor #darkghostrider #hoodie #politehumor #portugal`
+      },
+      {
+        id: 'story_apparel_09_tshirt_lentos_porfavor',
+        title: 'T-Shirt Oversized • Edição "Veículos Lentos à Direita, Por Favor"',
+        subtitle: 'Vídeo dedicado da T-Shirt oversized box fit da versão bem-educada de humor motard.',
+        category: 'T-Shirt',
+        filterCategory: 'apparel-single',
+        categoryBadgeClass: 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30',
+        duration: 8,
+        videoSrc: 'assets/videos/stories/story_apparel_09_tshirt_lentos_porfavor.mp4',
+        posterSrc: 'assets/images/stories_posters/story_apparel_09_tshirt_lentos_porfavor_poster.jpg',
+        size: '0.8 MB',
+        caption: `🏍️💨 T-SHIRT OVERSIZED • VEÍCULOS LENTOS À DIREITA, POR FAVOR 💨🏍️\n\nA frase clássica pedindo com jeitinho para saírem da frente! Confeccionada em algodão pesado estruturado com estampa DTF premium nas costas.\n\n💰 Preço Oficial: 39,90 €\n🎨 Cores: Preto Stealth & Amarelo Fluo\n📦 Envio CTT para Portugal Continental: 4,85 € (Entrega em 4 a 6 dias úteis)\n\n👉 Clica no link para comprar na loja oficial:\n🌐 WWW.DARKGHOSTRIDER.COM\n\n#veiculoslentos #porfavor #tshirtoversized #darkghostrider #bikelife`
+      },
+      {
         id: 'story_01_colecao_streetwear',
         title: 'Drop 01 Streetwear • Coleção Completa',
         subtitle: 'Vídeo dinâmico de abertura apresentando a nova coleção de streetwear da marca.',
@@ -2642,7 +2760,7 @@
 
     function filterAdminStoriesList(cat) {
       activeStoriesFilter = cat;
-      const btns = ['all', 'apparel', 'mt07', 'gear', 'official'];
+      const btns = ['all', 'apparel-single', 'apparel', 'mt07', 'gear', 'official'];
       btns.forEach(b => {
         const btn = document.getElementById(`story-filter-${b}`);
         if (!btn) return;
