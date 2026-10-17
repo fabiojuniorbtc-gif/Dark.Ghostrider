@@ -355,7 +355,7 @@ APPAREL_STORIES = [
                 "tag": "DROP 01 • OFICIAL",
                 "title_line1": "SWEATSHIRT CAPUZ",
                 "title_line2": "DARK GHOSTRIDER",
-                "sub": "59,90 € • PRETO STEALTH & CYBER AMARELO",
+                "sub": "PRETO STEALTH & CYBER AMARELO",
                 "badge_type": "skull",
                 "show_shipping": False
             },
@@ -393,7 +393,7 @@ APPAREL_STORIES = [
                 "tag": "STREET DIVISION • BOXY FIT",
                 "title_line1": "T-SHIRT OVERSIZED",
                 "title_line2": "STREET DIVISION",
-                "sub": "39,90 € • ALGODÃO PESADO ESTRUTURADO",
+                "sub": "ALGODÃO PESADO ESTRUTURADO",
                 "badge_type": "skull",
                 "show_shipping": False
             },
@@ -431,7 +431,7 @@ APPAREL_STORIES = [
                 "tag": "100% ALGODÃO ORGÂNICO",
                 "title_line1": "T-SHIRT CLASSIC",
                 "title_line2": "BIO190 STREET",
-                "sub": "29,90 € • TOQUE ULTRA SUAVE E RESISTENTE",
+                "sub": "TOQUE ULTRA SUAVE E RESISTENTE",
                 "badge_type": "skull",
                 "show_shipping": False
             },
@@ -469,7 +469,7 @@ APPAREL_STORIES = [
                 "tag": "EDIÇÃO BIKER HUMOR",
                 "title_line1": "SWEAT COM CAPUZ",
                 "title_line2": "VEÍCULOS LENTOS",
-                "sub": "59,90 € • FRENTE MINIMALISTA COM LOGO PEITO",
+                "sub": "FRENTE MINIMALISTA COM LOGO PEITO",
                 "badge_type": "skull",
                 "show_shipping": False
             },
@@ -507,7 +507,7 @@ APPAREL_STORIES = [
                 "tag": "BIKER HUMOR • BOX FIT",
                 "title_line1": "T-SHIRT OVERSIZED",
                 "title_line2": "VEÍCULOS LENTOS",
-                "sub": "39,90 € • CORTE RETRO BOXY FIT EM ALGODÃO PESADO",
+                "sub": "CORTE RETRO BOXY FIT EM ALGODÃO PESADO",
                 "badge_type": "skull",
                 "show_shipping": False
             },
@@ -545,7 +545,7 @@ APPAREL_STORIES = [
                 "tag": "EDIÇÃO BIKER HUMOR",
                 "title_line1": "SWEAT COM CAPUZ",
                 "title_line2": "FAIXA DA ESQUERDA",
-                "sub": "59,90 € • FRENTE CLEAN E DISCRETA NO PEITO",
+                "sub": "FRENTE CLEAN E DISCRETA NO PEITO",
                 "badge_type": "skull",
                 "show_shipping": False
             },
@@ -583,7 +583,7 @@ APPAREL_STORIES = [
                 "tag": "BIKER HUMOR • BOX FIT",
                 "title_line1": "T-SHIRT OVERSIZED",
                 "title_line2": "FAIXA DA ESQUERDA",
-                "sub": "39,90 € • ALGODÃO ENCORPADO DE ALTA QUALIDADE",
+                "sub": "ALGODÃO ENCORPADO DE ALTA QUALIDADE",
                 "badge_type": "skull",
                 "show_shipping": False
             },
@@ -621,7 +621,7 @@ APPAREL_STORIES = [
                 "tag": "BIKER HUMOR POLITE",
                 "title_line1": "SWEAT COM CAPUZ",
                 "title_line2": "POR FAVOR, À DIREITA",
-                "sub": "59,90 € • EDUCAÇÃO E VELOCIDADE JUNTAS",
+                "sub": "EDUCAÇÃO E VELOCIDADE JUNTAS",
                 "badge_type": "skull",
                 "show_shipping": False
             },
@@ -659,7 +659,7 @@ APPAREL_STORIES = [
                 "tag": "BIKER HUMOR POLITE",
                 "title_line1": "T-SHIRT OVERSIZED",
                 "title_line2": "POR FAVOR, À DIREITA",
-                "sub": "39,90 € • CORTE BOXY FIT DESCONTRAÍDO E MODERNO",
+                "sub": "CORTE BOXY FIT DESCONTRAÍDO E MODERNO",
                 "badge_type": "skull",
                 "show_shipping": False
             },
@@ -803,25 +803,30 @@ def render_apparel_story(cfg, story_idx):
         wsub = bsub[2] - bsub[0]
         draw.text((cx - wsub // 2, y_text + 112), sub_text, fill=(210, 215, 230, 240), font=FONT_BODY)
         
-        # Shipping Notice on Slide 3 or when enabled
+        # Pill notification (Shipping Notice on Slide 3 or optional custom pill; NO price pill)
+        pill_text = None
+        pill_outline = (255, 255, 255, 60)
+        pill_fill = (25, 27, 36, 210)
+        pill_text_color = (255, 255, 255, 240)
+        
         if cur_slide.get("show_shipping", False):
-            ship_text = "Envio 4,85 € Portugal Continental • 4 a 6 dias úteis"
-            b_ship = draw.textbbox((0, 0), ship_text, font=FONT_SHIPPING)
-            w_ship = b_ship[2] - b_ship[0] + 28
-            h_ship = 32
-            x_ship = cx - w_ship // 2
-            y_ship = 948
-            draw.rounded_rectangle([x_ship, y_ship, x_ship + w_ship, y_ship + h_ship], radius=16, fill=(20, 25, 38, 220), outline=(246, 255, 0, 100), width=1)
-            draw.text((x_ship + 14, y_ship + 6), ship_text, fill=(246, 255, 0, 255), font=FONT_SHIPPING)
-        else:
-            # Price Tag pill in earlier slides
-            price_text = f"PREÇO OFICIAL: {cfg['price']}"
-            b_p = draw.textbbox((0, 0), price_text, font=FONT_SHIPPING)
-            w_p = b_p[2] - b_p[0] + 24
+            pill_text = "Envio 4,85 € Portugal Continental • 4 a 6 dias úteis"
+            pill_outline = (246, 255, 0, 100)
+            pill_fill = (20, 25, 38, 220)
+            pill_text_color = (246, 255, 0, 255)
+        elif cur_slide.get("pill_text"):
+            pill_text = cur_slide["pill_text"]
+        elif cfg.get("show_price", False):
+            pill_text = f"PREÇO OFICIAL: {cfg['price']}"
+
+        if pill_text:
+            b_p = draw.textbbox((0, 0), pill_text, font=FONT_SHIPPING)
+            w_p = b_p[2] - b_p[0] + 28
+            h_p = 32
             x_p = cx - w_p // 2
             y_p = 948
-            draw.rounded_rectangle([x_p, y_p, x_p + w_p, y_p + 32], radius=16, fill=(25, 27, 36, 210), outline=(255, 255, 255, 60), width=1)
-            draw.text((x_p + 12, y_p + 6), price_text, fill=(255, 255, 255, 240), font=FONT_SHIPPING)
+            draw.rounded_rectangle([x_p, y_p, x_p + w_p, y_p + h_p], radius=16, fill=pill_fill, outline=pill_outline, width=1)
+            draw.text((x_p + 14, y_p + 6), pill_text, fill=pill_text_color, font=FONT_SHIPPING)
         
         # Center pulsating badge (only when badge_type is not "none")
         badge_type = cur_slide.get("badge_type", "skull")
