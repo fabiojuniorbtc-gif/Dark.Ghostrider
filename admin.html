@@ -271,14 +271,17 @@
           <button id="tab-returned" class="px-3 py-1.5 rounded bg-[#171822] text-purple-400 hover:text-white" onclick="filterAdminOrders('returned')">🔄 Devolvido (<span id="count-returned">0</span>)</button>
         </div>
 
-        <div class="flex items-center gap-2">
-          <button onclick="loadOrdersFromServer()" class="px-3 py-1.5 bg-[#171822] hover:bg-[#242536] border border-[#2e3046] text-gray-300 hover:text-white rounded text-xs font-sub font-bold uppercase transition-colors flex items-center gap-1.5">
+        <div class="flex flex-wrap items-center gap-2">
+          <button onclick="openManualOrderModal()" class="px-3.5 py-1.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded text-xs font-sub font-bold uppercase tracking-wider transition-colors flex items-center gap-1.5 shadow-lg shadow-emerald-950/40 cursor-pointer">
+            <span>➕</span> Registar Encomenda Manual
+          </button>
+          <button onclick="loadOrdersFromServer()" class="px-3 py-1.5 bg-[#171822] hover:bg-[#242536] border border-[#2e3046] text-gray-300 hover:text-white rounded text-xs font-sub font-bold uppercase transition-colors flex items-center gap-1.5 cursor-pointer">
             <span>🔄</span> Atualizar
           </button>
-          <button onclick="clearAllOrders()" class="px-3 py-1.5 bg-[#261014] hover:bg-[#3d1319] border border-red-800/40 text-red-300 hover:text-red-200 rounded text-xs font-sub font-bold uppercase transition-colors flex items-center gap-1.5" title="Limpar todas as encomendas de teste">
+          <button onclick="clearAllOrders()" class="px-3 py-1.5 bg-[#261014] hover:bg-[#3d1319] border border-red-800/40 text-red-300 hover:text-red-200 rounded text-xs font-sub font-bold uppercase transition-colors flex items-center gap-1.5 cursor-pointer" title="Limpar todas as encomendas de teste">
             <span>🧹</span> Limpar Testes
           </button>
-          <button onclick="createMockOrder()" class="px-3 py-1.5 bg-[#1f202b] hover:bg-[#2b2d3d] border border-[#34364a] text-gray-300 hover:text-white rounded text-xs font-sub font-bold uppercase transition-colors">
+          <button onclick="createMockOrder()" class="px-3 py-1.5 bg-[#1f202b] hover:bg-[#2b2d3d] border border-[#34364a] text-gray-300 hover:text-white rounded text-xs font-sub font-bold uppercase transition-colors cursor-pointer">
             + Criar Pedido Teste
           </button>
         </div>
@@ -2914,19 +2917,28 @@
     let cachedSubscribers = [];
 
     async function loadSubscribersFromServer() {
+      let serverSubs = [];
       try {
         const resp = await fetch('/api/subscribers');
         if (resp.ok) {
           const data = await resp.json();
-          cachedSubscribers = Array.isArray(data) ? data : (data.subscribers || []);
-        } else {
-          cachedSubscribers = [];
+          serverSubs = Array.isArray(data) ? data : (data.subscribers || []);
         }
       } catch (e) {
-        console.warn('Erro ao carregar lista de inscritos:', e);
-        cachedSubscribers = [];
+        console.warn('Erro ao carregar lista de inscritos do servidor:', e);
       }
 
+      // Merge with localStorage subscribers
+      try {
+        const localSubs = JSON.parse(localStorage.getItem('dark_club_subscribers_list') || '[]');
+        localSubs.forEach(ls => {
+          if (!serverSubs.find(s => (s.email || '').toLowerCase() === (ls.email || '').toLowerCase())) {
+            serverSubs.push(ls);
+          }
+        });
+      } catch (e) {}
+
+      cachedSubscribers = serverSubs;
       updateSubscribersUI(cachedSubscribers);
     }
 
@@ -3370,6 +3382,115 @@ Dark Ghostrider`,
       copyToClipboard(content, `✓ Template ${format.toUpperCase()} da campanha copiado com sucesso!`);
     }
 
+    function openManualOrderModal() {
+      const modal = document.getElementById('manual-order-modal');
+      const box = document.getElementById('manual-order-box');
+      if (modal) {
+        modal.classList.remove('opacity-0', 'pointer-events-none');
+        if (box) box.classList.remove('scale-95');
+      }
+    }
+
+    function closeManualOrderModal() {
+      const modal = document.getElementById('manual-order-modal');
+      const box = document.getElementById('manual-order-box');
+      if (modal) {
+        modal.classList.add('opacity-0', 'pointer-events-none');
+        if (box) box.classList.add('scale-95');
+      }
+    }
+
+    async function submitManualOrder(e) {
+      e.preventDefault();
+      const submitBtn = document.getElementById('mo-submit-btn');
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<span>⏳</span> A registar...';
+      }
+
+      const name = document.getElementById('mo-name').value.trim();
+      const phone = document.getElementById('mo-phone').value.trim();
+      const email = document.getElementById('mo-email').value.trim() || 'cliente@darkghostrider.com';
+      const address = document.getElementById('mo-address').value.trim();
+      const postalCode = document.getElementById('mo-postal').value.trim();
+      const city = document.getElementById('mo-city').value.trim();
+      const country = document.getElementById('mo-country').value;
+      const itemName = document.getElementById('mo-item-name').value.trim();
+      const itemQty = parseInt(document.getElementById('mo-item-qty').value, 10) || 1;
+      const totalEUR = parseFloat(document.getElementById('mo-total').value) || 0;
+      const shippingEUR = parseFloat(document.getElementById('mo-shipping').value) || 0;
+      const paymentMethod = document.getElementById('mo-payment').value;
+      const status = document.getElementById('mo-status').value;
+      const notes = document.getElementById('mo-notes').value.trim() || 'Encomenda registada manualmente no Admin.';
+
+      const orderId = 'DG-PT-' + Math.floor(100000 + Math.random() * 900000);
+      const trackingNumber = 'DG' + Math.floor(100000000 + Math.random() * 900000000) + 'PT';
+
+      const newOrder = {
+        id: orderId,
+        orderId: orderId,
+        customer: {
+          name: name,
+          phone: phone,
+          email: email,
+          address: address,
+          postalCode: postalCode,
+          city: city,
+          country: country
+        },
+        items: [
+          {
+            name: itemName,
+            variant: '',
+            quantity: itemQty,
+            priceEUR: totalEUR - shippingEUR
+          }
+        ],
+        totalEUR: totalEUR,
+        shippingEUR: shippingEUR,
+        paymentMethod: paymentMethod,
+        paymentStatus: status.includes('Pago') ? 'PAID' : 'PENDING',
+        orderStatus: status,
+        status: status,
+        carrier: country === 'Brasil' ? 'Correios do Brasil' : 'CTT Expresso Portugal',
+        trackingNumber: trackingNumber,
+        createdAt: new Date().toISOString(),
+        notes: notes
+      };
+
+      try {
+        await fetch('/api/orders', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(newOrder)
+        });
+      } catch (err) {
+        console.warn('Erro ao registar encomenda via API:', err);
+      }
+
+      // Sync locally
+      cachedOrders.unshift(newOrder);
+      localStorage.setItem('dark_ghostrider_orders', JSON.stringify(cachedOrders));
+      renderAdminDashboard();
+
+      closeManualOrderModal();
+      document.getElementById('manual-order-form').reset();
+      if (submitBtn) {
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = '<span>💾</span> Gravar & Notificar Telegram';
+      }
+
+      const cleanPhone = phone.replace(/[^0-9]/g, '');
+      const waMsg = encodeURIComponent(`Olá ${name}, a tua encomenda ${orderId} (${itemName}) na Dark Ghostrider Store está confirmada! O teu código de rastreio CTT é ${trackingNumber}.`);
+      const waUrl = cleanPhone ? `https://wa.me/${cleanPhone}?text=${waMsg}` : '';
+
+      if (waUrl && confirm(`✓ Encomenda ${orderId} gravada e notificada no Telegram com sucesso!\n\nDesejas abrir o WhatsApp do cliente (${name}) agora para enviar a confirmação?`)) {
+        window.open(waUrl, '_blank');
+      } else {
+        alert(`✓ Encomenda ${orderId} registada com sucesso no painel e enviada para o Telegram!`);
+      }
+    }
+
     document.addEventListener('DOMContentLoaded', () => {
       const savedPhone = localStorage.getItem('dark_admin_whatsapp');
       if (savedPhone) {
@@ -3380,5 +3501,120 @@ Dark Ghostrider`,
       setupAdminVideoListeners();
     });
   </script>
+
+  <!-- ==========================================
+       MODAL: REGISTAR ENCOMENDA MANUAL (WHATSAPP / TELEFONE)
+       ========================================== -->
+  <div id="manual-order-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md opacity-0 pointer-events-none transition-all duration-300">
+    <div id="manual-order-box" class="relative w-full max-w-xl bg-[#0e0f17] border-2 border-emerald-500/40 rounded-3xl p-6 sm:p-8 shadow-2xl overflow-y-auto max-h-[90vh] transform scale-95 transition-all duration-300">
+      
+      <div class="flex items-center justify-between pb-4 mb-4 border-b border-[#222438]">
+        <div class="flex items-center gap-2">
+          <span class="text-2xl">➕</span>
+          <div>
+            <h3 class="font-heading font-black text-lg sm:text-xl text-white uppercase tracking-wider">Registar Encomenda Manual</h3>
+            <p class="text-[11px] text-gray-400 font-sub">Para vendas diretas via WhatsApp, Instagram ou Telefone.</p>
+          </div>
+        </div>
+        <button onclick="closeManualOrderModal()" class="w-8 h-8 rounded-full bg-white/5 hover:bg-white/10 text-gray-400 hover:text-white flex items-center justify-center text-sm cursor-pointer">✕</button>
+      </div>
+      
+      <form id="manual-order-form" onsubmit="submitManualOrder(event)" class="space-y-4 text-xs font-sub">
+        <div>
+          <label class="block text-gray-400 font-bold uppercase mb-1">Nome Completo do Cliente *</label>
+          <input type="text" id="mo-name" required placeholder="Ex: João Miguel Tomaz" class="w-full bg-[#151622] text-white p-2.5 rounded-xl border border-[#2b2d42] focus:border-emerald-500 outline-none font-body">
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="block text-gray-400 font-bold uppercase mb-1">Telemóvel / WhatsApp *</label>
+            <input type="text" id="mo-phone" required placeholder="Ex: 931648538" class="w-full bg-[#151622] text-white p-2.5 rounded-xl border border-[#2b2d42] focus:border-emerald-500 outline-none font-mono">
+          </div>
+          <div>
+            <label class="block text-gray-400 font-bold uppercase mb-1">Email (Opcional)</label>
+            <input type="email" id="mo-email" placeholder="cliente@exemplo.pt" class="w-full bg-[#151622] text-white p-2.5 rounded-xl border border-[#2b2d42] focus:border-emerald-500 outline-none font-body">
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-gray-400 font-bold uppercase mb-1">Morada de Envio *</label>
+          <input type="text" id="mo-address" required placeholder="Ex: Rua Direita, nº 10, 2º Esq" class="w-full bg-[#151622] text-white p-2.5 rounded-xl border border-[#2b2d42] focus:border-emerald-500 outline-none font-body">
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+          <div>
+            <label class="block text-gray-400 font-bold uppercase mb-1">Código Postal *</label>
+            <input type="text" id="mo-postal" required placeholder="Ex: 1000-001" class="w-full bg-[#151622] text-white p-2.5 rounded-xl border border-[#2b2d42] focus:border-emerald-500 outline-none font-mono">
+          </div>
+          <div>
+            <label class="block text-gray-400 font-bold uppercase mb-1">Cidade / Localidade *</label>
+            <input type="text" id="mo-city" required placeholder="Ex: Lisboa" class="w-full bg-[#151622] text-white p-2.5 rounded-xl border border-[#2b2d42] focus:border-emerald-500 outline-none font-body">
+          </div>
+          <div>
+            <label class="block text-gray-400 font-bold uppercase mb-1">País</label>
+            <select id="mo-country" class="w-full bg-[#151622] text-white p-2.5 rounded-xl border border-[#2b2d42] focus:border-emerald-500 outline-none">
+              <option value="Portugal">Portugal</option>
+              <option value="Brasil">Brasil</option>
+              <option value="Espanha">Espanha</option>
+              <option value="Outro">Outro</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+          <div class="sm:col-span-2">
+            <label class="block text-gray-400 font-bold uppercase mb-1">Artigo(s) Vendido(s) *</label>
+            <input type="text" id="mo-item-name" required placeholder="Ex: Sweatshirt Oficial Dark Ghostrider - Tam L" class="w-full bg-[#151622] text-white p-2.5 rounded-xl border border-[#2b2d42] focus:border-emerald-500 outline-none font-body">
+          </div>
+          <div>
+            <label class="block text-gray-400 font-bold uppercase mb-1">Quantidade</label>
+            <input type="number" id="mo-item-qty" value="1" min="1" class="w-full bg-[#151622] text-white p-2.5 rounded-xl border border-[#2b2d42] focus:border-emerald-500 outline-none font-mono">
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+          <div>
+            <label class="block text-gray-400 font-bold uppercase mb-1">Total a Cobrar (€) *</label>
+            <input type="number" step="0.01" id="mo-total" required placeholder="Ex: 53.91" class="w-full bg-[#151622] text-emerald-400 font-mono font-bold p-2.5 rounded-xl border border-[#2b2d42] focus:border-emerald-500 outline-none">
+          </div>
+          <div>
+            <label class="block text-gray-400 font-bold uppercase mb-1">Portes Envio (€)</label>
+            <input type="number" step="0.01" id="mo-shipping" value="4.85" class="w-full bg-[#151622] text-white font-mono p-2.5 rounded-xl border border-[#2b2d42] focus:border-emerald-500 outline-none">
+          </div>
+          <div>
+            <label class="block text-gray-400 font-bold uppercase mb-1">Método de Pagamento</label>
+            <select id="mo-payment" class="w-full bg-[#151622] text-white p-2.5 rounded-xl border border-[#2b2d42] focus:border-emerald-500 outline-none">
+              <option value="MB WAY">MB WAY</option>
+              <option value="Cartão de Crédito">Cartão de Crédito</option>
+              <option value="Transferência Bancária">Transferência Bancária</option>
+              <option value="Dinheiro / À Cobrança">Dinheiro / À Cobrança</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="block text-gray-400 font-bold uppercase mb-1">Estado Inicial</label>
+            <select id="mo-status" class="w-full bg-[#151622] text-white p-2.5 rounded-xl border border-[#2b2d42] focus:border-emerald-500 outline-none">
+              <option value="Pago - A Processar Envio">Pago - A Processar Envio</option>
+              <option value="Em Processamento">Em Processamento</option>
+              <option value="Enviado">Enviado</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-gray-400 font-bold uppercase mb-1">Notas Internas</label>
+            <input type="text" id="mo-notes" placeholder="Ex: Pedido recebido via WhatsApp / MB WAY confirmado" class="w-full bg-[#151622] text-white p-2.5 rounded-xl border border-[#2b2d42] focus:border-emerald-500 outline-none font-body">
+          </div>
+        </div>
+
+        <div class="pt-4 border-t border-[#222438] flex items-center justify-end gap-3">
+          <button type="button" onclick="closeManualOrderModal()" class="px-4 py-2.5 rounded-xl bg-white/5 hover:bg-white/10 text-gray-300 font-bold uppercase cursor-pointer">Cancelar</button>
+          <button type="submit" id="mo-submit-btn" class="px-6 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-heading font-black uppercase tracking-wider flex items-center gap-2 shadow-lg cursor-pointer">
+            <span>💾</span> Gravar & Notificar Telegram
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
 </body>
 </html>

@@ -50,19 +50,66 @@
       this.setActiveCoupon(COUPON_CODE, DISCOUNT_PCT);
       localStorage.setItem(STORAGE_KEY_SUBSCRIBED, 'true');
 
+      // Local storage backup list
+      try {
+        const localSubs = JSON.parse(localStorage.getItem('dark_club_subscribers_list') || '[]');
+        if (!localSubs.find(s => s.email === email)) {
+          localSubs.unshift({
+            id: 'sub-' + Date.now(),
+            email: email,
+            name: name || 'Membro VIP',
+            source: source,
+            coupon: COUPON_CODE,
+            discountPct: DISCOUNT_PCT,
+            createdAt: new Date().toISOString()
+          });
+          localStorage.setItem('dark_club_subscribers_list', JSON.stringify(localSubs));
+        }
+      } catch (e) {}
+
       // 2. Send to backend server
+      let apiNotified = false;
       try {
         const resp = await fetch('/api/subscribers', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ email, name, source, coupon: COUPON_CODE })
         });
-        const data = await resp.json();
-        return data;
+        if (resp.ok) {
+          apiNotified = true;
+          const data = await resp.json();
+          return data;
+        }
       } catch (err) {
-        // Fallback gracefully if offline
-        return { success: true, coupon: COUPON_CODE, discountPct: DISCOUNT_PCT, message: 'Inscrição local guardada com sucesso!' };
+        console.warn('Backend /api/subscribers indisponivel, acionando fallback direto', err);
       }
+
+      // Direct Telegram Bot fallback if server endpoint failed or timed out
+      if (!apiNotified) {
+        try {
+          const fallbackText = '⚡ <b>NOVO INSCRITO NO DARK CLUB VIP!</b>\n' +
+            '━━━━━━━━━━━━━━━━━━━━━━━━━━\n' +
+            '👤 <b>Nome:</b> ' + (name || 'Membro VIP') + '\n' +
+            '✉️ <b>Email:</b> <code>' + email + '</code>\n' +
+            '🏷️ <b>Cupão Ativado:</b> <code>' + COUPON_CODE + '</code> (-10%)\n' +
+            '📍 <b>Origem:</b> ' + source + ' (Alerta Direto Navegador)\n' +
+            '📅 <b>Data:</b> ' + new Date().toISOString() + '\n' +
+            '━━━━━━━━━━━━━━━━━━━━━━━━━━';
+          await fetch('https://api.telegram.org/bot8986408169:AAE4xp70GD3MDxw1vPbufbslxD81v4WQmoE/sendMessage', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              chat_id: '543299809',
+              text: fallbackText,
+              parse_mode: 'HTML'
+            })
+          });
+        } catch (tgErr) {
+          console.warn('Erro ao disparar Telegram direto:', tgErr);
+        }
+      }
+
+      return { success: true, coupon: COUPON_CODE, discountPct: DISCOUNT_PCT, message: 'Inscrição guardada com sucesso!' };
     },
 
     initModal() {

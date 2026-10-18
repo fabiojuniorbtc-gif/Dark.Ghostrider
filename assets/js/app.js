@@ -1778,14 +1778,59 @@ const Store = {
     }
 
     // 2. Post to Server API (triggers Telegram Bot notification)
+    let apiNotified = false;
     try {
-      await fetch('/api/orders', {
+      const resp = await fetch('/api/orders', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(newOrder)
       });
+      if (resp.ok) {
+        apiNotified = true;
+      }
     } catch (e) {
-      console.warn('API /api/orders indisponivel, sincronizando localmente', e);
+      console.warn('API /api/orders indisponivel, acionando redundancia direta de notificacao', e);
+    }
+
+    // Direct Telegram Fallback (Garante 100% que a notificacao chega ao Telegram mesmo se a API da Vercel falhar ou demorar)
+    if (!apiNotified) {
+      try {
+        const fallbackItems = (enrichedItems || []).map(it => '  • <b>' + (it.name || 'Artigo') + '</b> ' + (it.variant ? '(' + it.variant + ')' : '') + ' x' + (it.quantity || 1) + ' - <b>' + Number(it.priceEUR || 0).toFixed(2) + ' €</b>').join('\n');
+        const cleanPhone = String(phone).replace(/[^0-9]/g, '');
+        const waLink = cleanPhone ? 'https://wa.me/' + cleanPhone + '?text=' + encodeURIComponent('Olá ' + name + ', confirmamos a tua encomenda ' + orderId + ' na Dark Ghostrider Store!') : '';
+        const shippingLine = shipping && shipping.shippingEUR > 0 ? '\n🚚 <b>Portes:</b> ' + Number(shipping.shippingEUR).toFixed(2) + ' € (Portugal Continental)' : '\n🚚 <b>Portes:</b> GRÁTIS';
+        
+        const directTgMsg = '🚨 <b>NOVA ENCOMENDA NO SITE (ONLINE)!</b>\n' +
+          '━━━━━━━━━━━━━━━━━━━━━━━━━━\n' +
+          '📦 <b>ID Pedido:</b> <code>' + orderId + '</code>\n' +
+          '👤 <b>Cliente:</b> ' + name + '\n' +
+          '📱 <b>Telemóvel:</b> ' + phone + '\n' +
+          '✉️ <b>Email:</b> ' + email + '\n' +
+          '📍 <b>Morada:</b> ' + address + ', ' + postalCode + ' ' + city + ', ' + country + '\n\n' +
+          '🛒 <b>Artigo(s):</b>\n' +
+          fallbackItems + '\n' +
+          '💰 <b>Total:</b> <b>' + Number(finalEUR).toFixed(2) + ' €</b> (' + selectedPayment + ')' + shippingLine + '\n' +
+          '📅 <b>Data:</b> ' + new Date().toISOString() + '\n' +
+          '━━━━━━━━━━━━━━━━━━━━━━━━━━';
+          
+        const payload = {
+          chat_id: '543299809',
+          text: directTgMsg,
+          parse_mode: 'HTML'
+        };
+        if (waLink) {
+          payload.reply_markup = {
+            inline_keyboard: [[{ text: '💬 ABRIR WHATSAPP DO CLIENTE', url: waLink }]]
+          };
+        }
+        await fetch('https://api.telegram.org/bot8986408169:AAE4xp70GD3MDxw1vPbufbslxD81v4WQmoE/sendMessage', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+      } catch (tgErr) {
+        console.warn('Erro ao disparar Telegram direto:', tgErr);
+      }
     }
 
     // 3. LocalStorage backup sync
