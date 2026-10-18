@@ -28,21 +28,22 @@
       "discountPct": 10,
       "discountEUR": 5.99
     },
-    "totalCostEUR": 28.5,
-    "netProfitEUR": 25.41,
+    "totalCostEUR": 39.07,
+    "netProfitEUR": 14.84,
     "paymentMethod": "MB WAY",
     "paymentStatus": "Aguardando Pagamento MB WAY",
     "items": [
       {
-        "id": "hoodie-dark-ghostrider-oficial",
-        "name": "Sweatshirt com Capuz Oficial Dark Ghostrider (Estampa A3 Costas)",
-        "image": "assets/images/apparel/hoodie_preto_front.jpg",
+        "id": "retrovisor-stealth-e9",
+        "name": "Retrovisores Stealth Wing / Bar-End Elevado E9 Alumínio CNC - MT-07",
+        "image": "assets/images/products/retrovisores_stealth_main.jpg",
         "priceEUR": 59.9,
-        "priceBRL": 379.0,
-        "variation": "Cor: Preto Stealth | Tamanho: A confirmar no WhatsApp",
+        "priceBRL": 389.0,
+        "variation": "Preto Anodizado CNC (Setup MT-07)",
+        "variant": "Preto Anodizado CNC (Setup MT-07)",
         "quantity": 1,
-        "supplierUrl": "Produção Nacional Oficial (Lisboa / Margem Sul)",
-        "supplierCostEUR": 28.5
+        "supplierUrl": "https://pt.aliexpress.com/item/1005007453126466.html",
+        "supplierCostEUR": 39.07
       }
     ],
     "date": "2026-10-18T12:08:31.000Z",
@@ -51,7 +52,7 @@
     "status": "Em Processo",
     "trackingNumber": "",
     "carrier": "CTT Expresso Portugal",
-    "notes": "Cliente gerou encomenda no site com cupão DARK10 (-10%). Aguarda transferência de 53,91 € por MB WAY para 968 885 713."
+    "notes": "Cliente comprou os Retrovisores Stealth Wing / Bar-End Elevado E9 Alumínio CNC para MT-07 com cupão DARK10 (-10%). Total pago por MB WAY: 53,91 €."
   },
   {
     "id": "DG-PT-528377",
