@@ -1914,18 +1914,25 @@
                 <p><strong>Email:</strong> ${custEmail}</p>
               </div>
               <div>
-                <p class="font-sub font-bold text-white uppercase mb-1 flex items-center gap-1">
-                  <span>📍</span> Morada de Destino:
-                </p>
-                <p>${custAddress}</p>
-                <p><strong>País:</strong> ${custCountry}</p>
+                <div class="flex items-center justify-between mb-1.5">
+                  <p class="font-sub font-bold text-white uppercase flex items-center gap-1">
+                    <span>📍</span> Morada de Destino:
+                  </p>
+                  <button type="button" onclick="copyAddressToClipboard('${orderId}')" class="text-[10px] text-cyan-400 hover:text-cyan-300 bg-cyan-950/80 border border-cyan-800/60 px-2 py-0.5 rounded font-bold flex items-center gap-1 cursor-pointer shadow-sm hover:scale-105 transition-all" title="Copiar Morada para Guia CTT Expresso">
+                    <span>📋</span> Copiar CTT
+                  </button>
+                </div>
+                <div class="bg-[#13141f] p-2.5 rounded-lg border border-[#232435] text-white font-medium select-all">
+                  ${custAddress}
+                </div>
+                <p class="mt-1 text-[11px] text-gray-400"><strong>País:</strong> ${custCountry}</p>
               </div>
             </div>
 
             <!-- Items -->
             <div class="mb-5">
               <span class="text-xs font-sub font-bold text-gray-400 uppercase tracking-wider block mb-2">
-                Artigos da Encomenda:
+                Artigos da Encomenda & Tamanho(s):
               </span>
               <div class="space-y-2">
                 ${(order.items || []).map(item => {
@@ -1933,15 +1940,21 @@
                   const supplierUrl = item.supplierUrl || (p ? p.supplierUrl : '');
                   const cost = item.supplierCostEUR || (p && p.costDetails ? p.costDetails.totalCostEUR : 0);
                   const itemProfit = ((item.priceEUR || 0) - cost) * (item.quantity || 1);
+                  const itemVar = item.variant || item.variation || 'Tamanho Único';
 
                   return `
                     <div class="flex flex-col sm:flex-row sm:items-center justify-between bg-[#161722] p-3.5 rounded-lg border border-[#222433] gap-3">
                       <div class="flex items-center gap-3">
-                        <img src="${item.image}" alt="${item.name}" class="w-12 h-12 object-cover rounded bg-black border border-[#2b2d42]">
+                        <img src="${item.image}" alt="${item.name}" class="w-14 h-14 object-cover rounded bg-black border border-[#2b2d42] shrink-0">
                         <div>
                           <h4 class="text-xs font-sub font-bold text-white line-clamp-1">${item.name}</h4>
-                          <p class="text-[11px] text-gray-400">${item.variant || item.variation || 'Padrão'} • Quantidade: <strong class="text-white">${item.quantity || 1}</strong></p>
-                          <p class="text-[10px] text-gray-400 font-mono mt-0.5">
+                          <div class="mt-1 flex items-center gap-2 flex-wrap">
+                            <span class="px-2.5 py-0.5 rounded text-[11px] font-heading font-black uppercase bg-[#f6ff00]/15 text-[#f6ff00] border border-[#f6ff00]/40 shadow-sm">
+                              📏 ${itemVar}
+                            </span>
+                            <span class="text-[11px] text-gray-300 font-sub">Quantidade: <strong class="text-white">${item.quantity || 1}</strong></span>
+                          </div>
+                          <p class="text-[10px] text-gray-400 font-mono mt-1">
                             Preço Venda: <span class="text-white font-bold">${((item.priceEUR || 0) * (item.quantity || 1)).toFixed(2)}€</span> | 
                             Custo Fornecedor: <span class="text-cyan-400 font-bold">${(cost * (item.quantity || 1)).toFixed(2)}€</span> | 
                             Lucro Líquido: <span class="text-emerald-400 font-bold">+${itemProfit.toFixed(2)}€</span>
@@ -1966,7 +1979,7 @@
             <!-- Workflow Action Buttons Bar -->
             <div class="pt-4 border-t border-[#1f202b] flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-4">
               
-              <!-- Status Selector -->
+              <!-- Status Selector & Action Buttons -->
               <div class="flex flex-wrap items-center gap-2">
                 <span class="text-xs font-sub font-bold text-gray-400">Status:</span>
                 <select onchange="setOrderStatus('${orderId}', this.value)" class="bg-[#141520] text-white text-xs px-3 py-1.5 rounded-lg border border-[#34364a] font-sub font-bold outline-none cursor-pointer">
@@ -1976,6 +1989,10 @@
                   <option value="Cancelado" ${status === 'Cancelado' ? 'selected' : ''}>❌ Cancelado</option>
                   <option value="Devolvido" ${status === 'Devolvido' ? 'selected' : ''}>🔄 Devolvido</option>
                 </select>
+
+                <button onclick="openEditOrderModal('${orderId}')" class="px-2.5 py-1.5 bg-[#171c26] hover:bg-[#202936] text-yellow-400 border border-yellow-800/40 rounded-lg text-xs font-sub font-bold transition-colors cursor-pointer flex items-center gap-1" title="Editar Morada ou Tamanho">
+                  <span>✏️</span> Editar
+                </button>
 
                 <button onclick="deleteOrder('${orderId}')" class="px-2.5 py-1.5 bg-[#261014] hover:bg-[#3d1319] text-red-400 border border-red-800/40 rounded-lg text-xs font-sub font-bold transition-colors cursor-pointer" title="Excluir Encomenda">
                   🗑️ Excluir
@@ -3491,6 +3508,103 @@ Dark Ghostrider`,
       }
     }
 
+    function copyAddressToClipboard(orderId) {
+      const order = cachedOrders.find(o => (o.id || o.orderId) === orderId);
+      if (!order) return;
+      const cust = order.customer || {};
+      const name = cust.name || order.customerName || 'Cliente';
+      const phone = cust.phone || order.phone || '';
+      const email = cust.email || order.email || '';
+      const addr = cust.address || order.address || '';
+      const postal = cust.postalCode || '';
+      const city = cust.city || '';
+      const country = cust.country || order.country || 'Portugal';
+
+      const fullLabel = `DESTINATÁRIO (CTT EXPRESSO):
+Nome: ${name}
+Telemóvel: ${phone}
+Email: ${email}
+Morada: ${addr}
+Código Postal: ${postal}
+Localidade: ${city}
+País: ${country}`;
+
+      copyToClipboard(fullLabel, '✓ Dados de envio e morada copiados para colar no portal CTT!');
+    }
+
+    function openEditOrderModal(orderId) {
+      const order = cachedOrders.find(o => (o.id || o.orderId) === orderId);
+      if (!order) return;
+      const cust = order.customer || {};
+      document.getElementById('eo-order-id').value = orderId;
+      document.getElementById('eo-name').value = cust.name || order.customerName || '';
+      document.getElementById('eo-phone').value = cust.phone || order.phone || '';
+      document.getElementById('eo-email').value = cust.email || order.email || '';
+      document.getElementById('eo-address').value = cust.address || order.address || '';
+      document.getElementById('eo-city').value = (cust.postalCode || '') + (cust.city ? ' ' + cust.city : '');
+      document.getElementById('eo-country').value = cust.country || order.country || 'Portugal';
+      
+      const firstItem = (order.items && order.items[0]) ? order.items[0] : {};
+      document.getElementById('eo-variant').value = firstItem.variant || firstItem.variation || '';
+      document.getElementById('eo-notes').value = order.notes || '';
+
+      const modal = document.getElementById('edit-order-modal');
+      const box = document.getElementById('edit-order-box');
+      if (modal) {
+        modal.classList.remove('opacity-0', 'pointer-events-none');
+        if (box) box.classList.remove('scale-95');
+      }
+    }
+
+    function closeEditOrderModal() {
+      const modal = document.getElementById('edit-order-modal');
+      const box = document.getElementById('edit-order-box');
+      if (modal) {
+        modal.classList.add('opacity-0', 'pointer-events-none');
+        if (box) box.classList.add('scale-95');
+      }
+    }
+
+    async function saveEditedOrder(e) {
+      e.preventDefault();
+      const orderId = document.getElementById('eo-order-id').value;
+      const order = cachedOrders.find(o => (o.id || o.orderId) === orderId);
+      if (!order) return;
+
+      const name = document.getElementById('eo-name').value.trim();
+      const phone = document.getElementById('eo-phone').value.trim();
+      const email = document.getElementById('eo-email').value.trim();
+      const address = document.getElementById('eo-address').value.trim();
+      const cityPostal = document.getElementById('eo-city').value.trim();
+      const country = document.getElementById('eo-country').value.trim();
+      const variant = document.getElementById('eo-variant').value.trim();
+      const notes = document.getElementById('eo-notes').value.trim();
+
+      order.customerName = name;
+      order.customer = order.customer || {};
+      order.customer.name = name;
+      order.customer.phone = phone;
+      order.customer.email = email;
+      order.customer.address = address;
+      order.customer.postalCode = cityPostal;
+      order.customer.country = country;
+      order.address = address + (cityPostal ? ', ' + cityPostal : '');
+      order.phone = phone;
+      order.email = email;
+      order.notes = notes;
+
+      if (order.items && order.items.length > 0) {
+        order.items[0].variant = variant;
+        order.items[0].variation = variant;
+      }
+
+      localStorage.setItem('dark_ghostrider_orders', JSON.stringify(cachedOrders));
+      renderAdminDashboard();
+      closeEditOrderModal();
+
+      alert(`✓ Encomenda ${orderId} atualizada com sucesso!`);
+    }
+
     document.addEventListener('DOMContentLoaded', () => {
       const savedPhone = localStorage.getItem('dark_admin_whatsapp');
       if (savedPhone) {
@@ -3501,6 +3615,69 @@ Dark Ghostrider`,
       setupAdminVideoListeners();
     });
   </script>
+
+  <!-- ==========================================
+       MODAL: EDITAR ENCOMENDA (MORADA & TAMANHO)
+       ========================================== -->
+  <div id="edit-order-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md opacity-0 pointer-events-none transition-all duration-300">
+    <div id="edit-order-box" class="relative w-full max-w-lg bg-[#0e0f17] border-2 border-yellow-500/40 rounded-3xl p-6 shadow-2xl overflow-y-auto max-h-[90vh] transform scale-95 transition-all duration-300">
+      <div class="flex items-center justify-between pb-3 mb-4 border-b border-[#222438]">
+        <div class="flex items-center gap-2">
+          <span class="text-xl">✏️</span>
+          <div>
+            <h3 class="font-heading font-black text-lg text-white uppercase tracking-wider">Editar Morada & Tamanho</h3>
+            <p class="text-[11px] text-gray-400 font-sub">Atualizar dados de envio ou tamanho escolhido pelo cliente.</p>
+          </div>
+        </div>
+        <button onclick="closeEditOrderModal()" class="w-8 h-8 rounded-full bg-white/5 hover:bg-white/10 text-gray-400 hover:text-white flex items-center justify-center cursor-pointer">✕</button>
+      </div>
+
+      <form id="edit-order-form" onsubmit="saveEditedOrder(event)" class="space-y-3.5 text-xs font-sub">
+        <input type="hidden" id="eo-order-id">
+        <div>
+          <label class="block text-gray-400 font-bold uppercase mb-1">Nome do Cliente</label>
+          <input type="text" id="eo-name" required class="w-full bg-[#151622] text-white p-2.5 rounded-xl border border-[#2b2d42] outline-none font-body">
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-gray-400 font-bold uppercase mb-1">Telemóvel</label>
+            <input type="text" id="eo-phone" required class="w-full bg-[#151622] text-white p-2.5 rounded-xl border border-[#2b2d42] outline-none font-mono">
+          </div>
+          <div>
+            <label class="block text-gray-400 font-bold uppercase mb-1">Email</label>
+            <input type="email" id="eo-email" class="w-full bg-[#151622] text-white p-2.5 rounded-xl border border-[#2b2d42] outline-none font-body">
+          </div>
+        </div>
+        <div>
+          <label class="block text-gray-400 font-bold uppercase mb-1">Morada de Entrega (Rua, Nº, Andar)</label>
+          <input type="text" id="eo-address" required class="w-full bg-[#151622] text-white p-2.5 rounded-xl border border-[#2b2d42] outline-none font-body">
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-gray-400 font-bold uppercase mb-1">Código Postal & Cidade</label>
+            <input type="text" id="eo-city" required class="w-full bg-[#151622] text-white p-2.5 rounded-xl border border-[#2b2d42] outline-none font-body">
+          </div>
+          <div>
+            <label class="block text-gray-400 font-bold uppercase mb-1">País</label>
+            <input type="text" id="eo-country" value="Portugal" class="w-full bg-[#151622] text-white p-2.5 rounded-xl border border-[#2b2d42] outline-none font-body">
+          </div>
+        </div>
+        <div>
+          <label class="block text-gray-400 font-bold uppercase mb-1">Tamanho / Variação do(s) Artigo(s)</label>
+          <input type="text" id="eo-variant" required placeholder="Ex: Tamanho: L | Cor: Preto Stealth" class="w-full bg-[#151622] text-yellow-400 font-mono font-bold p-2.5 rounded-xl border border-[#2b2d42] outline-none">
+        </div>
+        <div>
+          <label class="block text-gray-400 font-bold uppercase mb-1">Notas Internas</label>
+          <input type="text" id="eo-notes" class="w-full bg-[#151622] text-white p-2.5 rounded-xl border border-[#2b2d42] outline-none font-body">
+        </div>
+
+        <div class="pt-3 border-t border-[#222438] flex items-center justify-end gap-2">
+          <button type="button" onclick="closeEditOrderModal()" class="px-4 py-2 bg-white/5 text-gray-300 rounded-xl font-bold uppercase cursor-pointer">Cancelar</button>
+          <button type="submit" class="px-5 py-2 bg-yellow-500 hover:bg-yellow-400 text-black font-heading font-black rounded-xl uppercase tracking-wider cursor-pointer shadow-lg">Salvar Dados</button>
+        </div>
+      </form>
+    </div>
+  </div>
 
   <!-- ==========================================
        MODAL: REGISTAR ENCOMENDA MANUAL (WHATSAPP / TELEFONE)

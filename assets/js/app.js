@@ -914,6 +914,7 @@ const Store = {
         priceEUR: itemPriceEUR,
         priceBRL: itemPriceBRL,
         variation: variation,
+        variant: variation,
         quantity: 1,
         supplierUrl: p.supplierUrl || ''
       });
@@ -1126,6 +1127,13 @@ const Store = {
   },
 
   buyItemToCart(productId) {
+    const p = PRODUCTS.find(x => x.id === productId);
+    if (!p) return;
+    const hasOptions = p.options && p.options.length > 0;
+    if (hasOptions) {
+      window.location.href = `produto.html?id=${encodeURIComponent(productId)}`;
+      return;
+    }
     this.addToCart(productId);
     this.openCart();
   },
@@ -1540,13 +1548,60 @@ const Store = {
     const postalEl = document.getElementById('chk-postal');
     const cityEl = document.getElementById('chk-city');
 
-    const name = nameEl ? nameEl.value.trim() : 'Cliente';
+    const name = nameEl ? nameEl.value.trim() : '';
     const phone = phoneEl ? phoneEl.value.trim() : '';
     const email = emailEl ? emailEl.value.trim() : '';
     const address = addressEl ? addressEl.value.trim() : '';
     const postalCode = postalEl ? postalEl.value.trim() : '';
     const city = cityEl ? cityEl.value.trim() : '';
     const country = this.currency === 'BRL' ? 'Brasil' : 'Portugal';
+
+    // Strict validation: Don't allow empty or incomplete customer data
+    if (!name || name.length < 3) {
+      alert('⚠️ Por favor indica o teu Nome Completo.');
+      if (nameEl) nameEl.focus();
+      return;
+    }
+    if (!phone || phone.length < 9) {
+      alert('⚠️ Por favor indica um número de Telemóvel válido.');
+      if (phoneEl) phoneEl.focus();
+      return;
+    }
+    if (!email || !email.includes('@')) {
+      alert('⚠️ Por favor indica um Email válido para envio do rastreio.');
+      if (emailEl) emailEl.focus();
+      return;
+    }
+    if (!address || address.length < 5) {
+      alert('⚠️ Por favor indica a tua Morada de Entrega completa (Rua, Número, Andar).');
+      if (addressEl) addressEl.focus();
+      return;
+    }
+    if (!postalCode || postalCode.length < 4) {
+      alert('⚠️ Por favor indica o Código Postal de entrega.');
+      if (postalEl) postalEl.focus();
+      return;
+    }
+    if (!city || city.length < 2) {
+      alert('⚠️ Por favor indica a Cidade / Localidade de entrega.');
+      if (cityEl) cityEl.focus();
+      return;
+    }
+
+    // Strict validation: Ensure all apparel items have a chosen size!
+    const itemMissingSize = this.cart.find(it => {
+      const prod = PRODUCTS.find(p => p.id === it.id);
+      const isApparel = prod && prod.options && prod.options.some(o => o.name.toLowerCase().includes('tamanho'));
+      const hasSize = (it.variant && it.variant.toLowerCase().includes('tamanho')) || 
+                      (it.variation && it.variation.toLowerCase().includes('tamanho'));
+      return isApparel && !hasSize;
+    });
+
+    if (itemMissingSize) {
+      alert(`⚠️ O artigo "${itemMissingSize.name}" necessita de seleção de TAMANHO. Por favor escolhe o teu tamanho.`);
+      window.location.href = `produto.html?id=${encodeURIComponent(itemMissingSize.id)}`;
+      return;
+    }
 
     // Identify selected payment method
     let selectedPayment = 'MB WAY';
@@ -1575,11 +1630,14 @@ const Store = {
       const prod = PRODUCTS.find(p => p.id === item.id);
       const supplierCost = (prod && prod.costDetails && prod.costDetails.totalCostEUR) ? prod.costDetails.totalCostEUR : 0;
       const supplierUrl = item.supplierUrl || (prod ? prod.supplierUrl : '');
+      const variantStr = item.variant || item.variation || '';
       subtotalEUR += item.priceEUR * item.quantity;
       subtotalBRL += item.priceBRL * item.quantity;
       totalCostEUR += supplierCost * item.quantity;
       return {
         ...item,
+        variant: variantStr,
+        variation: variantStr,
         supplierCostEUR: supplierCost,
         supplierUrl: supplierUrl
       };
@@ -1721,6 +1779,8 @@ const Store = {
       }
     }
 
+    const fullShippingAddress = `${address}, ${postalCode} ${city}, ${country}`;
+
     const newOrder = {
       id: orderId,
       orderId: orderId,
@@ -1734,11 +1794,14 @@ const Store = {
         address: address,
         postalCode: postalCode,
         city: city,
-        country: country
+        country: country,
+        fullAddress: fullShippingAddress
       },
       phone: phone,
       email: email,
-      address: `${address}, ${postalCode} ${city}`,
+      address: fullShippingAddress,
+      postalCode: postalCode,
+      city: city,
       country: country,
       currency: this.currency,
       subtotalEUR: Math.round(subtotalEUR * 100) / 100,
@@ -1758,7 +1821,7 @@ const Store = {
       trackingNumber: trackingNumber,
       deliveryEstimate: '4 a 6 dias úteis',
       carrier: country === 'Brasil' ? 'Correios do Brasil' : 'CTT Expresso Portugal',
-      notes: `Encomenda via ${selectedPayment}. Registada pelo checkout da loja.`
+      notes: `Encomenda via ${selectedPayment}. Morada e tamanho 100% confirmados no checkout.`
     };
 
     // 1. Silent lead capture to subscribers list
@@ -1795,20 +1858,27 @@ const Store = {
     // Direct Telegram Fallback (Garante 100% que a notificacao chega ao Telegram mesmo se a API da Vercel falhar ou demorar)
     if (!apiNotified) {
       try {
-        const fallbackItems = (enrichedItems || []).map(it => '  • <b>' + (it.name || 'Artigo') + '</b> ' + (it.variant ? '(' + it.variant + ')' : '') + ' x' + (it.quantity || 1) + ' - <b>' + Number(it.priceEUR || 0).toFixed(2) + ' €</b>').join('\n');
+        const fallbackItems = (enrichedItems || []).map(it => {
+          const v = it.variant || it.variation || '';
+          return '  • <b>' + (it.name || 'Artigo') + '</b>\n' +
+            (v ? '    👉 <b>TAMANHO / OPÇÃO:</b> <code>' + v + '</code>\n' : '    👉 <b>TAMANHO:</b> <code>Tamanho Único</code>\n') +
+            '    Qtd: <b>x' + (it.quantity || 1) + '</b> | Preço: <b>' + Number(it.priceEUR || 0).toFixed(2) + ' €</b>';
+        }).join('\n');
+
         const cleanPhone = String(phone).replace(/[^0-9]/g, '');
         const waLink = cleanPhone ? 'https://wa.me/' + cleanPhone + '?text=' + encodeURIComponent('Olá ' + name + ', confirmamos a tua encomenda ' + orderId + ' na Dark Ghostrider Store!') : '';
         const shippingLine = shipping && shipping.shippingEUR > 0 ? '\n🚚 <b>Portes:</b> ' + Number(shipping.shippingEUR).toFixed(2) + ' € (Portugal Continental)' : '\n🚚 <b>Portes:</b> GRÁTIS';
         
-        const directTgMsg = '🚨 <b>NOVA ENCOMENDA NO SITE (ONLINE)!</b>\n' +
+        const directTgMsg = '🚨 <b>NOVA ENCOMENDA NO SITE (100% CONFIRMADA)!</b>\n' +
           '━━━━━━━━━━━━━━━━━━━━━━━━━━\n' +
           '📦 <b>ID Pedido:</b> <code>' + orderId + '</code>\n' +
           '👤 <b>Cliente:</b> ' + name + '\n' +
           '📱 <b>Telemóvel:</b> ' + phone + '\n' +
-          '✉️ <b>Email:</b> ' + email + '\n' +
-          '📍 <b>Morada:</b> ' + address + ', ' + postalCode + ' ' + city + ', ' + country + '\n\n' +
-          '🛒 <b>Artigo(s):</b>\n' +
-          fallbackItems + '\n' +
+          '✉️ <b>Email:</b> ' + email + '\n\n' +
+          '📍 <b>MORADA DE ENVIO CONFIRMADA:</b>\n' +
+          '   <code>' + fullShippingAddress + '</code>\n\n' +
+          '🛒 <b>ARTIGO(S) & TAMANHO:</b>\n' +
+          fallbackItems + '\n\n' +
           '💰 <b>Total:</b> <b>' + Number(finalEUR).toFixed(2) + ' €</b> (' + selectedPayment + ')' + shippingLine + '\n' +
           '📅 <b>Data:</b> ' + new Date().toISOString() + '\n' +
           '━━━━━━━━━━━━━━━━━━━━━━━━━━';
@@ -1859,8 +1929,12 @@ const Store = {
         customerName: name,
         customerPhone: phone,
         customerEmail: email,
+        customerAddress: address,
+        customerPostalCode: postalCode,
         customerCity: city,
         customerCountry: country,
+        items: enrichedItems,
+        shippingEUR: shipping.shippingEUR,
         finalEUR,
         finalBRL,
         coupon
@@ -1875,8 +1949,26 @@ const Store = {
     const formattedTotal = this.formatPrice(details.finalEUR, details.finalBRL);
     const couponNote = details.coupon ? `\n*Cupão Aplicado:* ${details.coupon.code} (-${details.coupon.discountPct}%)` : '';
 
+    const itemsListText = (details.items || []).map(it => {
+      const v = it.variant || it.variation || '';
+      return `• *${it.name}*${v ? ' (' + v + ')' : ''} x${it.quantity}`;
+    }).join('\n');
+
+    const addressText = `${details.customerAddress}, ${details.customerPostalCode} ${details.customerCity}, ${details.customerCountry}`;
+
     if (details.paymentKey === 'mbway') {
-      const msgMB = `📱 *PAGAMENTO MB WAY - DARK GHOSTRIDER STORE*\n----------------------------------------\n*ID:* ${details.orderId}\n*Cliente:* ${details.customerName}\n*Telemóvel:* ${details.customerPhone}\n*Valor:* ${formattedTotal}${couponNote}\n\nEfetuei a transferência por MB WAY para o 968 885 713 com a referência ${details.orderId}. Segue o comprovativo para validação.`;
+      const msgMB = `📱 *PAGAMENTO MB WAY - DARK GHOSTRIDER STORE*\n` +
+        `----------------------------------------\n` +
+        `*ID:* ${details.orderId}\n` +
+        `*Cliente:* ${details.customerName}\n` +
+        `*Telemóvel:* ${details.customerPhone}\n\n` +
+        `📦 *Artigo(s) & Tamanho:*\n` +
+        `${itemsListText}\n\n` +
+        `📍 *Morada de Entrega:*\n` +
+        `${addressText}\n\n` +
+        `*Valor Total:* ${formattedTotal}${couponNote}\n` +
+        `----------------------------------------\n` +
+        `Efetuei a transferência por MB WAY para o 968 885 713 com a referência ${details.orderId}. Segue o comprovativo para validação.`;
       const waLink = `https://wa.me/${this.whatsappNumber}?text=${encodeURIComponent(msgMB)}`;
 
       successContainer.innerHTML = `

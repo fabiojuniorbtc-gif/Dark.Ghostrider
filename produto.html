@@ -1724,6 +1724,18 @@
     function handleAddToCart() {
       if (!currentProduct) return;
       
+      const hasSizeOption = currentProduct.options && currentProduct.options.some(o => o.name.toLowerCase().includes('tamanho'));
+      if (hasSizeOption && !selectedSize) {
+        alert('⚠️ Por favor seleciona o teu TAMANHO (XS, S, M, L, XL, etc.) antes de adicionar ao cesto.');
+        const sizeContainer = document.getElementById('sizes-container');
+        if (sizeContainer) {
+          sizeContainer.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          sizeContainer.classList.add('ring-2', 'ring-[#ffe600]');
+          setTimeout(() => sizeContainer.classList.remove('ring-2', 'ring-[#ffe600]'), 2000);
+        }
+        return;
+      }
+
       const vars = [];
       if (selectedColor) vars.push(`Cor: ${selectedColor}`);
       if (selectedSize) vars.push(`Tamanho: ${selectedSize}`);
@@ -1740,6 +1752,11 @@
 
     function handleQuickWhatsApp() {
       if (!currentProduct) return;
+      const hasSizeOption = currentProduct.options && currentProduct.options.some(o => o.name.toLowerCase().includes('tamanho'));
+      if (hasSizeOption && !selectedSize) {
+        alert('⚠️ Por favor escolhe o teu TAMANHO antes de avançar para o WhatsApp.');
+        return;
+      }
       const phone = "351968885713";
       const coupon = Store.getAppliedCoupon();
       const hasGR10GR = coupon && coupon.code === 'GR10GR' && currentProduct.id === 'kashvelo-gear-base-layer';

@@ -61,7 +61,9 @@ module.exports = async (req, res) => {
       const variant = it.variant || it.variation || '';
       const qty = it.quantity || 1;
       const price = Number(it.priceEUR || 0).toFixed(2);
-      itemsText += '  • <b>' + name + '</b> ' + (variant ? '(' + variant + ')' : '') + ' x' + qty + ' - <b>' + price + ' €</b>\n';
+      itemsText += '  • <b>' + name + '</b>\n' +
+                   (variant ? '    👉 <b>TAMANHO / OPÇÃO:</b> <code>' + variant + '</code>\n' : '    👉 <b>TAMANHO:</b> <code>Tamanho Único</code>\n') +
+                   '    Qtd: <b>x' + qty + '</b> | Preço: <b>' + price + ' €</b>\n';
     });
     if (!itemsText) itemsText = '  • Artigo não especificado\n';
 
@@ -71,16 +73,17 @@ module.exports = async (req, res) => {
 
     const shippingLine = Number(shippingEUR) > 0 ? '\n🚚 <b>Portes:</b> ' + shippingEUR + ' € (Portugal Continental)' : '\n🚚 <b>Portes:</b> GRÁTIS';
 
-    const tgText = '🚨 <b>NOVA ENCOMENDA NO SITE (ONLINE)!</b>\n' +
+    const fullAddr = cAddr + (cPostal ? ', ' + cPostal : '') + (cCity ? ' ' + cCity : '') + ', ' + cCountry;
+
+    const tgText = '🚨 <b>NOVA ENCOMENDA NO SITE (100% CONFIRMADA)!</b>\n' +
       '━━━━━━━━━━━━━━━━━━━━━━━━━━\n' +
       '📦 <b>ID Pedido:</b> <code>' + orderId + '</code>\n' +
       '👤 <b>Cliente:</b> ' + cName + '\n' +
       '📱 <b>Telemóvel:</b> ' + cPhone + '\n' +
-      '✉️ <b>Email:</b> ' + cEmail + '\n' +
-      '📍 <b>Morada de Envio:</b>\n' +
-      '   ' + cAddr + '\n' +
-      '   ' + cPostal + ' ' + cCity + ', ' + cCountry + '\n\n' +
-      '🛒 <b>Artigo(s):</b>\n' +
+      '✉️ <b>Email:</b> ' + cEmail + '\n\n' +
+      '📍 <b>MORADA DE ENVIO CONFIRMADA:</b>\n' +
+      '   <code>' + fullAddr + '</code>\n\n' +
+      '🛒 <b>ARTIGO(S) & TAMANHO:</b>\n' +
       itemsText + '\n' +
       '💰 <b>Total:</b> <b>' + totalEUR + ' €</b> (' + payMethod + ')' + shippingLine + '\n' +
       '📅 <b>Data:</b> ' + new Date().toISOString() + '\n' +
