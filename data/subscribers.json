@@ -8,23 +8,5 @@
     "coupon": "DARK10",
     "discountPct": 10,
     "createdAt": "2026-10-18T12:08:31.000Z"
-  },
-  {
-    "id": "194d94ab",
-    "email": "fabiojuniorbtc@gmial.com",
-    "name": "Fabio Fabio de Araujo Junior",
-    "source": "Checkout Loja",
-    "coupon": "DARK10",
-    "discountPct": 10,
-    "createdAt": "2026-10-15T00:36:46.700025Z"
-  },
-  {
-    "id": "38b5e8af",
-    "email": "teste.rider@dark.com",
-    "name": "Piloto Teste",
-    "source": "Modal VIP",
-    "coupon": "DARK10",
-    "discountPct": 10,
-    "createdAt": "2026-10-13T08:52:39.312878Z"
   }
 ]
