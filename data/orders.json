@@ -28,8 +28,8 @@
       "discountPct": 10,
       "discountEUR": 5.99
     },
-    "totalCostEUR": 39.07,
-    "netProfitEUR": 14.84,
+    "totalCostEUR": 40.10,
+    "netProfitEUR": 13.81,
     "paymentMethod": "MB WAY",
     "paymentStatus": "Aguardando Pagamento MB WAY",
     "items": [
@@ -43,7 +43,7 @@
         "variant": "Preto Anodizado CNC (Setup MT-07)",
         "quantity": 1,
         "supplierUrl": "https://pt.aliexpress.com/item/1005007453126466.html",
-        "supplierCostEUR": 39.07
+        "supplierCostEUR": 40.10
       }
     ],
     "date": "2026-10-18T12:08:31.000Z",
