@@ -1,6 +1,21 @@
 // Vercel Serverless Function: /api/subscribers
+const fs = require('fs');
+const path = require('path');
+
 const TELEGRAM_TOKEN = process.env.TELEGRAM_TOKEN || '8986408169:AAE4xp70GD3MDxw1vPbufbslxD81v4WQmoE';
 const TELEGRAM_CHAT_ID = process.env.TELEGRAM_CHAT_ID || '543299809';
+
+function getSubscribers() {
+  try {
+    const filePath = path.join(process.cwd(), 'data', 'subscribers.json');
+    if (fs.existsSync(filePath)) {
+      return JSON.parse(fs.readFileSync(filePath, 'utf-8'));
+    }
+  } catch (e) {
+    console.error('Error reading subscribers.json:', e);
+  }
+  return [];
+}
 
 module.exports = async (req, res) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -9,6 +24,11 @@ module.exports = async (req, res) => {
 
   if (req.method === 'OPTIONS') {
     return res.status(200).end();
+  }
+
+  if (req.method === 'GET') {
+    const subs = getSubscribers();
+    return res.status(200).json(subs);
   }
 
   if (req.method === 'POST') {
@@ -28,9 +48,16 @@ module.exports = async (req, res) => {
     }
 
     try {
-      const tgText = ⚡ <b>NOVO INSCRITO NO DARK CLUB VIP!</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━\n👤 <b>Nome:</b> \n✉️ <b>Email:</b> <code></code>\n🏷️ <b>Cupão Ativado:</b> <code></code> (-10%)\n📍 <b>Origem:</b> \n📅 <b>Data:</b> \n━━━━━━━━━━━━━━━━━━━━━━━━━━;
+      const tgText = '⚡ <b>NOVO INSCRITO NO DARK CLUB VIP!</b>\n' +
+        '━━━━━━━━━━━━━━━━━━━━━━━━━━\n' +
+        '👤 <b>Nome:</b> ' + name + '\n' +
+        '✉️ <b>Email:</b> <code>' + email + '</code>\n' +
+        '🏷️ <b>Cupão Ativado:</b> <code>' + coupon + '</code> (-10%)\n' +
+        '📍 <b>Origem:</b> ' + source + '\n' +
+        '📅 <b>Data:</b> ' + new Date().toISOString() + '\n' +
+        '━━━━━━━━━━━━━━━━━━━━━━━━━━';
 
-      await fetch(https://api.telegram.org/bot/sendMessage, {
+      await fetch('https://api.telegram.org/bot' + TELEGRAM_TOKEN + '/sendMessage', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -52,5 +79,5 @@ module.exports = async (req, res) => {
     });
   }
 
-  return res.status(200).json([]);
+  return res.status(405).json({ error: 'Method not allowed' });
 };

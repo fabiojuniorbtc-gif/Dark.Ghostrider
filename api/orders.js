@@ -1,6 +1,21 @@
 // Vercel Serverless Function: /api/orders
+const fs = require('fs');
+const path = require('path');
+
 const TELEGRAM_TOKEN = process.env.TELEGRAM_TOKEN || '8986408169:AAE4xp70GD3MDxw1vPbufbslxD81v4WQmoE';
 const TELEGRAM_CHAT_ID = process.env.TELEGRAM_CHAT_ID || '543299809';
+
+function getOrders() {
+  try {
+    const filePath = path.join(process.cwd(), 'data', 'orders.json');
+    if (fs.existsSync(filePath)) {
+      return JSON.parse(fs.readFileSync(filePath, 'utf-8'));
+    }
+  } catch (e) {
+    console.error('Error reading orders.json:', e);
+  }
+  return [];
+}
 
 module.exports = async (req, res) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -9,6 +24,11 @@ module.exports = async (req, res) => {
 
   if (req.method === 'OPTIONS') {
     return res.status(200).end();
+  }
+
+  if (req.method === 'GET') {
+    const orders = getOrders();
+    return res.status(200).json(orders);
   }
 
   if (req.method === 'POST') {
@@ -41,31 +61,30 @@ module.exports = async (req, res) => {
       const variant = it.variant || it.variation || '';
       const qty = it.quantity || 1;
       const price = Number(it.priceEUR || 0).toFixed(2);
-      itemsText +=   • <b></b>  x - <b> €</b>\n;
+      itemsText += '  • <b>' + name + '</b> ' + (variant ? '(' + variant + ')' : '') + ' x' + qty + ' - <b>' + price + ' €</b>\n';
     });
     if (!itemsText) itemsText = '  • Artigo não especificado\n';
 
     const cleanPhone = String(cPhone).replace(/[^0-9]/g, '');
-    const waCustomerMsg = encodeURIComponent(Olá , confirmamos a tua encomenda  na Dark Ghostrider Store!);
-    const waLink = cleanPhone ? https://wa.me/?text= : '';
+    const waCustomerMsg = encodeURIComponent('Olá ' + cName + ', confirmamos a tua encomenda ' + orderId + ' na Dark Ghostrider Store! Já estamos a preparar o envio.');
+    const waLink = cleanPhone ? 'https://wa.me/' + cleanPhone + '?text=' + waCustomerMsg : '';
 
-    const shippingLine = Number(shippingEUR) > 0 ? \n🚚 <b>Portes:</b>  € (Portugal Continental) : \n🚚 <b>Portes:</b> GRÁTIS;
+    const shippingLine = Number(shippingEUR) > 0 ? '\n🚚 <b>Portes:</b> ' + shippingEUR + ' € (Portugal Continental)' : '\n🚚 <b>Portes:</b> GRÁTIS';
 
-    const tgText = 🚨 <b>NOVA ENCOMENDA NO SITE (ONLINE)!</b>
-━━━━━━━━━━━━━━━━━━━━━━━━━━
-📦 <b>ID Pedido:</b> <code></code>
-👤 <b>Cliente:</b> 
-📱 <b>Telemóvel:</b> 
-✉️ <b>Email:</b> 
-📍 <b>Morada de Envio:</b>
-   
-    , 
-
-🛒 <b>Artigo(s):</b>
-
-💰 <b>Total:</b> <b> €</b> ()
-📅 <b>Data:</b> 
-━━━━━━━━━━━━━━━━━━━━━━━━━━;
+    const tgText = '🚨 <b>NOVA ENCOMENDA NO SITE (ONLINE)!</b>\n' +
+      '━━━━━━━━━━━━━━━━━━━━━━━━━━\n' +
+      '📦 <b>ID Pedido:</b> <code>' + orderId + '</code>\n' +
+      '👤 <b>Cliente:</b> ' + cName + '\n' +
+      '📱 <b>Telemóvel:</b> ' + cPhone + '\n' +
+      '✉️ <b>Email:</b> ' + cEmail + '\n' +
+      '📍 <b>Morada de Envio:</b>\n' +
+      '   ' + cAddr + '\n' +
+      '   ' + cPostal + ' ' + cCity + ', ' + cCountry + '\n\n' +
+      '🛒 <b>Artigo(s):</b>\n' +
+      itemsText + '\n' +
+      '💰 <b>Total:</b> <b>' + totalEUR + ' €</b> (' + payMethod + ')' + shippingLine + '\n' +
+      '📅 <b>Data:</b> ' + new Date().toISOString() + '\n' +
+      '━━━━━━━━━━━━━━━━━━━━━━━━━━';
 
     try {
       const payload = {
@@ -84,7 +103,7 @@ module.exports = async (req, res) => {
         };
       }
 
-      await fetch(https://api.telegram.org/bot/sendMessage, {
+      await fetch('https://api.telegram.org/bot' + TELEGRAM_TOKEN + '/sendMessage', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)
@@ -96,6 +115,5 @@ module.exports = async (req, res) => {
     return res.status(201).json({ success: true, order });
   }
 
-  // GET: return empty list or fallback
-  return res.status(200).json([]);
+  return res.status(405).json({ error: 'Method not allowed' });
 };

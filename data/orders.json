@@ -1,5 +1,59 @@
 [
   {
+    "id": "DG-PT-877598",
+    "orderId": "DG-PT-877598",
+    "stripePaymentIntentId": null,
+    "stripeReceiptUrl": null,
+    "customerName": "João Miguel Tomaz",
+    "customer": {
+      "name": "João Miguel Tomaz",
+      "phone": "+351 931 648 538",
+      "email": "joao.tomaz@mbway.pt",
+      "address": "A confirmar com o cliente no WhatsApp",
+      "postalCode": "Portugal",
+      "city": "Portugal",
+      "country": "Portugal"
+    },
+    "phone": "+351 931 648 538",
+    "email": "joao.tomaz@mbway.pt",
+    "address": "A confirmar com o cliente no WhatsApp",
+    "country": "Portugal",
+    "currency": "EUR",
+    "subtotalEUR": 59.9,
+    "shippingEUR": 0.0,
+    "totalEUR": 53.91,
+    "totalBRL": 339.0,
+    "coupon": {
+      "code": "DARK10",
+      "discountPct": 10,
+      "discountEUR": 5.99
+    },
+    "totalCostEUR": 28.5,
+    "netProfitEUR": 25.41,
+    "paymentMethod": "MB WAY",
+    "paymentStatus": "Aguardando Pagamento MB WAY",
+    "items": [
+      {
+        "id": "hoodie-dark-ghostrider-oficial",
+        "name": "Sweatshirt com Capuz Oficial Dark Ghostrider (Estampa A3 Costas)",
+        "image": "assets/images/apparel/hoodie_preto_front.jpg",
+        "priceEUR": 59.9,
+        "priceBRL": 379.0,
+        "variation": "Cor: Preto Stealth | Tamanho: A confirmar no WhatsApp",
+        "quantity": 1,
+        "supplierUrl": "Produção Nacional Oficial (Lisboa / Margem Sul)",
+        "supplierCostEUR": 28.5
+      }
+    ],
+    "date": "2026-10-18T12:08:31.000Z",
+    "createdAt": "2026-10-18T12:08:31.000Z",
+    "orderStatus": "Em Processo",
+    "status": "Em Processo",
+    "trackingNumber": "",
+    "carrier": "CTT Expresso Portugal",
+    "notes": "Cliente gerou encomenda no site com cupão DARK10 (-10%). Aguarda transferência de 53,91 € por MB WAY para 968 885 713."
+  },
+  {
     "id": "DG-PT-528377",
     "orderId": "DG-PT-528377",
     "stripePaymentIntentId": "pi_3UQcU3KCe054hIT51p5okiXm",
