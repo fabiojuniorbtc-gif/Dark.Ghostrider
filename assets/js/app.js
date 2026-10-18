@@ -1557,6 +1557,7 @@ const Store = {
       selectedPayment = paymentKey === 'card' ? 'Cartão de Crédito' : 'PIX';
     } else {
       const ptRadio = document.querySelector('input[name="pay-pt"]:checked');
+      paymentKey = ptRadio ? ptRadio.value : 'mbway';
       if (paymentKey === 'multibanco') selectedPayment = 'Multibanco';
       else if (paymentKey === 'card') selectedPayment = 'Cartão de Crédito';
       else if (paymentKey === 'bank_transfer') selectedPayment = 'Transferência Bancária';
@@ -1830,67 +1831,75 @@ const Store = {
     const couponNote = details.coupon ? `\n*Cupão Aplicado:* ${details.coupon.code} (-${details.coupon.discountPct}%)` : '';
 
     if (details.paymentKey === 'mbway') {
-      const msgMB = `📱 *PAGAMENTO MB WAY - DARK GHOSTRIDER STORE*\n----------------------------------------\n*ID:* ${details.orderId}\n*Cliente:* ${details.customerName}\n*Telemóvel:* ${details.customerPhone}\n*Valor:* ${formattedTotal}${couponNote}\n\nJá efetuei a autorização na app MB WAY. Favor validar o pedido.`;
+      const msgMB = `📱 *PAGAMENTO MB WAY - DARK GHOSTRIDER STORE*\n----------------------------------------\n*ID:* ${details.orderId}\n*Cliente:* ${details.customerName}\n*Telemóvel:* ${details.customerPhone}\n*Valor:* ${formattedTotal}${couponNote}\n\nEfetuei a transferência por MB WAY para o 968 885 713 com a referência ${details.orderId}. Segue o comprovativo para validação.`;
       const waLink = `https://wa.me/${this.whatsappNumber}?text=${encodeURIComponent(msgMB)}`;
 
       successContainer.innerHTML = `
         <div class="text-left font-body">
           <div class="text-center mb-5">
-            <div class="w-16 h-16 bg-red-600/20 text-[#ff4d5a] rounded-full flex items-center justify-center text-3xl mx-auto mb-3 border border-red-500/30 animate-pulse">
+            <div class="w-16 h-16 bg-red-600/20 text-[#ff4d5a] rounded-full flex items-center justify-center text-3xl mx-auto mb-3 border border-red-500/30">
               📱
             </div>
-            <span class="text-xs font-sub font-bold text-[#ff4d5a] uppercase tracking-widest block mb-1">
-              PAGAMENTO MB WAY EMITIDO
+            <span class="text-xs font-sub font-bold text-[#f6ff00] uppercase tracking-widest block mb-1">
+              ENCOMENDA REGISTADA • MB WAY
             </span>
-            <h3 class="font-heading font-black text-2xl text-white">AUTORIZAÇÃO PENDENTE</h3>
+            <h3 class="font-heading font-black text-2xl text-white">CONCLUIR PAGAMENTO</h3>
             <p class="text-xs text-gray-300 mt-1 max-w-md mx-auto">
-              Enviámos uma notificação para o telemóvel <strong class="text-white">${details.customerPhone || 'indicado'}</strong> no montante de <strong class="text-[#ffe600] font-mono text-sm">${formattedTotal}</strong>.
+              Para validar o teu pedido, envia o montante de <strong class="text-[#ffe600] font-mono text-sm">${formattedTotal}</strong> por MB WAY para o número oficial da loja.
             </p>
           </div>
 
-          <!-- Countdown Timer -->
-          <div class="bg-[#12131b] border border-amber-500/40 rounded-xl p-3.5 mb-4 flex items-center justify-between">
-            <div class="flex items-center gap-2.5">
-              <span class="text-2xl">⏳</span>
-              <div>
-                <div class="text-xs font-sub font-bold text-amber-400 uppercase">Tempo Limite para Aprovar:</div>
-                <div class="text-[11px] text-gray-400">Abre a tua app MB WAY e autoriza a transação</div>
+          <!-- MB WAY Direct Transfer Card -->
+          <div class="bg-gradient-to-b from-[#161824] to-[#0c0d14] border-2 border-[#e61426]/50 rounded-2xl p-4 sm:p-5 mb-4 shadow-xl">
+            <div class="flex items-center justify-between pb-3 border-b border-white/10 mb-3">
+              <span class="text-xs font-sub font-bold text-gray-300 uppercase">Número MB WAY:</span>
+              <div class="flex items-center gap-2">
+                <span class="font-mono font-black text-white text-base sm:text-lg tracking-wider">968 885 713</span>
+                <button type="button" onclick="Store.copyToClipboard('968885713', this)" class="px-2.5 py-1 bg-[#e61426] hover:bg-[#ff2a3c] text-white rounded text-[11px] font-sub font-bold uppercase transition-all shadow cursor-pointer">
+                  Copiar
+                </button>
               </div>
             </div>
-            <div id="mbway-timer" class="font-mono font-black text-lg text-amber-300 bg-black/50 px-3 py-1 rounded-lg border border-amber-500/30">
-              04:59
+
+            <div class="flex items-center justify-between pb-3 border-b border-white/10 mb-3">
+              <span class="text-xs font-sub font-bold text-gray-300 uppercase">Valor a Transferir:</span>
+              <span class="font-mono font-black text-[#f6ff00] text-base">${formattedTotal}</span>
+            </div>
+
+            <div class="flex items-center justify-between mb-3">
+              <span class="text-xs font-sub font-bold text-gray-300 uppercase">Nota / Descrição MB WAY:</span>
+              <div class="flex items-center gap-2">
+                <span class="font-mono font-bold text-white text-xs bg-white/10 px-2.5 py-1 rounded border border-white/10">${details.orderId}</span>
+                <button type="button" onclick="Store.copyToClipboard('${details.orderId}', this)" class="px-2 py-1 bg-white/10 hover:bg-white/20 text-white rounded text-[10px] font-sub font-bold uppercase transition-all cursor-pointer">
+                  Copiar
+                </button>
+              </div>
+            </div>
+
+            <div class="bg-[#0b0c12] rounded-xl p-3 border border-[#272838] text-[11px] text-gray-300 space-y-1.5 leading-relaxed">
+              <div class="font-bold text-white flex items-center gap-1.5 text-xs text-[#ffe600]">
+                <span>⚡</span> Como pagar em 3 passos simples:
+              </div>
+              <div>1. Abre a tua app <strong>MB WAY</strong> e escolhe <strong>"Enviar Dinheiro"</strong>.</div>
+              <div>2. Digita o número <strong>968 885 713</strong> e o valor <strong>${formattedTotal}</strong>.</div>
+              <div>3. Na nota/descrição, escreve o ID <strong>${details.orderId}</strong>.</div>
             </div>
           </div>
 
           <!-- Order Summary Card -->
-          <div class="bg-[#090a10] border border-[#242533] rounded-xl p-4 space-y-2.5 mb-4 font-sub text-xs">
+          <div class="bg-[#090a10] border border-[#242533] rounded-xl p-4 space-y-2 mb-4 font-sub text-xs">
             <div class="flex justify-between items-center pb-2 border-b border-[#1b1c28]">
               <span class="text-gray-400">ID da Encomenda:</span>
               <span class="font-bold text-white font-mono">${details.orderId}</span>
             </div>
             <div class="flex justify-between items-center pb-2 border-b border-[#1b1c28]">
-              <span class="text-gray-400">Total a Pagar:</span>
-              <span class="font-black text-[#ffe600] text-sm font-mono">${formattedTotal}</span>
-            </div>
-            <div class="flex justify-between items-center pb-2 border-b border-[#1b1c28]">
-              <span class="text-gray-400">Estado da Encomenda:</span>
+              <span class="text-gray-400">Estado:</span>
               <span class="font-bold text-amber-400 font-sub flex items-center gap-1">
-                <span>🟡</span> Em Processamento
+                <span>🟡</span> Aguarda Transferência
               </span>
             </div>
-            <div class="bg-[#151622] rounded-lg p-3 border border-amber-500/20 text-gray-300 text-[11px] leading-relaxed">
-              <strong class="text-amber-400 block mb-0.5">📦 Envio do Código CTT:</strong>
-              O teu pedido está a ser preparado no armazém. Assim que a encomenda for despachada pelos CTT, receberás o código de rastreio oficial diretamente por WhatsApp (<strong class="text-white">${details.customerPhone}</strong>) ou Email (<strong class="text-white">${details.customerEmail}</strong>).
-            </div>
-            <div class="bg-[#151622] rounded-lg p-3 border border-[#26283b] text-gray-300 text-[11px] leading-relaxed">
-              <strong class="text-white block mb-1">💡 Não recebeste a notificação? Envio Direto:</strong>
-              Podes transferir o valor por MB WAY diretamente para o telemóvel oficial da loja:
-              <div class="flex items-center justify-between mt-2 pt-2 border-t border-white/10">
-                <span class="font-mono font-bold text-white text-sm">968 885 713</span>
-                <button type="button" onclick="Store.copyToClipboard('968885713', this)" class="px-2.5 py-1 bg-white/10 hover:bg-white/20 text-white rounded text-[10px] font-bold uppercase transition-colors cursor-pointer">
-                  Copiar Número
-                </button>
-              </div>
+            <div class="text-gray-300 text-[11px] leading-relaxed pt-1">
+              Assim que o envio for confirmado, o teu pedido entra imediatamente em preparação e recebes o código de rastreio CTT por WhatsApp (<strong class="text-white">${details.customerPhone}</strong>) ou Email (<strong class="text-white">${details.customerEmail}</strong>).
             </div>
           </div>
 
@@ -1910,7 +1919,6 @@ const Store = {
           </div>
         </div>
       `;
-      this.startMbwayTimer(300);
 
     } else if (details.paymentKey === 'multibanco') {
       const p1 = Math.floor(100 + Math.random() * 900);
