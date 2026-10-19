@@ -38,7 +38,7 @@ module.exports = async (req, res) => {
     const params = new URLSearchParams();
     params.append('amount', String(Math.round(Number(amount))));
     params.append('currency', currency);
-    params.append('description', Dark Ghostrider Store - Encomenda );
+    params.append('description', `Dark Ghostrider Store - Encomenda ${orderId}`);
     params.append('automatic_payment_methods[enabled]', 'true');
     params.append('metadata[order_id]', String(orderId));
     params.append('metadata[customer_name]', String(customerName));
@@ -47,7 +47,7 @@ module.exports = async (req, res) => {
     const stripeResp = await fetch('https://api.stripe.com/v1/payment_intents', {
       method: 'POST',
       headers: {
-        'Authorization': Bearer ,
+        'Authorization': `Bearer ${STRIPE_SECRET}`,
         'Content-Type': 'application/x-www-form-urlencoded'
       },
       body: params.toString()

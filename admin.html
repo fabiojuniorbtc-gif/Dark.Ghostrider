@@ -1823,7 +1823,7 @@
       window.open(`https://wa.me/${data.phone}?text=${encodeURIComponent(msg)}`, '_blank');
     }
 
-    function sendStageEmail() {
+    async function sendStageEmail() {
       if (!currentNotifyOrderId) return;
       const data = getOrderNotificationPayload(currentNotifyOrderId);
       if (!data.email) {
@@ -1834,7 +1834,59 @@
       const subject = tmpl.getSubject(data);
       const msgBox = document.getElementById('ns-message-text');
       const body = msgBox ? msgBox.value : '';
-      window.location.href = `mailto:${encodeURIComponent(data.email)}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+
+      const btn = document.getElementById('btn-send-stage-email');
+      const originalHtml = btn ? btn.innerHTML : '';
+      if (btn) {
+        btn.disabled = true;
+        btn.innerHTML = '<span>⏳</span> A enviar...';
+      }
+
+      try {
+        const payload = {
+          orderId: data.orderId,
+          recipientEmail: data.email,
+          recipientName: data.custName,
+          stage: currentNotifyStage,
+          trackingNumber: data.order.trackingNumber || '',
+          carrier: data.carrier,
+          trackingUrl: data.trackingUrl,
+          customSubject: subject,
+          customMessage: body,
+          items: data.order.items || []
+        };
+
+        const res = await fetch('/api/send-email', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+
+        const resData = await res.json();
+        if (res.ok && resData.success) {
+          if (resData.simulated) {
+            alert(`ℹ️ [SIMULAÇÃO DE EMAIL]\n\nO email foi formatado com sucesso para ${data.email}!\n\nPara o envio real sair diretamente de encomendas@darkghostrider.com, adiciona a tua chave do Resend (RESEND_API_KEY) na Vercel ou em secrets.json.`);
+          } else {
+            alert(`✅ EMAIL OFICIAL ENVIADO!\n\nFoi enviado com sucesso para ${data.email} a partir de encomendas@darkghostrider.com.`);
+            closeNotifyStageModal();
+          }
+        } else {
+          const err = resData.error || 'Erro no servidor';
+          if (confirm(`Aviso de Envio: ${err}\n\nDesejas abrir o teu programa de email manual (Gmail/Outlook)?`)) {
+            window.location.href = `mailto:${encodeURIComponent(data.email)}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+          }
+        }
+      } catch (e) {
+        console.error('Erro ao chamar /api/send-email:', e);
+        if (confirm(`Não foi possível ligar ao serviço de envio automático.\n\nDesejas abrir o teu programa de email manual?`)) {
+          window.location.href = `mailto:${encodeURIComponent(data.email)}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+        }
+      } finally {
+        if (btn) {
+          btn.disabled = false;
+          btn.innerHTML = originalHtml;
+        }
+      }
     }
 
     function copyStageMessage() {
@@ -4107,7 +4159,7 @@ País: ${country}`;
           </button>
 
           <div class="flex items-center gap-2">
-            <button type="button" onclick="sendStageEmail()" class="flex-1 sm:flex-none px-4 py-2.5 bg-[#171c26] hover:bg-[#202936] text-cyan-300 border border-cyan-800/40 rounded-xl font-heading font-black uppercase tracking-wider flex items-center justify-center gap-1.5 cursor-pointer text-xs transition-colors shadow">
+            <button type="button" id="btn-send-stage-email" onclick="sendStageEmail()" class="flex-1 sm:flex-none px-4 py-2.5 bg-[#171c26] hover:bg-[#202936] text-cyan-300 border border-cyan-800/40 rounded-xl font-heading font-black uppercase tracking-wider flex items-center justify-center gap-1.5 cursor-pointer text-xs transition-colors shadow">
               <span>✉️</span> Enviar Email
             </button>
             <button type="button" onclick="sendStageWhatsapp()" class="flex-1 sm:flex-none px-5 py-2.5 bg-[#1b4329] hover:bg-[#245936] text-[#25d366] border border-[#25d366]/40 rounded-xl font-heading font-black uppercase tracking-wider flex items-center justify-center gap-2 cursor-pointer text-xs transition-all shadow-lg hover:scale-105">

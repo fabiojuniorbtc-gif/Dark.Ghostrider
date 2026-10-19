@@ -837,6 +837,109 @@ A partir de agora, sempre que um cliente comprar na loja:
             self.wfile.write(json.dumps({'success': True, 'message': 'Lista de subscritores limpa com sucesso.'}, ensure_ascii=False).encode('utf-8'))
             return
 
+        elif path == '/api/send-email':
+            order_id = data.get('orderId', 'DG-PT-XXXXXX')
+            recipient_email = data.get('recipientEmail') or data.get('email', '')
+            recipient_name = data.get('recipientName') or data.get('customerName', 'Piloto')
+            stage = data.get('stage', 'transito')
+            tracking_number = data.get('trackingNumber', '')
+            carrier = data.get('carrier', 'Cainiao Global Express')
+            custom_subject = data.get('customSubject') or data.get('subject')
+            custom_message = data.get('customMessage') or data.get('message', '')
+
+            if not recipient_email or '@' not in recipient_email:
+                self.send_response(400)
+                self.send_header('Content-Type', 'application/json; charset=utf-8')
+                self.end_headers()
+                self.wfile.write(json.dumps({'success': False, 'error': 'Email inválido'}, ensure_ascii=False).encode('utf-8'))
+                return
+
+            cfg = load_config()
+            resend_key = os.environ.get('RESEND_API_KEY') or cfg.get('resend_api_key', '')
+
+            default_subjects = {
+                'preparacao': f"⚙️ A tua encomenda {order_id} está em preparação! | Dark Ghostrider",
+                'transito': f"🚀 A tua encomenda {order_id} foi expedida! Rastreio Oficial | Dark Ghostrider",
+                'distribuicao': f"📦 A tua encomenda {order_id} chegou a Portugal e está em distribuição! | Dark Ghostrider",
+                'levantamento': f"📍 A tua encomenda {order_id} está pronta para entrega em mão! | Dark Ghostrider",
+                'entregue': f"🏁 A tua encomenda {order_id} foi entregue! Obrigado | Dark Ghostrider",
+                'custom': f"📢 Informação sobre a tua encomenda {order_id} | Dark Ghostrider"
+            }
+            subject = custom_subject or default_subjects.get(stage, f"Atualização da encomenda {order_id} | Dark Ghostrider")
+
+            if resend_key:
+                try:
+                    safe_carrier = carrier or 'Cainiao Global Express / CTT'
+                    tracking_link = f"https://www.darkghostrider.com/rastreio.html?code={urllib.parse.quote(tracking_number)}&order={urllib.parse.quote(order_id)}" if tracking_number else "https://www.darkghostrider.com/rastreio.html"
+                    
+                    tracking_box = f'''
+                    <div style="margin-top: 24px; background: #121620; border: 1px solid #ff2a4b; border-radius: 12px; padding: 20px; text-align: center;">
+                      <p style="margin: 0 0 6px 0; font-size: 12px; font-weight: 700; color: #94a3b8; text-transform: uppercase;">Código de Rastreio Oficial ({safe_carrier})</p>
+                      <p style="margin: 0 0 16px 0; font-size: 22px; font-family: monospace; font-weight: 800; color: #ffffff;">{tracking_number}</p>
+                      <a href="{tracking_link}" style="display: inline-block; background: #ff2a4b; color: #ffffff; text-decoration: none; font-size: 14px; font-weight: 700; padding: 12px 28px; border-radius: 8px; text-transform: uppercase;">🔍 Acompanhar no Site Oficial</a>
+                    </div>''' if tracking_number else ''
+
+                    html_body = f'''<!DOCTYPE html><html><body style="background:#07080a;color:#e2e8f0;font-family:sans-serif;padding:20px;">
+                    <div style="max-width:600px;margin:auto;background:#0d1017;border:1px solid #1f2533;border-radius:12px;padding:28px;">
+                      <h2 style="color:#ffffff;letter-spacing:2px;margin-top:0;">DARK <span style="color:#ff2a4b;">GHOSTRIDER</span></h2>
+                      <h3 style="color:#ffffff;">{subject}</h3>
+                      <p>Olá <b>{recipient_name}</b>, temos novidades sobre a tua encomenda <code>{order_id}</code>!</p>
+                      <div style="background:#121620;border-left:3px solid #ff2a4b;padding:12px;margin:16px 0;">{custom_message.replace(chr(10), '<br>')}</div>
+                      {tracking_box}
+                      <p style="margin-top:24px;font-size:12px;color:#94a3b8;">Dark Ghostrider Store • Lisboa, Portugal</p>
+                    </div></body></html>'''
+
+                    resend_req = urllib.request.Request(
+                        'https://api.resend.com/emails',
+                        data=json.dumps({
+                            'from': 'Dark Ghostrider <encomendas@darkghostrider.com>',
+                            'to': [recipient_email],
+                            'reply_to': 'fabiojuniorbtc@gmail.com',
+                            'subject': subject,
+                            'html': html_body
+                        }).encode('utf-8'),
+                        headers={
+                            'Authorization': f'Bearer {resend_key}',
+                            'Content-Type': 'application/json'
+                        }
+                    )
+                    with urllib.request.urlopen(resend_req, timeout=10) as r:
+                        res_resp = json.loads(r.read().decode('utf-8'))
+                        self.send_response(200)
+                        self.send_header('Content-Type', 'application/json; charset=utf-8')
+                        self.end_headers()
+                        self.wfile.write(json.dumps({'success': True, 'emailId': res_resp.get('id'), 'recipient': recipient_email}, ensure_ascii=False).encode('utf-8'))
+                        return
+                except urllib.error.HTTPError as he:
+                    err_text = he.read().decode('utf-8')
+                    self.send_response(he.code)
+                    self.send_header('Content-Type', 'application/json; charset=utf-8')
+                    self.end_headers()
+                    self.wfile.write(json.dumps({'success': False, 'error': err_text}, ensure_ascii=False).encode('utf-8'))
+                    return
+                except Exception as ex:
+                    self.send_response(500)
+                    self.send_header('Content-Type', 'application/json; charset=utf-8')
+                    self.end_headers()
+                    self.wfile.write(json.dumps({'success': False, 'error': str(ex)}, ensure_ascii=False).encode('utf-8'))
+                    return
+            else:
+                self.send_response(200)
+                self.send_header('Content-Type', 'application/json; charset=utf-8')
+                self.end_headers()
+                self.wfile.write(json.dumps({
+                    'success': True,
+                    'simulated': True,
+                    'message': 'Modo de simulação ativo: RESEND_API_KEY ainda não configurada.',
+                    'details': {
+                        'from': 'Dark Ghostrider <encomendas@darkghostrider.com>',
+                        'to': recipient_email,
+                        'subject': subject,
+                        'orderId': order_id
+                    }
+                }, ensure_ascii=False).encode('utf-8'))
+                return
+
         self.send_response(404)
         self.end_headers()
 
