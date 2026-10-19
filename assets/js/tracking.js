@@ -15,11 +15,12 @@ const TrackingService = {
 
     const orderId = order.id || order.orderId || code;
     const trackingNumber = (order.trackingNumber || '').trim();
-    const carrier = order.carrier || (order.country === 'Brasil' ? 'Correios do Brasil' : (order.items && order.items.some(i => (i.name || '').toLowerCase().includes('retrovisor')) ? 'Cainiao Global (AliExpress)' : 'CTT Expresso Portugal'));
+    const rawCarrier = order.carrier || (order.country === 'Brasil' ? 'Correios do Brasil' : (order.items && order.items.some(i => (i.name || '').toLowerCase().includes('retrovisor')) ? 'Cainiao Global Express' : 'CTT Expresso Portugal'));
+    const carrier = rawCarrier.replace(/\(AliExpress\)/gi, '').trim();
     const destination = order.country ? (order.country === 'Brasil' ? 'Brasil 🇧🇷' : 'Portugal 🇵🇹') : 'Portugal 🇵🇹';
     const status = order.orderStatus || order.status || 'Em Processamento';
 
-    const isCainiao = carrier.toLowerCase().includes('cainiao') || carrier.toLowerCase().includes('aliexpress') || trackingNumber.toUpperCase().startsWith('LP') || trackingNumber.toUpperCase().startsWith('CN') || trackingNumber.toUpperCase().startsWith('SY');
+    const isCainiao = carrier.toLowerCase().includes('cainiao') || rawCarrier.toLowerCase().includes('aliexpress') || trackingNumber.toUpperCase().startsWith('LP') || trackingNumber.toUpperCase().startsWith('CN') || trackingNumber.toUpperCase().startsWith('SY');
     const isCorreios = carrier.toLowerCase().includes('correios');
     const isDPD = carrier.toLowerCase().includes('dpd');
     const isGLS = carrier.toLowerCase().includes('gls');
@@ -102,7 +103,7 @@ const TrackingService = {
         },
         {
           status: isCainiao ? 'Artigo embalado e despachado pelo armazém do fornecedor oficial' : 'Pacote embalado com proteção reforçada no armazém',
-          location: isCainiao ? 'Centro de Distribuição AliExpress / Cainiao Hub' : 'Centro de Logística Dark Ghostrider',
+          location: isCainiao ? 'Centro de Logística Internacional / Hub Global' : 'Centro de Logística Dark Ghostrider',
           date: dateStr,
           completed: true,
           active: false
