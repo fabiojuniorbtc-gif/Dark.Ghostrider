@@ -1532,6 +1532,10 @@
       } catch (e) {
         updateLocalStatus(orderId, newStatus);
       }
+
+      if (confirm(`Status atualizado para "${newStatus}" com sucesso!\n\nDesejas abrir a notificação desta etapa para avisar o cliente por WhatsApp ou Email?`)) {
+        openNotifyStageModal(orderId, newStatus);
+      }
     }
 
     function updateLocalStatus(orderId, newStatus) {
@@ -1660,6 +1664,182 @@
       const body = `Olá ${custName},\n\nA tua encomenda ${order.id || order.orderId} na Dark Ghostrider Store foi despachada!\n\nCódigo de Rastreio: ${order.trackingNumber || 'A atribuir'}\nTransportadora: ${carrierDisplay}\n\nPodes acompanhar o envio em tempo real através deste link:\n${trackingUrl}\n\nObrigado pela confiança e boas curvas!\nEquipa Dark Ghostrider`;
 
       window.location.href = `mailto:${encodeURIComponent(email)}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    }
+
+    // ==========================================================
+    // NOTIFICAÇÕES POR ETAPA DO PEDIDO (WHATSAPP & EMAIL)
+    // ==========================================================
+    let currentNotifyOrderId = null;
+    let currentNotifyStage = 'preparacao';
+
+    const STAGE_TEMPLATES = {
+      preparacao: {
+        id: 'preparacao',
+        name: '1. Pagamento Confirmado & Em Preparação',
+        badge: '💳 Pagamento Confirmado',
+        getSubject: (d) => `Dark Ghostrider - Pagamento Validado & Em Preparação (${d.orderId})`,
+        getText: (d) => `Olá ${d.custName}! 🏍️\nO pagamento da tua encomenda *${d.orderId}* na Dark Ghostrider Store foi validado com sucesso!\n\n📦 *Artigo(s):* ${d.itemsSummary}\n🛠️ *Estado:* Em preparação e separação no armazém.\n\nAssim que o teu pacote for despachado e tivermos o código de rastreamento oficial, avisamos-te logo por aqui!\nObrigado pela preferência e boas curvas! 🏍️💨`
+      },
+      expedido: {
+        id: 'expedido',
+        name: '2. Objeto Expedido / Em Trânsito',
+        badge: '✈️ Expedido / Em Trânsito',
+        getSubject: (d) => `Dark Ghostrider - A tua encomenda ${d.orderId} foi expedida!`,
+        getText: (d) => `Olá ${d.custName}! 🏍️\nBoas notícias: a tua encomenda *${d.orderId}* na Dark Ghostrider Store foi *EXPEDIDA COM SUCESSO*!\n\n📦 *Código de Rastreio:* ${d.trackingNumber}\n🚚 *Transportadora:* ${d.carrier}\n🔗 *Acompanha o envio em tempo real:*\n${d.trackingUrl}\n\nObrigado pelo suporte e boas curvas! 🏍️💨`
+      },
+      distribuicao: {
+        id: 'distribuicao',
+        name: '3. Chegada a Portugal / Em Distribuição',
+        badge: '🇵🇹 Em Distribuição Local',
+        getSubject: (d) => `Dark Ghostrider - O teu pacote ${d.orderId} está em distribuição em Portugal!`,
+        getText: (d) => `Olá ${d.custName}! 🏍️\nAtualização sobre a tua encomenda *${d.orderId}*:\n\n🇵🇹 O teu pacote já chegou a Portugal e está em processamento pela transportadora (${d.carrier}) para entrega na tua morada:\n📍 *${d.address}*\n\nFica atento(a) ao contacto nos próximos dias úteis! Podes consultar os detalhes aqui:\n${d.trackingUrl}\n\nQualquer questão avisa-nos por aqui! 🏍️💨`
+      },
+      entrega_mao: {
+        id: 'entrega_mao',
+        name: '4. Entrega em Mão (Lisboa / Margem Sul)',
+        badge: '🏍️ Entrega em Mão',
+        getSubject: (d) => `Dark Ghostrider - Entrega em mão da tua encomenda ${d.orderId}`,
+        getText: (d) => `Olá ${d.custName}! 🏍️\nFala o Dark Ghostrider!\n\nA tua encomenda *${d.orderId}* (${d.itemsSummary}) já está pronta comigo e vou fazer a tua entrega em mão hoje na zona de Lisboa / Margem Sul.\n\n📍 *Morada:* ${d.address}\n\nEstás disponível hoje para receber? Confirma-me por favor para combinarmos o horário! Boas curvas! 💨`
+      },
+      entregue: {
+        id: 'entregue',
+        name: '5. Encomenda Entregue / Concluída & Instagram',
+        badge: '✅ Entregue / Concluído',
+        getSubject: (d) => `Dark Ghostrider - Encomenda ${d.orderId} entregue! Como ficou na máquina?`,
+        getText: (d) => `Olá ${d.custName}! 🏍️\nA tua encomenda *${d.orderId}* consta como *FINALIZADA & ENTREGUE*!\n\nEsperamos que o material fique insano na tua máquina e que desfrutes ao máximo! 👊\nSe puderes, tira uma foto ou vídeo quando montares e marca *@dark.ghostrider* no Instagram para nós repostarmos na nossa comunidade!\n\nObrigado pela confiança e nos vemos na estrada! 💀🏍️💨`
+      },
+      cancelado: {
+        id: 'cancelado',
+        name: '6. Encomenda Cancelada / Estorno',
+        badge: '❌ Cancelado',
+        getSubject: (d) => `Dark Ghostrider - Atualização sobre a tua encomenda ${d.orderId}`,
+        getText: (d) => `Olá ${d.custName}! 🏍️\nInformamos que a tua encomenda *${d.orderId}* na Dark Ghostrider Store foi cancelada conforme acordado.\n\nQualquer dúvida ou questão sobre o reembolso, estamos totalmente à disposição por aqui. Obrigado!`
+      }
+    };
+
+    function getOrderNotificationPayload(orderId) {
+      const order = cachedOrders.find(o => (o.id || o.orderId) === orderId) || {};
+      const cust = order.customer || {};
+      const custName = cust.name || order.customerName || 'Cliente';
+      const phoneRaw = cust.phone || order.phone || '';
+      const phone = phoneRaw.replace(/[^0-9]/g, '');
+      const email = cust.email || order.email || '';
+      const address = cust.address ? `${cust.address}, ${cust.postalCode || ''} ${cust.city || ''}` : (order.address || 'Morada a confirmar');
+      const trackingNumber = order.trackingNumber || 'A atribuir';
+      const carrier = order.carrier || (order.items && order.items.some(i => (i.name || '').includes('Retrovisor')) ? 'Cainiao Global (AliExpress)' : 'CTT Expresso');
+      const trackingUrl = `${window.location.origin}${window.location.pathname.replace('admin.html', '')}rastreio.html?order=${order.id || order.orderId}`;
+      
+      const itemsList = (order.items || []).map(i => `${i.name || 'Artigo'}${i.variant ? ' (' + i.variant + ')' : ''}`).join(', ') || 'Artigo(s) da encomenda';
+
+      return {
+        orderId: order.id || order.orderId || orderId,
+        custName,
+        phone,
+        email,
+        address,
+        trackingNumber,
+        carrier,
+        trackingUrl,
+        itemsSummary: itemsList,
+        order
+      };
+    }
+
+    function openNotifyStageModal(orderId, preferredStage) {
+      currentNotifyOrderId = orderId;
+      const data = getOrderNotificationPayload(orderId);
+
+      const badgeElem = document.getElementById('ns-order-badge');
+      if (badgeElem) badgeElem.textContent = data.orderId;
+      const custElem = document.getElementById('ns-customer-info');
+      if (custElem) custElem.textContent = `${data.custName} • ${data.phone ? '📱 ' + data.phone : 'Sem telemóvel'} • ${data.email ? '✉️ ' + data.email : ''}`;
+      const carrierElem = document.getElementById('ns-carrier-info');
+      if (carrierElem) carrierElem.textContent = `🚚 ${data.carrier} | Rastreio: ${data.trackingNumber}`;
+
+      let stageKey = 'preparacao';
+      if (preferredStage) {
+        const ps = preferredStage.toLowerCase();
+        if (ps.includes('env') || ps.includes('exped') || ps.includes('trans')) stageKey = 'expedido';
+        else if (ps.includes('distrib') || ps.includes('portugal')) stageKey = 'distribuicao';
+        else if (ps.includes('mão') || ps.includes('mao')) stageKey = 'entrega_mao';
+        else if (ps.includes('final') || ps.includes('entreg')) stageKey = 'entregue';
+        else if (ps.includes('canc')) stageKey = 'cancelado';
+      } else {
+        const status = (data.order.orderStatus || data.order.status || '').toLowerCase();
+        if (status.includes('env') || data.order.trackingNumber) stageKey = 'expedido';
+        else if (status.includes('final') || status.includes('entreg')) stageKey = 'entregue';
+      }
+
+      currentNotifyStage = stageKey;
+      const stageSelect = document.getElementById('ns-stage-select');
+      if (stageSelect) stageSelect.value = stageKey;
+
+      updateStageMessageText();
+
+      const modal = document.getElementById('notify-stage-modal');
+      const box = document.getElementById('notify-stage-box');
+      if (modal) {
+        modal.classList.remove('opacity-0', 'pointer-events-none');
+        if (box) box.classList.remove('scale-95');
+      }
+    }
+
+    function closeNotifyStageModal() {
+      const modal = document.getElementById('notify-stage-modal');
+      const box = document.getElementById('notify-stage-box');
+      if (modal) {
+        modal.classList.add('opacity-0', 'pointer-events-none');
+        if (box) box.classList.add('scale-95');
+      }
+    }
+
+    function onStageSelectChanged() {
+      const stageSelect = document.getElementById('ns-stage-select');
+      if (!stageSelect) return;
+      currentNotifyStage = stageSelect.value;
+      updateStageMessageText();
+    }
+
+    function updateStageMessageText() {
+      if (!currentNotifyOrderId) return;
+      const data = getOrderNotificationPayload(currentNotifyOrderId);
+      const tmpl = STAGE_TEMPLATES[currentNotifyStage] || STAGE_TEMPLATES.preparacao;
+      const msgBox = document.getElementById('ns-message-text');
+      if (msgBox) {
+        msgBox.value = tmpl.getText(data);
+      }
+    }
+
+    function sendStageWhatsapp() {
+      if (!currentNotifyOrderId) return;
+      const data = getOrderNotificationPayload(currentNotifyOrderId);
+      if (!data.phone) {
+        alert('Esta encomenda não tem número de telemóvel registado.');
+        return;
+      }
+      const msgBox = document.getElementById('ns-message-text');
+      const msg = msgBox ? msgBox.value : '';
+      window.open(`https://wa.me/${data.phone}?text=${encodeURIComponent(msg)}`, '_blank');
+    }
+
+    function sendStageEmail() {
+      if (!currentNotifyOrderId) return;
+      const data = getOrderNotificationPayload(currentNotifyOrderId);
+      if (!data.email) {
+        alert('Esta encomenda não tem email associado.');
+        return;
+      }
+      const tmpl = STAGE_TEMPLATES[currentNotifyStage] || STAGE_TEMPLATES.preparacao;
+      const subject = tmpl.getSubject(data);
+      const msgBox = document.getElementById('ns-message-text');
+      const body = msgBox ? msgBox.value : '';
+      window.location.href = `mailto:${encodeURIComponent(data.email)}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    }
+
+    function copyStageMessage() {
+      const msgBox = document.getElementById('ns-message-text');
+      if (!msgBox) return;
+      copyToClipboard(msgBox.value, '✓ Mensagem da etapa copiada com sucesso para a área de transferência!');
     }
 
     async function createMockOrder() {
@@ -2017,6 +2197,10 @@
                     Salvar Rastreio
                   </button>
                 </div>
+
+                <button onclick="openNotifyStageModal('${orderId}')" class="px-3.5 py-1.5 bg-gradient-to-r from-cyan-900 to-indigo-900 hover:from-cyan-800 hover:to-indigo-800 text-cyan-200 border border-cyan-500/50 rounded-lg text-xs font-sub font-bold uppercase transition-all flex items-center gap-1.5 cursor-pointer shadow-lg hover:scale-105" title="Enviar Notificação de Etapa ao Cliente (WhatsApp / Email)">
+                  <span>📢 Notificar Etapa</span>
+                </button>
 
                 <button onclick="sendTrackingWhatsapp('${orderId}')" class="px-3.5 py-1.5 bg-[#17261d] hover:bg-[#203629] text-[#25d366] border border-[#25d366]/40 rounded text-xs font-sub font-bold uppercase transition-colors flex items-center gap-1.5 cursor-pointer" title="Enviar para o WhatsApp do Cliente">
                   <span>💬 WhatsApp</span>
@@ -3853,6 +4037,86 @@ País: ${country}`;
           </button>
         </div>
       </form>
+    </div>
+  </div>
+
+  <!-- ==========================================
+       MODAL: NOTIFICAR ETAPA AO CLIENTE (WHATSAPP & EMAIL)
+       ========================================== -->
+  <div id="notify-stage-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md opacity-0 pointer-events-none transition-all duration-300">
+    <div id="notify-stage-box" class="relative w-full max-w-xl bg-[#0e0f17] border-2 border-cyan-500/40 rounded-3xl p-6 sm:p-7 shadow-2xl overflow-y-auto max-h-[92vh] transform scale-95 transition-all duration-300">
+      
+      <!-- Header -->
+      <div class="flex items-center justify-between pb-4 mb-4 border-b border-[#222438]">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-xl bg-cyan-950/80 border border-cyan-500/40 flex items-center justify-center text-xl shadow-inner shrink-0">
+            📢
+          </div>
+          <div>
+            <h3 class="font-heading font-black text-base sm:text-lg text-white uppercase tracking-wider flex items-center gap-2">
+              Notificar Etapa ao Cliente
+              <span id="ns-order-badge" class="px-2 py-0.5 rounded text-xs font-mono font-bold bg-cyan-500/20 text-cyan-300 border border-cyan-500/30"></span>
+            </h3>
+            <p id="ns-customer-info" class="text-[11px] text-gray-400 font-sub mt-0.5"></p>
+          </div>
+        </div>
+        <button onclick="closeNotifyStageModal()" class="w-8 h-8 rounded-full bg-white/5 hover:bg-white/10 text-gray-400 hover:text-white flex items-center justify-center cursor-pointer transition-colors">✕</button>
+      </div>
+
+      <!-- Info Banner -->
+      <div class="bg-[#141624] border border-[#272942] rounded-xl px-3.5 py-2 mb-4 flex items-center justify-between text-xs font-mono">
+        <span id="ns-carrier-info" class="text-cyan-300 truncate"></span>
+        <span class="text-[10px] text-gray-500 uppercase font-sub font-bold">1-Clique WhatsApp / Email</span>
+      </div>
+
+      <!-- Stage Selector & Message Area -->
+      <div class="space-y-3.5 text-xs font-sub">
+        <div>
+          <label class="block text-gray-300 font-bold uppercase mb-1.5 flex items-center justify-between">
+            <span>Selecione a Etapa a Notificar:</span>
+            <span class="text-[10px] text-cyan-400 font-normal">A mensagem abaixo atualiza-se na hora</span>
+          </label>
+          <select id="ns-stage-select" onchange="onStageSelectChanged()" class="w-full bg-[#151624] text-white p-3 rounded-xl border border-cyan-500/40 focus:border-cyan-400 outline-none font-sub font-bold text-xs shadow-sm cursor-pointer">
+            <option value="preparacao">💳 1. Pagamento Confirmado & Em Preparação no Armazém</option>
+            <option value="expedido">✈️ 2. Objeto Expedido / Em Trânsito (Cainiao / CTT com Código)</option>
+            <option value="distribuicao">🇵🇹 3. Chegada a Portugal / Em Distribuição Local</option>
+            <option value="entrega_mao">🏍️ 4. Entrega em Mão (Lisboa / Margem Sul - Dark Ghostrider)</option>
+            <option value="entregue">✅ 5. Encomenda Entregue / Concluída (Agradecimento & Instagram)</option>
+            <option value="cancelado">❌ 6. Encomenda Cancelada / Estorno</option>
+          </select>
+        </div>
+
+        <!-- Editable Message Preview -->
+        <div>
+          <div class="flex items-center justify-between mb-1.5">
+            <label class="text-gray-300 font-bold uppercase text-xs">
+              Mensagem Pronta a Enviar (Podes editar o texto antes de enviar):
+            </label>
+            <button type="button" onclick="updateStageMessageText()" class="text-[11px] text-gray-400 hover:text-cyan-400 flex items-center gap-1 cursor-pointer" title="Restaurar template original da etapa">
+              <span>🔄</span> Restaurar Texto
+            </button>
+          </div>
+          <textarea id="ns-message-text" rows="7" class="w-full bg-[#090a10] text-gray-100 p-3.5 rounded-xl border border-[#2b2d42] focus:border-cyan-500 outline-none font-body text-xs leading-relaxed resize-y select-text shadow-inner"></textarea>
+        </div>
+
+        <!-- Trigger Buttons -->
+        <div class="pt-3 border-t border-[#222438] flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-2.5">
+          <button type="button" onclick="copyStageMessage()" class="px-3.5 py-2.5 bg-white/5 hover:bg-white/10 text-gray-300 rounded-xl font-bold uppercase transition-colors flex items-center justify-center gap-1.5 cursor-pointer text-xs">
+            <span>📋</span> Copiar Texto
+          </button>
+
+          <div class="flex items-center gap-2">
+            <button type="button" onclick="sendStageEmail()" class="flex-1 sm:flex-none px-4 py-2.5 bg-[#171c26] hover:bg-[#202936] text-cyan-300 border border-cyan-800/40 rounded-xl font-heading font-black uppercase tracking-wider flex items-center justify-center gap-1.5 cursor-pointer text-xs transition-colors shadow">
+              <span>✉️</span> Enviar Email
+            </button>
+            <button type="button" onclick="sendStageWhatsapp()" class="flex-1 sm:flex-none px-5 py-2.5 bg-[#1b4329] hover:bg-[#245936] text-[#25d366] border border-[#25d366]/40 rounded-xl font-heading font-black uppercase tracking-wider flex items-center justify-center gap-2 cursor-pointer text-xs transition-all shadow-lg hover:scale-105">
+              <span>💬</span> Enviar no WhatsApp
+            </button>
+          </div>
+        </div>
+
+      </div>
+
     </div>
   </div>
 </body>
