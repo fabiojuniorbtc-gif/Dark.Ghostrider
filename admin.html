@@ -1636,7 +1636,8 @@
       } else if (status === 'Finalizado') {
         msg = `Olá ${custName}! 🏍️ A tua encomenda *${order.id || order.orderId}* consta como *FINALIZADA*! Esperamos que as peças fiquem insanas na tua máquina! Marca-nos no Instagram @dark.ghostrider!`;
       } else {
-        msg = `Olá ${custName}! 🏍️ A tua encomenda *${order.id || order.orderId}* na Dark Ghostrider Store foi *EXPEDIDA COM SUCESSO*!\n\n📦 *Código de Rastreio CTT:* ${order.trackingNumber || 'Em emissão'}\n🚚 *Transportadora:* ${order.carrier || 'CTT Expresso'}\n\nAcompanha em tempo real nos CTT:\n${trackingUrl}\n\nObrigado pela preferência e boas curvas! 🏍️💨`;
+        const carrierDisplay = order.carrier || 'Cainiao / CTT Expresso';
+        msg = `Olá ${custName}! 🏍️ A tua encomenda *${order.id || order.orderId}* na Dark Ghostrider Store foi *EXPEDIDA COM SUCESSO*!\n\n📦 *Código de Rastreio:* ${order.trackingNumber || 'Em emissão'}\n🚚 *Transportadora:* ${carrierDisplay}\n\nAcompanha o envio em tempo real:\n${trackingUrl}\n\nObrigado pela preferência e boas curvas! 🏍️💨`;
       }
 
       window.open(`https://wa.me/${phone}?text=${encodeURIComponent(msg)}`, '_blank');
@@ -1654,8 +1655,9 @@
       }
       const custName = cust.name || order.customerName || 'Cliente';
       const trackingUrl = `${window.location.origin}${window.location.pathname.replace('admin.html', '')}rastreio.html?order=${order.id || order.orderId}`;
+      const carrierDisplay = order.carrier || 'Cainiao / CTT Expresso';
       const subject = `Dark Ghostrider - A tua encomenda ${order.id || order.orderId} foi expedida!`;
-      const body = `Olá ${custName},\n\nA tua encomenda ${order.id || order.orderId} na Dark Ghostrider Store foi despachada!\n\nCódigo de Rastreio CTT: ${order.trackingNumber || 'A atribuir'}\nTransportadora: ${order.carrier || 'CTT Expresso'}\n\nPodes acompanhar o envio em tempo real através deste link:\n${trackingUrl}\n\nObrigado pela confiança e boas curvas!\nEquipa Dark Ghostrider`;
+      const body = `Olá ${custName},\n\nA tua encomenda ${order.id || order.orderId} na Dark Ghostrider Store foi despachada!\n\nCódigo de Rastreio: ${order.trackingNumber || 'A atribuir'}\nTransportadora: ${carrierDisplay}\n\nPodes acompanhar o envio em tempo real através deste link:\n${trackingUrl}\n\nObrigado pela confiança e boas curvas!\nEquipa Dark Ghostrider`;
 
       window.location.href = `mailto:${encodeURIComponent(email)}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
     }
@@ -2002,10 +2004,14 @@
               <!-- Tracking Code Input & Carrier & WhatsApp & Email -->
               <div class="flex flex-wrap items-center gap-2 justify-end">
                 <div class="flex items-center gap-1.5 bg-[#0b0c10] border border-[#26283b] p-1 rounded-lg">
-                  <input type="text" id="track-input-${orderId}" value="${order.trackingNumber || ''}" placeholder="Ex: DA123456789PT" class="bg-transparent text-cyan-400 font-mono text-xs px-2 py-1 outline-none w-36">
+                  <input type="text" id="track-input-${orderId}" value="${order.trackingNumber || ''}" placeholder="Ex: LP... ou DA...PT" class="bg-transparent text-cyan-400 font-mono text-xs px-2 py-1 outline-none w-36">
                   <select id="carrier-select-${orderId}" class="bg-[#141520] text-gray-300 text-xs px-2 py-1 rounded border border-[#27283c] outline-none font-sub">
-                    <option value="CTT Expresso" ${order.carrier && order.carrier.includes('CTT') ? 'selected' : ''}>CTT Expresso</option>
-                    <option value="Correios do Brasil" ${order.carrier && order.carrier.includes('Correios') ? 'selected' : ''}>Correios BR</option>
+                    <option value="Cainiao Global (AliExpress)" ${order.carrier && (order.carrier.includes('Cainiao') || order.carrier.includes('AliExpress')) ? 'selected' : ''}>📦 Cainiao (AliExpress)</option>
+                    <option value="CTT Expresso" ${!order.carrier || (order.carrier.includes('CTT') && !order.carrier.includes('Cainiao')) ? 'selected' : ''}>🚚 CTT Expresso</option>
+                    <option value="Correios do Brasil" ${order.carrier && order.carrier.includes('Correios') ? 'selected' : ''}>🇧🇷 Correios BR</option>
+                    <option value="DPD Portugal" ${order.carrier && order.carrier.includes('DPD') ? 'selected' : ''}>📦 DPD Portugal</option>
+                    <option value="GLS Portugal" ${order.carrier && order.carrier.includes('GLS') ? 'selected' : ''}>📦 GLS Portugal</option>
+                    <option value="Entrega em Mão (Lisboa/Margem Sul)" ${order.carrier && order.carrier.includes('Mão') ? 'selected' : ''}>🏍️ Entrega em Mão</option>
                   </select>
                   <button onclick="updateTrackingCode('${orderId}')" class="px-3 py-1 bg-cyan-700 hover:bg-cyan-600 text-white rounded text-xs font-sub font-bold uppercase transition-colors cursor-pointer" title="Salvar e Atualizar">
                     Salvar Rastreio
@@ -3438,10 +3444,10 @@ Dark Ghostrider`,
       const shippingEUR = parseFloat(document.getElementById('mo-shipping').value) || 0;
       const paymentMethod = document.getElementById('mo-payment').value;
       const status = document.getElementById('mo-status').value;
-      const notes = document.getElementById('mo-notes').value.trim() || 'Encomenda registada manualmente no Admin.';
-
+      const carrier = document.getElementById('mo-carrier') ? document.getElementById('mo-carrier').value : (country === 'Brasil' ? 'Correios do Brasil' : 'Cainiao Global (AliExpress)');
+      const customTracking = document.getElementById('mo-tracking') ? document.getElementById('mo-tracking').value.trim() : '';
       const orderId = 'DG-PT-' + Math.floor(100000 + Math.random() * 900000);
-      const trackingNumber = 'DG' + Math.floor(100000000 + Math.random() * 900000000) + 'PT';
+      const trackingNumber = customTracking || ('DG' + Math.floor(100000000 + Math.random() * 900000000) + 'PT');
 
       const newOrder = {
         id: orderId,
@@ -3469,7 +3475,7 @@ Dark Ghostrider`,
         paymentStatus: status.includes('Pago') ? 'PAID' : 'PENDING',
         orderStatus: status,
         status: status,
-        carrier: country === 'Brasil' ? 'Correios do Brasil' : 'CTT Expresso Portugal',
+        carrier: carrier,
         trackingNumber: trackingNumber,
         createdAt: new Date().toISOString(),
         notes: notes
@@ -3547,6 +3553,16 @@ País: ${country}`;
       const firstItem = (order.items && order.items[0]) ? order.items[0] : {};
       document.getElementById('eo-variant').value = firstItem.variant || firstItem.variation || '';
       document.getElementById('eo-notes').value = order.notes || '';
+      
+      const eoCarrierSelect = document.getElementById('eo-carrier');
+      if (eoCarrierSelect) {
+        const defaultCarrier = order.carrier || (order.items && order.items.some(i => (i.name || '').includes('Retrovisor')) ? 'Cainiao Global (AliExpress)' : 'CTT Expresso');
+        eoCarrierSelect.value = defaultCarrier;
+      }
+      const eoTrackInput = document.getElementById('eo-tracking');
+      if (eoTrackInput) {
+        eoTrackInput.value = order.trackingNumber || '';
+      }
 
       const modal = document.getElementById('edit-order-modal');
       const box = document.getElementById('edit-order-box');
@@ -3579,6 +3595,8 @@ País: ${country}`;
       const country = document.getElementById('eo-country').value.trim();
       const variant = document.getElementById('eo-variant').value.trim();
       const notes = document.getElementById('eo-notes').value.trim();
+      const carrier = document.getElementById('eo-carrier') ? document.getElementById('eo-carrier').value : 'Cainiao Global (AliExpress)';
+      const tracking = document.getElementById('eo-tracking') ? document.getElementById('eo-tracking').value.trim() : '';
 
       order.customerName = name;
       order.customer = order.customer || {};
@@ -3592,6 +3610,15 @@ País: ${country}`;
       order.phone = phone;
       order.email = email;
       order.notes = notes;
+      order.carrier = carrier;
+
+      if (tracking) {
+        order.trackingNumber = tracking;
+        if (!order.orderStatus || order.orderStatus === 'Em Processo' || order.orderStatus === 'Em Processamento') {
+          order.orderStatus = 'Enviado';
+          order.status = 'Enviado';
+        }
+      }
 
       if (order.items && order.items.length > 0) {
         order.items[0].variant = variant;
@@ -3665,6 +3692,23 @@ País: ${country}`;
         <div>
           <label class="block text-gray-400 font-bold uppercase mb-1">Tamanho / Variação do(s) Artigo(s)</label>
           <input type="text" id="eo-variant" required placeholder="Ex: Tamanho: L | Cor: Preto Stealth" class="w-full bg-[#151622] text-yellow-400 font-mono font-bold p-2.5 rounded-xl border border-[#2b2d42] outline-none">
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-gray-400 font-bold uppercase mb-1">Transportadora</label>
+            <select id="eo-carrier" class="w-full bg-[#151622] text-white p-2.5 rounded-xl border border-[#2b2d42] outline-none font-body">
+              <option value="Cainiao Global (AliExpress)">📦 Cainiao (AliExpress)</option>
+              <option value="CTT Expresso">🚚 CTT Expresso</option>
+              <option value="Correios do Brasil">🇧🇷 Correios BR</option>
+              <option value="DPD Portugal">📦 DPD Portugal</option>
+              <option value="GLS Portugal">📦 GLS Portugal</option>
+              <option value="Entrega em Mão (Lisboa/Margem Sul)">🏍️ Entrega em Mão</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-gray-400 font-bold uppercase mb-1">Código de Rastreio</label>
+            <input type="text" id="eo-tracking" placeholder="Ex: LP... ou DA...PT" class="w-full bg-[#151622] text-cyan-400 font-mono p-2.5 rounded-xl border border-[#2b2d42] outline-none">
+          </div>
         </div>
         <div>
           <label class="block text-gray-400 font-bold uppercase mb-1">Notas Internas</label>
@@ -3766,6 +3810,24 @@ País: ${country}`;
               <option value="Transferência Bancária">Transferência Bancária</option>
               <option value="Dinheiro / À Cobrança">Dinheiro / À Cobrança</option>
             </select>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="block text-gray-400 font-bold uppercase mb-1">Transportadora / Logística</label>
+            <select id="mo-carrier" class="w-full bg-[#151622] text-white p-2.5 rounded-xl border border-[#2b2d42] focus:border-emerald-500 outline-none">
+              <option value="Cainiao Global (AliExpress)">📦 Cainiao Global (AliExpress)</option>
+              <option value="CTT Expresso" selected>🚚 CTT Expresso</option>
+              <option value="Correios do Brasil">🇧🇷 Correios do Brasil</option>
+              <option value="DPD Portugal">📦 DPD Portugal</option>
+              <option value="GLS Portugal">📦 GLS Portugal</option>
+              <option value="Entrega em Mão (Lisboa/Margem Sul)">🏍️ Entrega em Mão</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-gray-400 font-bold uppercase mb-1">Código de Rastreio (Opcional)</label>
+            <input type="text" id="mo-tracking" placeholder="Ex: LP00... ou DA...PT" class="w-full bg-[#151622] text-cyan-400 font-mono p-2.5 rounded-xl border border-[#2b2d42] focus:border-emerald-500 outline-none">
           </div>
         </div>
 

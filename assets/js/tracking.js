@@ -15,13 +15,32 @@ const TrackingService = {
 
     const orderId = order.id || order.orderId || code;
     const trackingNumber = (order.trackingNumber || '').trim();
-    const carrier = order.carrier || (order.country === 'Brasil' ? 'Correios do Brasil' : 'CTT Expresso Portugal');
+    const carrier = order.carrier || (order.country === 'Brasil' ? 'Correios do Brasil' : (order.items && order.items.some(i => (i.name || '').toLowerCase().includes('retrovisor')) ? 'Cainiao Global (AliExpress)' : 'CTT Expresso Portugal'));
     const destination = order.country ? (order.country === 'Brasil' ? 'Brasil 🇧🇷' : 'Portugal 🇵🇹') : 'Portugal 🇵🇹';
     const status = order.orderStatus || order.status || 'Em Processamento';
 
+    const isCainiao = carrier.toLowerCase().includes('cainiao') || carrier.toLowerCase().includes('aliexpress') || trackingNumber.toUpperCase().startsWith('LP') || trackingNumber.toUpperCase().startsWith('CN') || trackingNumber.toUpperCase().startsWith('SY');
+    const isCorreios = carrier.toLowerCase().includes('correios');
+    const isDPD = carrier.toLowerCase().includes('dpd');
+    const isGLS = carrier.toLowerCase().includes('gls');
+    const isHandDelivery = carrier.toLowerCase().includes('mão') || carrier.toLowerCase().includes('mao');
+
+    let directTrackingUrl = `https://www.ctt.pt/fechadas/pesquisa-de-objetos?object_id=${encodeURIComponent(trackingNumber)}`;
+    if (isCainiao) {
+      directTrackingUrl = `https://global.cainiao.com/newDetail.html?mailNoList=${encodeURIComponent(trackingNumber)}`;
+    } else if (isCorreios) {
+      directTrackingUrl = `https://rastreamento.correios.com.br/app/index.php?codigo=${encodeURIComponent(trackingNumber)}`;
+    } else if (isDPD) {
+      directTrackingUrl = `https://www.dpdgroup.com/pt/mydpd/my-parcels/search?parcelNumber=${encodeURIComponent(trackingNumber)}`;
+    } else if (isGLS) {
+      directTrackingUrl = `https://gls-group.com/PT/pt/seguir-encomenda?match=${encodeURIComponent(trackingNumber)}`;
+    } else if (isHandDelivery) {
+      directTrackingUrl = null;
+    }
+
     let progressPercent = 35;
     let badgeText = 'Em Processamento';
-    let estimatedDelivery = order.deliveryEstimate || (destination.includes('Brasil') ? '15 a 25 dias úteis' : '4 a 6 dias úteis');
+    let estimatedDelivery = order.deliveryEstimate || (isCainiao ? '7 a 12 dias úteis' : (destination.includes('Brasil') ? '15 a 25 dias úteis' : '2 a 4 dias úteis'));
     let steps = [];
 
     const isShipped = Boolean(trackingNumber) || status === 'Enviado' || status.includes('Trânsito') || status.includes('Expedido');
@@ -41,7 +60,7 @@ const TrackingService = {
         },
         {
           status: `Saiu para entrega com o estafeta (${carrier})`,
-          location: 'Centro de Distribuição Local',
+          location: isHandDelivery ? 'Entrega Direta Dark Ghostrider' : 'Centro de Distribuição Local',
           date: 'Ontem',
           completed: true,
           active: false
@@ -64,11 +83,11 @@ const TrackingService = {
     } else if (isShipped) {
       progressPercent = 75;
       badgeText = 'Em Trânsito (Expedido)';
-      estimatedDelivery = '24h a 48h úteis';
+      estimatedDelivery = isCainiao ? '5 a 8 dias úteis' : '24h a 48h úteis';
       steps = [
         {
-          status: `Em transporte expresso para ${destination} (${carrier})`,
-          location: 'Rede de Distribuição Expresso CTT',
+          status: isHandDelivery ? `A caminho para entrega em mão (${destination})` : (isCainiao ? `Em transporte internacional para Portugal (${carrier})` : `Em transporte expresso para ${destination} (${carrier})`),
+          location: isHandDelivery ? 'Estafeta Dark Ghostrider (Lisboa / Margem Sul)' : (isCainiao ? 'Rede Logística Global Cainiao / Trânsito Aéreo' : (isDPD ? 'Rede de Distribuição DPD Portugal' : (isGLS ? 'Rede de Distribuição GLS Portugal' : 'Rede de Distribuição Expresso CTT'))),
           date: 'Hoje',
           completed: false,
           active: true
@@ -79,11 +98,11 @@ const TrackingService = {
           date: 'Expedido',
           completed: true,
           active: false,
-          trackingLink: trackingNumber ? `https://www.ctt.pt/fechadas/pesquisa-de-objetos?object_id=${encodeURIComponent(trackingNumber)}` : null
+          trackingLink: trackingNumber && directTrackingUrl ? directTrackingUrl : null
         },
         {
-          status: 'Pacote embalado com proteção reforçada no armazém',
-          location: 'Centro de Logística Dark Ghostrider',
+          status: isCainiao ? 'Artigo embalado e despachado pelo armazém do fornecedor oficial' : 'Pacote embalado com proteção reforçada no armazém',
+          location: isCainiao ? 'Centro de Distribuição AliExpress / Cainiao Hub' : 'Centro de Logística Dark Ghostrider',
           date: dateStr,
           completed: true,
           active: false
