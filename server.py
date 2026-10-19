@@ -501,6 +501,7 @@ class StoreHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
     def do_POST(self):
         parsed = urlparse(self.path)
         path = parsed.path
+        print(f"[POST REQUEST] {path}", flush=True)
         content_length = int(self.headers.get('Content-Length', 0))
         post_body = self.rfile.read(content_length).decode('utf-8') if content_length > 0 else '{}'
         
@@ -844,8 +845,8 @@ A partir de agora, sempre que um cliente comprar na loja:
             stage = data.get('stage', 'transito')
             tracking_number = data.get('trackingNumber', '')
             carrier = data.get('carrier', 'Cainiao Global Express')
-            custom_subject = data.get('customSubject') or data.get('subject')
-            custom_message = data.get('customMessage') or data.get('message', '')
+            custom_subject = data.get('customSubject') or data.get('subject') or ''
+            custom_message = data.get('customMessage') or data.get('message') or ''
 
             if not recipient_email or '@' not in recipient_email:
                 self.send_response(400)
@@ -901,7 +902,7 @@ A partir de agora, sempre que um cliente comprar na loja:
                         headers={
                             'Authorization': f'Bearer {resend_key}',
                             'Content-Type': 'application/json',
-                            'User-Agent': 'DarkGhostriderStore/1.0'
+                            'User-Agent': 'resend-node/2.0.0'
                         }
                     )
                     with urllib.request.urlopen(resend_req, timeout=10) as r:
