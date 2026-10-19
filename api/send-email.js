@@ -238,7 +238,8 @@ module.exports = async (req, res) => {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${resendApiKey}`,
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'User-Agent': 'DarkGhostriderStore/1.0'
       },
       body: JSON.stringify(resendPayload)
     });

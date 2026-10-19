@@ -900,7 +900,8 @@ A partir de agora, sempre que um cliente comprar na loja:
                         }).encode('utf-8'),
                         headers={
                             'Authorization': f'Bearer {resend_key}',
-                            'Content-Type': 'application/json'
+                            'Content-Type': 'application/json',
+                            'User-Agent': 'DarkGhostriderStore/1.0'
                         }
                     )
                     with urllib.request.urlopen(resend_req, timeout=10) as r:
