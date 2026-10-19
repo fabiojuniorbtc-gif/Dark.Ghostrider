@@ -87,8 +87,15 @@ function buildHtmlTemplate({ orderId, recipientName, stage, trackingNumber, carr
           
           <!-- HEADER -->
           <tr>
-            <td style="padding: 28px 24px; background: linear-gradient(180deg, #141824 0%, #0d1017 100%); border-bottom: 2px solid #ff2a4b; text-align: center;">
-              <div style="display: inline-block; font-size: 26px; font-weight: 900; letter-spacing: 0.15em; color: #ffffff; text-transform: uppercase;">
+            <td style="padding: 26px 20px 22px; background: linear-gradient(180deg, #141824 0%, #0d1017 100%); border-bottom: 2px solid #ff2a4b; text-align: center;">
+              <div style="margin-bottom: 12px;">
+                <img src="https://raw.githubusercontent.com/fabiojuniorbtc-gif/Dark.Ghostrider/main/assets/images/logo.png" 
+                     alt="Dark Ghostrider Logo" 
+                     width="72" 
+                     height="72" 
+                     style="width: 72px; height: 72px; border-radius: 50%; border: 2px solid #ff2a4b; object-fit: cover; display: inline-block; vertical-align: middle; box-shadow: 0 4px 15px rgba(255, 42, 75, 0.4);" />
+              </div>
+              <div style="display: inline-block; font-size: 24px; font-weight: 900; letter-spacing: 0.15em; color: #ffffff; text-transform: uppercase;">
                 DARK <span style="color: #ff2a4b;">GHOSTRIDER</span>
               </div>
               <div style="font-size: 11px; font-weight: 700; color: #94a3b8; letter-spacing: 0.25em; text-transform: uppercase; margin-top: 4px;">
@@ -130,6 +137,42 @@ function buildHtmlTemplate({ orderId, recipientName, stage, trackingNumber, carr
                 <p style="margin: 0; font-size: 13px; color: #94a3b8; line-height: 1.5;">
                   Basta <b>responder diretamente a este email</b> ou falar connosco via WhatsApp no <b>+351 968 885 713</b>.
                 </p>
+              </div>
+
+              <!-- ASSINATURA OFICIAL DARK GHOSTRIDER -->
+              <div style="margin-top: 32px; padding-top: 24px; border-top: 1px solid #1f2533; text-align: center;">
+                <p style="margin: 0 0 12px 0; font-size: 11px; font-weight: 700; color: #64748b; letter-spacing: 0.15em; text-transform: uppercase;">
+                  Assinatura Oficial
+                </p>
+                <a href="https://www.instagram.com/dark.ghostrider" target="_blank" style="display: block; text-decoration: none;">
+                  <img src="https://raw.githubusercontent.com/fabiojuniorbtc-gif/Dark.Ghostrider/main/assets/images/email_signature.jpg" 
+                       alt="Dark Ghostrider - Content Creator & Lifestyle Rider" 
+                       width="520" 
+                       style="width: 100%; max-width: 520px; height: auto; border-radius: 10px; border: 1px solid #232a3b; box-shadow: 0 8px 24px rgba(0,0,0,0.6); display: block; margin: 0 auto;" />
+                </a>
+
+                <!-- REDES E CONTATOS DIRETOS -->
+                <table role="presentation" cellspacing="0" cellpadding="0" style="margin: 16px auto 0; text-align: center;">
+                  <tr>
+                    <td style="padding: 0 8px;">
+                      <a href="https://wa.me/351968885713" target="_blank" style="color: #25d366; text-decoration: none; font-size: 12px; font-weight: 700;">
+                        💬 WhatsApp (+351 968 885 713)
+                      </a>
+                    </td>
+                    <td style="color: #475569; font-size: 12px;">•</td>
+                    <td style="padding: 0 8px;">
+                      <a href="https://www.instagram.com/dark.ghostrider" target="_blank" style="color: #e1306c; text-decoration: none; font-size: 12px; font-weight: 700;">
+                        📸 @dark.ghostrider
+                      </a>
+                    </td>
+                    <td style="color: #475569; font-size: 12px;">•</td>
+                    <td style="padding: 0 8px;">
+                      <a href="${siteUrl}" target="_blank" style="color: #ff2a4b; text-decoration: none; font-size: 12px; font-weight: 700;">
+                        🌐 darkghostrider.com
+                      </a>
+                    </td>
+                  </tr>
+                </table>
               </div>
 
             </td>

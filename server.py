@@ -880,14 +880,28 @@ A partir de agora, sempre que um cliente comprar na loja:
                       <a href="{tracking_link}" style="display: inline-block; background: #ff2a4b; color: #ffffff; text-decoration: none; font-size: 14px; font-weight: 700; padding: 12px 28px; border-radius: 8px; text-transform: uppercase;">🔍 Acompanhar no Site Oficial</a>
                     </div>''' if tracking_number else ''
 
-                    html_body = f'''<!DOCTYPE html><html><body style="background:#07080a;color:#e2e8f0;font-family:sans-serif;padding:20px;">
-                    <div style="max-width:600px;margin:auto;background:#0d1017;border:1px solid #1f2533;border-radius:12px;padding:28px;">
-                      <h2 style="color:#ffffff;letter-spacing:2px;margin-top:0;">DARK <span style="color:#ff2a4b;">GHOSTRIDER</span></h2>
-                      <h3 style="color:#ffffff;">{subject}</h3>
-                      <p>Olá <b>{recipient_name}</b>, temos novidades sobre a tua encomenda <code>{order_id}</code>!</p>
-                      <div style="background:#121620;border-left:3px solid #ff2a4b;padding:12px;margin:16px 0;">{custom_message.replace(chr(10), '<br>')}</div>
+                    html_body = f'''<!DOCTYPE html><html><body style="background:#07080a;color:#e2e8f0;font-family:sans-serif;padding:30px 10px;">
+                    <div style="max-width:600px;margin:auto;background:#0d1017;border:1px solid #1f2533;border-radius:14px;padding:30px;box-shadow:0 10px 30px rgba(0,0,0,0.8);">
+                      <div style="text-align:center;border-bottom:2px solid #ff2a4b;padding-bottom:18px;margin-bottom:24px;">
+                        <img src="https://raw.githubusercontent.com/fabiojuniorbtc-gif/Dark.Ghostrider/main/assets/images/logo.png" alt="Dark Ghostrider" width="72" height="72" style="width:72px;height:72px;border-radius:50%;border:2px solid #ff2a4b;object-fit:cover;display:block;margin:0 auto 10px;" />
+                        <h1 style="color:#ffffff;letter-spacing:3px;margin:0;font-size:24px;">DARK <span style="color:#ff2a4b;">GHOSTRIDER</span></h1>
+                        <p style="color:#94a3b8;font-size:11px;letter-spacing:2px;margin:4px 0 0;">MOTARD ATTITUDE • LISBOA • PT</p>
+                      </div>
+                      <h2 style="color:#ffffff;margin:0 0 12px;font-size:20px;">{subject}</h2>
+                      <p style="color:#cbd5e1;line-height:1.6;">Olá <b>{recipient_name}</b>, temos novidades sobre a tua encomenda <code>{order_id}</code>!</p>
+                      <div style="background:#121620;border-left:3px solid #ff2a4b;padding:14px 18px;margin:16px 0;border-radius:6px;line-height:1.6;">{custom_message.replace(chr(10), '<br>')}</div>
                       {tracking_box}
-                      <p style="margin-top:24px;font-size:12px;color:#94a3b8;">Dark Ghostrider Store • Lisboa, Portugal</p>
+                      <div style="margin-top:32px;padding-top:20px;border-top:1px solid #1f2533;text-align:center;">
+                        <p style="margin:0 0 10px 0;font-size:11px;color:#64748b;letter-spacing:1px;text-transform:uppercase;">Assinatura Oficial</p>
+                        <a href="https://www.instagram.com/dark.ghostrider" target="_blank" style="display:block;">
+                          <img src="https://raw.githubusercontent.com/fabiojuniorbtc-gif/Dark.Ghostrider/main/assets/images/email_signature.jpg" alt="Dark Ghostrider Signature" width="520" style="width:100%;max-width:520px;height:auto;border-radius:10px;border:1px solid #232a3b;display:block;margin:0 auto;" />
+                        </a>
+                        <p style="margin:16px 0 0;font-size:12px;color:#94a3b8;">
+                          <a href="https://wa.me/351968885713" style="color:#25d366;text-decoration:none;font-weight:bold;">💬 WhatsApp</a> • 
+                          <a href="https://www.instagram.com/dark.ghostrider" style="color:#e1306c;text-decoration:none;font-weight:bold;">📸 Instagram</a> • 
+                          <a href="https://www.darkghostrider.com" style="color:#ff2a4b;text-decoration:none;font-weight:bold;">🌐 darkghostrider.com</a>
+                        </p>
+                      </div>
                     </div></body></html>'''
 
                     resend_req = urllib.request.Request(
