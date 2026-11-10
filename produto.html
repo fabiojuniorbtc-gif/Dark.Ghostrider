@@ -240,8 +240,8 @@
                 <span class="text-[11px] text-gray-400 font-sub">Poupe mais levando as peças combinadas com desconto extra</span>
               </div>
             </div>
-            <span class="px-2.5 py-1 bg-emerald-950/80 border border-emerald-500/50 text-emerald-400 font-sub font-black text-[11px] rounded uppercase">
-              Economize até 20%
+            <span class="px-2.5 py-1 bg-[#181926] border border-[#ffe600]/40 text-[#ffe600] font-sub font-black text-[11px] rounded uppercase">
+              Combos Oficiais
             </span>
           </div>
 
@@ -1227,7 +1227,17 @@
         const priceFormatted = Store.formatPrice(currentProduct.priceEUR, currentProduct.priceBRL);
         const compFormatted = Store.formatPrice(currentProduct.compareAtEUR, currentProduct.compareAtBRL);
         document.getElementById('buybox-price').textContent = priceFormatted;
-        document.getElementById('buybox-compare-price').textContent = compFormatted;
+        
+        const compEl = document.getElementById('buybox-compare-price');
+        if (compEl) {
+          if (currentProduct.compareAtEUR && currentProduct.compareAtEUR > currentProduct.priceEUR) {
+            compEl.textContent = compFormatted;
+            compEl.style.display = '';
+          } else {
+            compEl.textContent = '';
+            compEl.style.display = 'none';
+          }
+        }
 
         if (discountBadgeEl) {
           if (currentProduct.compareAtEUR && currentProduct.compareAtEUR > currentProduct.priceEUR) {
@@ -1239,9 +1249,22 @@
             discountBadgeEl.style.display = 'none';
           }
         }
-        if (couponNoteEl) couponNoteEl.classList.add('hidden');
+
+        const isDarkInsta = coupon && coupon.code === 'DARKINSTA';
+        if (couponNoteEl) {
+          if (isDarkInsta) {
+            couponNoteEl.innerHTML = `<span>⚡</span> <span>Cupão <strong>DARKINSTA</strong> ativo! Paga apenas <strong>${Store.formatPrice(Math.round(currentProduct.priceEUR * 0.75 * 100)/100, Math.round(currentProduct.priceBRL * 0.75 * 100)/100)}</strong> no carrinho (-25%).</span>`;
+            couponNoteEl.classList.remove('hidden');
+          } else {
+            couponNoteEl.classList.add('hidden');
+          }
+        }
         if (priceCardEl) {
-          priceCardEl.classList.remove('border-emerald-500/50', 'bg-emerald-950/20');
+          if (isDarkInsta) {
+            priceCardEl.classList.add('border-[#ffe600]/60', 'bg-yellow-950/20');
+          } else {
+            priceCardEl.classList.remove('border-emerald-500/50', 'bg-emerald-950/20', 'border-[#ffe600]/60', 'bg-yellow-950/20');
+          }
         }
       }
     }

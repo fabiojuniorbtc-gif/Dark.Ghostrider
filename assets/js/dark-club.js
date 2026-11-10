@@ -46,8 +46,11 @@
         throw new Error('Por favor, introduz um email válido.');
       }
 
-      // 1. Activate coupon locally immediately
-      this.setActiveCoupon(COUPON_CODE, DISCOUNT_PCT);
+      // 1. Activate coupon locally (do not overwrite DARKINSTA if already active)
+      const currentActive = this.getActiveCoupon();
+      if (!currentActive || currentActive.code !== 'DARKINSTA') {
+        this.setActiveCoupon(COUPON_CODE, DISCOUNT_PCT);
+      }
       localStorage.setItem(STORAGE_KEY_SUBSCRIBED, 'true');
 
       // Local storage backup list

@@ -175,6 +175,7 @@ const Store = {
   },
 
   formatPrice(priceEUR, priceBRL) {
+    if (priceEUR === null || priceEUR === undefined) return '';
     if (this.currency === 'BRL') {
       const brl = (typeof priceBRL === 'number' && !isNaN(priceBRL)) ? priceBRL : (priceEUR * 5.5);
       return `R$ ${brl.toFixed(2).replace('.', ',')}`;
