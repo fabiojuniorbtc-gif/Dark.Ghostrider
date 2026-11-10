@@ -75,6 +75,10 @@ const Store = {
       if (prodParam) {
         setTimeout(() => this.showProductModal(prodParam), 250);
       }
+      const couponParam = urlParams.get('coupon') || urlParams.get('cupom') || urlParams.get('cupao');
+      if (couponParam) {
+        this.applyCoupon(couponParam);
+      }
     } catch (e) {}
   },
 
@@ -1016,7 +1020,7 @@ const Store = {
       } else {
         couponBox.innerHTML = `
           <div class="flex gap-1.5">
-            <input type="text" id="cart-coupon-input" placeholder="Cupão (ex: DARK10 ou GR10GR)" class="flex-1 bg-[#151622] text-white text-xs px-2.5 py-2 rounded-lg border border-[#2b2d42] outline-none focus:border-[#f6ff00] uppercase font-mono">
+            <input type="text" id="cart-coupon-input" placeholder="Cupão (ex: DARKINSTA ou DARK10)" class="flex-1 bg-[#151622] text-white text-xs px-2.5 py-2 rounded-lg border border-[#2b2d42] outline-none focus:border-[#f6ff00] uppercase font-mono">
             <button onclick="Store.applyCouponCode(document.getElementById('cart-coupon-input').value)" class="px-3 py-2 bg-[#25283b] hover:bg-[#f6ff00] text-gray-200 hover:text-black font-sub font-bold text-xs uppercase rounded-lg transition-colors cursor-pointer">Aplicar</button>
           </div>
         `;
@@ -1086,9 +1090,25 @@ const Store = {
     return null;
   },
 
-  applyCouponCode(code) {
+  applyCoupon(code) {
     code = String(code || '').trim().toUpperCase();
-    if (!code) return;
+    if (!code) return { success: false, message: 'Por favor introduz um código de cupão.' };
+
+    if (code === 'DARKINSTA') {
+      const couponData = { code: 'DARKINSTA', discountPct: 25, appliedAt: Date.now() };
+      if (window.DarkClub) {
+        window.DarkClub.setActiveCoupon('DARKINSTA', 25);
+      } else {
+        localStorage.setItem('dark_active_coupon', JSON.stringify(couponData));
+      }
+      window.dispatchEvent(new CustomEvent('dark_coupon_applied', { detail: couponData }));
+      this.updateCartUI();
+      return {
+        success: true,
+        message: 'Cupão DARKINSTA ativado! 25% de desconto promocional aplicado com sucesso.'
+      };
+    }
+
     if (code === 'DARK10') {
       const couponData = { code: 'DARK10', discountPct: 10, appliedAt: Date.now() };
       if (window.DarkClub) {
@@ -1098,8 +1118,13 @@ const Store = {
       }
       window.dispatchEvent(new CustomEvent('dark_coupon_applied', { detail: couponData }));
       this.updateCartUI();
-      alert('⚡ Cupão DARK10 ativado com sucesso! 10% de desconto concedido.');
-    } else if (code === 'GR10GR') {
+      return {
+        success: true,
+        message: 'Cupão DARK10 ativado! 10% de desconto concedido.'
+      };
+    }
+
+    if (code === 'GR10GR') {
       const couponData = {
         code: 'GR10GR',
         discountPct: 10,
@@ -1110,13 +1135,26 @@ const Store = {
       window.dispatchEvent(new CustomEvent('dark_coupon_applied', { detail: couponData }));
       this.updateCartUI();
       const hasKashvelo = this.cart && this.cart.some(it => it.id === 'kashvelo-gear-base-layer');
-      if (hasKashvelo) {
-        alert('🏍️ Cupão GR10GR ativado com sucesso! 10% de desconto aplicado exclusivamente nas Luvas Kashvelo Gear.');
-      } else {
-        alert('🏍️ Cupão GR10GR ativado! Este cupão é exclusivo para as Luvas Kashvelo Gear Portugal. Adiciona as luvas ao teu cesto para ver o desconto de 10%.');
-      }
+      return {
+        success: true,
+        message: hasKashvelo
+          ? 'Cupão GR10GR ativado! 10% de desconto aplicado nas Luvas Kashvelo Gear.'
+          : 'Cupão GR10GR ativado para Luvas Kashvelo Gear (10% OFF ao adicionar as luvas).'
+      };
+    }
+
+    return {
+      success: false,
+      message: 'Cupão inválido ou expirado. Tenta DARKINSTA (-25%) ou DARK10 (-10%).'
+    };
+  },
+
+  applyCouponCode(code) {
+    const res = this.applyCoupon(code);
+    if (res.success) {
+      alert(`🏍️ ${res.message}`);
     } else {
-      alert('Cupão inválido ou expirado. Tenta DARK10 ou o cupão oficial do Instagram GR10GR.');
+      alert(res.message);
     }
   },
 
